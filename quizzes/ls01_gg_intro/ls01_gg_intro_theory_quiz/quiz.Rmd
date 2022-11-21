@@ -1,0 +1,951 @@
+---
+title: '\ '
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: console
+quiz_title: '03.03 ggplot() basics'
+quiz_type: 'simple_theory'
+course_abbrev: 'IDAR'
+---
+
+```{r, echo = F, message = F, warning = F}
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse, 
+               here,
+               googledrive,
+               knitr)
+
+source(here("global/functions/misc_functions.R"))
+
+# Setup for uploading images
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+
+opts_chunk$set(warning = F, message = F)
+```
+
+
+
+
+## Prologue
+
+This quiz tests your understanding of the basic functioning of the {ggplot2} package. Good luck!
+  
+For multiple choice questions, please enter the correct letter option into the provided box.
+
+------------------------------------------------------------------------
+
+# Q1:
+
+What does the `gg` in `ggplot2` stand for?
+
+## A
+
+good game
+
+## B
+
+grey goose
+
+## C
+
+grammar of graphics
+
+## D
+
+Ghanaian gentleman
+
+## Answer
+
+C
+
+## Correct message
+
+Good game!
+GG stands for **G**rammar of **G**raphics.
+
+## Incorrect message
+
+Nice try, but not this time.
+GG stands for **G**rammar of **G**raphics.
+
+------------------------------------------------------------------------
+
+# Q2: 
+
+What is the name of the R package that we will use for data visualization?
+
+## A
+
+{base}
+
+## B
+
+{ggplot}
+
+## C
+
+{tidyverse}
+
+## D
+
+{ggplot2}
+
+## Answer
+
+D
+
+## Correct message
+
+You remembered! We use {ggplot2} for this course.
+
+## Incorrect message
+
+Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}.
+
+------------------------------------------------------------------------
+# Q3:
+
+True or False: The {ggplot2} package is part of the {tidyverse} meta-package.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+B
+
+## Correct message
+
+It is indeed!
+
+## Incorrect message
+
+We've used several useful functions from {tidyverse}, and {ggplot2} is in there too.
+
+------------------------------------------------------------------------
+# Q4: 
+
+True or False: The `ggplot2` package is part of the base R installation and does not require to be loaded before its use.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+Great going! We've had to load {ggplot2} whenever we use it.
+
+## Incorrect message
+
+If you try to use {ggplot2} without loading it, you'll definitely get an error message!
+
+------------------------------------------------------------------------
+# Q5: 
+
+Which of the code segments below will NOT work to load the {ggplot2} package?
+
+## A
+
+`{r eval = F} library(tidyverse)`
+
+## B
+
+`{r eval = F} library(ggplot)`
+
+## C
+
+`{r eval = F} library(ggplot2)`
+
+## Answer
+
+B
+
+## Correct message
+
+**G**ood **g**ame! Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.
+
+## Incorrect message
+
+Look carefully! {ggplot} is not the same thing as {ggplot2}.
+
+------------------------------------------------------------------------
+# Q6:
+
+True or False: When you plot with 'ggplot2' you have to follow a certain grammar to build up your plots.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+It's the **g**rammar of **g**raphics that we're learning right now!
+
+## Incorrect message
+
+It's the **g**rammar of **g**raphics that we're learning right now!
+
+------------------------------------------------------------------------
+# Q7: 
+
+True or False: The `ggplot` function requires all 7 layers to be defined.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+Correct! Only three layers are necessary for it to work.
+
+## Incorrect message
+
+If you go back through the lesson, you'll see that we've made several plots with only three layers.
+
+------------------------------------------------------------------------
+# Q8: 
+
+What are the three essential layers for the `ggplot` function?
+
+## A
+
+Facets, Data, and Statistics
+
+## B
+
+Coordinates, Data, and Themes
+
+## C
+
+Data, Geometries, and Aesthetics
+
+## Answer
+
+C
+
+## Correct message
+
+You're **g**oing for the **g**old!
+We need Data, Geometries, and Aesthetics for `ggplot` to work.
+
+## Incorrect message
+
+We need Data, Geometries, and Aesthetics for `ggplot` to work.
+Go back to the lesson and see!
+  
+------------------------------------------------------------------------
+# Q9: 
+
+What do we provide in the `data` layer?
+
+## A
+
+the dataset containing the variables of interest
+
+## B
+
+the date a plot was created
+
+## C
+
+the data formation of the final plot
+
+## Answer
+
+A
+
+## Correct message
+
+That's right! 
+
+## Incorrect message
+
+We need a set of data to have something to graph.
+
+------------------------------------------------------------------------
+# Q10:
+
+What do we provide in the `geom` layer?
+
+## A
+
+the geometrical coordinates
+
+## B
+
+the colors that we want to use for the plotting
+
+## C
+
+the types of geometric objects to plot
+
+## D
+
+grades from geometry class
+
+## Answer
+
+C
+
+## Correct message
+
+Splendid!
+The coordinates are worked out by the `data`, and the color is an `aes`thetic concern, but the objects belong to the `geom`etry layer.
+
+## Incorrect message
+
+Try again!
+The coordinates are worked out by the `data`, and the color is an `aes`thetic concern, but the objects belong to the `geom`etry layer.
+
+------------------------------------------------------------------------
+# Q11: 
+
+What do we provide in the `aes` layer?
+
+## A
+
+the aesthetic attributes of the geometric objects
+
+## B
+
+the aes standard that we want to use for plotting
+
+## C
+
+**A**ll the **E**ssential **S**tatistical information
+
+## Answer
+
+A
+
+## Correct message
+
+Looks like you got it!
+The `aes` layer defines the plots' `aes`thetics.
+
+## Incorrect message
+
+The `aes` layer defines the plots' `aes`thetics.
+
+------------------------------------------------------------------------
+# Q12:
+
+In which layer would you define the color of your geometric object as an aesthetic mapping?
+
+## A
+
+the `aes` layer
+
+## B
+
+the `geom` layer
+
+## C
+
+the `facets` layer
+
+## D
+
+the `data` layer
+
+## Answer
+
+A
+
+## Correct message
+
+Exactly right!
+It's defined with the `aes`thetic layer.
+
+## Incorrect message
+
+Sorry, that's not it!
+It's defined with the `aes`thetic layer.
+
+------------------------------------------------------------------------
+# Q13:
+
+In which layer would you define the color of your geometric object as a fixed aesthetic?
+
+## A
+
+the `aes` layer
+
+## B
+
+the `geom` layer
+
+## C
+
+the `facets` layer
+
+## D
+
+the `data` layer
+
+## Answer
+
+A
+
+## Correct message
+
+Far out!
+It's defined with the `aes`thetic layer.
+
+## Incorrect message
+
+Look again!
+It's defined with the `aes`thetic layer.
+
+------------------------------------------------------------------------
+# Q14:
+
+True or False: A big advantage of {ggplot2} and its syntax is that it is very flexible and allows for a high degree of customization.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+B
+
+## Correct message
+
+That's it!
+
+## Incorrect message
+
+That's not it.
+
+------------------------------------------------------------------------
+# Q15:
+
+True or False: To add more layers to a plot, you have to nest the different functions of `ggplot()`.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+B
+
+## Correct message
+
+As we've seen, `ggplot()` functions can be added incrementally.
+
+## Incorrect message
+
+As we've seen, `ggplot()` functions can be added incrementally.
+
+------------------------------------------------------------------------
+# Q16:
+
+True or False: A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of `geom`etric objects.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Indeed!
+
+## Incorrect message
+
+Sorry.
+
+------------------------------------------------------------------------
+# Q17:
+
+How many layers are in the **G**rammar of **G**raphics framework, and how many of them are required for a complete plot?
+
+## A
+
+There are 5 layers in total with 2 required ones.
+
+## B
+
+There are 7 layers in total with 3 required ones.
+
+## C
+
+There are 3 layers in total and all of them are required.
+
+## Answer
+
+B
+
+## Correct message
+
+**G**reat **g**oing! {ggplot2} has 7 layers, of which 3 are absolutely necessary to function.
+
+## Incorrect message
+
+{ggplot2} has 7 layers, of which 3 are absolutely necessary to function.
+
+------------------------------------------------------------------------
+# Q18:
+
+The first layer in `ggplot()` is the data layer. Select the code block below that defines this layer.
+
+## A
+
+```{r eval = F}
+ggplot(data=dengue)
+```
+
+## B
+
+```{r eval = F}
+ggplot() + data(dengue)
+```
+
+## C
+
+```{r eval = F}
+ggplot.data(dengue)
+```
+
+## Answer
+
+A
+
+## Correct message
+
+That's the one!
+
+## Incorrect message
+
+If you look at the code from the lesson, you can see how we define data for `ggplot()`
+
+------------------------------------------------------------------------
+# Q19:
+
+In which layer do we add the visual properties of `ggplot2()`?
+
+## A
+
+`data`
+
+## B
+
+`mapping`
+
+## C
+
+`aes`
+
+## D
+
+`geom`
+
+## Answer
+
+C
+
+## Correct message
+
+The `aes`thetic layer sets how the visual properties are applied to the `geom`etric layer.
+
+## Incorrect message
+
+The `aes`thetic layer sets how the visual properties are applied to the `geom`etric layer.
+
+------------------------------------------------------------------------
+# Q20:
+
+You study how the weight of individuals in your study group is related to their height. For this you want to do a plot with the `weight` variable on the y-axis, the `height` variable on the x-axis and your dataset is called `participants`.
+Which of the codes below will create this plot?
+
+## A
+
+```{r eval = F}
+ggplot(data = participants) +
+       mapping = aes(x = height, 
+           y = weight)
+```
+
+## B
+
+```{r eval = F}
+ggplot(data = participants,
+       x = height, 
+       y = weight)
+```
+
+## C
+
+```{r eval = F}
+ggplot(data= participants, 
+       mapping = aes(x = height + 
+           y = weight)) +
+  geom_point()
+```
+
+## D
+
+```{r eval = F}
+ggplot(data= participants, 
+       mapping = aes(x = height, 
+           y = weight)) +
+  geom_point()
+```
+
+## Answer
+
+D
+
+## Correct message
+
+
+
+## Incorrect message
+
+
+
+------------------------------------------------------------------------
+# Q21:
+
+You plot your graph with the following code:
+  
+```{r eval = F}
+ggplot(data= participants,
+  mapping = aes(x = height, y = weight))
+```
+
+When you execute the code, you see a graph with the right variables on each axis, however, you do not see and data that is on the plot. Why are there no visible data points?
+
+## A
+
+No color has been defined for the plot, so all the data points are transparent.
+
+## B
+
+No geometric layer has been defined yet.
+
+## C
+
+Your dataset it probably empty, so there's nothing to plot.
+
+## D
+
+The plot color is the same as the background color.
+
+## Answer
+
+B
+
+## Correct message
+
+**G**ood **g**ame! We still need a geometric layer.
+
+## Incorrect message
+
+Look closer. We still need a geometric layer.
+
+------------------------------------------------------------------------
+# Q22:
+
+True or False: Geometric objects are defined in the `geom` layer. Such layers are added with functions that start with `geom_`.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+That's the one!
+
+## Incorrect message
+
+
+------------------------------------------------------------------------
+# Q23: 
+
+Which of the below functions is not a `geom_*()` function in {ggplot2}?
+
+## A
+
+point()
+
+## B
+
+geom_point()
+
+## C
+
+geom_line()
+
+## D
+
+geom_bar()
+
+## Answer
+
+A
+
+## Correct message
+
+**G**reat **g**oing!
+
+## Incorrect message
+
+That's actually a valid function. Look them up!
+
+------------------------------------------------------------------------
+  
+# Q24:
+
+What is an `aes`thetic mapping?
+
+## A
+
+the application of specific colors, shapes, etc. to separate aspects of a plot
+
+## B
+
+a legend that identifies which variables are shown by which colors, shapes, etc.
+
+## C
+
+the application of a given `aes`thetic to **all** the figures in a plot
+
+## D
+
+the layer showing colors, shapes, etc.
+
+## Answer
+
+A
+
+## Correct message
+
+Nice work!
+If you want different `aes`thetic choices to be used in different parts of a plot, you can use an `aes`thetic mapping inside the `aes()` function.
+
+## Incorrect message
+
+That was a tricky one!
+If you want different `aes`thetic choices to be used in different parts of a plot, you can use an `aes`thetic mapping inside the `aes()` function.
+
+------------------------------------------------------------------------
+
+# Q25: 
+
+Which of the following would you use to make **all** the points in a graph larger?
+
+## A
+
+aesthetic mapping
+
+## B
+
+statistic layering
+
+## C
+
+vector multiplication
+
+## D
+
+a fixed aesthetic
+
+## Answer
+
+D
+
+## Correct message
+
+A fixed `aes`thetic applies to all the figures in a graph.
+
+## Incorrect message
+
+A fixed `aes`thetic applies to all the figures in a graph.
+
+------------------------------------------------------------------------
+
+# Q26: 
+
+Given the following code chunk,
+
+```{r eval = F}
+ggplot(data= health_charts,
+  mapping = aes(x = age, y = bmi))
++ geom_point()
+```
+
+which of the following would apply an aesthetic mapping to differentiate by sex?
+
+## A
+
+```{r eval = F}
+ggplot(data= health_charts,
+  mapping = aes(x = age, y = bmi))
++ geom_point(color = sex)
+```
+
+## B
+
+```{r eval = F}
+ggplot(data= health_charts,
+  mapping = aes(x = age, y = bmi, z = sex))
++ geom_point()
+```
+
+## C
+
+```{r eval = F}
+ggplot(data= health_charts,
+  mapping = aes(x = age, y = bmi, color = sex))
++ geom_point()
+```
+
+## D
+
+```{r eval = F}
+ggplot(data= health_charts,
+  mapping = aes(x = age, y = bmi))
++ geom_point(sex c(male = "blue", female = "orange"))
+```
+
+## Answer
+
+C
+
+## Correct message
+
+You got it!
+`color = sex` inside the `aes` mapping will produce different colors for each sex. The other three code chunks don't work.
+
+## Incorrect message
+
+`color = sex` inside the `aes` mapping will produce different colors for each sex. The other three code chunks don't work.
+
+------------------------------------------------------------------------
+
+# Q27: 
+
+Many programmers start off building a small chunk of code, testing to see if it works, and adding a bit more, seeing if it works, and building the program one step at a time.
+What's the name for this process?
+
+## A
+
+incremental composition
+
+## B
+
+pyramid steps
+
+## C
+
+candle dipping
+
+## D
+
+layered development
+
+## Answer
+
+A
+
+## Correct message
+
+You got it!
+
+## Incorrect message
+
+That wasn't the right name. But really, the important idea is the **process**.
+
+------------------------------------------------------------------------
+
+# Q28: 
+
+This lesson recommended we put each new element on a separate line. In fact, it's good practice to make **all** our code legible, not just when using `ggplot()`.
+But *why* do we want legible code?
+
+## A
+
+If we're showing our code to someone else, it should be easy for them to read.
+
+## B
+
+Trick question, we don't! It's better to keep our code hidden to confuse our enemies.
+
+## C
+
+If we need to come back and change our code, or debug it, this makes the different parts easier to see.
+
+## D
+
+We want legible code for both our own sake as well as anyone else reading it.
+
+## Answer
+
+D
+
+## Correct message
+
+As we learned in team exercises, legible code is important for others to read.
+And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
+
+## Incorrect message
+
+As we learned in team exercises, legible code is important for others to read.
+And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
