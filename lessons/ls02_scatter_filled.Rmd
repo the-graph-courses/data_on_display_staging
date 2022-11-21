@@ -63,7 +63,7 @@ A prospective study watches for outcomes, such as the development of a disease, 
 Spend some time browsing through this dataset. Each row corresponds to one patient surveyed. There are demographic, physiological, clinical, socioeconomic, and geographic variables.
 
 ```{r render = .reactable_10_rows, echo = FALSE, message = FALSE}
-malidd <- read_csv(here("ch03_intro_to_data_viz/data/clean/malidd.csv"))
+malidd <- read_csv(here("data/clean/malidd.csv"))
 malidd
 ```
 
