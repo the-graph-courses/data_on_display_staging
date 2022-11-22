@@ -117,3 +117,66 @@ hiv_all <- left_join(total_02, new_02)
 write_csv(total_03, "data/clean/hiv_prevalence.csv")
 write_csv(new_03, "data/clean/hiv_incidence.csv")
 write_csv(hiv_all, "data/clean/hiv_incidence_prevalence.csv")
+
+### Add population ----
+
+hiv_total <- 
+  read_csv(here("data/clean/hiv_prevalence.csv"))
+
+setdiff(hiv_total$country, tidyr::population$country)
+
+pop <- tidyr::population %>% 
+  mutate(
+    country = case_when(country == "Bolivia (Plurinational State of)" ~ "Bolivia",
+                        TRUE ~ country),
+    country = case_when(country == "Côte d'Ivoire" ~ "Cote d'Ivoire",
+                        TRUE ~ country),
+    country = case_when(country == "Democratic Republic of the Congo" ~ "Congo, Rep.",
+                        TRUE ~ country),
+    country = case_when(country == "Cabo Verde" ~ "Cape Verde",
+                        TRUE ~ country),
+    country = case_when(country == "United Kingdom of Great Britain and Northern Ireland" ~ "United Kingdom",
+                        TRUE ~ country),
+    country = case_when(country == "Iran (Islamic Republic of)" ~ "Iran",
+                        TRUE ~ country),
+    country = case_when(country == "Kyrgyzstan" ~ "Kyrgyz Republic",
+                        TRUE ~ country),
+    country = case_when(country == "Republic of Korea" ~ "South Korea",
+                        TRUE ~ country),
+    country = case_when(country == "Lao People's Democratic Republic" ~ "Lao",
+                        TRUE ~ country),
+    country = case_when(country == "Republic of Moldova" ~ "Moldova",
+                        TRUE ~ country),
+    country = case_when(country == "Slovakia" ~ "Slovak Republic",
+                        TRUE ~ country),
+    country = case_when(country == "Swaziland" ~ "Eswatini",
+                        TRUE ~ country),
+    country = case_when(country == "United Republic of Tanzania" ~ "Tanzania",
+                        TRUE ~ country),
+    country = case_when(country == "United States of America" ~ "United States",
+                        TRUE ~ country),
+    country = case_when(country == "Venezuela (Bolivarian Republic of)" ~ "Venezuela",
+                        TRUE ~ country),
+    country = case_when(country == "Viet Nam" ~ "Vietnam",
+                        TRUE ~ country),
+    country = case_when(country == "Venezuela (Bolivarian Republic of)" ~ "Venezuela",
+                        TRUE ~ country),
+    country = case_when(country == "Serbia & Montenegro" ~ "Serbia",
+                        TRUE ~ country)
+    )
+
+
+
+
+accentless <- iconv(pop$country,from="UTF-8",to="ASCII//TRANSLIT")
+
+pop <- pop %>% 
+  mutate(country = accentless)
+     
+setdiff(hiv_total$country, pop$country)
+
+hiv_prev_pop <- left_join(hiv_total, pop) %>% 
+  filter(!is.na(year), !is.na(population))
+
+write_csv(hiv_prev_pop, "data/clean/hiv_prev_pop.csv")
+
