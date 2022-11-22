@@ -22,7 +22,7 @@ library(lubridate)
 ### Import ----
 
 mali_raw <- read_csv(here::here(
-  "ch03_intro_to_data_viz/data/raw/britz_2021/base_smartphone.csv")) 
+  "data/raw/britz_2021/base_smartphone.csv")) 
 
 head(mali_raw)
 names(mali_raw)
@@ -260,8 +260,8 @@ malidd_coverage <- malidd %>%
 data.frame(variable = names(malidd), coverage = malidd_coverage)
 
 # Save ----
-write_csv(malidd, "ch03_intro_to_data_viz/data/clean/malidd.csv") 
-save(malidd, file = here("ch03_intro_to_data_viz/data/clean/malidd.RData"))
+write_csv(malidd, "data/clean/malidd.csv") 
+save(malidd, file = here("data/clean/malidd.RData"))
 
 
 # Bangladesh

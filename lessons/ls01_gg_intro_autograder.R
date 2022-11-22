@@ -25,7 +25,7 @@ pacman::p_load(tidyverse,
 # Load nigerm into hidden environment
 .my.env <- new.env()
 
-load(here("ch03_intro_to_data_viz/data/clean/nigerm_cases_rgn.RData"),
+load(here("data/clean/nigerm_cases_rgn.RData"),
                 envir = .my.env)
 
 .nigerm <- local(nigerm, envir = .my.env)

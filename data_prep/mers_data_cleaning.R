@@ -9,7 +9,7 @@ library(lubridate)
 library(plotly)
 
 # Load data from the .csv file into R as a dataframe and assign it the name 'mers'
-mers <- cases <- read_csv("ch03_intro_to_data_viz/data/raw/rambaut_2016/cases.csv")
+mers <- cases <- read_csv("data/raw/rambaut_2016/cases.csv")
   
 # Inspect the data and see that some variables, such as onset and hospitalized 
 # are dates, but are formatted as "character"

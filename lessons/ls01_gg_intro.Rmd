@@ -31,7 +31,7 @@ pacman::p_load(tidyverse,
 source(here("global/functions/misc_functions.R"))
 
 # Source autograder script 
-source(here("ch03_intro_to_data_viz/lessons/ch03_ls01_gg_intro_autograder.R"))
+source(here("lessons/ls01_gg_intro_autograder.R"))
 ```
 
 # Building plots with {ggplot2}
@@ -86,7 +86,7 @@ To get started, let's first load the (preprocessed) data set:
 
 ```{r}
 # Import data frame to RStudio Environment
-load(here("ch03_intro_to_data_viz/data/clean/nigerm_cases_rgn.RData"))
+load(here("data/clean/nigerm_cases_rgn.RData"))
 ```
 
 Take a moment to browse through the data:

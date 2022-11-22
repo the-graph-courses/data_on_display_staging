@@ -20,7 +20,7 @@ library(reshape2)
 
 ### Import ----
 
-load("ch03_intro_to_data_viz/data/raw/blake_2020/data_reduced_resolution.rda")
+load("data/raw/blake_2020/data_reduced_resolution.rda")
 View(cases_dpt)
 
 load("C:/Rprojects/niameym_blake_2020/code_data/code_data/nigerm/data/pop.rda")
@@ -49,11 +49,11 @@ cases_rgn <- rename(cases_dpt, region = department)
 
 ### Save ----
 
-write_csv(cases_rgn, here("ch03_intro_to_data_viz/data/clean/nigerm_cases_rgn.csv"))
+write_csv(cases_rgn, here("data/clean/nigerm_cases_rgn.csv"))
 
 
 nigerm <- cases_rgn
-save(nigerm, file = here("ch03_intro_to_data_viz/data/clean/nigerm_cases_rgn.RData"))
+save(nigerm, file = here("data/clean/nigerm_cases_rgn.RData"))
 
 ### Visualise ----
 

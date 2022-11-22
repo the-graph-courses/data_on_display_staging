@@ -25,7 +25,7 @@ pacman::p_load(tidyverse, knitr, gapminder, here)
 source(here("global/functions/misc_functions.R"))
 
 # Source autograder script quietly 
-# mute(here::here("ch03_intro_to_data_viz/lessons/ch03_ls07_5NG_line_autograders.R"))
+# mute(here::here("lessons/ls07_5NG_line_autograders.R"))
 ```
 
 # Line graphs
