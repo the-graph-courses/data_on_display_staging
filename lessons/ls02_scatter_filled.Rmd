@@ -102,14 +102,14 @@ This suggests that viral load generally **decreases** with age.
 
 ```{r eval = FALSE, include = FALSE}
 # Type and view your answer:
-q1 <- "YOUR ANSWER HERE"
-q1
+age_height <- "YOUR ANSWER HERE"
+age_height
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-.CHECK_q1()
-.HINT_q1()
+.CHECK_age_height()
+.HINT_age_height()
 ```
 :::
 
@@ -183,28 +183,28 @@ Adding colors to the scatter plot allowed us to visualize a **third variable** i
 
 ```{r eval = FALSE, include=FALSE}
 # Type and view your answer:
-q2 <-  "YOUR ANSWER HERE" 
-q2
+age_height_respi <-  "YOUR ANSWER HERE" 
+age_height_respi
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-.CHECK_q2()
-.HINT_q2()
+.CHECK_age_height_respi()
+.HINT_age_height_respi()
 ```
 
 -   Create the same age vs. height scatterplot again, but this time, map the binary variable `fever` to the color of the points. Keep in mind that `fever` should be treated as a factor.
 
 ```{r eval = FALSE}
 # Type and view your answer:
-q3 <-  "YOUR ANSWER HERE"
-q3
+age_height_fever <-  "YOUR ANSWER HERE"
+age_height_fever
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-.CHECK_q3()
-.HINT_q3()
+.CHECK_age_height_fever()
+.HINT_age_height_fever()
 ```
 :::
 
@@ -270,14 +270,14 @@ Remember, changing the color, size, or opacity of our points here is not conveyi
 
 ```{r eval = FALSE, include=FALSE}
 # Type and view your answer:
-q4 <-  "YOUR ANSWER HERE"
-q4
+age_viral_blue <-  "YOUR ANSWER HERE"
+age_viral_blue
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-.CHECK_q4()
-.HINT_q4()
+.CHECK_age_viral_blue()
+.HINT_age_viral_blue()
 ```
 :::
 
@@ -421,28 +421,28 @@ Observe the distribution of blue points (children who vomited) compared to red p
 
 ```{r eval = FALSE, include=FALSE}
 # Type and view your answer:
-q5 <-  "YOUR ANSWER HERE"
-q5
+age_height_2 <-  "YOUR ANSWER HERE"
+age_height_2
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-.CHECK_q5()
-.HINT_q5()
+.CHECK_age_height_2()
+.HINT_age_height_2()
 ```
 
 -   Recreate the plot you made in the previous question, but this time adapt the code to change the shape of the points to tilted rectangles (number 23), and add the body temperature variable (`temp`) by **mapping** it to fill color of the points.
 
 ```{r eval = FALSE}
 # Type and view your answer:
-q6 <-  "YOUR ANSWER HERE"
-q6
+age_height_3 <-  "YOUR ANSWER HERE"
+age_height_3
 ```
 
 ```{r include = FALSE}
 # Check your answer:
-#.CHECK_q6()
-#.HINT_q6()
+#.CHECK_age_height_3()
+#.HINT_age_height_3()
 ```
 :::
 
