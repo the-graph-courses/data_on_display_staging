@@ -36,7 +36,7 @@ For multiple choice questions, please enter the correct letter option into the p
 
 ------------------------------------------------------------------------
 
-# Q1:
+# Q 1:
 
 What does the `gg` in `ggplot2` stand for?
 
@@ -72,7 +72,7 @@ GG stands for **G**rammar of **G**raphics.
 
 ------------------------------------------------------------------------
 
-# Q2: 
+# Q 2: 
 
 What is the name of the R package that we will use for data visualization?
 
@@ -105,7 +105,7 @@ You remembered! We use {ggplot2} for this course.
 Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}.
 
 ------------------------------------------------------------------------
-# Q3:
+# Q 3:
 
 True or False: The {ggplot2} package is part of the {tidyverse} meta-package.
 
@@ -130,7 +130,7 @@ It is indeed!
 We've used several useful functions from {tidyverse}, and {ggplot2} is in there too.
 
 ------------------------------------------------------------------------
-# Q4: 
+# Q 4: 
 
 True or False: The `ggplot2` package is part of the base R installation and does not require to be loaded before its use.
 
@@ -155,7 +155,7 @@ Great going! We've had to load {ggplot2} whenever we use it.
 If you try to use {ggplot2} without loading it, you'll definitely get an error message!
 
 ------------------------------------------------------------------------
-# Q5: 
+# Q 5: 
 
 Which of the code segments below will NOT work to load the {ggplot2} package?
 
@@ -184,7 +184,7 @@ B
 Look carefully! {ggplot} is not the same thing as {ggplot2}.
 
 ------------------------------------------------------------------------
-# Q6:
+# Q 6:
 
 True or False: When you plot with 'ggplot2' you have to follow a certain grammar to build up your plots.
 
@@ -209,7 +209,7 @@ It's the **g**rammar of **g**raphics that we're learning right now!
 It's the **g**rammar of **g**raphics that we're learning right now!
 
 ------------------------------------------------------------------------
-# Q7: 
+# Q 7: 
 
 True or False: The `ggplot` function requires all 7 layers to be defined.
 
@@ -234,7 +234,7 @@ Correct! Only three layers are necessary for it to work.
 If you go back through the lesson, you'll see that we've made several plots with only three layers.
 
 ------------------------------------------------------------------------
-# Q8: 
+# Q 8: 
 
 What are the three essential layers for the `ggplot` function?
 
@@ -265,7 +265,7 @@ We need Data, Geometries, and Aesthetics for `ggplot` to work.
 Go back to the lesson and see!
   
 ------------------------------------------------------------------------
-# Q9: 
+# Q 9: 
 
 What do we provide in the `data` layer?
 
@@ -294,7 +294,7 @@ That's right!
 We need a set of data to have something to graph.
 
 ------------------------------------------------------------------------
-# Q10:
+# Q 10:
 
 What do we provide in the `geom` layer?
 
@@ -329,7 +329,7 @@ Try again!
 The coordinates are worked out by the `data`, and the color is an `aes`thetic concern, but the objects belong to the `geom`etry layer.
 
 ------------------------------------------------------------------------
-# Q11: 
+# Q 11: 
 
 What do we provide in the `aes` layer?
 
@@ -359,7 +359,7 @@ The `aes` layer defines the plots' `aes`thetics.
 The `aes` layer defines the plots' `aes`thetics.
 
 ------------------------------------------------------------------------
-# Q12:
+# Q 12:
 
 In which layer would you define the color of your geometric object as an aesthetic mapping?
 
@@ -394,7 +394,7 @@ Sorry, that's not it!
 It's defined with the `aes`thetic layer.
 
 ------------------------------------------------------------------------
-# Q13:
+# Q 13:
 
 In which layer would you define the color of your geometric object as a fixed aesthetic?
 
@@ -429,7 +429,7 @@ Look again!
 It's defined with the `aes`thetic layer.
 
 ------------------------------------------------------------------------
-# Q14:
+# Q 14:
 
 True or False: A big advantage of {ggplot2} and its syntax is that it is very flexible and allows for a high degree of customization.
 
@@ -454,7 +454,7 @@ That's it!
 That's not it.
 
 ------------------------------------------------------------------------
-# Q15:
+# Q 15:
 
 True or False: To add more layers to a plot, you have to nest the different functions of `ggplot()`.
 
@@ -479,7 +479,7 @@ As we've seen, `ggplot()` functions can be added incrementally.
 As we've seen, `ggplot()` functions can be added incrementally.
 
 ------------------------------------------------------------------------
-# Q16:
+# Q 16:
 
 True or False: A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of `geom`etric objects.
 
@@ -504,7 +504,7 @@ Indeed!
 Sorry.
 
 ------------------------------------------------------------------------
-# Q17:
+# Q 17:
 
 How many layers are in the **G**rammar of **G**raphics framework, and how many of them are required for a complete plot?
 
@@ -533,7 +533,7 @@ B
 {ggplot2} has 7 layers, of which 3 are absolutely necessary to function.
 
 ------------------------------------------------------------------------
-# Q18:
+# Q 18:
 
 The first layer in `ggplot()` is the data layer. Select the code block below that defines this layer.
 
@@ -568,7 +568,7 @@ That's the one!
 If you look at the code from the lesson, you can see how we define data for `ggplot()`
 
 ------------------------------------------------------------------------
-# Q19:
+# Q 19:
 
 In which layer do we add the visual properties of `ggplot2()`?
 
@@ -601,7 +601,7 @@ The `aes`thetic layer sets how the visual properties are applied to the `geom`et
 The `aes`thetic layer sets how the visual properties are applied to the `geom`etric layer.
 
 ------------------------------------------------------------------------
-# Q20:
+# Q 20:
 
 You study how the weight of individuals in your study group is related to their height. For this you want to do a plot with the `weight` variable on the y-axis, the `height` variable on the x-axis and your dataset is called `participants`.
 Which of the codes below will create this plot?
@@ -653,7 +653,7 @@ D
 
 
 ------------------------------------------------------------------------
-# Q21:
+# Q 21:
 
 You plot your graph with the following code:
   
@@ -693,7 +693,7 @@ B
 Look closer. We still need a geometric layer.
 
 ------------------------------------------------------------------------
-# Q22:
+# Q 22:
 
 True or False: Geometric objects are defined in the `geom` layer. Such layers are added with functions that start with `geom_`.
 
@@ -717,7 +717,7 @@ That's the one!
 
 
 ------------------------------------------------------------------------
-# Q23: 
+# Q 23: 
 
 Which of the below functions is not a `geom_*()` function in {ggplot2}?
 
@@ -751,7 +751,7 @@ That's actually a valid function. Look them up!
 
 ------------------------------------------------------------------------
   
-# Q24:
+# Q 24:
 
 What is an `aes`thetic mapping?
 
@@ -787,7 +787,7 @@ If you want different `aes`thetic choices to be used in different parts of a plo
 
 ------------------------------------------------------------------------
 
-# Q25: 
+# Q 25: 
 
 Which of the following would you use to make **all** the points in a graph larger?
 
@@ -821,7 +821,7 @@ A fixed `aes`thetic applies to all the figures in a graph.
 
 ------------------------------------------------------------------------
 
-# Q26: 
+# Q 26: 
 
 Given the following code chunk,
 
@@ -880,7 +880,7 @@ You got it!
 
 ------------------------------------------------------------------------
 
-# Q27: 
+# Q 27: 
 
 Many programmers start off building a small chunk of code, testing to see if it works, and adding a bit more, seeing if it works, and building the program one step at a time.
 What's the name for this process?
@@ -915,7 +915,7 @@ That wasn't the right name. But really, the important idea is the **process**.
 
 ------------------------------------------------------------------------
 
-# Q28: 
+# Q 28: 
 
 This lesson recommended we put each new element on a separate line. In fact, it's good practice to make **all** our code legible, not just when using `ggplot()`.
 But *why* do we want legible code?
@@ -942,7 +942,7 @@ D
 
 ## Correct message
 
-As we learned in team exercises, legible code is important for others to read.
+Correct! As we learned in team exercises, legible code is important for others to read.
 And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
 
 ## Incorrect message

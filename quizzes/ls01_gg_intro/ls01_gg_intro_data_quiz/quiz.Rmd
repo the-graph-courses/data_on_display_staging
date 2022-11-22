@@ -75,7 +75,7 @@ Note that each time you retry a quiz, the dataset is slightly modified.
 Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011. 
 
 ```{r echo = F, results = "asis"}
-# upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
+upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
 ```
 
 Here are the top 6 rows of `hiv_prevalence` after import:
