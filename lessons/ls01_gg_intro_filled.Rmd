@@ -663,7 +663,6 @@ g <- f + theme_minimal(13) +
 a + b + c + d + e + f + g + plot_layout(nrow = 7, ncol = 1)
 ```
 
-
 ## Wrap up
 
 If you've made it this far, great work! You have learned how to build a `ggplot` graphic in increments, using the 3 essential layers from the grammar of graphics framework. Further, you can modify those elements to create a variety of visualizations.
