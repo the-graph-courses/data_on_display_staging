@@ -28,16 +28,16 @@ pacman::p_load(ggplot2)
 ## load data ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.malidd <- read.csv(here::here("ch03_intro_to_data_viz/data/clean/malidd.csv"))
+.malidd <- read.csv(here::here("data/clean/malidd.csv"))
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## q1 ----
+## age_height ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Using the `malidd` data frame, create a scatterplot showing the relationship between age and height (`height_cm`).
 
 # [backend]
-.CHECK_q1 <-
+.CHECK_age_height <-
   function() {
     .problem_number <<- 1
    
@@ -49,25 +49,25 @@ pacman::p_load(ggplot2)
     
     .autograder <<-
       function(){
-        if (!is.ggplot(q1)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!is.ggplot(age_height)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # test 1
         # that data used is correct
         .q1_test1 <- all_equal(
-          target = as_tibble(q1$data), 
+          target = as_tibble(age_height$data), 
           current = as_tibble(.q1_correct$data))
         
         # test 2
         # that learner used geom_point()
-        .q1_test2 <- any(stringr::str_detect(capture.output(q1$layers), 
+        .q1_test2 <- any(stringr::str_detect(capture.output(age_height$layers), 
                                              "geom_point"))
         # test 3
         # check the x mapping
-        .q1_test3 <- "* `x` -> `age_months`" %in% capture.output(q1$mapping)
+        .q1_test3 <- "* `x` -> `age_months`" %in% capture.output(age_height$mapping)
         
         # test 4
         # check the y mapping
-        .q1_test4 <- "* `y` -> `height_cm`" %in% capture.output(q1$mapping)
+        .q1_test4 <- "* `y` -> `height_cm`" %in% capture.output(age_height$mapping)
         
         if (isTRUE(!(.q1_test1))) return(c(value = 0, message = "! Check which dataset you are plotting."))
         if (isTRUE(!(.q1_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_point."))
@@ -81,13 +81,13 @@ pacman::p_load(ggplot2)
 
 # [backend]
 # create one hint per question
-.HINT_q1 <- function(){
+.HINT_age_height <- function(){
   'First, identify what you want to plot on your x and your y axis. 
   Then, think about which geometry function you want to use to plot.' -> out
   cat(out)
 }
 # solution of question
-.SOLUTION_q1 <- function(){
+.SOLUTION_age_height <- function(){
   'ggplot(data = malidd,
              mapping = aes(x = age_months, 
                            y = height_cm)) +
@@ -463,3 +463,4 @@ pacman::p_load(ggplot2)
                   color = "indianred3")' -> out
   cat(out)
 }
+
