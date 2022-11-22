@@ -1,0 +1,47 @@
+
+
+<p>Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.</p>
+<p>Note that each time you retry a quiz, the dataset is slightly modified.</p>
+<div id="hiv-dataset" class="section level1">
+<h1>HIV dataset</h1>
+<p>Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011.</p>
+<p>Here are the top 6 rows of <code>hiv_prevalence</code> after import:</p>
+<pre class="r"><code>head(hiv_prevalence)</code></pre>
+<pre><code>## # A tibble: 6 × 4
+##   country year  total_cases population
+##   &lt;fct&gt;   &lt;fct&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Ghana   1995       170000   16760926
+## 2 Ghana   1996       190000   17169151
+## 3 Ghana   1997       200000   17568461
+## 4 Ghana   1998       220000   17968830
+## 5 Ghana   1999       230000   18384302
+## 6 Ghana   2000       240000   18825034</code></pre>
+<pre class="r"><code>summary(hiv_prevalence)</code></pre>
+<pre><code>##      country        year     total_cases    
+##  Ghana   :15   1995   : 3   Min.   :170000  
+##  Thailand:15   1996   : 3   1st Qu.:250000  
+##  Zambia  :15   1997   : 3   Median :610000  
+##                1998   : 3   Mean   :570000  
+##                1999   : 3   3rd Qu.:790000  
+##                2000   : 3   Max.   :950000  
+##                (Other):27                   
+##    population      
+##  Min.   : 8841338  
+##  1st Qu.:11781612  
+##  Median :19786307  
+##  Mean   :31334510  
+##  3rd Qu.:60903042  
+##  Max.   :66277335  
+## </code></pre>
+<p><strong>Complete the code below to create a scatter plot of HIV incidence over time.</strong></p>
+<p>Hint: You plot should look like this:</p>
+<p><img src="https://drive.google.com/uc?export=view&id=11adH9hO1tG9Jy1_1F5qVTh8IqwpzMtlN" width="480" /></p>
+<pre class="r"><code>ggplot(data = {hiv_prevalence}, 
+       {mapping} = aes({x} = year,
+                       y = {total_cases})) {+}
+  geom{_point}()</code></pre>
+<hr />
+<p>Make this plot and save it as an R object:
+<img src="https://drive.google.com/uc?export=view&id=1B96qCSocOaPmx7h_hvtJ8pHfQ9Xv5s7X" width="672" /></p>
+<p>Put your plot object through the <code>ggplot_digest()</code> function and enter the resulting character string here: {865fce3a2bd569ad8ee8629e845e9b1e}</p>
+</div>
