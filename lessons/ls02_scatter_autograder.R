@@ -1,6 +1,9 @@
-# Ch03 Ls06 5NG Scatterplots
+# Data Viz Ls02 Scatterplots
 ## Laure Vancauwenberghe, Joy Vaz
 ## 2022-07-08
+
+# To do:
+# Add last autograder, fix hints, fix question numbers, and question text
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Load packages ----
@@ -19,13 +22,7 @@ pacman::p_load(tidyverse,
 .scores <- rep(-1, times = 6)   # Put total number of questions as `times` argument
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## load packages ----
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-pacman::p_load(ggplot2)
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## load data ----
+## Load data ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .malidd <- read.csv(here::here("data/clean/malidd.csv"))
@@ -179,12 +176,6 @@ pacman::p_load(ggplot2)
     .problem_number <<- 4
     
     ##### DISCLAIMER: 
-    #It matters a LOT if the student puts the color, size, alpha in mapping =aes() or as is now. 
-    #Color gets encoded with hex (manageable)
-    #Size gets adapted so not 3 but 4.535534
-    #Alpha gets adapted so not 0.6 but 0.55
-    #We need to define if we give a scaffold or if here we anticipate different writings of the color,alpha,size
-    #I vote scaffold
     .q3_correct <- 
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
@@ -261,10 +252,6 @@ pacman::p_load(ggplot2)
   function() {
     .problem_number <<- 5
     
-    ##### DISCLAIMER: 
-    #It matters a LOT if the student puts the color, size, alpha in mapping =aes() or as is now. 
-    #We need to define if we give a scaffold or if here we anticipate different writings of the color,alpha,size
-    #I vote scaffold
     .q4_correct <- 
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
@@ -359,10 +346,6 @@ pacman::p_load(ggplot2)
   function() {
     .problem_number <<- 6
     
-    ##### DISCLAIMER: 
-    #It matters a LOT if the student puts the color, size, alpha in mapping =aes() or as is now. 
-    #We need to define if we give a scaffold or if here we anticipate different writings of the color,alpha,size
-    #I vote scaffold
     .q5_correct <- 
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
@@ -463,4 +446,5 @@ pacman::p_load(ggplot2)
                   color = "indianred3")' -> out
   cat(out)
 }
+
 
