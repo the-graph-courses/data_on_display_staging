@@ -29,7 +29,7 @@ source(here("lessons/ls02_scatter_autograder.R"))
 
 ```
 
-# Scatter plots with {ggplot2}
+# Scatter plots and smoothing lines with {ggplot2}
 
 ## Learning Objectives
 
@@ -46,47 +46,34 @@ By the end of this lesson, you will be able to:
 
 ```{r}
 # Load packages 
-pacman::p_load(tidyverse,
-               here)
+pacman::p_load()
 ```
 
 
 
 ## Childhood diarrheal diseases in Mali
 
-
-
 • Data from a prospective observational study of acute diarrhea in children
-
-
 
 • The study was conducted in Mali and Bangladesh 
 
 ![](images/child_dia_study.jpg)
 
-
-
 ::: vocab
 A prospective study watches for outcomes, such as the development of a disease, during the study period and relates this to other factors such as suspected risk or protection factors.
 :::
 
-
-
 • Load the **`malidd` data frame** we will use for plotting:
 
-```{r}
+```{r message = FALSE}
 # Import preprocessed data to RStudio Environment
-malidd <- read_csv(here("ch03_intro_to_data_viz/data/clean/malidd.csv"))
+malidd <- read_csv(here("data/clean/malidd.csv"))
 malidd
 ```
-
-
 
 We will explore relationships between some numerical variables in the **`malidd`** data frame using scatter plots.
 
 ## Scatter plots via `geom_point()`
-
-
 
 Let's begin by visualizing the relationship between:
 
@@ -98,16 +85,11 @@ Let's begin by visualizing the relationship between:
 
 ```
 
-
-
 • Viral load generally **decreases** with age.
 
-
-
-Time to practice!
+Time to practice plotting!
 
 ::: practice
-**Practice Question\
 **Using the `malidd` data frame, create a scatter plot showing the relationship between age and height (`height_cm`).
 
 ```{r}
@@ -118,7 +100,7 @@ ggplot()
 ```{r}
 # When you think you have the right answer, submit it by replacing "YOUR ANSWER HERE" with your code, and run those lines.
 
-age_height <- ggplot()
+age_height <- "YOUR ANSWER HERE"
 
 # Make sure that "age_height" appears in your Environment tab.
 ```
@@ -141,14 +123,9 @@ age_height <- ggplot()
 ```
 :::
 
-
-
 ## Modifying the aesthetics of points
 
-
-
 ::: reminder
-**Reminder**\
 There are two methods for changing the aesthetic properties of your `geom`s (in this case, points):
 
 1.  You can convey information about your data by *mapping* the variables in your dataset to aesthetics in your plot inside the `aes()` function in the `mapping` argument
@@ -156,19 +133,11 @@ There are two methods for changing the aesthetic properties of your `geom`s (in 
 2.  You can also set the aesthetic properties of your `geom`s to a *fixed* value, as a direct argument of your `geom_*()` function; i.e. it goes *outside* of `aes()`.
 :::
 
-
-
 ### Mapping data to aesthetics
 
-
-
-• First we will variables to an aesthetic inside `aes()`
-
-
+• First we map will variables to an aesthetic inside `aes()`
 
 • This allows us to visualize a third variable on the scatter plot
-
-
 
 Let's map `height_cm` to the colors of our points:
 
@@ -179,19 +148,12 @@ ggplot(data = malidd,
   geom_point()
 ```
 
-
-
 • {ggplot2} has automatically **scales** the aesthetic to match values in the variable
-
 
 
 • Points are colored by different shades of the blue with darker colors representing lower values
 
-
-
 • Height **increases** with age
-
-
 
 Let's map a binary variable - `breastfeeding` - to color:
 
@@ -199,14 +161,14 @@ Let's map a binary variable - `breastfeeding` - to color:
 ggplot(data = malidd, 
        mapping = aes(x = age_months, 
                      y = viral_load)) + 
-  geom_point(mapping = aes(color = breastfeeding))
+  geom_point()
 ```
 
+• Gradual, continuous color scaling
 
+• The gradient communicates continuum of values
 
-• Gradual, continuous color scaling • The gradient communicates continuum of values • But `breastfeeding` has only two distinct values: 0 or 1
-
-
+• But `breastfeeding` has only two distinct values: 0 or 1
 
 The `breastfeeding` variable in `malidd` is not a factor:
 
@@ -214,11 +176,7 @@ The `breastfeeding` variable in `malidd` is not a factor:
 class(malidd$breastfeeding)
 ```
 
-
-
-• The 1s and 0s represent two *discrete* possibilities • Continuous color scaling is not suitable
-
-
+• Continuous color scaling is not suitable
 
 Add the `factor()` function around a variable to tell `ggplot()` to treat it as a factor:
 
@@ -229,22 +187,13 @@ ggplot(data = malidd,
   geom_point()
 ```
 
-
-
 • {ggplot2} assigns a unique level of aesthetic to each unique value of a factor
-
-
 
 • Children stopped breastfeeding at around 20 months of age
 
-
-
-Adding colors let us to visualize a **third variable**
-
-
+Adding colors let us visualize a **third variable**
 
 ::: practice
-**Practice Question**\
 • Using the `malidd` data frame, create a scatter plot showing the relationship between age and viral load, and map a third variable, frequency of respiration (`freqrespi`) to color:
 
 ```{r}
@@ -254,10 +203,7 @@ Adding colors let us to visualize a **third variable**
 
 ```{r}
 # Submit your answer:
-age_height_respi <- ggplot(data = nigerm04, 
-       mapping = aes(x = week, 
-                     y = cases)) +
-  geom_point()
+age_height_respi <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
 .HINT_age_height_respi()
@@ -275,10 +221,7 @@ age_height_respi <- ggplot(data = nigerm04,
 
 ```{r}
 # Submit your answer:
-age_height_fever <- ggplot(data = nigerm04, 
-       mapping = aes(x = week, 
-                     y = cases)) +
-  geom_point()
+age_height_fever <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
 .HINT_age_height_fever()
@@ -288,14 +231,9 @@ age_height_fever <- ggplot(data = nigerm04,
 ```
 :::
 
-
-
 ### Setting fixed aesthetics
 
-
-
 • Aesthetic arguments set to a fixed value will not change with the data
-
 
 • Fixed aesthetics should be a direct argument in the `geom_*()` function; i.e., it goes *outside* of `mapping = aes()`.
 
@@ -314,11 +252,7 @@ In this section we will change the following aesthetic arguments to fixed values
 
 #### Changing `color`, `size` and `alpha`
 
-
-
 • Set the color of the points to a fixed value by setting the `color` argument directly within `geom_point()`.
-
-
 
 Change point color to steel blue:
 
@@ -330,11 +264,7 @@ ggplot(data = malidd,
   geom_point()
 ```
 
-
-
 Now we will modify the `size` aesthetic of the points by assigning it to a fixed number.
-
-
 
 The default size is 1 mm, so let's chose a larger value:
 
@@ -346,15 +276,9 @@ ggplot(data = malidd,
   geom_point(color = "steelblue")
 ```
 
-
-
 • The `alpha` aesthetic controls the level of opacity of `geom`s.
 
-
-
 •`alpha` ranges from 0 (completely transparent) to the 1 (completely opaque).
-
-
 
 Let's make our points more transparent by reducing the opacity:
 
@@ -369,12 +293,13 @@ ggplot(data = malidd,
 
 
 
-• We can see with points overlap • `alpha` is a useful aesthetic modifiction when there is **overplotting**
+• We can see with points overlap 
+
+• `alpha` is a useful aesthetic modification when there is **overplotting**
 
 
 
 ::: practice
-**Practice Question**\
 • Create a scatter plot with the same variables as the previous example, but change the color of the points to `cornflowerblue`, increase the size of points to 3 mm and set the opacity to 60%.
 
 ```{r}
@@ -384,10 +309,7 @@ ggplot(data = malidd,
 
 ```{r}
 # Submit your answer:
-age_viral_blue <- ggplot(data = nigerm04, 
-       mapping = aes(x = week, 
-                     y = cases)) +
-  geom_point()
+age_viral_blue <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
 .HINT_age_viral_blue()
@@ -404,20 +326,13 @@ age_viral_blue
 :::
 
 
-
 #### Changing `shape` and `fill`
 
-
-
 • We can shape of points by setting `shape` aesthetic to a number corresponding to our desired shape
-
-
 
 • {ggplot2} will accept the following numbers:
 
 ![Numerical coding of different shapes in {ggplot2}](images/ggplot_shapes.png){width="400"}
-
-
 
 • Shapes 21-24 have both `color` and `fill` aesthetics
 
@@ -432,8 +347,6 @@ ggplot(data = malidd,
   geom_point()
 ```
 
-
-
 The `color` aesthetic only changes the outline of our points:
 
 ```{r}
@@ -444,8 +357,6 @@ ggplot(data = malidd,
                      y = viral_load)) + 
   geom_point(shape = 21)
 ```
-
-
 
 Now let's fill in the points:
 
@@ -462,8 +373,6 @@ ggplot(data = malidd,
 
 
 ::: key-point
-**Key Point**\
-
 It's important to note that `color` and `fill` apply to different elements.
 • `color` applies color to solid points, lines, text, and borders of shapes
 • `fill` applies color to any filled areas, like the interior of shapes
@@ -480,19 +389,11 @@ ggplot(data = malidd,
              fill = "seagreen")
 ```
 
-
-
 ## Adding a trend line
-
-
 
 • It can be hard to view relationships or trends with just points
 
-
-
 • We can add a smoothing line to a scatter plot
-
-
 
 We will take our scatter plot and apply a smoothing line to with add another geometric layer using `geom_smooth()`:
 
@@ -503,19 +404,11 @@ ggplot(data = malidd,
   geom_point()
 ```
 
+• The smoothing line layer is plotted on top of the points
 
-
-• The smoothing line comes os overlaid on top of the points.
-
-
-
-• The smoothing function here is "loess" which stands for for **l**ocally **w**eighted **scatter plot** **s**moothing
-
-
+• The smoothing function here is "loess" which stands for for **l**ocally **w**eighted **s**catter plot **s**moothing
 
 • Other smoothing functions can also be used in `geom_smooth()`
-
-
 
 Let's use a generalized linear model by setting the `method` argument to "`glm`":
 
@@ -528,11 +421,7 @@ ggplot(data = malidd,
   geom_smooth()
 ```
 
-
-
-• 95% confidence limits for these lines are displayed.
-
-
+• 95% confidence limits for these lines are displayed
 
 You can suppress the confidence bands by including the argument `se = FALSE` inside `geom_smooth()`:
 
@@ -544,8 +433,6 @@ ggplot(data = malidd,
   geom_point() +
   geom_smooth(method = "glm")
 ```
-
-
 
 We can also add `color` inside `geom_smooth()`:
 
@@ -559,23 +446,14 @@ ggplot(data = malidd,
               se = FALSE)
 ```
 
-
-
 • A *negative relationship* exists between `age_months` and `viral_load`
-
 
 
 Now we will add a third variable to this plot.
 
-
-
 •`vomit` is a binary variable from the `malidd` dataset
 
-
-
 • It records whether or not the patient vomited
-
-
 
 We will map it to the color aesthetic:
 
@@ -589,8 +467,6 @@ ggplot(data = malidd,
               color = "darkred")
 ```
 
-
-
 Let's also change the smoothing method to generalized additive model ("`gam`") and make some aesthetic modifications to the line in the `geom_smooth()` layer:
 
 ```{r}
@@ -603,15 +479,9 @@ ggplot(data = malidd,
               color = "darkred")
 ```
 
-
-
 • The blue points mostly occur above the trend line • Children with higher viral loads were more likely to exhibit symptoms of vomiting
 
-
-
 ::: practice
-**Practice Question**\
-
 • Create a scatter plot with the `age_months` and `height_cm` variables. Set the color of the points to "steelblue", the size to 2.5mm, the opacity to 80%. Then add trend line with the smoothing method "lm" (linear model). To make the trend line stand out, set its color to "indianred3".
 
 ```{r}
@@ -621,21 +491,13 @@ ggplot(data = malidd,
 
 ```{r}
 # Submit your answer:
-age_height_2 <- ggplot(data = nigerm04, 
-       mapping = aes(x = week, 
-                     y = cases)) +
-  geom_point()
+age_height_2 <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
 .HINT_age_height_2()
 
 # Check your answer:
 .CHECK_age_height_2()
-```
-:::
-
-```{r}
-age_height_2
 ```
 
 • Recreate the plot you made in the previous question, but this time adapt the code to change the shape of the points to tilted rectangles (number 23), and add the body temperature variable (`temp`) by **mapping** it to fill color of the points.
@@ -647,10 +509,7 @@ age_height_2
 
 ```{r}
 # Submit your answer:
-age_height_3 <- ggplot(data = nigerm04, 
-       mapping = aes(x = week, 
-                     y = cases)) +
-  geom_point()
+age_height_3 <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
 .HINT_age_height_3()
@@ -658,16 +517,7 @@ age_height_3 <- ggplot(data = nigerm04,
 # Check your answer:
 .CHECK_age_height_3()
 ```
-
 :::
-
-```{r}
-age_height_3
-```
-
-:::
-
-
 
 ## Learning Outcomes
 
@@ -678,7 +528,7 @@ age_height_3
 
 ## Summary
 
-scatter plots display the relationship between two numerical variables.
+Scatter plots display the relationship between two numerical variables.
 
 With medium to large datasets, you may need to play around with the different modifications to scatter plots we saw such as adding trend lines, changing the color, size, shape, fill, or opacity of the points. This tweaking is often a fun part of data visualization, since you'll have the chance to see different relationships emerge as you tinker with your plots.
 
