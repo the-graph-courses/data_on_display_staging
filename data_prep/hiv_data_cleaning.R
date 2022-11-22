@@ -120,6 +120,8 @@ write_csv(hiv_all, "data/clean/hiv_incidence_prevalence.csv")
 
 ### Add population ----
 
+# Prevalence dataset
+
 hiv_total <- 
   read_csv(here("data/clean/hiv_prevalence.csv"))
 
@@ -165,9 +167,6 @@ pop <- tidyr::population %>%
                         TRUE ~ country)
     )
 
-
-
-
 accentless <- iconv(pop$country,from="UTF-8",to="ASCII//TRANSLIT")
 
 pop <- pop %>% 
@@ -179,4 +178,78 @@ hiv_prev_pop <- left_join(hiv_total, pop) %>%
   filter(!is.na(year), !is.na(population))
 
 write_csv(hiv_prev_pop, "data/clean/hiv_prev_pop.csv")
+
+# Incidence dataset
+
+hiv_new <- 
+  read_csv(here("data/clean/hiv_incidence.csv"))
+
+setdiff(hiv_new$country, tidyr::population$country)
+
+pop <- tidyr::population %>% 
+  mutate(
+    country = case_when(country == "Côte d'Ivoire" ~ "Cote d'Ivoire",
+                        TRUE ~ country),
+    country = case_when(country == "Democratic Republic of the Congo" ~ "Congo, Rep.",
+                        TRUE ~ country),
+    country = case_when(country == "Kyrgyzstan" ~ "Kyrgyz Republic",
+                        TRUE ~ country),
+    country = case_when(country == "Republic of Moldova" ~ "Moldova",
+                        TRUE ~ country),
+    country = case_when(country == "Swaziland" ~ "Eswatini",
+                        TRUE ~ country),
+    country = case_when(country == "United Republic of Tanzania" ~ "Tanzania",
+                        TRUE ~ country),
+    country = case_when(country == "United States of America" ~ "United States",
+                        TRUE ~ country),
+    country = case_when(country == "Serbia & Montenegro" ~ "Serbia",
+                        TRUE ~ country)
+  )
+
+accentless <- iconv(pop$country,from="UTF-8",to="ASCII//TRANSLIT")
+
+pop <- pop %>% 
+  mutate(country = accentless)
+
+setdiff(hiv_new$country, pop$country)
+
+hiv_incd_pop <- left_join(hiv_new, pop) %>% 
+  filter(!is.na(year), !is.na(population))
+
+write_csv(hiv_incd_pop, "data/clean/hiv_incidence_pop.csv")
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Subset to high prev countries ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+hiv_prev_pop_full <- 
+  read_csv(here("data/clean/hiv_prev_pop.csv"))
+
+prev_countries <- hiv_prev_pop_full$country %>% unique()
+
+# Subset to countries with high incidence for better plotting
+country_prev <- hiv_prev_pop_full %>% group_by(country) %>% 
+  summarise(avg = mean(total_cases))
+
+country_prev <- country_prev %>% 
+  rename(country_prev, mean_prev = `.`)
+
+overall_mean_prev <- mean(hiv_prev_pop_full$total_cases)
+
+high_mean_prev <- country_prev %>% 
+  filter(avg > overall_mean_prev)
+
+high_prev_countries <- high_mean_prev$country %>% unique()
+
+
+# Subset full to high
+
+high_hiv_prev <- hiv_prev_pop_full %>% 
+  filter(country %in% high_prev_countries)
+
+
+# Write CSV
+
+write_csv(high_hiv_prev, here("data/clean/high_hiv_prev_pop.csv"))
 
