@@ -1,0 +1,122 @@
+---
+title: '\ '
+output: blogdown::html_page
+params:
+  seed: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = F, message = F, warning = F}
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+  # necessary for all quizzes runs
+  tidyverse, 
+  here,
+  knitr,
+  googledrive,
+  rio,
+  #required for it to run:
+  blogdown,
+  shiny,
+  readxl, 
+  janitor)
+knitr::opts_chunk$set(warning = F, message = F)
+source(here("global/functions/misc_functions.R"))
+source(here("global/functions/ggplot_digest.R"))
+# Setup for uploading images and datasets
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+# Set seed
+set.seed(params$seed)
+```
+
+```{r echo = F}
+
+high_hiv_prev_pop <- 
+  read_csv(here("data/clean/high_hiv_prev_pop.csv"))
+
+# Sample and plot
+high_prev_countries <- high_hiv_prev_pop$country %>% unique()
+
+high_prev_country_sample <- sample(high_prev_countries, 3)
+
+high_hiv_prev <- high_hiv_prev_pop %>% 
+  filter(country %in% high_prev_country_sample)
+
+hiv_prevalence <- high_hiv_prev %>% 
+  mutate(country = as.factor(country),
+         year = as.factor(year))
+
+# ggplot(high_hiv_prev, aes(year, total_cases,
+#                           color = country)) +
+#   geom_point()
+# 
+# ggplot(high_hiv_prev, aes(year, total_cases,
+#                           color = country)) +
+#   geom_line()
+# 
+# ggplot(high_hiv_prev, aes(year, total_cases,
+#                           color = country)) +
+#   geom_col()
+# 
+# ggplot(high_hiv_prev, aes(year, total_cases,
+#                           fill = country)) +
+#   geom_col()
+```
+
+Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
+
+Note that each time you retry a quiz, the dataset is slightly modified.
+
+# HIV dataset
+
+Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011. 
+
+```{r echo = F, results = "asis"}
+# upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
+```
+
+Here are the top 6 rows of `hiv_prevalence` after import:
+
+```{r}
+head(hiv_prevalence)
+summary(hiv_prevalence)
+```
+
+**Complete the code below to create a scatter plot of HIV incidence over time.**
+
+Hint: You plot should look like this:
+
+```{r echo = F, fig.width=5}
+
+ggplot(hiv_prevalence, aes(year, total_cases)) +
+  geom_point()
+
+```
+
+
+
+```{r eval = F}
+
+ggplot(data = {hiv_prevalence}, 
+       {mapping} = aes({x} = year,
+                       y = {total_cases})) {+}
+  geom{_point}()
+```
+
+------------------------------------------------------------------------
+
+Make this plot and save it as an R object:
+```{r echo = F}
+filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
+                          fill = country)) +
+  geom_col()
+
+filled_bar
+
+hash <- ggplot_digest(filled_bar)
+```
+
+Put your plot object through the `ggplot_digest()` function and enter the resulting character string here: {`r hash`}
