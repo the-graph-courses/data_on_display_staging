@@ -1,3 +1,7 @@
+# Don't push HTML and PDF files
+*.html
+*.pdf
+
 .Rproj.user
 .Rhistory
 .RData
