@@ -1,0 +1,97 @@
+---
+title: '\ '
+output: blogdown::html_page
+params:
+  seed: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = F, message = F, warning = F}
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+  # necessary for all quizzes runs
+  tidyverse, 
+  here,
+  knitr,
+  googledrive,
+  rio,
+  #required for it to run:
+  blogdown,
+  shiny,
+  readxl, 
+  janitor)
+knitr::opts_chunk$set(warning = F, message = F)
+source(here("global/functions/misc_functions.R"))
+# Setup for uploading images and datasets
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+# Set seed
+set.seed(params$seed)
+```
+
+```{r echo = F}
+
+hiv_incidence_full <- 
+  read_csv(here("data/clean/hiv_incidence.csv"))
+
+incidence_countries <- hiv_incidence_full$country %>% unique()
+
+# Sample countries
+incidence_country_sample <- sample(incidence_countries, 5)
+
+# 
+hiv_incidence <- hiv_incidence_full %>% 
+  filter(country %in% incidence_country_sample)
+
+
+hiv_prevalence_full <- 
+  read_csv(here("data/clean/hiv_prevalence.csv"))
+
+prevalence_countries <- hiv_prevalence_full$country %>% unique()
+
+prevalence_country_sample <- sample(prevalence_countries, 5)
+
+hiv_prevalence <- hiv_prevalence_full %>% 
+  filter(country %in% prevalence_country_sample)
+
+ggplot(hiv_prevalence, aes(year, total_cases,
+                           color = country)) +
+  geom_point()
+
+ggplot(hiv_prevalence, aes(year, total_cases,
+                           color = country)) +
+  geom_line()
+
+ggplot(hiv_prevalence, aes(year, total_cases,
+                           color = country)) +
+  geom_col()
+
+ggplot(hiv_prevalence, aes(year, total_cases,
+                           fill = country)) +
+  geom_col()
+
+
+#  # Sample data
+#  slice_sample(n = 200, weight_by = year) %>%
+#  clean_names()
+```
+
+Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
+
+Note that each time you retry a quiz, the dataset is slightly modified.
+
+# HIV dataset
+
+Here, you will analyze parts of a dataset documenting global HIV incidence and prevalence from 1990 to 2011. 
+
+```{r echo = F, results = "asis"}
+upload_and_link(hiv_incidence_prevalence, filename = "hiv_incidence_prevalence", format =  "csv")
+```
+
+Here are the top 6 rows of `hiv_incidence_prevalence` after import:
+
+```{r}
+head(hiv_incidence_prevalence)
+```
