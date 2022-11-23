@@ -46,8 +46,7 @@ high_hiv_prev <- high_hiv_prev_pop %>%
   filter(country %in% high_prev_country_sample)
 
 hiv_prevalence <- high_hiv_prev %>% 
-  mutate(country = as.factor(country),
-         year = as.factor(year))
+  mutate(country = as.factor(country))
 
 # ggplot(high_hiv_prev, aes(year, total_cases,
 #                           color = country)) +
@@ -72,7 +71,7 @@ Note that each time you retry a quiz, the dataset is slightly modified.
 
 # HIV dataset
 
-Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011. 
+Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011.
 
 ```{r echo = F, results = "asis"}
 upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
@@ -85,30 +84,85 @@ head(hiv_prevalence)
 summary(hiv_prevalence)
 ```
 
-**Complete the code below to create a scatter plot of HIV incidence over time.**
+```{r}
+load(here("data/clean/nigerm_cases_rgn.RData"))
+head(nigerm)
+```
 
-Hint: You plot should look like this:
+------------------------------------------------------------------------
+
+## Basic layers syntax
+
+You would like to compare HIV prevalence between the 3 countries in the dataset.
+
+**Complete the code below to create a simple scatter plot of HIV incidence over time using `ggplot()`.**
+
+The resulting plot should look like this:
 
 ```{r echo = F, fig.width=5}
 
 ggplot(hiv_prevalence, aes(year, total_cases)) +
   geom_point()
-
 ```
 
+Hint: note which variables are mapped to which axis, and refer to the `ggplot()` syntax template to structure your code.
 
+![](images/gg_min_build3.png)
+
+```{r eval = F}
+
+ggplot(data = hiv_prevalence, 
+       mapping = aes(x = {year},
+                       y = {total_cases})) +
+  geom_point()
+```
+
+This scatter plot doesn't allow us to distinguish between the 3 countries in your dataset. 
+
+**Add an aesthetic argument that will color each point according to country.**
+
+```{r include=F, fig.width=5}
+
+ggplot(hiv_prevalence, aes(year, total_cases, color = country)) +
+  geom_point()
+```
 
 ```{r eval = F}
 
 ggplot(data = {hiv_prevalence}, 
-       {mapping} = aes({x} = year,
-                       y = {total_cases})) {+}
-  geom{_point}()
+       {mapping} = aes(x = year,
+                       y = total_cases,
+                       {[color=country][fill=country]|2})) +
+  geom_point()
 ```
+
+Answer `true` or `false`: The aesthetic argument we just added is a fixed aesthetic: {[false][f]}
+
+**Complete the below code to create a **line graph** that 
+
+```{r eval = F}
+
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           y = total_cases,
+                           color = country)) + 
+      geom_line()
+```
+
+```{r eval = F}
+
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           y = total_cases,
+                           {color} = country)) {+} 
+      {geom_line()}
+```
+
 
 ------------------------------------------------------------------------
 
 Make this plot and save it as an R object:
+
 ```{r echo = F}
 filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
                           fill = country)) +
@@ -116,7 +170,98 @@ filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
 
 filled_bar
 
-hash <- ggplot_digest(filled_bar)
+hash_filled_bar <- ggplot_digest(hash_filled_bar)
 ```
 
 Put your plot object through the `ggplot_digest()` function and enter the resulting character string here: {`r hash`}
+
+## Aesthetics
+
+**Identify which plot is using the `color` aesthetic for the `country` variable.**
+```{r echo=FALSE}
+p_load(patchwork)
+theme_set(theme_grey())
+
+plot1 <- ggplot(hiv_prevalence, aes(country, total_cases,
+                                    fill = country)) +
+  geom_boxplot() +
+  ggtitle("Plot A")
+
+plot2 <- ggplot(hiv_prevalence, aes(country, total_cases,
+                                    color = country)) +
+  geom_boxplot() +
+  ggtitle("Plot B")
+
+plot1 + plot2
+```
+
+-----------------------------------------------------------------------
+
+Let's say we want to create a bar plot where the outline color and fill color are different. For example, the bars in this bar plot of cases per year have colorful segments and a `black` outline: 
+
+```{r echo=F, fig.width=5}
+# Fixed color and mapped fill
+ggplot(hiv_prevalence, 
+       aes(year, total_cases, fill = country)) +
+  geom_col(color = "black")
+```
+
+**Complete the code below to generate this plot.**
+
+```{r eval = F}
+ggplot(data = hiv_prevalence, 
+       mapping = aes(x = year,
+                     y = total_cases,
+                     {fill} = {country})) +
+  geom_point({color} = {"black"|"#000000"})
+```
+
+------------------------------------------------------------------------
+
+
+Hint: Aesthetic arguments like `x`, `y`, `color`, `fill`, and `size` can either be a mapping of a variable or a fixed value. This depends on whether they are written inside `mapping = aes()` or inside a `geom_*()` function. 
+
+```{r echo = F}
+# Generate correct hash
+line_size <- ggplot(hiv_prevalence, 
+                     aes(year, population,
+                         color = country)) +
+  geom_line(size = 1)
+
+hash_line_size <- ggplot_digest(line_size)
+```
+
+Enter the alphanumeric serial number for your plot: {`r hash_line_size`}
+
+-------------------------------
+
+
+**Write code to each create the two plots below** and save them as two separe objects.
+```{r echo=F}
+
+col_map <- ggplot(hiv_prevalence, 
+       aes(year, population, color = country)) + 
+  geom_point()
+
+col_fix <- ggplot(hiv_prevalence, 
+       aes(year, population)) + 
+  geom_point(color = "red") 
+
+plot3 <- col_map +
+  ggtitle("Plot A")
+
+plot4 <- col_fix +
+  ggtitle("Plot B")
+
+plot3 + plot4
+
+hash_col_map <- ggplot_digest(col_map)
+hash_col_fix <- ggplot_digest(col_fix)
+```
+
+Enter the alphanumeric serial number for plot A: {`r hash_col_map`}
+
+Enter the alphanumeric serial number for plot B: {`r hash_col_fix`}
+
+-----------------------------
+
