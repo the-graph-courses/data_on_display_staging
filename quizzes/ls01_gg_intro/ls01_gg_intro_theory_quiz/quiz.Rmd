@@ -1,5 +1,5 @@
 ---
-title: '\ '
+title: 'Multiple-choice quiz | Intro to ggplot2'
 output: blogdown::html_page
 editor_options: 
   chunk_output_type: console
@@ -10,23 +10,27 @@ editor_options:
 
 ```{r, echo = F, message = F, warning = F}
 if(!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse, 
+pacman::p_load(tidyverse,
+               googledrive,
                here,
                knitr)
 
 # Setup for uploading images
-#knitr::opts_knit$set(upload.fun = imgur_upload)
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
 opts_chunk$set(warning = F, message = F)
 ```
 
 
-## Prologue
+# Intro
 
 This quiz tests your understanding of the basic functioning of the {ggplot2} package. Good luck!
-  
-For multiple choice questions, please enter the correct letter option into the provided box.
 
-------------------------------------------------------------------------
+Quiz Contributors: [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+  
 
 # Q 1
 
@@ -62,7 +66,7 @@ GG stands for **G**rammar of **G**raphics.
 Nice try, but not this time.
 GG stands for **G**rammar of **G**raphics.
 
-------------------------------------------------------------------------
+
 
 # Q 3
 
@@ -96,7 +100,7 @@ You remembered! We use {ggplot2} for this course.
 
 Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}.
 
-------------------------------------------------------------------------
+
 
 # Q 4
 
@@ -122,7 +126,7 @@ Indeed, {ggplot2} is a core tidyverse package. You can take a look at the [tidyv
 
 {ggplot2} is a core tidyverse package. You can take a look at the [tidyverse website](https://www.tidyverse.org/){target="_blank"} to see all the packages in the tidyverse.
 
-------------------------------------------------------------------------
+
 
 # Q 5: 
 
@@ -146,7 +150,7 @@ B
 
 ## Correct message
 
-**G**ood **g**ame! Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.
+Nice one! Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.
 
 It can be confusing, but remember that {ggplot2} is the package and `ggplot()` is the key function in that package.
 
@@ -156,11 +160,11 @@ Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplo
 
 It can be confusing, but remember that {ggplot2} is the package and `ggplot()` is the key function in that package.
 
-------------------------------------------------------------------------
+
 
 # Q 7: 
 
-True or False: To properly use the `ggplot()` function, you need to use all 7 grammar of graphics layers (data, aesthetics, geometries, facets, statistics, coordinates and themes)
+True or False: To properly use the `ggplot()` function, you need to [provide all 7 grammar of graphics layers (data, aesthetics, geometries, facets, statistics, coordinates and themes)
 
 ## A
 
@@ -191,7 +195,7 @@ knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
 ```
 
 
-------------------------------------------------------------------------
+
 
 # Q 8: 
 
@@ -199,15 +203,15 @@ What are the three essential layers for the `ggplot` function?
 
 ## A
 
-Facets, Data, and Statistics
+Facets, data, and statistics
 
 ## B
 
-Coordinates, Data, and Themes
+Coordinates, data, and themes
 
 ## C
 
-Data, Geometries, and Aesthetics
+Data, geometries, and aesthetics
 
 ## Answer
 
@@ -215,7 +219,8 @@ C
 
 ## Correct message
 
-You're **g**oing for the **g**old!
+Splendid! 
+
 We need Data, Geometries, and Aesthetics for `ggplot` to work.
 
 ```{r echo = F}
@@ -232,12 +237,14 @@ Go back to the lesson and see!
 knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
 ```
 
-  
-------------------------------------------------------------------------
+
+
 
 # Q 9: 
 
-All EXCEPT ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk is faulty? 
+All EXCEPT ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. 
+
+Which code chunk is faulty? 
 
 (Hint: `women` is a built-in R dataset, so you can test these on your computer)
 
@@ -308,26 +315,20 @@ ggplot(data = women,
   geom_point()
 ```
 
-But `data` and `mapping` are always the first and second arguments to `ggplot()`, so we can actually skip their names and just provide the data and the aesthetic mappings as the first and second arguments, and the code runs fine: 
+But we can skip the argument names as long as we provide the data and the aesthetic mappings as the first and second arguments (because R matches arguments by position):
 
 ```{r eval = F}
 ggplot(women, aes(x = height, y = weight)) + 
   geom_point()
 ```
 
-Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code: 
-
-```{r eval = F}
-ggplot(women, aes(height, weight)) + 
-  geom_point()
-```
+Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code
 
 ## Incorrect message
 
 `dataset` and `aesthet` are incorrect arguments of `ggplot()`.
 
 As you can see, there are many ways to write correct ggplot code. 
-
 In this example, the most explicit code would be: 
 
 ```{r eval = F}
@@ -336,69 +337,16 @@ ggplot(data = women,
   geom_point()
 ```
 
-But `data` and `mapping` are always the first and second arguments to `ggplot()`, so we can actually skip their names and just provide the data and the aesthetic mappings as the first and second arguments, and the code runs fine: 
+But we can skip the argument names as long as we provide the data and the aesthetic mappings as the first and second arguments (because R matches arguments by position):
 
 ```{r eval = F}
 ggplot(women, aes(x = height, y = weight)) + 
   geom_point()
 ```
 
-Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code: 
-
-```{r eval = F}
-ggplot(women, aes(height, weight)) + 
-  geom_point()
-```
+Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code
 
 
-------------------------------------------------------------------------
-
-# Q 10:
-
-What do we provide in the `geom` layer?
-
-## A
-
-The geometrical coordinates
-
-## B
-
-The colors that we want to use for the plotting
-
-## C
-
-The types of geometric objects to plot
-
-## Answer
-
-C
-
-## Correct message
-
-Splendid!
-
-The coordinates are automatically calculated (or specified within `scale_*` functions), and the color is an `aes`thetic concern, but the plotted objects belong to the `geom`etry layer.
-
-Here are some examples of geometric objects (for continuous variables):
-
-```{r echo = F}
-knitr::include_graphics(here("lessons/images/ggplot01.png"))
-```
-
-## Incorrect message
-
-Try again!
-
-The coordinates are automatically calculated (or specified within `scale_*` functions), and the color is an `aes`thetic concern, but the plotted objects belong to the `geom`etry layer.
-
-Here are some examples of geometric objects (for continuous variables):
-
-```{r echo = F}
-knitr::include_graphics(here("lessons/images/ggplot01.png"))
-```
-
-
-------------------------------------------------------------------------
 
 # Q 11: 
 
@@ -444,7 +392,7 @@ The aesthetics used in this plot are x, y and color. Each of these aesthetics is
 
 Remember that the word "map" used here does not refer to a geographic map! When we say something like "the name variable is mapped to the color aesthetic" we mean "the name variable is *represented by* or *linked to* the color aesthetic".
 
-------------------------------------------------------------------------
+
 
 # Q 12:
 
@@ -460,7 +408,7 @@ the `geom` layer
 
 ## C
 
-the `facets` layer
+the `statistics` layer
 
 ## D
 
@@ -473,98 +421,34 @@ A
 ## Correct message
 
 Exactly right!
+
 It's defined with the `aes`thetic layer.
+
+For example: 
+
+```{r}
+ggplot(iris, 
+       aes(x = Petal.Length, y = Petal.Width, color = Species)) + ## aesthetic layer
+  geom_point()
+```
+
 
 ## Incorrect message
 
 Sorry, that's not it!
+
 It's defined with the `aes`thetic layer.
+For example: 
 
-------------------------------------------------------------------------
-
-# Q 13:
-
-The plot created below shows the populations of 3 countries over time: 
-
-```{r fig.width=4}
-pop_dat <- filter(tidyr::population, 
-                  country %in% c("Nigeria", "United States of America", "Germany"))
-
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population)) + 
+```{r}
+ggplot(iris, 
+       aes(x = Petal.Length, y = Petal.Width, color = Species)) + ## aesthetic layer
   geom_point()
 ```
-
-Which of the modifications below would allow us to differentiate the three countries with point color. 
-
-## A
-
-Add `color = c("red", "green", "blue")` inside `aes()`:
-
-```{r eval = F} 
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population, 
-                     color = c("red", "green", "blue")
-                     )) + 
-  geom_point()
-```
-
-
-## B
-
-Add `color = c("Nigeria", "United States of America", "Germany")` inside `aes()`:
-
-```{r eval = F} 
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population, 
-                     color = c("Nigeria", "United States of America", "Germany"))) + 
-  geom_point()
-```
-
-## C
-
-Add `color = country` inside `aes()`:
-
-```{r eval = F} 
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population, color = country)) + 
-  geom_point()
-```
-
-
-## Answer
-
-C
-
-## Correct message
-
-Indeed, to add color, we should simply map the country variable to the color aesthetic, inside the `aes()` function.
-
-Here is the output plot:
-
-```{r fig.width=4}
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population, color = country)) + 
-  geom_point()
-```
-
-## Incorrect message
-
-Indeed, to add color, we should simply map the country variable to the color aesthetic, inside the `aes()` function.
-
-Here is the output plot:
-
-```{r fig.width=4}
-ggplot(data = pop_dat, 
-       mapping = aes(x = year, y = population, color = country)) + 
-  geom_point()
-```
-
-------------------------------------------------------------------------
 
 # Q 18:
 
-The first layer in `ggplot()` is the data layer. Select the code block below that defines this layer.
+The first layer in `ggplot()` is the data layer. Select the code block below that properly defines this layer from the options below.
 
 ## A
 
@@ -598,11 +482,11 @@ Remember that you can type in `?ggplot` into your R console to see how to proper
 
 Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function. 
 
-------------------------------------------------------------------------
+
 
 # Q 19:
 
-The code below tries to use the `swiss` dataset (a built-in R dataset) to create a scatter plot of `Infant.Mortality` against `Fertility`, but generates a blank plot due to an error or oversight.
+The code below tries to use the `swiss` dataset (a built-in R dataset) to create a scatter plot of `Infant.Mortality` against `Fertility`, but generates a blank plot due to an error/oversight.
 
 ```{r eval = F}
 ggplot(data = swiss, 
@@ -627,13 +511,13 @@ It is missing a geometric function
 
 ## Answer
 
-A
+C
 
 ## Correct message
 
 Nice work! The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function. In this case, `geom_point()` is needed: 
 
-```{r eval = F}
+```{r}
 ggplot(data = swiss, 
        mapping = aes(x = Fertility, 
                      y = Infant.Mortality)) + 
@@ -644,19 +528,17 @@ ggplot(data = swiss,
 
 The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function. In this case, `geom_point()` is needed: 
 
-```{r eval = F}
+```{r}
 ggplot(data = swiss, 
        mapping = aes(x = Fertility, 
                      y = Infant.Mortality)) + 
   geom_point()
 ```
 
-------------------------------------------------------------------------
-
 
 # Q 20:
 
-The code below attempts to create a scatterplot of height against weight using the `women` dataset (a built-in R dataset). 
+The code below attempts to create a scatterplot of weight against height using the `women` dataset (a built-in R dataset). 
 
 The code is faulty however, and generates no plot. 
 
@@ -726,7 +608,7 @@ ggplot(data = women, mapping = aes(x = height, y = weight))
 are functionally equivalent.
 
 
-------------------------------------------------------------------------
+
 
 # Q 21:
 
@@ -780,7 +662,71 @@ ggplot(data = women,
   geom_point()
 ```
 
-------------------------------------------------------------------------
+
+# Q fixing aesthetics
+
+Consider the plot shown below, which shows the populations of North and South Korea from 1995 to 2013:
+
+```{r}
+koreas_pop <-
+  tidyr::population %>% 
+  filter(country %in% c("Republic of Korea", 
+                        "Democratic People's Republic of Korea"))
+
+ggplot(data = koreas_pop,
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_line()
+```
+
+How could we change the code to generate a plot with thicker lines?
+
+## A
+
+Add `size = 3` inside the `aes()` function.
+
+## B
+
+Add `size = 3` inside the `geom_line()` function.
+
+## C
+
+Add `size = 3` inside the `ggplot()` function, but outside the `aes()` function.
+
+## Answer
+
+B
+
+## Correct message
+
+Great work! This is an example of *fixing* an aesthetic (in this case, we want to fix the *size* aesthetic of the lines to size `3`).
+
+Fixing an aesthetic should be done within the `geom_*` function.
+
+Here is the modified plot: 
+
+```{r}
+ggplot(data = koreas_pop,
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_line(size = 3)
+```
+
+Remember that you can work with this dataset on your own computer; the `population` dataset is loaded with the {tidyverse} packages.
+
+## Incorrect message
+
+This is an example of *fixing* an aesthetic (in this case, we want to fix the *size* aesthetic of the lines to size `3`).
+
+Fixing an aesthetic should be done within the `geom_*` function.
+
+```{r}
+ggplot(data = koreas_pop,
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_line(size = 3)
+```
+
+Remember that you can work with this dataset on your own computer; the `population` dataset is loaded with the {tidyverse} packages.
+
+
 
 # Q 22:
 
@@ -845,7 +791,7 @@ ggplot(data = china_pop,
 ```
 
 Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient.
-------------------------------------------------------------------------
+
 
 # Q 23: 
 
@@ -893,84 +839,53 @@ ggplot(iris,
   geom_point()
 ```
 
-------------------------------------------------------------------------
 
-# Q 25: 
-
-Which of the following would you use to make **all** the points in a graph larger?
-
-## A
-
-aesthetic mapping
-
-## B
-
-statistic layering
-
-## C
-
-vector multiplication
-
-## D
-
-a fixed aesthetic
-
-## Answer
-
-D
-
-## Correct message
-
-A fixed `aes`thetic applies to all the figures in a graph.
-
-## Incorrect message
-
-A fixed `aes`thetic applies to all the figures in a graph.
-
-------------------------------------------------------------------------
 
 # Q 26: 
 
-Given the following code chunk,
+The following code chunk generates a scatterplot of age and the daily number of TV hours watched, from a survey in the US:
 
-```{r eval = F}
-ggplot(data= health_charts,
-  mapping = aes(x = age, y = bmi))
-+ geom_point()
+```{r}
+survey_sample <- forcats::gss_cat %>% slice_sample(n = 200) # sample 100 respondents
+head(survey_sample)
+
+ggplot(survey_sample, 
+       aes(x = age, y = tvhours)) + 
+  geom_point()
 ```
 
-which of the following would apply an aesthetic mapping to differentiate by sex?
+Which of the following would apply an aesthetic mapping to differentiate by the `marital` variable?
 
 ## A
 
 ```{r eval = F}
-ggplot(data= health_charts,
-  mapping = aes(x = age, y = bmi))
-+ geom_point(color = sex)
+ggplot(survey_sample,
+       aes(x = age, y = tvhours)) + 
+  geom_point(color = marital)
 ```
 
 ## B
 
 ```{r eval = F}
-ggplot(data= health_charts,
-  mapping = aes(x = age, y = bmi, z = sex))
-+ geom_point()
+ggplot(survey_sample,
+       aes(x = age, y = tvhours)) + 
+  geom_point_colored(color = marital)
 ```
 
 ## C
 
 ```{r eval = F}
-ggplot(data= health_charts,
-  mapping = aes(x = age, y = bmi, color = sex))
-+ geom_point()
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
+  geom_point()
 ```
 
 ## D
 
 ```{r eval = F}
-ggplot(data= health_charts,
-  mapping = aes(x = age, y = bmi))
-+ geom_point(sex c(male = "blue", female = "orange"))
+ggplot(survey_sample,
+       aes(x = age, y = bmi)) + 
+  geom_point(sex = c(male = "blue", female = "orange"))
 ```
 
 ## Answer
@@ -980,151 +895,33 @@ C
 ## Correct message
 
 You got it!
-`color = sex` inside the `aes` mapping will produce different colors for each sex. The other three code chunks don't work.
 
-## Incorrect message
+`color = marital` inside the `aes` mapping will produce different colors for each marital status. The other three code chunks don't work.
 
-`color = sex` inside the `aes` mapping will produce different colors for each sex. The other three code chunks don't work.
+Here is the final plot:
 
-------------------------------------------------------------------------
-
-# Q 27: 
-
-Many programmers start off building a small chunk of code, testing to see if it works, and adding a bit more, seeing if it works, and building the program one step at a time.
-What's the name for this process?
-
-## A
-
-incremental composition
-
-## B
-
-pyramid steps
-
-## C
-
-candle dipping
-
-## D
-
-layered development
-
-## Answer
-
-A
-
-## Correct message
-
-You got it!
-
-## Incorrect message
-
-That wasn't the right name. But really, the important idea is the **process**.
-
-------------------------------------------------------------------------
-
-# Q 28: 
-
-This lesson recommended we put each new element on a separate line. In fact, it's good practice to make **all** our code legible, not just when using `ggplot()`.
-But *why* do we want legible code?
-
-## A
-
-If we're showing our code to someone else, it should be easy for them to read.
-
-## B
-
-Trick question, we don't! It's better to keep our code hidden to confuse our enemies.
-
-## C
-
-If we need to come back and change our code, or debug it, this makes the different parts easier to see.
-
-## D
-
-We want legible code for both our own sake as well as anyone else reading it.
-
-## Answer
-
-D
-
-## Correct message
-
-Correct! As we learned in team exercises, legible code is important for others to read.
-And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
-
-## Incorrect message
-
-As we learned in team exercises, legible code is important for others to read.
-And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
-
-------------------------------------------------------------------------
-# Q 29: 
-
-ONLY ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk has the correct syntax? 
-
-(Hint: `women` is a built-in R dataset, so you can test these on your computer)
-
-```{r echo = F}
-ggplot(women) + 
-  geom_point(aes(height, weight))
-```
-
-## A
-
-```{r eval = F}
-ggplot(data = women, 
-       mapping = aes(x = height, 
-                     y = weight) + 
+```{r}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
   geom_point()
 ```
 
-## B
-
-```{r eval = F}
-ggplot(data = women, 
-       mapping = aes(x = height, 
-                     y = weight)) %>% 
-  geom_point()
-```
-
-## C
-
-```{r eval = F}
-ggplot(data = women, 
-       mapping = aes(y = height,
-                     x = weight)) + 
-  geom_point()
-```
-
-## D
-
-```{r eval = F}
-ggplot(data = women, 
-       mapping = aes(x = height, 
-                     y = weight) + 
-  geom_point
-```
-
-## E
-
-```{r eval = F}
-ggplot(data = women, 
-       mapping = aes(x = height, 
-                     y = weight) + 
-  geom_point()
-```
-
-
-## Answer
-
-E
-
-## Correct message
-
-That's right! 
-
+The {forcats} package is part of the tidyverse, so you should be able to work with this data on your own computer
 
 ## Incorrect message
 
-INSERT MESSAGE
+`color = marital` inside the `aes` mapping will produce different colors for each marital status. The other three code chunks don't work.
+
+Here is the final plot:
+
+```{r}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
+  geom_point()
+```
+
+The {forcats} package is part of the tidyverse, so you should be able to work with this data on your own computer
+
+
+
+  
