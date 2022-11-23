@@ -12,20 +12,12 @@ course_abbrev: 'IDAR'
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, 
                here,
-               googledrive,
-               knitr)
-
-source(here("global/functions/misc_functions.R"))
+               knitr) <- <- <- 
 
 # Setup for uploading images
-if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
-
+knitr::opts_knit$set(upload.fun = imgur_upload)
 opts_chunk$set(warning = F, message = F)
 ```
-
-
 
 
 ## Prologue
@@ -36,25 +28,25 @@ For multiple choice questions, please enter the correct letter option into the p
 
 ------------------------------------------------------------------------
 
-# Q 1:
+# Q 1
 
 What does the `gg` in `ggplot2` stand for?
 
 ## A
 
-good game
+Graphical geometries
 
 ## B
 
-grey goose
+Grey goose
 
 ## C
 
-grammar of graphics
+Grammar of graphics
 
 ## D
 
-Ghanaian gentleman
+Good game
 
 ## Answer
 
@@ -72,9 +64,9 @@ GG stands for **G**rammar of **G**raphics.
 
 ------------------------------------------------------------------------
 
-# Q 2: 
+# Q 3
 
-What is the name of the R package that we will use for data visualization?
+What is the name of the most robust R package for data visualization?
 
 ## A
 
@@ -105,7 +97,7 @@ You remembered! We use {ggplot2} for this course.
 Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}.
 
 ------------------------------------------------------------------------
-# Q 3:
+# Q 4
 
 True or False: The {ggplot2} package is part of the {tidyverse} meta-package.
 
@@ -123,53 +115,29 @@ B
 
 ## Correct message
 
-It is indeed!
+Indeed, {ggplot2} is a core tidyverse package. You can take a look at the [tidyverse website](https://www.tidyverse.org/){target="_blank"} to see all the packages in the tidyverse.
 
 ## Incorrect message
 
-We've used several useful functions from {tidyverse}, and {ggplot2} is in there too.
+{ggplot2} is a core tidyverse package. You can take a look at the [tidyverse website](https://www.tidyverse.org/){target="_blank"} to see all the packages in the tidyverse.
 
 ------------------------------------------------------------------------
-# Q 4: 
 
-True or False: The `ggplot2` package is part of the base R installation and does not require to be loaded before its use.
-
-## A
-
-FALSE
-
-## B
-
-TRUE
-
-## Answer
-
-A
-
-## Correct message
-
-Great going! We've had to load {ggplot2} whenever we use it.
-
-## Incorrect message
-
-If you try to use {ggplot2} without loading it, you'll definitely get an error message!
-
-------------------------------------------------------------------------
 # Q 5: 
 
 Which of the code segments below will NOT work to load the {ggplot2} package?
 
 ## A
 
-`{r eval = F} library(tidyverse)`
+`library(tidyverse)`
 
 ## B
 
-`{r eval = F} library(ggplot)`
+`library(ggplot)`
 
 ## C
 
-`{r eval = F} library(ggplot2)`
+`library(ggplot2)`
 
 ## Answer
 
@@ -179,39 +147,19 @@ B
 
 **G**ood **g**ame! Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.
 
-## Incorrect message
-
-Look carefully! {ggplot} is not the same thing as {ggplot2}.
-
-------------------------------------------------------------------------
-# Q 6:
-
-True or False: When you plot with 'ggplot2' you have to follow a certain grammar to build up your plots.
-
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-A
-
-## Correct message
-
-It's the **g**rammar of **g**raphics that we're learning right now!
+It can be confusing, but remember that {ggplot2} is the package and `ggplot()` is the key function in that package.
 
 ## Incorrect message
 
-It's the **g**rammar of **g**raphics that we're learning right now!
+Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.
+
+It can be confusing, but remember that {ggplot2} is the package and `ggplot()` is the key function in that package.
 
 ------------------------------------------------------------------------
+
 # Q 7: 
 
-True or False: The `ggplot` function requires all 7 layers to be defined.
+True or False: To properly use the `ggplot()` function, you need to use all 7 grammar of graphics layers (data, aesthetics, geometries, facets, statistics, coordinates and themes)
 
 ## A
 
@@ -227,11 +175,20 @@ A
 
 ## Correct message
 
-Correct! Only three layers are necessary for it to work.
+Correct! Only three layers have to be specified for a basic ggplot: data, aesthetics and geometries.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
+```
 
 ## Incorrect message
 
-If you go back through the lesson, you'll see that we've made several plots with only three layers.
+Only three layers have to be specified for a basic ggplot: data, aesthetics and geometries.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
+```
+
 
 ------------------------------------------------------------------------
 # Q 8: 
@@ -259,39 +216,135 @@ C
 You're **g**oing for the **g**old!
 We need Data, Geometries, and Aesthetics for `ggplot` to work.
 
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
+```
+
+
 ## Incorrect message
 
 We need Data, Geometries, and Aesthetics for `ggplot` to work.
 Go back to the lesson and see!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
+```
+
   
 ------------------------------------------------------------------------
 # Q 9: 
 
-What do we provide in the `data` layer?
+All EXCEPT ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk is faulty? 
+
+(Hint: `women` is a built-in R dataset, so you can test these on your computer)
+
+```{r echo = F}
+ggplot(women) + 
+  geom_point(aes(height, weight))
+```
 
 ## A
 
-the dataset containing the variables of interest
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(x = height, 
+                     y = weight)) + 
+  geom_point()
+```
 
 ## B
 
-the date a plot was created
+```{r eval = F}
+ggplot(women, aes(height, weight)) + 
+  geom_point()
+```
 
 ## C
 
-the data formation of the final plot
+```{r eval = F}
+women %>% 
+  ggplot(mapping = aes(x = height, 
+                       y = weight)) + 
+  geom_point()
+```
+
+## D
+
+```{r eval = F}
+women %>% 
+  ggplot(aes(x = height, y = weight)) + 
+  geom_point()
+```
+
+## E
+
+```{r eval = F}
+ggplot(dataset = women, 
+       aesthet = c(height, weight)) + 
+  geom_point()
+```
+
 
 ## Answer
 
-A
+E
 
 ## Correct message
 
 That's right! 
 
+`dataset` and `aesthet` are incorrect arguments of `ggplot()`.
+
+As you can see, there are many ways to write correct ggplot code. 
+
+In this example, the most explicit code would be: 
+
+```{r eval = F}
+ggplot(data = women, mapping = aes(x = height, y = weight)) + 
+  geom_point()
+```
+
+But `data` and `mapping` are always the first and second arguments to `ggplot()`, so we can actually skip their names and just provide the data and the aesthetic mappings as the first and second arguments, and the code runs fine: 
+
+```{r eval = F}
+ggplot(women, aes(x = height, y = weight)) + 
+  geom_point()
+```
+
+Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code: 
+
+```{r eval = F}
+ggplot(women, aes(height, weight)) + 
+  geom_point()
+```
+
 ## Incorrect message
 
-We need a set of data to have something to graph.
+`dataset` and `aesthet` are incorrect arguments of `ggplot()`.
+
+As you can see, there are many ways to write correct ggplot code. 
+
+In this example, the most explicit code would be: 
+
+```{r eval = F}
+ggplot(data = women, mapping = aes(x = height, y = weight)) + 
+  geom_point()
+```
+
+But `data` and `mapping` are always the first and second arguments to `ggplot()`, so we can actually skip their names and just provide the data and the aesthetic mappings as the first and second arguments, and the code runs fine: 
+
+```{r eval = F}
+ggplot(women, aes(x = height, y = weight)) + 
+  geom_point()
+```
+
+Similarly, `x` and `y` are the first and second arguments in the `aes()` function, so if we provide the argument values in the right order, we can skip `x = ` and `y =` in the code: 
+
+```{r eval = F}
+ggplot(women, aes(height, weight)) + 
+  geom_point()
+```
+
 
 ------------------------------------------------------------------------
 # Q 10:
@@ -300,19 +353,15 @@ What do we provide in the `geom` layer?
 
 ## A
 
-the geometrical coordinates
+The geometrical coordinates
 
 ## B
 
-the colors that we want to use for the plotting
+The colors that we want to use for the plotting
 
 ## C
 
-the types of geometric objects to plot
-
-## D
-
-grades from geometry class
+The types of geometric objects to plot
 
 ## Answer
 
@@ -321,29 +370,55 @@ C
 ## Correct message
 
 Splendid!
-The coordinates are worked out by the `data`, and the color is an `aes`thetic concern, but the objects belong to the `geom`etry layer.
+
+The coordinates are automatically calculated (or specified within `scale_*` functions), and the color is an `aes`thetic concern, but the plotted objects belong to the `geom`etry layer.
+
+Here are some examples of geometric objects (for continuous variables):
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplot01.png"))
+```
 
 ## Incorrect message
 
 Try again!
-The coordinates are worked out by the `data`, and the color is an `aes`thetic concern, but the objects belong to the `geom`etry layer.
+
+The coordinates are automatically calculated (or specified within `scale_*` functions), and the color is an `aes`thetic concern, but the plotted objects belong to the `geom`etry layer.
+
+Here are some examples of geometric objects (for continuous variables):
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplot01.png"))
+```
+
 
 ------------------------------------------------------------------------
+
 # Q 11: 
 
-What do we provide in the `aes` layer?
+The scatterplot below uses the `storms` dataset from {dplyr} to visualize the positions and movements of hurricanes in the Unites States in the year 2005. 
+
+```{r}
+hurricanes <- storms  %>% filter(status == "hurricane", year == 2005)
+
+ggplot(data = hurricanes, 
+       mapping = aes(x = long, y = lat, color = name)) + 
+  geom_point()
+```
+
+Which of the options below correctly describes the aesthetic mappings of this plot?
 
 ## A
 
-the aesthetic attributes of the geometric objects
+-   The latitude variable is mapped to the x aesthetic
+-   The longitude variable is mapped to y aesthetic
+-   The name variable is mapped to the color aesthetic
 
 ## B
 
-the aes standard that we want to use for plotting
-
-## C
-
-**A**ll the **E**ssential **S**tatistical information
+-   The latitude aesthetic is mapped to the x axis
+-   The longitude aesthetic is mapped to y axis
+-   The name aesthetic is mapped to the point color
 
 ## Answer
 
@@ -352,11 +427,16 @@ A
 ## Correct message
 
 Looks like you got it!
-The `aes` layer defines the plots' `aes`thetics.
+
+The aesthetics used in this plot are x, y and color. Each of these aesthetics is mapped to variable from the data.
+
+Remember that the word "map" used here does not refer to a geographic map! When we say something like "the name variable is mapped to the color aesthetic" we mean "the name variable is *represented by* or *linked to* the color aesthetic".
 
 ## Incorrect message
 
-The `aes` layer defines the plots' `aes`thetics.
+The aesthetics used in this plot are x, y and color. Each of these aesthetics is mapped to variable from the data.
+
+Remember that the word "map" used here does not refer to a geographic map! When we say something like "the name variable is mapped to the color aesthetic" we mean "the name variable is *represented by* or *linked to* the color aesthetic".
 
 ------------------------------------------------------------------------
 # Q 12:
@@ -396,143 +476,82 @@ It's defined with the `aes`thetic layer.
 ------------------------------------------------------------------------
 # Q 13:
 
-In which layer would you define the color of your geometric object as a fixed aesthetic?
+The plot created below shows the populations of 3 countries over time: 
+
+```{r fig.width=4}
+pop_dat <- filter(tidyr::population, 
+                  country %in% c("Nigeria", "United States of America", "Germany"))
+
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population)) + 
+  geom_point()
+```
+
+Which of the modifications below would allow us to differentiate the three countries with point color. 
 
 ## A
 
-the `aes` layer
+Add `color = c("red", "green", "blue")` inside `aes()`:
+
+```{r eval = F} 
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population, 
+                     color = c("red", "green", "blue")
+                     )) + 
+  geom_point()
+```
+
 
 ## B
 
-the `geom` layer
+Add `color = c("Nigeria", "United States of America", "Germany")` inside `aes()`:
+
+```{r eval = F} 
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population, 
+                     color = c("Nigeria", "United States of America", "Germany"))) + 
+  geom_point()
+```
 
 ## C
 
-the `facets` layer
+Add `color = country` inside `aes()`:
 
-## D
+```{r eval = F} 
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_point()
+```
 
-the `data` layer
-
-## Answer
-
-A
-
-## Correct message
-
-Far out!
-It's defined with the `aes`thetic layer.
-
-## Incorrect message
-
-Look again!
-It's defined with the `aes`thetic layer.
-
-------------------------------------------------------------------------
-# Q 14:
-
-True or False: A big advantage of {ggplot2} and its syntax is that it is very flexible and allows for a high degree of customization.
-
-## A
-
-FALSE
-
-## B
-
-TRUE
 
 ## Answer
 
-B
+C
 
 ## Correct message
 
-That's it!
+Indeed, to add color, we should simply map the country variable to the color aesthetic, inside the `aes()` function.
+
+Here is the output plot:
+
+```{r fig.width=4}
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_point()
+```
 
 ## Incorrect message
 
-That's not it.
+Indeed, to add color, we should simply map the country variable to the color aesthetic, inside the `aes()` function.
 
-------------------------------------------------------------------------
-# Q 15:
+Here is the output plot:
 
-True or False: To add more layers to a plot, you have to nest the different functions of `ggplot()`.
+```{r fig.width=4}
+ggplot(data = pop_dat, 
+       mapping = aes(x = year, y = population, color = country)) + 
+  geom_point()
+```
 
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-B
-
-## Correct message
-
-As we've seen, `ggplot()` functions can be added incrementally.
-
-## Incorrect message
-
-As we've seen, `ggplot()` functions can be added incrementally.
-
-------------------------------------------------------------------------
-# Q 16:
-
-True or False: A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of `geom`etric objects.
-
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-A
-
-## Correct message
-
-Indeed!
-
-## Incorrect message
-
-Sorry.
-
-------------------------------------------------------------------------
-# Q 17:
-
-How many layers are in the **G**rammar of **G**raphics framework, and how many of them are required for a complete plot?
-
-## A
-
-There are 5 layers in total with 2 required ones.
-
-## B
-
-There are 7 layers in total with 3 required ones.
-
-## C
-
-There are 3 layers in total and all of them are required.
-
-## Answer
-
-B
-
-## Correct message
-
-**G**reat **g**oing! {ggplot2} has 7 layers, of which 3 are absolutely necessary to function.
-
-## Incorrect message
-
-{ggplot2} has 7 layers, of which 3 are absolutely necessary to function.
-
-------------------------------------------------------------------------
 # Q 18:
 
 The first layer in `ggplot()` is the data layer. Select the code block below that defines this layer.
@@ -563,106 +582,148 @@ A
 
 That's the one!
 
-## Incorrect message
-
-If you look at the code from the lesson, you can see how we define data for `ggplot()`
-
-------------------------------------------------------------------------
-# Q 19:
-
-In which layer do we add the visual properties of `ggplot2()`?
-
-## A
-
-`data`
-
-## B
-
-`mapping`
-
-## C
-
-`aes`
-
-## D
-
-`geom`
-
-## Answer
-
-C
-
-## Correct message
-
-The `aes`thetic layer sets how the visual properties are applied to the `geom`etric layer.
+Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function. 
 
 ## Incorrect message
 
-The `aes`thetic layer sets how the visual properties are applied to the `geom`etric layer.
+Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function. 
 
-------------------------------------------------------------------------
+
 # Q 20:
 
-You study how the weight of individuals in your study group is related to their height. For this you want to do a plot with the `weight` variable on the y-axis, the `height` variable on the x-axis and your dataset is called `participants`.
-Which of the codes below will create this plot?
+The code below tries to use the `swiss` dataset (a built-in R dataset) to create a scatter plot of `Infant.Mortality` against `Fertility`, but generates a blank plot due to an error or oversight.
+
+```{r eval = F}
+ggplot(data = swiss, 
+       mapping = aes(x = Fertility, 
+                     y = Infant.Mortality))
+```
+
+What is the problem with the code above?
 
 ## A
 
-```{r eval = F}
-ggplot(data = participants) +
-       mapping = aes(x = height, 
-           y = weight)
-```
+It is missing a data layer
 
 ## B
 
-```{r eval = F}
-ggplot(data = participants,
-       x = height, 
-       y = weight)
-```
+It is missing an aesthetic mapping
 
 ## C
 
-```{r eval = F}
-ggplot(data= participants, 
-       mapping = aes(x = height + 
-           y = weight)) +
-  geom_point()
-```
+It is missing a geometric function
 
-## D
-
-```{r eval = F}
-ggplot(data= participants, 
-       mapping = aes(x = height, 
-           y = weight)) +
-  geom_point()
-```
 
 ## Answer
 
-D
+A
 
 ## Correct message
 
+Nice work! The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function. In this case, `geom_point()` is needed: 
 
+```{r eval = F}
+ggplot(data = swiss, 
+       mapping = aes(x = Fertility, 
+                     y = Infant.Mortality)) + 
+  geom_point()
+```
 
 ## Incorrect message
 
+The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function. In this case, `geom_point()` is needed: 
 
-
-------------------------------------------------------------------------
-# Q 21:
-
-You plot your graph with the following code:
-  
 ```{r eval = F}
-ggplot(data= participants,
-  mapping = aes(x = height, y = weight))
+ggplot(data = swiss, 
+       mapping = aes(x = Fertility, 
+                     y = Infant.Mortality)) + 
+  geom_point()
 ```
 
-When you execute the code, you see a graph with the right variables on each axis, however, you do not see and data that is on the plot. Why are there no visible data points?
+------------------------------------------------------------------------
+
+
+# Q 21:
+
+The code below attempts to create a scatterplot of height against weight using the `women` dataset (a built-in R dataset). 
+
+The code is faulty however, and generates no plot. 
+
+```{r eval = F}
+ggplot(women, aes(x = height, y = weight)) %>% 
+  geom_point()
+```
+
+Which of the options below accurately describes the issue with the code?
+
+## A
+
+The code is missing the x and y aesthetic mappings. 
+
+## B
+
+The code uses `%>%` instead of `+` to link the layers of the ggplot.
+
+## C
+
+The code is missing the `data` argument to ggplot.
+
+## Answer
+
+B
+
+## Correct message
+
+Great work! 
+
+Indeed the code uses uses `%>%` instead of `+`. This is a common error when plotting with ggplot. Luckily, ggplot2 now gives you a helpful warning when you make this mistake. 
+
+As for the other two options, remember that in R, function arguments can be matched by position, without explicitly naming the arguments. 
+
+So, the abbreviated
+
+```{r eval = F}
+ggplot(women, aes(x = height, y = weight))
+```
+
+and the longer
+
+```{r eval = F}
+ggplot(data = women, mapping = aes(x = height, y = weight))
+```
+
+are functionally equivalent.
+
+## Incorrect message
+
+The code uses uses `%>%` instead of `+`. This is a common error when plotting with ggplot. Luckily, ggplot2 now gives you a helpful warning when you make this mistake. 
+
+As for the other two options, remember that in R, function arguments can be matched by position, without explicitly naming the arguments. 
+
+So, the abbreviated
+
+```{r eval = F}
+ggplot(women, aes(x = height, y = weight))
+```
+
+and the longer
+
+```{r eval = F}
+ggplot(data = women, mapping = aes(x = height, y = weight))
+```
+
+are functionally equivalent.
+
+# Q 21:
+
+You try to plot a graph with the following code:
+  
+```{r eval = F}
+ggplot(mapping = aes(x = height, y = weight)) +
+  geom_point()
+```
+
+but R returns an error message. What is the problem with this code?
 
 ## A
 
@@ -674,68 +735,118 @@ No geometric layer has been defined yet.
 
 ## C
 
-Your dataset it probably empty, so there's nothing to plot.
-
-## D
-
-The plot color is the same as the background color.
+No dataset has been provided yet.
 
 ## Answer
 
-B
+C
 
 ## Correct message
 
-**G**ood **g**ame! We still need a geometric layer.
+**G**ood **g**ame! The data for ggplot to use has not been specified.
+
+Here is the correct call, and the resulting output: 
+
+```{r}
+ggplot(data = women, 
+       mapping = aes(x = height, y = weight)) + 
+  geom_point()
+```
+
 
 ## Incorrect message
 
-Look closer. We still need a geometric layer.
+The data for ggplot to use has not been specified.
+
+Here is the correct call, and the resulting output: 
+
+```{r}
+ggplot(data = women, 
+       mapping = aes(x = height, y = weight)) + 
+  geom_point()
+```
 
 ------------------------------------------------------------------------
 # Q 22:
 
-True or False: Geometric objects are defined in the `geom` layer. Such layers are added with functions that start with `geom_`.
+Which of the following is NOT a valid geom function in {ggplot2}?
 
 ## A
 
-TRUE
+`geom_col()`
 
 ## B
 
-FALSE
+`geom_line()`
+
+## C
+
+`geom_point()`
+
+## D
+
+`geom_shade()`
 
 ## Answer
 
-A
+D
 
 ## Correct message
 
 That's the one!
 
+All others are valid (and very common) geoms. 
+
+Here is a plot with all three geoms, using the `population` dataset from {tidyr}: 
+
+```{r}
+china_pop <- tidyr::population %>% filter(country == "China")
+
+ggplot(data = china_pop, 
+       mapping = aes(x = year, y = population)) + 
+  geom_col() + 
+  geom_point(size = 4) + 
+  geom_line(size = 2)
+```
+
+Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient. 
+
 ## Incorrect message
 
+`geom_shade()` is not a {ggplot2} function.
 
+All others are valid (and very common) geoms. 
+
+Here is a plot with all three geoms, using the `population` dataset from {tidyr}: 
+
+```{r}
+china_pop <- tidyr::population %>% filter(country == "China")
+
+ggplot(data = china_pop, 
+       mapping = aes(x = year, y = population)) + 
+  geom_col() + 
+  geom_point(size = 4) + 
+  geom_line(size = 2)
+```
+
+Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient.
 ------------------------------------------------------------------------
+
 # Q 23: 
 
 Which of the below functions is not a `geom_*()` function in {ggplot2}?
 
 ## A
 
-point()
+`geom_scatterplot()`
 
 ## B
 
-geom_point()
+`geom_point()`
 
 ## C
 
-geom_line()
-
-## D
-
-geom_bar()
+`geom_line()`
 
 ## Answer
 
@@ -743,49 +854,31 @@ A
 
 ## Correct message
 
-**G**reat **g**oing!
+Great going! 
+
+`geom_scatterplot()` is not a ggplot2 function. Scatter plots are typically created with `geom_point()` in R. For example, here is a scatter plot of petal length and width in the `iris` dataset, made with `geom_point()`:
+
+```{r}
+ggplot(iris, 
+       aes(x = Petal.Length, 
+           y = Petal.Width, 
+           color = Species)) + 
+  geom_point()
+```
 
 ## Incorrect message
 
-That's actually a valid function. Look them up!
+`geom_scatterplot()` is not a ggplot2 function. Scatter plots are typically created with `geom_point()` in R. For example, here is a scatter plot of petal length and width in the `iris` dataset, made with `geom_point()`:
 
-------------------------------------------------------------------------
-  
-# Q 24:
+```{r}
+ggplot(iris, 
+       aes(x = Petal.Length, 
+           y = Petal.Width, 
+           color = Species)) + 
+  geom_point()
+```
 
-What is an `aes`thetic mapping?
-
-## A
-
-the application of specific colors, shapes, etc. to separate aspects of a plot
-
-## B
-
-a legend that identifies which variables are shown by which colors, shapes, etc.
-
-## C
-
-the application of a given `aes`thetic to **all** the figures in a plot
-
-## D
-
-the layer showing colors, shapes, etc.
-
-## Answer
-
-A
-
-## Correct message
-
-Nice work!
-If you want different `aes`thetic choices to be used in different parts of a plot, you can use an `aes`thetic mapping inside the `aes()` function.
-
-## Incorrect message
-
-That was a tricky one!
-If you want different `aes`thetic choices to be used in different parts of a plot, you can use an `aes`thetic mapping inside the `aes()` function.
-
-------------------------------------------------------------------------
+<!-- Stopped here -->
 
 # Q 25: 
 
@@ -949,3 +1042,4 @@ And as we learned in reviewing our own code, seeing the pieces separately makes 
 
 As we learned in team exercises, legible code is important for others to read.
 And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
+
