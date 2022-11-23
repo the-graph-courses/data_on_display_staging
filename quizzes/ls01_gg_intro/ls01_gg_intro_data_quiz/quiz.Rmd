@@ -138,6 +138,8 @@ ggplot(data = {hiv_prevalence},
 
 Answer `true` or `false`: The aesthetic argument we just added is a fixed aesthetic: {[false][f]}
 
+
+
 ----------------------------------------------------
 
 **Complete the below code to create a **line graph** that 
@@ -220,6 +222,7 @@ ggplot(data = hiv_prevalence,
 
 ------------------------------------------------------------------------
 
+Uh oh! I tried 
 
 Hint: Aesthetic arguments like `x`, `y`, `color`, `fill`, and `size` can either be a mapping of a variable or a fixed value. This depends on whether they are written inside `mapping = aes()` or inside a `geom_*()` function. 
 
@@ -267,3 +270,28 @@ Enter the alphanumeric serial number for plot B: {`r hash_col_fix`}
 
 -----------------------------
 
+```{r echo=F, fig.width=5}
+
+ggplot(hiv_prevalence, 
+       aes(year, total_cases, fill = country)) +
+  geom_col(color = "black")
+```
+
+Let's say we want to create a bar plot where the outline color and fill color are different. For example, the bars in this bar plot of cases per year have colorful segments and a `black` outline: 
+
+```{r echo=F, fig.width=5}
+# Fixed color and mapped fill
+ggplot(hiv_prevalence, 
+       aes(year, total_cases, fill = country)) +
+  geom_col(color = "black")
+```
+
+**Complete the code below to generate this plot.**
+
+```{r eval = F}
+ggplot(data = hiv_prevalence, 
+       mapping = aes(x = year,
+                     y = total_cases,
+                     {fill} = {country})) +
+  geom_point({color} = {"black"|"#000000"})
+```
