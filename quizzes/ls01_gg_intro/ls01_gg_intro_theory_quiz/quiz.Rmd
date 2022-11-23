@@ -3,9 +3,9 @@ title: '\ '
 output: blogdown::html_page
 editor_options: 
   chunk_output_type: console
-quiz_title: '03.03 ggplot() basics'
-quiz_type: 'simple_theory'
-course_abbrev: 'IDAR'
+# quiz_title: '03.03 ggplot() basics'
+# quiz_type: 'simple_theory'
+# course_abbrev: 'IDAR'
 ---
 
 ```{r, echo = F, message = F, warning = F}
