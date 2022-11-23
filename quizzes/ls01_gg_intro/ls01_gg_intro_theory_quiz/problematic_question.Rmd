@@ -1,0 +1,88 @@
+
+
+
+
+# Q 26: 
+
+The following code chunk generates a scatterplot of age and the daily number of TV hours watched, from a survey in the US:
+
+```{r}
+survey_sample <- forcats::gss_cat %>% slice_sample(n = 200) # sample 100 respondents
+head(survey_sample)
+
+ggplot(survey_sample, 
+       aes(x = age, y = tvhours)) + 
+  geom_point()
+```
+
+Which of the following would apply an aesthetic mapping to differentiate by the `marital` variable?
+
+## A
+
+```{r eval = F}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours)) + 
+  geom_point(color = marital)
+```
+
+## B
+
+```{r eval = F}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours)) + 
+  geom_point_colored(color = marital)
+```
+
+## C
+
+```{r eval = F}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
+  geom_point()
+```
+
+## D
+
+```{r eval = F}
+ggplot(survey_sample,
+       aes(x = age, y = bmi)) + 
+  geom_point(sex = c(male = "blue", female = "orange"))
+```
+
+## Answer
+
+C
+
+## Correct message
+
+You got it!
+
+`color = marital` inside the `aes` mapping will produce different colors for each marital status. The other three code chunks don't work.
+
+Here is the final plot:
+
+```{r}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
+  geom_point()
+```
+
+The {forcats} package is part of the tidyverse, so you should be able to work with this data on your own computer
+
+## Incorrect message
+
+`color = marital` inside the `aes` mapping will produce different colors for each marital status. The other three code chunks don't work.
+
+Here is the final plot:
+
+```{r}
+ggplot(survey_sample,
+       aes(x = age, y = tvhours, color = marital)) + 
+  geom_point()
+```
+
+The {forcats} package is part of the tidyverse, so you should be able to work with this data on your own computer
+
+
+
+  
