@@ -12,10 +12,10 @@ course_abbrev: 'IDAR'
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, 
                here,
-               knitr) <- <- <- 
+               knitr)
 
 # Setup for uploading images
-knitr::opts_knit$set(upload.fun = imgur_upload)
+#knitr::opts_knit$set(upload.fun = imgur_upload)
 opts_chunk$set(warning = F, message = F)
 ```
 
@@ -97,6 +97,7 @@ You remembered! We use {ggplot2} for this course.
 Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}.
 
 ------------------------------------------------------------------------
+
 # Q 4
 
 True or False: The {ggplot2} package is part of the {tidyverse} meta-package.
@@ -191,6 +192,7 @@ knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
 
 
 ------------------------------------------------------------------------
+
 # Q 8: 
 
 What are the three essential layers for the `ggplot` function?
@@ -232,6 +234,7 @@ knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
 
   
 ------------------------------------------------------------------------
+
 # Q 9: 
 
 All EXCEPT ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk is faulty? 
@@ -291,7 +294,7 @@ E
 
 ## Correct message
 
-That's right! 
+Great catch! 
 
 `dataset` and `aesthet` are incorrect arguments of `ggplot()`.
 
@@ -300,7 +303,8 @@ As you can see, there are many ways to write correct ggplot code.
 In this example, the most explicit code would be: 
 
 ```{r eval = F}
-ggplot(data = women, mapping = aes(x = height, y = weight)) + 
+ggplot(data = women, 
+       mapping = aes(x = height, y = weight)) + 
   geom_point()
 ```
 
@@ -327,7 +331,8 @@ As you can see, there are many ways to write correct ggplot code.
 In this example, the most explicit code would be: 
 
 ```{r eval = F}
-ggplot(data = women, mapping = aes(x = height, y = weight)) + 
+ggplot(data = women, 
+       mapping = aes(x = height, y = weight)) + 
   geom_point()
 ```
 
@@ -347,6 +352,7 @@ ggplot(women, aes(height, weight)) +
 
 
 ------------------------------------------------------------------------
+
 # Q 10:
 
 What do we provide in the `geom` layer?
@@ -439,6 +445,7 @@ The aesthetics used in this plot are x, y and color. Each of these aesthetics is
 Remember that the word "map" used here does not refer to a geographic map! When we say something like "the name variable is mapped to the color aesthetic" we mean "the name variable is *represented by* or *linked to* the color aesthetic".
 
 ------------------------------------------------------------------------
+
 # Q 12:
 
 In which layer would you define the color of your geometric object as an aesthetic mapping?
@@ -474,6 +481,7 @@ Sorry, that's not it!
 It's defined with the `aes`thetic layer.
 
 ------------------------------------------------------------------------
+
 # Q 13:
 
 The plot created below shows the populations of 3 countries over time: 
@@ -552,6 +560,8 @@ ggplot(data = pop_dat,
   geom_point()
 ```
 
+------------------------------------------------------------------------
+
 # Q 18:
 
 The first layer in `ggplot()` is the data layer. Select the code block below that defines this layer.
@@ -588,8 +598,9 @@ Remember that you can type in `?ggplot` into your R console to see how to proper
 
 Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function. 
 
+------------------------------------------------------------------------
 
-# Q 20:
+# Q 19:
 
 The code below tries to use the `swiss` dataset (a built-in R dataset) to create a scatter plot of `Infant.Mortality` against `Fertility`, but generates a blank plot due to an error or oversight.
 
@@ -643,7 +654,7 @@ ggplot(data = swiss,
 ------------------------------------------------------------------------
 
 
-# Q 21:
+# Q 20:
 
 The code below attempts to create a scatterplot of height against weight using the `women` dataset (a built-in R dataset). 
 
@@ -714,6 +725,9 @@ ggplot(data = women, mapping = aes(x = height, y = weight))
 
 are functionally equivalent.
 
+
+------------------------------------------------------------------------
+
 # Q 21:
 
 You try to plot a graph with the following code:
@@ -767,6 +781,7 @@ ggplot(data = women,
 ```
 
 ------------------------------------------------------------------------
+
 # Q 22:
 
 Which of the following is NOT a valid geom function in {ggplot2}?
@@ -878,7 +893,7 @@ ggplot(iris,
   geom_point()
 ```
 
-<!-- Stopped here -->
+------------------------------------------------------------------------
 
 # Q 25: 
 
@@ -1043,3 +1058,73 @@ And as we learned in reviewing our own code, seeing the pieces separately makes 
 As we learned in team exercises, legible code is important for others to read.
 And as we learned in reviewing our own code, seeing the pieces separately makes it easier to understand how they fit together.
 
+------------------------------------------------------------------------
+# Q 29: 
+
+ONLY ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk has the correct syntax? 
+
+(Hint: `women` is a built-in R dataset, so you can test these on your computer)
+
+```{r echo = F}
+ggplot(women) + 
+  geom_point(aes(height, weight))
+```
+
+## A
+
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(x = height, 
+                     y = weight) + 
+  geom_point()
+```
+
+## B
+
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(x = height, 
+                     y = weight)) %>% 
+  geom_point()
+```
+
+## C
+
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(y = height,
+                     x = weight)) + 
+  geom_point()
+```
+
+## D
+
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(x = height, 
+                     y = weight) + 
+  geom_point
+```
+
+## E
+
+```{r eval = F}
+ggplot(data = women, 
+       mapping = aes(x = height, 
+                     y = weight) + 
+  geom_point()
+```
+
+
+## Answer
+
+E
+
+## Correct message
+
+That's right! 
+
+
+## Incorrect message
+
+INSERT MESSAGE
