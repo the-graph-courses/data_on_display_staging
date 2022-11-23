@@ -20,7 +20,7 @@ pacman::p_load(
   blogdown,
   shiny,
   readxl, 
-  janitor
+  janitor,
   devtools,
   patchwork
   )
@@ -326,7 +326,7 @@ ggplot(hiv_prevalence,
 
 **Complete the code below to generate this plot.**
 
-Hint: The R color used to color points in this plot is "`black`".
+Hint: The R color used to color points in this plot is "black".
 
 ```{r eval = F}
 ggplot(data = hiv_prevalence, 

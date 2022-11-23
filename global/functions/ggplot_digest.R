@@ -18,7 +18,16 @@ pacman::p_load(tidyverse,
 ## ggplot_digest function ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ggplot_digest <- function(myplot) {
+# ggplot_digest <- function(myplot) {
+#   # Create temp file name, save plot, digest file, and remove temp file
+#   plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
+#   suppressMessages(ggplot2::ggsave(filename = plotfile, plot = myplot, type = "cairo"))
+#   plot_crypt <- digest::digest(file = plotfile)
+#   file.remove(plotfile)
+#   return(plot_crypt)
+# }
+
+get_plot_key <- function(myplot) {
   # Create temp file name, save plot, digest file, and remove temp file
   plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
   suppressMessages(ggplot2::ggsave(filename = plotfile, plot = myplot, type = "cairo"))
