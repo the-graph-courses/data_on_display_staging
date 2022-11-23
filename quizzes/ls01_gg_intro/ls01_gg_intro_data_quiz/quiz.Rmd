@@ -101,7 +101,7 @@ ggplot_digest(myplot)
 
 The string will be 32 characters long and contain letters and numbers.
 
-```{recho = false}
+```{r echo = false}
 hash_iris <- ggplot_digest(myplot)
 ```
 
