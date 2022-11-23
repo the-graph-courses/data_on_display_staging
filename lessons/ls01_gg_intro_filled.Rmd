@@ -38,7 +38,11 @@ source(here("lessons/ls01_gg_intro_autograder.R"))
 
 ## Introduction
 
-Welcome to The GRAPH Courses' Data Visualization course! We will focus on learning how to use the {ggplot2} package to produce high quality visualizations in R. Our goal with this course is to introduce you to both the *theory* and the *methods* of data visualization.
+Welcome to The GRAPH Courses' Data Visualization course!
+
+We will focus on learning how to use the **{ggplot2} package** to produce high quality visualizations in R.
+
+![{ggplot2} is one of the core packages of the {tidyverse} metapackage. It is the most popular R package for data visualization.](images/ggplot2-part-of-tidyverse.png){alt="{ggplot2} is one of the core packages of the {tidyverse} metapackage. It is the most popular R package for data visualization." width="192"}
 
 Let's dive in!
 
@@ -46,23 +50,23 @@ Let's dive in!
 
 By the end of this lesson you should be able to:
 
-1.  By the end of this lesson you should be able to:
+1.  Recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
 
-    1.  Recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
+2.  Name and describe the 3 essential components required for building a graph: **data**, **aesthetics**, and **geometries**.
 
-    2.  Name and describe the 3 essential components required for building a graph: **data**, **aesthetics**, and **geometries**.
+3.  Write code to **build a complete `ggplot`** **graphic** by correctly supplying the 3 essential layers to the **`ggplot()`** **function**.
 
-    3.  Write code to **build a complete `ggplot`** **graphic** by correctly supplying the 3 essential layers to the **`ggplot()`** **function**.
+4.  Create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
 
-    4.  Create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
+5.  Add or modify visual elements of a plot such as **color** and **size**.
 
-    5.  Add or modify visual elements of a plot such as **color** and **size**.
-
-    6.  Distinguish between between **aesthetic mappings** and **fixed aesthetics**, and how to apply them.
+6.  Distinguish between between **aesthetic mappings** and **fixed aesthetics**, and how to apply them.
 
 ![Illustration by Allison Horst](images/ggplot2_masterpiece.png){width="600"}
 
 ## Packages
+
+The {tidyverse} meta package includes {ggplot2}, so we don't need to add it separately. The {here} package will help us correctly reference file paths.
 
 ```{r}
 # Load packages 
@@ -74,7 +78,11 @@ pacman::p_load(tidyverse,
 
 In this lesson, we will explore patterns of measles outbreaks in Niger.
 
-Measles is a **highly infectious virus** spread by airborne respiratory droplets. Since it is transmitted through direct contact, **population density** is an important driver of measles dynamics.
+Measles is a **highly infectious virus** spread by airborne respiratory droplets.
+
+[Slide presentation about geography]
+
+Since it is transmitted through direct contact, **population density** is an important driver of measles dynamics.
 
 ### The `nigerm` dataset
 
@@ -108,10 +116,6 @@ The **`nigerm`** data frame has 4 variables (or columns):
 
 ![Administrative divisions of Niger: Districts and Regions](images/niger_administrative_divisions.png){alt="Administrative divisions of Niger: Districts and Regions"}
 
-This is a very impressive dataset because it contains spatiotemporal information - cases incidence was recorded from different geographic regions, every week, for 11 years. Finding public health data of this quality is rare!
-
-These data were published [online](https://doi.org/10.5061/dryad.1jwstqjrd) as part of a 2020 [study](https://doi.org/10.1098/rsif.2020.0480), which investigates the relationship between measles incidence and rainfall.
-
 Several papers have investigated these trends, linking measles to human activity, migration, and seasonality.
 
 ![Research articles that have used this dataset, and analyzed it in R!](images/paste-B863326A.png){alt="Research articles that have used this dataset, and analyzed it in R!"}
@@ -124,78 +128,43 @@ We can get some information about patterns in this data by inspecting summary st
 summary(nigerm)
 ```
 
-This gives us values for the maximum, minimum, and quartiles of each numeric variable, and the number of observations (rows) for each region.
+This gives us values for the maximum, minimum, and quartiles of each numeric variable, and the number of observations (rows) for each region. This is summary useful, but it omits a large amount information contained in the dataset.
 
-However, this summary omits a large amount information contained in the dataset. Keep in mind that summary statistics can be highly misleading, and a simple plot can reveal a lot more.
+Keep in mind that summary statistics can be highly misleading, and a simple plot can reveal a lot more.
 
-The easiest and clearest way to analyze patterns from this dataset is to visualize it.
+The easiest and clearest way to analyze patterns from this dataset is to visualize it!
 
-The best way to do this in R is with {ggplot2}. So let's see how that works!
-
-## Fundamentals of {ggplot2}
-
-![{ggplot2} is one of the core packages of the {tidyverse} metapackage. It is the most popular R package for data visualization.](images/ggplot2-part-of-tidyverse.png){width="192"}
-
-{ggplot2} is the most elegant and aesthetically pleasing graphics framework available in R. It has a nicely planned structure to it. But, the way you make plots in {ggplot2} is quite different from most other graphics methods, making the learning curve steep. So follow along closely and get ready to be challenged. You are just a few steps away from cracking the `ggplot` puzzle!
-
-![A tweet from Hadley Wickham, creator of {ggplot2} and {tidyverse}.](images/wickham_shitty_code.png){width="437"}
-
-We will start with an overview of the theoretical underpinnings of `ggplot` graphics. Understanding this underlying structure will make it easier to implement {ggplot2} functions in R.
-
-The `gg` in `ggplot` is short for "`g`rammar of `g`raphics", which is the data visualization philosophy that {ggplot2} is based on. But what is this grammar? And how does it translate to R?
+The best way to do this in R is with {ggplot2}. So let's see how that works.
 
 ### The layered Grammar of Graphics
 
-The **grammar of graphics** is a theoretical framework which deconstructs the process of producing a graph. Think of how we construct and form sentences in written and spoken languages by combining different elements, like nouns, verbs, articles, subjects, objects, etc. We can't just combine these elements in any arbitrary order; we must do so following a set of rules known as a linguistic grammar.
+The `gg` in `ggplot` is short for "`g`rammar of `g`raphics", which is the data visualization philosophy that {ggplot2} is based on.
+
+The **grammar of graphics** is a theoretical framework which deconstructs the process of producing a graph.
+
+Think of how we construct and form sentences in written and spoken languages by combining different elements, like nouns, verbs, articles, subjects, objects, etc. We can't just combine these elements in any arbitrary order; we must do so following a set of rules known as a linguistic grammar.
 
 Similarly, the grammar of graphics (GG) defines a set of rules for constructing *graphics* by combining different types of elements, known as *layers*.
 
-GG layers have specific names that you will see throughout the course:
+![The Grammar of Graphics layers have specific names that you will see throughout the course.](images/gglayers.png){alt="The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct layers. We take these different layers and combine them together to build a plot." width="392"}
 
-![The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct *layers*. We take these different layers and combine them together to build a plot.](images/gglayers.png){width="392"}
+The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are required for building any plot.
 
-The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are necessary for building any plot. Let's define what they mean:
+Let's define what they mean:
 
-1.  `data`: the dataset containing the variables of interest.
+1.  **`data`**: the dataset containing the variables of interest.
 
     ![](images/gglayers_data.png){width="450"}
 
-2.  `aes`thetics: things we can see that visually communicate information in our data.
+2.  **`aes`**thetics: things we can see that visually communicate information in our data.
 
     ![](images/gglayers_aes.png){width="450"}
 
-3.  `geom`etry: the geometric shape used to represent data in a plot: points, lines, bars, etc.
+3.  **`geom`**etry: the geometric shape used to represent data in a plot: points, lines, bars, etc.
 
     ![](images/gglayers_geom.png){width="450"}
 
 You might be wondering why we wrote `data`, `geom`, and `aes` in a computer code type font. You'll see very shortly that we use these terms in R code to represent GG layers.
-
-### GG layers in {ggplot2} syntax
-
-To build a plot in R using the GG framework, we use the function `ggplot()` from the {ggplot2} package. Each of the GG layers is represented as a function or argument in the code:
-
-![**`ggplot` syntax** This is the basic structure you can use to build any `ggplot` graphic. The elements of this code follow the grammar of graphics rules to build up a graph in layers. Notice how the code in this template matches up with the seven GG layers shown above.](images/gg_min_build2.png){width="437"}
-
-::: vocab
-There are several "geom functions" that correspond to different types of plots. For example, `geom_line()` and `geom_bar()` are functions that correspond to line graphs and bar charts, respectively. The names of geom functions in {ggplot2} use the consistent syntax `geom_*`, where the `*` is a placeholder for the second part of the function name.
-:::
-
-As mentioned before, a complete plot has all the three of the essential GG layers. Therefore, we'll always provide the `ggplot()` function with the following required inputs, at minimum:
-
-1.  The data frame where the variables exist: the `data` argument.
-2.  The mapping of the variables to aesthetic attributes: the `mapping` argument which specifies the `aes`thetic attributes (x and y variables, color, shape, or size).
-
-After we've specified the data and aesthetics layers inside `ggplot()`, we add on the final layer using a `+` sign.
-
-3.  The last required layer to add to a `ggplot` graphic is a `geom_*` function. A `geom_*` function specifies which geometric object should be used to represent the data (e.g., points, lines, or bars). This determines the type of plot created (e.g., scatter plot, line graph, or bar chart).
-
-For now, we'll just focus on these three essential layers (which are highlighted with a darker green on the `ggplot` syntax template).
-
-![](images/gg_min_build3.png)
-
-The other layers like `position` adjustments, `stat`istical transformations, `coord`inate systems, `facet`ing, `scale`s, and `theme`s are left for later lessons. These more complex layers which are "not required" are still important for additional customization, but you will be able to generate good plots without them.
-
-![](images/gg_layers_gif.gif)
 
 ::: challenge
 The terms and syntax used for `ggplot` functions, arguments, and layers can be hard to keep up with at first, but as you gain experience using these terms to make plots in R, you will become fluent in no time.
@@ -220,14 +189,11 @@ nigerm96 <- nigerm %>%
 The `select()` and `filter()` functions are part of the {dplyr} package for data manipulation, which is a core package of the {tidyverse}. These topics are covered in the Data Wrangling course. See The GRAPH Courses [website](https://thegraphcourses.org/) for more.
 :::
 
+Let's look at our new dataframe, `nigerm96`:
 ```{r, render = reactable_5_rows}
 # Print nigerm96
 nigerm96
 ```
-
-A key concept of building `ggplot` graphics is **incremental composition**: adding components or changing attributes of a plot incrementally. This means building a plot in small, sequential steps by adding elements one at a time.
-
-![](images/paste-4C7E1687.png)
 
 ### Building a `ggplot()` in steps
 
@@ -236,7 +202,7 @@ Time to start building a `ggplot` in increments! We'll do this by starting with 
 **Step 0: Call the `ggplot()` function**
 
 ```{r}
-# initialize the plot
+# Call the `ggplot()` function
 ggplot()
 ```
 
@@ -247,7 +213,7 @@ As you can see, this gives us nothing but a blank canvas. But not to worry, we'r
 The first input we need to supply the `ggplot()` function is the data layer (i.e., a data frame), by filling in the `data` argument (`data = DF_NAME`):
 
 ```{r}
-# initialize the plot
+# Data layer
 ggplot(data = nigerm96)  # what data to use
 ```
 
@@ -257,14 +223,10 @@ This gives us blank plot again, since we've only supplied one out of the three i
 
 What should we plot on our axes? Let's say we want to make an epidemic time series plot. To do that, we plot time (in weeks) on the x-axis, and disease incidence (number of reported cases) on the y-axis. In `ggplot`-speak, we are `mapping` the variable `cases` to the `x` aesthetic, and `week` to the `y` aesthetic.
 
-::: pro-tip
-`ggplot2` code is easier to read if each line represents a new element. This style is generally favored for `ggplot2` code in the R community. This means that as you add each layer, you should start a new line. As we add more and more layers to plots, you'll see this will greatly improve the legibility of your code.
-:::
-
 Let's tell `ggplot()` which variables to to plot on the aesthetics layer with a `mapping` argument, using this syntax: `mapping = aes(x = VAR1, y = VAR2)`.
 
 ```{r}
-# initialize the plot
+# Aesthetics layer: x and y position
 ggplot(data = nigerm96, # what data to use
        mapping = aes(   # supply a mapping in the form of an 'aesthetic'
          x = week,      # which variable to map onto the x-axis
@@ -286,7 +248,7 @@ Finally, we add a geometry layer using a `geom_*` function. This determines whic
 Since we are looking at the relationship of two numerical variables, it makes sense to use a **scatter plot**. The geometric objects used to represent data on scatter plots are **points**, and the `geom_*` function for scatter plots is conveniently named **`geom_point()`**. We'll add this function as new layer using a **`+`** sign:
 
 ```{r}
-# initialize the plot
+# Geometries layer: points
 ggplot(data = nigerm96, # what data to use
        mapping = aes(   # define mapping
          x = week,      # which variable to map onto the x-axis
@@ -299,18 +261,6 @@ Points have been added, and this is now a complete scatter plot! There are 8 poi
 ::: reminder
 The `aes`thetic function is nested inside the `ggplot()` function, so be sure to close the brackets for both functions before adding the `+` sign for the `geom_*` function, or your code will not run correctly.
 :::
-
-Let's go back and take a closer look at the plot itself. Examining a figure can give us valuable insights that we couldn't initially obtain from looking at the raw data alone:
-
--   This visualization shows us that most records report a very low number of cases.
--   However, there are several weeks with unusually high case incidence, particularly during weeks 10-25.
--   This could indicate a seasonal pattern in measles incidence.
-
-In fact, the study by Blake et al. found that rainy season was associated with a lower risk of measles case reporting. This could be because population density is lower during the rainy season, as people spread out to conduct agricultural activities during the rains. When the rains end, population density increases in urban areas
-
-> "The significant association with the rainy season likely reflects the impact of shifting human activities. It is consistent with what is expected in countries with agriculturally driven economies: fluctuating population densities as seasonal agricultural labourers transition between urban and rural areas, creating a strong seasonal forcing in transmission." (Blake et al. 2020)
-
-Even though we have just created a basic scatter plot, we are able to see interesting epidemiological patterns from this data. You may have heard the saying "a picture is worth a thousand words". Similarly, a simple plot can be worth a thousand numeric statistics. That's why you should always, always plot your data.
 
 It's your turn to practice plotting with `ggplot()`! For practice exercises in this lesson, you will be using a different subset of `nigerm` called **`nigerm04`**, which contains only data from the year 2004:
 
@@ -342,21 +292,22 @@ nigerm04_scatter <- "YOUR ANSWER HERE"
 # Make sure that "nigerm04_scatter" appears in your Environment tab.
 ```
 
-```{r eval=FALSE, include=FALSE}
-# You can ask for a hint by running this hint function (no inputs required).
-
-.hint_nigerm04_scatter()
-```
 
 ```{r eval=FALSE, include=FALSE}
 # Check your answer by running this check function (no inputs required). The output will tell you if you answered correctly or not.
 
-.check_nigerm04_scatter()
+.CHECK_nigerm04_scatter()
+```
+
+```{r eval=FALSE, include=FALSE}
+# You can ask for a hint by running this hint function (no inputs required).
+
+.HINT_nigerm04_scatter()
 ```
 
 ```{r eval=FALSE, include=FALSE}
 # Get the full solution by typing out the solution function:
-
+.SOLUTION_nigerm04_scatter()
 ```
 :::
 
@@ -366,7 +317,7 @@ Generally speaking, the grammar of graphics allows for a high degree of customiz
 
 We can tinker with our existing code to switch up the data, aesthetics, and geometry inputs supplied to `ggplot()`, and create variations of the original plot. In fact, you've already done this by changing the dataset from `nigerm96` to `nigerm04` in the practice question.
 
-Similarly, the `aes`thics and `geom`etry inputs can also be changed to create different visualizations. In the next few sections we will take the scatter plot we built in the previous section, and make incremental changes to modify different elements of the original code.
+Similarly, the `aes`thetics and `geom`etry inputs can also be changed to create different visualizations. In the next few sections we will take the scatter plot we built in the previous section, and make incremental changes to modify different elements of the original code.
 
 ### Changing `aes`thetic mappings
 
@@ -435,10 +386,10 @@ Use the `nigerm04` data frame to create a bar plot of weekly cases with the `geo
 nigerm04_bar <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
-.hint_nigerm04_bar()
+.HINT_nigerm04_bar()
 
 # Check your answer:
-.check_nigerm04_bar()
+.CHECK_nigerm04_bar()
 ```
 :::
 
@@ -487,7 +438,9 @@ By examining the color patterns in the plot, you can make out the classic bell-s
 
 Zinder had the largest number of cases and the steepest epidemic curve, followed by Maradi and Niamey.
 
-While the colorful plot provides more insight into measles patterns at the regional level than the scatter plot with no color mapping, this graph still looks busy and is not the most intuitive to read. A different plot type could help with this. Next we will try a bar plot, then a line graph.
+While the colorful plot provides more insight into measles patterns at the regional level than the scatter plot with no color mapping, this graph still looks busy and is not the most intuitive to read. A different plot type could help with this. 
+
+Next we will try a bar plot, then a line graph.
 
 Let's try the same `color = region` aesthetic mapping with `geom_col()` instead:
 
@@ -518,7 +471,7 @@ Voila! The inside of the bars are now filled with colors.
 Now practice using the `color` aesthetic mapping with a new plot type: line graphs. Line graphs are generally considered one of the best plot types for time series data.
 
 ::: practice
-Use the `nigerm04` data frame to create a line graph of weekly cases, colored by `region`. Map `cases` on the y-axis, `week` on the x-axis, and `region` to color. The `geom_*` function for a line graph is called `geom_line()`.
+Use the `nigerm04` data frame to create a line graph of weekly cases, colored by `region`. Map `cases` on the y-axis, `week` on the x-axis, and `region` to color. The `geom_*` function for a line graph is called **`geom_line()`**.
 
 ```{r eval=FALSE, include=FALSE}
 # Write code to create your plot:
@@ -531,10 +484,10 @@ Use the `nigerm04` data frame to create a line graph of weekly cases, colored by
 nigerm04_line <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
-.hint_nigerm04_line()
+.HINT_nigerm04_line()
 
 # Check your answer:
-.check_nigerm04_line()
+.CHECK_nigerm04_line()
 ```
 :::
 
@@ -591,7 +544,7 @@ ggplot(data = nigerm96,
              mapping = aes(x = week, 
                            y = cases,
                            color = region,
-                           size = 1)) + 
+                           size = 1)) +     # INCORRECT placement
       geom_line()
 ```
 
@@ -613,16 +566,18 @@ Use the `nigerm04` data frame to create a bar graph of weekly cases, and fill al
 nigerm04_pinkbar <- "YOUR ANSWER HERE"
 
 # Ask for a hint:
-.hint_nigerm04_pinkbar()
+.HINT_nigerm04_pinkbar()
 
 # Check your answer:
-.check_nigerm04_pinkbar()
+.CHECK_nigerm04_pinkbar()
 ```
 :::
 
 ## Additional GG layers
 
-In this lesson, we kept things simple and only worked with the three required layers. As you start to delve deeper into plotting with {ggplot2}, you'll start to encounter the other layers more frequently. Soon you'll be able to create more complex plots, like this one:
+In this lesson, we kept things simple and only worked with the three required layers. As you start to delve deeper into plotting with {ggplot2}, you'll start to encounter the other layers more frequently. 
+
+Soon you'll be able to create more complex plots, like this one:
 
 ```{r echo = FALSE, render = normal_print}
 ggplot(data = nigerm, 
@@ -640,32 +595,6 @@ ggplot(data = nigerm,
   theme_light() 
 ```
 
-```{r echo = FALSE, message=FALSE, warning=FALSE, fig.width = 7, fig.height = 35}
-#| fig.cap="Evolution of a layered plot"
-p_load(patchwork)
-theme_set(theme_grey())
-#nigerm <- nigerm %>% filter(!year == 2005)
-a <- ggplot() +
-  labs(title = "Layer 1")
-b <- ggplot(nigerm, aes(x = region, y = cases, fill = region)) +
-  labs(title = "Layer 2")
-c <- b + geom_boxplot(alpha = 0.8) + 
-  labs(title = "Layer 3")
-d <- c + facet_wrap(vars(year), ncol = 2) +
-  labs(title = "Layer 4")
-e <- d + stat_summary() +
-  labs(title = "Layer 5")
-f <- e + coord_cartesian(ylim = c(0, 2000)) +  
-  scale_fill_brewer(palette = "Spectral") +
-  labs(title = "Layer 6")
-g <- f + theme_minimal(13) +
-  labs(title = "Layer 7")
-a + b + c + d + e + f + g + plot_layout(nrow = 7, ncol = 1)
-```
-
-## Wrap up
-
-If you've made it this far, great work! You have learned how to build a `ggplot` graphic in increments, using the 3 essential layers from the grammar of graphics framework. Further, you can modify those elements to create a variety of visualizations.
 
 ::: recap
 To build a complete `ggplot`, you must first supply a data frame using the **`data`** argument of `ggplot()`, and define variables and map them to aesthetics inside `aes()` using the **`mapping`** argument of `ggplot()`. Then start a new layer with a **`+`** sign and specify the type of plot you want using an appropriate **`geom_*`** function. You can copy this code template and adapt it to create different `ggplot` graphics:
@@ -679,16 +608,6 @@ ggplot(data = DF_NAME,
   geom_FUCNTION()
 ```
 :::
-
-Knowing the code is important, but there's more to what we've learned. As Hadley Wickham puts it:
-
-> The transferrable skills from {ggplot2} are not the idiosyncracies of plotting syntax, but a powerful way of thinking about visualisation, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.
-
-In short, the grammar of graphics tells us that:
-
-> A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of `geom`etric objects.
-
-![](images/grammar_of_graphics.png){width="515"}
 
 ## Learning outcomes
 

@@ -151,7 +151,7 @@ summary(nigerm)
 
 ![The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct *layers*. We take these different layers and combine them together to build a plot.](images/gglayers.png){alt="The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct layers. We take these different layers and combine them together to build a plot." width="392"}
 
-The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are necessary for building any plot.
+The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are essential for building any plot.
 
 Let's define what they mean:
 
@@ -162,30 +162,6 @@ Let's define what they mean:
 3)  **`geom`etry**: the geometric **shapes** used to represent data in a plot: points, lines, bars, etc.
 
 We wrote `data`, `geom`, and `aes` in a computer code type font because we use these terms in R.
-
-### GG layers in {ggplot2} syntax
-
-You can implement the GG framework in R the `ggplot()` function:
-
-![**ggplot** **syntax** This is the basic structure you can use to build any ggplot graphic. The elements of this code follow the grammar of graphics rules to build up a graph in layers. Notice how the code in this template matches up with the seven GG layers shown above.](images/gg_min_build2.png){alt="ggplot syntax This is the basic structure you can use to build any ggplot graphic. The elements of this code follow the grammar of graphics rules to build up a graph in layers. Notice how the code in this template matches up with the seven GG layers shown above." width="437"}
-
-::: vocab
-There are several "geom functions" that correspond to different types of plots. For example, `geom_line()` and `geom_bar()` are functions that correspond to line graphs and bar charts, respectively. The names of geom functions in {ggplot2} use the consistent syntax `geom_*`, where the `*` is a placeholder for the second part of the function name.
-:::
-
-
-
-A complete plot has all the three of the essential GG layers, so we provide `ggplot()` with the following 3 required inputs:
-
-![](images/gg_min_build3.png)
-
-1)  The `data` argument
-2)  The `mapping` argument which defines `aes`thetic attributes
-3)  A `geom_*` function
-
-For now, we'll just focus on these three inputs. ![](images/gg_min_build3.png)
-
-The other layers will be addressed in later lessons.
 
 ::: challenge
 The terms and syntax used for `ggplot` functions, arguments, and layers can be hard to keep up with at first, but as you gain experience using these terms to make plots in R, you will become fluent in no time.
@@ -225,7 +201,7 @@ We will use **incremental composition**: adding elements to a plot incrementally
 
 ```{r}
 # Call the `ggplot()` function
-ggplot()
+
 ```
 
 • Results a blank canvas
@@ -238,7 +214,7 @@ Supply the data frame to `ggplot()` with the `data` argument.
 
 ```{r}
 # Provide data frame with `data = DF_NAME`
-ggplot(data = nigerm96) 
+ggplot() 
 ```
 
 • The plot is still blank
@@ -259,32 +235,15 @@ Tell `ggplot()` which x and y-axis variables to to plot my adding a `mapping` ar
 
 ```{r}
 # Define variables with `mapping = aes(x = VAR1, y = VAR2)`:
-ggplot(data = nigerm96,
-       mapping = aes(x = week, 
-                     y = cases))
+ggplot(data = nigerm96)
 ```
 
 • Axes have scales, titles, and labels
 
-::: key-point
-Variables to map go inside the `aes()` function, which in return is inside a `ggplot()`. Note the double closing brackets **`))`** - the first one belongs to `aes()`, the second one to `ggplot()`.
-:::
-
 • Next we add the geometry layer
 
+
 **Step 3: Specify which type of plot to create**
-
-• Time to add a geometry layer using a `geom_*` function
-
-• This layer determines the type of plot you get
-
-• A relationship of two numerical variables can be visualized with a **scatter plot**
-
-• The geometric objects in scatter plots are **points**
-
-• The `geom_*` function is **`geom_point()`**
-
-![](images/geom.gif)
 
 • Add the **`geom_point()`** function to a new layer after a **`+`** sign:
 
@@ -292,31 +251,18 @@ Variables to map go inside the `aes()` function, which in return is inside a `gg
 # Specify plot type with `+ geom_point()` for scatter plot
 ggplot(data = nigerm96, 
        mapping = aes(x = week,
-                     y = cases)) +
-  geom_point()
+                     y = cases))
 ```
 
 Now we have a complete plot!
 
-**Observations**
+• There are 8 points per week, representing each of the 8 regions 
 
-• Most records report a relatively low number of cases
+• We can't tell which point is from which region (yet)
 
-• Few weeks have unusually high case incidence
+• We will soon add color to distinguish between them like this:
 
-• This is suggests there could be **annual cycles** of measles transmission
-
-• Research studies that analyzed this data found that annual periodicity is associated with **seasonal patterns**
-
-• **Rainy season** in Niger was associated with a **lower risk** of measles case reporting
-
-• This could be due to seasonal fluctuations in **population density**
-
-> "The significant association with the rainy season likely reflects the impact of shifting human activities. It is consistent with what is expected in countries with agriculturally driven economies: fluctuating population densities as seasonal agricultural labourers transition between urban and rural areas, creating a strong seasonal forcing in transmission." (Blake et al. 2020)
-
-• Basic plots can help us understand important patterns
-
-• Always plot your data!
+[INSERT SCATTER-LINE PLOT FROM VIDEO]
 
 Time for you to practice plotting in R!
 
@@ -337,7 +283,7 @@ Using the `nigerm04` data frame, write `ggplot` code that will create a scatter 
 
 ```{r}
 # Write code to create your plot:
-ggplot()
+
 ```
 
 ```{r}
@@ -362,7 +308,7 @@ nigerm04_scatter <- ggplot()
 
 ```{r}
 # Get the full solution by typing out the solution function:
-.solution_nigerm04_scatter()
+
 ```
 :::
 
@@ -372,7 +318,7 @@ nigerm04_scatter <- ggplot()
 
 • We modify existing code to create variations of a plot
 
-The `data`, `aes`thics, and `geom`etry inputs can be easily tweaked
+The `data`, `aes`thetics, and `geom`etry inputs can be easily tweaked
 
 • We will make incremental changes to modify the original scatter plot
 
@@ -394,7 +340,7 @@ ggplot(data = nigerm96,
 ```{r}
 # Change x-axis mapping 
 ggplot(data = nigerm96, 
-       mapping = aes(x = region, 
+       mapping = aes(x = week, 
                      y = cases)) +
   geom_point()
 ```
@@ -404,8 +350,6 @@ ggplot(data = nigerm96,
 • x-axis mappings have changed significantly
 
 • points are mapped to 8 positions which correspond to each of the 8 `region`s
-
-
 
 ### Changing `geom_*` functions
 
@@ -421,16 +365,10 @@ If we change the `geom_*` function of the original scatter plot from `geom_point
 ggplot(data = nigerm96, 
        mapping = aes(x = week, 
                      y = cases)) +
-  geom_col()
+  geom_point()
 ```
 
 • We only changed the the `geom_*` function but data is presented in a completely different way
-
-
-
-• The y-axis has been rescaled to show the total number of weekly cases from all regions
-
-
 
 ::: error
 Not all plot types are interchangeable. Using a `geom_*` function that is not compatible with the variables you defined in `aes()` will give you an error. For example, let's replace `geom_point()` with `geom_histogram()` instead:
@@ -502,8 +440,7 @@ Let's add **color** to our scatter plot.
 # Use a different color for each region 
 ggplot(data = nigerm96, 
        mapping = aes(x = week, 
-                     y = cases,
-                     color = region)) +
+                     y = cases)) +
   geom_point()
 ```
 
@@ -533,12 +470,8 @@ ggplot(data = nigerm96,
        mapping = aes(x = week, 
                      y = cases,
                      color = region)) +
-  geom_col()
+  geom_point()
 ```
-
-• A **stacked bar plot** with colorful borders
-
-• Shows the contribution of each region to the total cases count
 
 • The `color` aesthetic changes only the **border** around a shape
 
@@ -551,9 +484,11 @@ Let's fill the **inside** of the bars instead.
 ggplot(data = nigerm96, 
        mapping = aes(x = week, 
                      y = cases,
-                     fill = region)) +
+                     color = region)) +
   geom_col()
 ```
+
+• The **inside** of the bars are now filled with colors.
 
 ::: practice
 • Use the `nigerm04` data frame to create a line graph of weekly cases, colored by `region`.
@@ -595,20 +530,6 @@ nigerm04_line <- "YOUR ANSWER HERE"
 
 • This depends on whether or not they appear **inside** **`mapping = aes()`**.
 
-
-
-• **Mappings** always go with a **variable name** from the data frame placed **inside** `aes()` -e.g., `mapping = aes(color = VARIABLE_NAME)`.
-
-
-
-• **Fixed aesthetics** are set to a **constant** value **outside** **`aes()`**, directly **inside the** **`geom_*()`** **function** - e.g., `geom_point(color = COLOR_NAME)`.
-
-
-
-The differences between these methods are best understood with examples, so let's add fixed aesthetics to see how this works!
-
-
-
 Let's add **`color`** as a **fixed aesthetic** to our original scatter plot and make all the points **blue**.
 
 
@@ -621,27 +542,18 @@ ggplot(data = nigerm96,
   geom_point()       
 ```
 
-
-
 • Every point is the same color
-
-
 
 • When `color` is a fixed aesthetic, it does not depend on the data
 
-
-
 • Color names should go inside quotation marks (e.g., `"blue"`)
 
-
-
 • Run `colors()` in your console to see all color choices
-
-
+```{r}
+colors()
+```
 
 Now let's modify **`size`** as a **fixed** aesthetic
-
-
 
 The default line width used by `geom_line()` looks like this:
 
@@ -653,10 +565,7 @@ ggplot(data = nigerm96,
       geom_line()
 ```
 
-
-
 For thicker lines add `size = 1` inside `geom_line()`:
-
 ```{r}
 ggplot(data = nigerm96,
        mapping = aes(x = week,
@@ -665,35 +574,7 @@ ggplot(data = nigerm96,
   geom_line()
 ```
 
-
-
-• Line width of all lines has increased to 1 mm.
-
-
-
-• `size` is numeric, so no need for quotation marks
-
-
-
-::: watch-out
-Let's move the `size = 1` aesthetic from `geom_line()` to `aes()` to see how it can go wrong:
-
-```{r}
-ggplot(data = nigerm96,
-       mapping = aes(x = week,
-                     y = cases,
-                     color = region)) + 
-  geom_line(size = 1)
-```
-
-Since there is no variable called "1" in the `nigerm96` dataframe, `aes()` cannot process or map this aesthetic correctly.
-:::
-
-
-
 Now it's your turn practice using **`fill`** as a fixed aesthetic to change the fill colors to a constant value on a bar plot.
-
-
 
 ::: practice
 • Use the `nigerm04` data frame to create a bar graph of weekly cases, and fill all bars with the same color.
@@ -719,19 +600,11 @@ nigerm04_pinkbar <- "YOUR ANSWER HERE"
 
 ## Additional GG layers
 
-
-
 • So far, we covered only the three required layers.
-
-
 
 • The other layers will start showing up more frequently as we go along.
 
-
-
 • You will soon be able to write code this:
-
-
 
 ```{r}
 ggplot(data = nigerm, 
@@ -751,63 +624,16 @@ ggplot(data = nigerm,
        color = "Region")
 ```
 
-
-
-## Wrap up
-
-
-
-We learned how build a `ggplot` with the 3 essential GG layers and further modify those elements.
-
-
-
-::: recap
-To build a complete `ggplot`, you can copy this code template and adapt it to create different plots:
-
-```{r}
-ggplot(data = DF_NAME,
-       mapping = aes(AES1 = VAR1,
-                     AES2 = VAR2, 
-                     AES3 = VAR3, 
-                     ...)) +
-  geom_FUCNTION()
-```
-:::
-
-
-
-> The transferable skills from {ggplot2} are not the idiosyncrasies of plotting syntax, but a powerful way of thinking about visualization, as a way of mapping between variables and the visual properties of geometric objects that you can perceive. - Hadley Wickham
-
-
-
-In short, the grammar of graphics tells us that:
-
-
-
-> A statistical graphic is a **`mapping`** of **`data`** variables to **`aes`**thetic attributes of **`geom`**etric objects.
-
-![](images/grammar_of_graphics.png){width="515"}
-
 ## Learning Outcomes
 
 1.  You can recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
 
-You can name and describe the 3 essential layers for building a graph: **data**, **aesthetics**, and **geometries**.
-
-
+2.  You can name and describe the 3 essential layers for building a graph: **data**, **aesthetics**, and **geometries**.
 
 3.  You can write code to **build a complete `ggplot`** **graphic** by correctly supplying the 3 essential layers to the **`ggplot()`** **function**.
 
-
-
 4.  You can create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
-
-
 
 5.  You can add and modify **aesthetic mappings** of data variables to **color** and **fill**.
 
-
-
-5.  You can add and modify **fixed aesthetics** set to a constant value, such as color, fill, and **size**.
-
-    
+[INSERT LINK TO COURSE FOR QUIZZES ETC.]
