@@ -138,6 +138,8 @@ ggplot(data = {hiv_prevalence},
 
 Answer `true` or `false`: The aesthetic argument we just added is a fixed aesthetic: {[false][f]}
 
+----------------------------------------------------
+
 **Complete the below code to create a **line graph** that 
 
 ```{r eval = F}
@@ -194,7 +196,7 @@ plot2 <- ggplot(hiv_prevalence, aes(country, total_cases,
 
 plot1 + plot2
 ```
-
+Answer `A` or `B`: Plot {B}
 -----------------------------------------------------------------------
 
 Let's say we want to create a bar plot where the outline color and fill color are different. For example, the bars in this bar plot of cases per year have colorful segments and a `black` outline: 
