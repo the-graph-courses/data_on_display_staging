@@ -228,7 +228,7 @@ quiz_html_to_tab <-
       my_quiz[i, "Answer points diff modus activated"] <- "yes"
       my_quiz[i, "Question text"] <- "<span> </span>"
       my_quiz[i, "Answer"] <- quiz_html
-      my_quiz[i, "Passing percentage"] <- 60
+      my_quiz[i, "Passing percentage"] <- 80
       # my_quiz[i, "Course"] <- course_id
       # my_quiz[i, "Lesson or topic"] <- lesson_id
       
