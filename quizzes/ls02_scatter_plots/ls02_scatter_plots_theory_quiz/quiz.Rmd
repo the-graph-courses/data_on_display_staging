@@ -413,6 +413,7 @@ ggplot(data = midwest,
   geom_smooth()
 ```
 
+# Q
 Which of the following statements is TRUE?
 
 *Hint*: copy the code above and experiment with different ways of combining layers, and closely examine the results.
