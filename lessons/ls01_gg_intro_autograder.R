@@ -10,12 +10,66 @@ if(!require(pacman)) install.packages("pacman")
 pacman::p_load_gh('graph-courses/autograder')
 pacman::p_load(tidyverse,
                praise,
+               digest,
                here)
+# Custom ggplot digest function
+## Joy Vaz
+## 2022-11-17
+
+#' Function to generate hash function digests of ggplot objects.
+#' Intended for use in data viz data quizzes.
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Packages ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               OpenImageR,
+               here,
+               png,
+               jpeg,
+               #magick,
+               #imager,
+               svglite)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## ggplot_digest function ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Custom ggplot digest function
+## Joy Vaz
+## 2022-11-17
+
+#' Function to generate hash function digests of ggplot objects.
+#' Intended for use in data viz data quizzes. 
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Packages ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               digest,
+               here)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## ggplot_digest function ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ggplot_digest <- function(myplot) {
+  # Create temp file name, save plot, digest file, and remove temp file
+  plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
+  suppressWarnings(suppressMessages(ggplot2::ggsave(filename = plotfile, plot = myplot, type = "cairo", device = "png")))
+  plot_crypt <- digest::digest(file = plotfile)
+  file.remove(plotfile)
+  return(plot_crypt)
+}
+
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Init ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.scores <- rep(-1, times = 3)   # Put total number of questions as `times` argument
+.scores <- rep(-1, times = 4)   # Put total number of questions as `times` argument
 
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +107,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 #' `week` on the x-axis.
 
 # [backend]
-.check_nigerm04_scatter <-
+.CHECK_nigerm04_scatter <-
   function() {
     .problem_number <<- 1
    
@@ -101,7 +155,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 
 # [backend]
 # create one hint per question
-.hint_nigerm04_scatter <- function(){
+.HINT_nigerm04_scatter <- function(){
   'First, identify which data frame to supply to the data layer.
   Then put the variables you want to map on your x and your y axis inside `mapping = aes()`. 
   Then, think about which geometry function you need for a scatter plot.
@@ -109,7 +163,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
   cat(out)
 }
 # solution of question
-.solution_nigerm04_scatter <- function(){
+.SOLUTION_nigerm04_scatter <- function(){
   'ggplot(data = nigerm04,
              mapping = aes(x = week, 
                            y = cases)) +
@@ -125,7 +179,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 #' `geom_col()` function. Map `cases` on the y-axis and `week` on the x-axis.
 
 # [backend]
-.check_nigerm04_bar <-
+.CHECK_nigerm04_bar <-
   function() {
     .problem_number <<- 2
     
@@ -159,8 +213,15 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         
         if (isTRUE(!(.q2_test1))) return(c(value = 0, message = "! Check which dataset you are plotting."))
         if (isTRUE(!(.q2_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_point."))
-        if (isTRUE(!(.q2_test3 && .q2_test4))) return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
-        if (isTRUE(.q2_test1 && .q2_test2 && .q2_test3 && .q2_test4 && .q2_test5)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        
+        
+        # KENE EDIT:
+        if (ggplot_digest(.q2_correct) == ggplot_digest(nigerm04_bar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        
+        # 
+        # 
+        # if (isTRUE(!(.q2_test3 && .q2_test4))) return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
+        # if (isTRUE(.q2_test1 && .q2_test2 && .q2_test3 && .q2_test4 && .q2_test5)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         # wrong
         return(c(value = 0, message = "Wrong answer. Please try again."))
       }
@@ -169,7 +230,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 
 # [backend]
 # create one hint per question
-.hint_nigerm04_bar <- function(){
+.HINT_nigerm04_bar <- function(){
   'First, identify which data frame to supply to the data layer.
   Then put the variables you want to map on your x and your y axis inside `mapping = aes()`. 
   Then, think about which geometry function you need for this bar plot (same as what we used earlier in this lesson).
@@ -177,7 +238,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
   cat(out)
 }
 # solution of question
-.solution_nigerm04_bar <- function(){
+.SOLUTION_nigerm04_bar <- function(){
   'ggplot(data = nigerm04, 
           mapping = aes(x = week, 
                         y = cases)) + 
@@ -194,7 +255,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 #'  `cases` on the y-axis, `week` on the x-axis, and `region` to color.
 
 # [backend]
-.check_nigerm04_line <-
+.CHECK_nigerm04_line <-
   function() {
     .problem_number <<- 3
     
@@ -207,46 +268,54 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm_04_line)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!is.ggplot(nigerm04_line)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # test 1
         # that data used is correct
         .q3_test1 <- all_equal(
-          target = as_tibble(nigerm_04_line$data), 
+          target = as_tibble(nigerm04_line$data), 
           current = as_tibble(.q3_correct$data))
         
         # test 2
         # that learner used geom_point()
-        .q3_test2 <- any(stringr::str_detect(capture.output(nigerm_04_line$layers), 
+        .q3_test2 <- any(stringr::str_detect(capture.output(nigerm04_line$layers), 
                                              "geom_line"))
         # test 3
         # check the x mapping
-        .q3_test3 <- "* `x` -> `week`" %in% capture.output(nigerm_04_line$mapping)
+        .q3_test3 <- "* `x` -> `week`" %in% capture.output(nigerm04_line$mapping)
         
         # test 4
         # check the y mapping
-        .q3_test4 <- "* `y` -> `cases`" %in% capture.output(nigerm_04_line$mapping)
+        .q3_test4 <- "* `y` -> `cases`" %in% capture.output(nigerm04_line$mapping)
         
         # test 5
         # check the color argument: UK spelling
-        .q3_test5 <- any(stringr::str_detect(capture.output(nigerm_04_line$layers), 
+        .q3_test5 <- any(stringr::str_detect(capture.output(nigerm04_line$layers), 
                                              "colour = ~region"))
         
         if (isTRUE(!(.q3_test1))) return(c(value = 0, message = "! Check which dataset you are plotting."))
-        if (isTRUE(!(.q3_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_line."))
-        if (isTRUE(!(.q3_test3 && .q3_test4))) return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
-        if (isTRUE(!(.q3_test5))) return(c(value = 0, message = "! Do not forget to color the points using a mapping argument in your layers."))
-        if (isTRUE(.q3_test1 && .q3_test2 && .q3_test3 && .q3_test4 && .q3_test5)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        
+        # KENE EDIT:
+        if (ggplot_digest(.q3_correct) == ggplot_digest(nigerm04_line)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        
+        
+        # 
+        # if (isTRUE(!(.q3_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_line."))
+        # if (isTRUE(!(.q3_test3 && .q3_test4))) return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
+        # if (isTRUE(!(.q3_test5))) return(c(value = 0, message = "! Do not forget to color the points using a mapping argument in your layers."))
+        # 
+        # if (isTRUE(.q3_test1 && .q3_test2 && .q3_test3 && .q3_test4 && .q3_test5)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         # wrong
+        
         return(c(value = 0, message = "Wrong answer. Please try again."))
       }
     .apply_autograder()
   }
 
-                           c
+                           
 # [backend]
 # create one hint per question
-.hint_nigerm04_line <- function(){
+.HINT_nigerm04_line <- function(){
   'First, identify which data frame to supply to the data layer.
   Then put the variables you want to map on your x axis, y axis, and color inside `mapping = aes()`. 
   Then, use the correct geometry function needed for a line graph: `geom_line()`.
@@ -254,8 +323,8 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
   cat(out)
 }
 # solution of question
-.solution_line <- function(){
-  "ggplot(data = .nigerm04,
+.SOLUTION_nigerm04_line <- function(){
+  "ggplot(data = nigerm04,
          mapping = aes(x = week,
                        y = cases,
                        color = region)) + 
@@ -272,7 +341,49 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
 #'  x-axis, and set the bars to constant color.
 
 
-# ggplot(data = .nigerm96, 
+# ggplot(data = nigerm04, 
 #        mapping = aes(x = week, 
 #                      y = cases)) +
 #   geom_col(fill = "hotpink")
+
+
+
+# [backend]
+.CHECK_nigerm04_pinkbar <-
+  function() {
+    .problem_number <<- 4
+    
+    .nigerm04_pinkbar <- 
+      ggplot(data = .nigerm04, 
+             mapping = aes(x = week, 
+                           y = cases)) +
+      geom_col(fill = "hotpink")
+    
+    
+    .autograder <<-
+      function(){
+        if (!is.ggplot(nigerm04_pinkbar)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        
+        if (ggplot_digest(.nigerm04_pinkbar) == ggplot_digest(nigerm04_pinkbar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        
+        return(c(value = 0, message = "Wrong answer. Please try again."))
+      }
+    .apply_autograder()
+  }
+
+
+# [backend]
+# create one hint per question
+.HINT_nigerm04_pinkbar <- function(){
+  'Put the variables you want to map on your x axis, y axis inside `mapping = aes()`. 
+  Then, use the correct geometry function, `geom_col()` with the right `fill` argument.' -> out
+  cat(out)
+}
+# solution of question
+.SOLUTION_nigerm04_pinkbar <- function(){
+  'ggplot(data = nigerm04, 
+          mapping = aes(x = week, 
+                        y = cases)) +
+      geom_col(fill = "hotpink")' -> out
+  cat(out)
+}

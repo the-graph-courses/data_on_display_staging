@@ -17,19 +17,9 @@ editor_options:
   chunk_output_type: inline
 ---
 
-```{HTML, include = F}
-Hi GRAPH Courses student! 
-  
-This is a CODE ALONG document that you can type code into as you follow the lesson video. 
-
-This is to encourage you to type along with the teacher; the best way to learn. 
-
-If you prefer to work with the completed document, please use the the "*_filled" Rmd instead!
-```
-
-
 ```{r setup, include = FALSE, warning = FALSE}
-knitr::opts_chunk$set(error = T)
+
+# This is the working doc to use for recording. The code will be filled in and squares deleted by the end of the lesson. Always start with the blank version (lessons/ls01_gg_intro_prez.Rmd). No need to save this at the end, but you can if you need to make changed. Knitting will not work since chunk options are missing.
 
 # Load packages 
 if(!require(pacman)) install.packages("pacman")
@@ -43,9 +33,12 @@ source(here("global/functions/lesson_functions.R"))
 
 # Source autograder script 
 source(here("lessons/ls01_gg_intro_autograder.R"))
+
 ```
 
 # Building plots with {ggplot2}
+
+![](images/white_square.jpg)
 
 ## Learning Objectives
 
@@ -61,7 +54,11 @@ By the end of this lesson you should be able to:
 
 5.  Add or modify **aesthetic mappings** of a plot such as the **color** and **fill**.
 
+![](images/white_square.jpg)
+
 ![Illustration by Allison Horst](images/ggplot2_masterpiece.png){width="531"}
+
+![](images/white_square.jpg)
 
 ## Packages
 
@@ -71,19 +68,35 @@ pacman::p_load(tidyverse,
                here)
 ```
 
+![](images/white_square.jpg)
+
 ## Measles outbreaks in Niger
+
+![](images/white_square.jpg)
 
 • We will **visualize patterns** of measles epidemics in Niger
 
+![](images/white_square.jpg)
+
 • Measles is a **highly infectious virus** spread by airborne respiratory droplets
+
+![](images/white_square.jpg)
 
 • Fluctuation in **population density** drives measles dynamics
 
+![](images/white_square.jpg)
+
 ### The `nigerm` dataset
+
+![](images/white_square.jpg)
 
 • **Weekly case reports of measles** surveyed from different regions
 
+![](images/white_square.jpg)
+
 • Collected by the Ministry of Health of Niger from 1995 to 2005
+
+![](images/white_square.jpg)
 
 • Load the **`nigerm` data frame** we will use for plotting:
 
@@ -92,6 +105,8 @@ pacman::p_load(tidyverse,
 load(here("data/clean/nigerm_cases_rgn.RData"))
 ```
 
+![](images/white_square.jpg)
+
 Take a moment to explore the data:
 
 ```{r}
@@ -99,57 +114,91 @@ Take a moment to explore the data:
 nigerm
 ```
 
+![](images/white_square.jpg)
+
 The **`nigerm`** data frame has 4 **variables** (or columns):
+
+![](images/white_square.jpg)
 
 1.  **`year`**: Calendar year (ranges from 1995 to 2005)
 
+![](images/white_square.jpg)
 
 2.  **`week`**: Week of the year (ranges from 1 to 52)
 
+![](images/white_square.jpg)
 
 3.  **`region`**: Region in which the cases were reported
 
 ![Administrative divisions of Niger: Districts and Regions](images/niger_administrative_divisions.png){width="605"}
 
+![](images/white_square.jpg)
+
 4.  **`cases`**: Number of measles cases reported
+
+![](images/white_square.jpg)
 
 • Recent studies have analyzed this dataset to investigate annual patterns in measles incidence
 
 ![Research articles that have used this dataset, and analyzed it in R!](images/paste-B863326A.png)
 
+![](images/white_square.jpg)
+
 • We can get **summary statistics** with the `summary()` function
 
+![](images/white_square.jpg)
+
 ```{r}
-summary(nigerm)
+
 ```
+
+![](images/white_square.jpg)
 
 • Gives the maximum, minimum, and quartiles for numerical variables
 
+![](images/white_square.jpg)
+
 • Summary statistics can be highly misleading
+
+![](images/white_square.jpg)
 
 • Visualizing data is a much better way to analyze patterns
 
+![](images/white_square.jpg)
+
 • We can do this in R with {ggplot2}
 
-
+![](images/white_square.jpg)
 
 ## Fundamentals of data visualization with {ggplot2}
+
+![](images/white_square.jpg)
 
 ![{ggplot2} is the core packages of the {tidyverse} metapackage.](images/ggplot2-part-of-tidyverse.png){width="192"}
 
 • **{ggplot2}** is the most popular package for **data visualization in R**
 
+![](images/white_square.jpg)
+
 • The code has a **consistent structure** for creating graphics
+
+![](images/white_square.jpg)
 
 • It's unique approach makes the learning curve steep
 
+![](images/white_square.jpg)
+
 ![A tweet from Hadley Wickham, creator of {ggplot2} and {tidyverse}.](images/wickham_shitty_code.png){width="500"}
+
+![](images/white_square.jpg)
 
 • Understanding the theoretical framework will make using {ggplot2} easier
 
+![](images/white_square.jpg)
+
 • The `gg` in `ggplot` is short for "`g`rammar of `g`raphics", which is the data visualization philosophy that {ggplot2} is based on.
 
-
+![](images/white_square.jpg)
 
 ### The layered Grammar of Graphics
 
@@ -161,7 +210,7 @@ summary(nigerm)
 
 ![The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct *layers*. We take these different layers and combine them together to build a plot.](images/gglayers.png){alt="The grammar of graphics framework dissects a graph into individual components, which belong to these seven distinct layers. We take these different layers and combine them together to build a plot." width="392"}
 
-The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are essential for building any plot.
+The three layers at the bottom of this figure - **data**, **aesthetics**, and **geometries** - are necessary for building any plot.
 
 Let's define what they mean:
 
@@ -173,15 +222,51 @@ Let's define what they mean:
 
 We wrote `data`, `geom`, and `aes` in a computer code type font because we use these terms in R.
 
+### GG layers in {ggplot2} syntax
+
+You can implement the GG framework in R the `ggplot()` function:
+
+![**ggplot** **syntax** This is the basic structure you can use to build any ggplot graphic. The elements of this code follow the grammar of graphics rules to build up a graph in layers. Notice how the code in this template matches up with the seven GG layers shown above.](images/gg_min_build2.png){alt="ggplot syntax This is the basic structure you can use to build any ggplot graphic. The elements of this code follow the grammar of graphics rules to build up a graph in layers. Notice how the code in this template matches up with the seven GG layers shown above." width="437"}
+
+::: vocab
+**Vocabulary**\
+There are several "geom functions" that correspond to different types of plots. For example, `geom_line()` and `geom_bar()` are functions that correspond to line graphs and bar charts, respectively. The names of geom functions in {ggplot2} use the consistent syntax `geom_*`, where the `*` is a placeholder for the second part of the function name.
+:::
+
+![](images/white_square.jpg)
+
+A complete plot has all the three of the essential GG layers, so we provide `ggplot()` with the following 3 required inputs:
+
+![](images/gg_min_build3.png)
+
+![](images/white_square.jpg)
+
+1)  The `data` argument
+2)  The `mapping` argument which defines `aes`thetic attributes
+3)  A `geom_*` function
+
+For now, we'll just focus on these three inputs. ![](images/gg_min_build3.png) The other layers will be addressed in later lessons.
+
+![](images/white_square.jpg)
+
 ::: challenge
+**Challenge**\
 The terms and syntax used for `ggplot` functions, arguments, and layers can be hard to keep up with at first, but as you gain experience using these terms to make plots in R, you will become fluent in no time.
 :::
 
+![](images/white_square.jpg)
+
 ## Working through the essential layers
+
+![](images/white_square.jpg)
 
 • Our first plot with {ggplot2} will be a scatter plot to explore Niger measles dataset
 
+![](images/white_square.jpg)
+
 • For simplification, we will use a subset of `nigerm` called **`nigerm96`**:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Create nigerm96 data frame
@@ -190,72 +275,152 @@ nigerm96 <- nigerm %>%
   select(-year) # remove the year column
 ```
 
+![](images/white_square.jpg)
+
 ::: reminder
+**Reminder**\
 The **`select()`** and **`filter()`** functions are part of the **{dplyr}** package for data manipulation, which is part of the {tidyverse}. These topics are covered in the Data Wrangling course. See The GRAPH Courses [website](https://thegraphcourses.org/) for more.
 :::
 
+![](images/white_square.jpg)
+
 Take a look at `nigerm96`:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Print nigerm96
 nigerm96
 ```
 
+![](images/white_square.jpg)
+
 We will use **incremental composition**: adding elements to a plot incrementally.
+
+![](images/white_square.jpg)
 
 ![](images/paste-4C7E1687.png)
 
+![](images/white_square.jpg)
+
 ### Building a `ggplot()` in three steps
 
+![](images/white_square.jpg)
+
 **Step 0: Initialize the plot**
+
+![](images/white_square.jpg)
 
 ```{r}
 # Call the `ggplot()` function
 
 ```
 
+![](images/white_square.jpg)
+
 • Results a blank canvas
+
+![](images/white_square.jpg)
 
 • Next we add the essential elements
 
+![](images/white_square.jpg)
+
 **Step 1: Provide data**
 
+![](images/white_square.jpg)
+
 Supply the data frame to `ggplot()` with the `data` argument.
+
+![](images/white_square.jpg)
 
 ```{r}
 # Provide data frame with `data = DF_NAME`
 ggplot() 
 ```
 
+![](images/white_square.jpg)
+
 • The plot is still blank
+
+![](images/white_square.jpg)
 
 • Next we need to add aesthetic mappings
 
+![](images/white_square.jpg)
+
 **Step 2: Define the variables**
+
+![](images/white_square.jpg)
 
 • We can look at disease incidence over time by plotting **`cases`** against **`week`**
 
+![](images/white_square.jpg)
+
 • The variable `mapping`s go in an `aes`thetics layer
 
+![](images/white_square.jpg)
+
 ::: pro-tip
+**Pro Tip\
 **`ggplot` code is easier to read if each line represents a new element. This means that as you add each layer, you should start a new line.
 :::
 
+![](images/white_square.jpg)
+
 Tell `ggplot()` which x and y-axis variables to to plot my adding a `mapping` argument with an `aes()` function.
+
+![](images/white_square.jpg)
 
 ```{r}
 # Define variables with `mapping = aes(x = VAR1, y = VAR2)`:
 ggplot(data = nigerm96)
 ```
 
+![](images/white_square.jpg)
+
 • Axes have scales, titles, and labels
+
+![](images/white_square.jpg)
+
+::: key-point
+**Key Point**\
+Variables to map go inside the `aes()` function, which in return is inside a `ggplot()`. Note the double closing brackets **`))`** - the first one belongs to `aes()`, the second one to `ggplot()`.
+:::
+
+![](images/white_square.jpg)
 
 • Next we add the geometry layer
 
+![](images/white_square.jpg)
 
 **Step 3: Specify which type of plot to create**
 
-• Add the **`geom_point()`** function to a new layer after a **`+`** sign:
+![](images/white_square.jpg)
+
+• Time to add a geometry layer using a `geom_*` function
+
+![](images/white_square.jpg)
+
+• This layer determines the type of plot you get
+
+![](images/white_square.jpg)
+
+• A relationship of two numerical variables can be visualized with a **scatter plot**
+
+![](images/white_square.jpg)
+
+• The geometric objects in scatter plots are **points**
+
+![](images/white_square.jpg)
+
+• The `geom_*` function is **`geom_point()`**
+
+![](images/white_square.jpg)
+
+![](images/geom.gif)
+
+• Add the `geom_*` function to a new layer after a **`+`** sign:
 
 ```{r}
 # Specify plot type with `+ geom_point()` for scatter plot
@@ -264,19 +429,70 @@ ggplot(data = nigerm96,
                      y = cases))
 ```
 
+![](images/white_square.jpg)
+
 Now we have a complete plot!
 
-• There are 8 points per week, representing each of the 8 regions 
+![](images/white_square.jpg)
 
-• We can't tell which point is from which region (yet)
+• There are 8 points per week for the 8 regions of Niger
 
-• We will soon add color to distinguish between them like this:
+![](images/white_square.jpg)
 
-[INSERT SCATTER-LINE PLOT FROM VIDEO]
+::: reminder
+**Reminder**\
+The `aes`thetic function is nested inside the `ggplot()` function, so be sure to close the brackets for both functions and adding the `+` sign after that, or your code will not run correctly.
+:::
+
+![](images/white_square.jpg)
+
+**Observations**
+
+![](images/white_square.jpg)
+
+• Most records report a relatively low number of cases
+
+![](images/white_square.jpg)
+
+• Few weeks have unusually high case incidence
+
+![](images/white_square.jpg)
+
+• This is suggests there could be **annual cycles** of measles transmission
+
+![](images/white_square.jpg)
+
+• Research studies that analyzed this data found that annual periodicity is associated with **seasonal patterns**
+
+![](images/white_square.jpg)
+
+• **Rainy season** in Niger was associated with a **lower risk** of measles case reporting
+
+![](images/white_square.jpg)
+
+• This could be due to seasonal fluctuations in **population density**
+
+![](images/white_square.jpg)
+
+> "The significant association with the rainy season likely reflects the impact of shifting human activities. It is consistent with what is expected in countries with agriculturally driven economies: fluctuating population densities as seasonal agricultural labourers transition between urban and rural areas, creating a strong seasonal forcing in transmission." (Blake et al. 2020)
+
+![](images/white_square.jpg)
+
+• Basic plots can help us understand important patterns
+
+![](images/white_square.jpg)
+
+• Always plot your data!
+
+![](images/white_square.jpg)
 
 Time for you to practice plotting in R!
 
+![](images/white_square.jpg)
+
 For practice, you will use a new subset of `nigerm` called **`nigerm04`**:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Create nigerm04 data frame
@@ -288,18 +504,21 @@ nigerm04 <- nigerm %>%
 nigerm04
 ```
 
+![](images/white_square.jpg)
+
 ::: practice
-Using the `nigerm04` data frame, write `ggplot` code that will create a scatter plot displaying the relationship between `cases` on the y-axis and `week` on the x-axis.
+**Practice Question\
+**Using the `nigerm04` data frame, write `ggplot` code that will create a scatter plot displaying the relationship between `cases` on the y-axis and `week` on the x-axis.
 
 ```{r}
 # Write code to create your plot:
-
+ggplot()
 ```
 
 ```{r}
 # When you think you have the right answer, submit it by replacing "YOUR ANSWER HERE" with your code, and run those lines.
 
-nigerm04_scatter <- ggplot()
+nigerm04_scatter <- "YOUR ANSWER HERE"
 
 # Make sure that "nigerm04_scatter" appears in your Environment tab.
 ```
@@ -318,23 +537,39 @@ nigerm04_scatter <- ggplot()
 
 ```{r}
 # Get the full solution by typing out the solution function:
-
+.SOLUTION_nigerm04_scatter()
 ```
 :::
 
+```{r}
+nigerm04_scatter
+```
+
+![](images/white_square.jpg)
+
 ## Modifying the layers
+
+![](images/white_square.jpg)
 
 • GG framework allows for a high degree of customization
 
+![](images/white_square.jpg)
+
 • We modify existing code to create variations of a plot
 
-The `data`, `aes`thetics, and `geom`etry inputs can be easily tweaked
+![](images/white_square.jpg)
+
+The `data`, `aes`thics, and `geom`etry inputs can be easily tweaked
+
+![](images/white_square.jpg)
 
 • We will make incremental changes to modify the original scatter plot
 
-
+![](images/white_square.jpg)
 
 ### Changing `aes`thetic mappings
+
+![](images/white_square.jpg)
 
 We created a scatter plot of `cases` vs `week` for `nigerm96` with this code:
 
@@ -344,6 +579,8 @@ ggplot(data = nigerm96,
                      y = cases)) +
   geom_point()
 ```
+
+![](images/white_square.jpg)
 
 • If we replace `week` with `region`, we will get a **strip plot**:
 
@@ -355,19 +592,35 @@ ggplot(data = nigerm96,
   geom_point()
 ```
 
+![](images/white_square.jpg)
+
 • y-axis values are the same
+
+![](images/white_square.jpg)
 
 • x-axis mappings have changed significantly
 
+![](images/white_square.jpg)
+
 • points are mapped to 8 positions which correspond to each of the 8 `region`s
+
+![](images/white_square.jpg)
 
 ### Changing `geom_*` functions
 
+![](images/white_square.jpg)
+
 • Modifying the geometry layer creates a different type of plot
 
-![{ggplot2} has a variety of different geom_*() functions and geometric objects which you can use to visualize your data. Here are some examples of different types of geometric objects that can be used to make plots with ggplot().](images/geoms.png){alt="{ggplot2} has a variety of different geom_* functions and geometric objects which you can use to visualize your data. Here are some examples of different types of geoms that can be used with ggplot()."}
+![](images/white_square.jpg)
+
+![{ggplot2} has a variety of different geom\_\* functions and geometric objects which you can use to visualize your data. Here are some examples of different types of geoms that can be used with ggplot().](images/geoms.png){alt="{ggplot2} has a variety of different geom_* functions and geometric objects which you can use to visualize your data. Here are some examples of different types of geoms that can be used with ggplot()."}
+
+![](images/white_square.jpg)
 
 If we change the `geom_*` function of the original scatter plot from `geom_point()` to **`geom_col()`**, we get a **bar plot**:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Declare that we want a bar plot
@@ -378,14 +631,23 @@ ggplot(data = nigerm96,
   geom_point()
 ```
 
+![](images/white_square.jpg)
+
 • We only changed the the `geom_*` function but data is presented in a completely different way
 
+![](images/white_square.jpg)
+
+• The y-axis has been rescaled to show the total number of weekly cases from all regions
+
+![](images/white_square.jpg)
+
 ::: error
+**Error**\
 Not all plot types are interchangeable. Using a `geom_*` function that is not compatible with the variables you defined in `aes()` will give you an error. For example, let's replace `geom_point()` with `geom_histogram()` instead:
 
 ```{r}
 ggplot(data = nigerm96, 
-       mapping = aes(x = week, 
+       mapping = aes(x = region, 
                      y = cases)) +
   geom_histogram()
 ```
@@ -393,7 +655,10 @@ ggplot(data = nigerm96,
 This is because a histogram shows the distribution of one numerical variable. `ggplot()` can't map two variables to both the `x` and `y`-axis positions with a histogram, so it throws an error.
 :::
 
+![](images/white_square.jpg)
+
 ::: practice
+**Practice Question**\
 • Use the **`nigerm04`** data frame to create a bar plot of weekly cases with the **`geom_col()`** function.
 
 • Map `cases` on the y-axis and `week` on the x-axis.
@@ -415,13 +680,27 @@ nigerm04_bar <- "YOUR ANSWER HERE"
 ```
 :::
 
+```{r}
+nigerm04_bar
+```
+
+![](images/white_square.jpg)
+
 ### Additional aesthetic mappings inside `aes()`
 
-• `aes()` stands for **aesthetics** - things we can see
+![](images/white_square.jpg)
 
-![Common aesthetic attributes used in ggplot graphics.](images/common_aesthetics_1.png){alt="Common aesthetic attributes used in ggplot graphics." width="507"}
+• `aes()` stands for aesthetics - things we can see
 
-• We have been using to only the `x` and `y` position aesthetics
+![](images/white_square.jpg)
+
+![Common aesthetic attributes used in ggplot graphics.](images/common_aesthetics_1.png){alt="Common aesthetic attributes used in ggplot graphics."}
+
+![](images/white_square.jpg)
+
+• We have been using to only the `x` and `y` aesthetics
+
+![](images/white_square.jpg)
 
 Let's return to our original scatter plot (`cases` vs `week`) once more:
 
@@ -432,19 +711,34 @@ ggplot(data = nigerm96,
   geom_point()
 ```
 
-• There are other aesthetics we can add, like `color` or `fill`
+![](images/white_square.jpg)
+
+• There are other aesthetics we can add, like color or size
+
+![](images/paste-72D5BE04.png)
 
 ::: pro-tip
+**Pro Tip**\
 To see the full list of aesthetics that can be used with a particular `geom_*` function you press **F1** on a function, e.g., `geom_point()`, or run `?geom_point` in your Console tab.
 :::
 
+![](images/white_square.jpg)
+
 Let's add **color** to our scatter plot.
+
+![](images/white_square.jpg)
 
 • Map `region` to the `color` aesthetic
 
+![](images/white_square.jpg)
+
 • Add a new argument inside `mapping = aes()`
 
+![](images/white_square.jpg)
+
 • Put `color = region` inside `aes()`:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Use a different color for each region 
@@ -454,25 +748,50 @@ ggplot(data = nigerm96,
   geom_point()
 ```
 
-• Each point is colored according to `region`
+![](images/white_square.jpg)
+
+A colored scatter plot!
+
+![](images/white_square.jpg)
+
+• Each point is colored according to region
+
+![](images/white_square.jpg)
 
 • `ggplot()` automatically created a color legend
 
+![](images/white_square.jpg)
+
 ::: side-note
+**Side Note**\
 The colors are from {ggplot2}'s default rainbow color palette. In later lessons we will learn how to customize color scales and palettes.
 :::
 
+![](images/white_square.jpg)
+
 **Observations**
+
+![](images/white_square.jpg)
 
 • **Bell-shaped curves** show the rise and fall of epidemics in each region
 
+![](images/white_square.jpg)
+
 • The regions Zinder, Maradi, and Niamey were affected the most
+
+![](images/white_square.jpg)
 
 • The colorful plot provides more insight than the original scatter plot graph, but the patterns could be more clear
 
+![](images/white_square.jpg)
+
 • Different **plot types** could improve readability, such as **bar plots** or **line graphs**
 
+![](images/white_square.jpg)
+
 Let's try the same `color = region` aesthetic mapping with **`geom_col()`** instead:
+
+![](images/white_square.jpg)
 
 ```{r}
 # Bar plot with different outline color for each region
@@ -481,13 +800,30 @@ ggplot(data = nigerm96,
                      y = cases,
                      color = region)) +
   geom_point()
+
 ```
+
+![](images/white_square.jpg)
+
+• A **stacked bar plot** with colorful borders
+
+![](images/white_square.jpg)
+
+• Shows the contribution of each region to the total cases count
+
+![](images/white_square.jpg)
 
 • The `color` aesthetic changes only the **border** around a shape
 
+![](images/white_square.jpg)
+
 Let's fill the **inside** of the bars instead.
 
+![](images/white_square.jpg)
+
 • Map `region` to the **`fill` aesthetic** instead of `color`
+
+![](images/white_square.jpg)
 
 ```{r}
 # Use a different fill color for each region:
@@ -498,9 +834,12 @@ ggplot(data = nigerm96,
   geom_col()
 ```
 
-• The **inside** of the bars are now filled with colors.
+Nice!
+
+![](images/white_square.jpg)
 
 ::: practice
+**Practice Question**\
 • Use the `nigerm04` data frame to create a line graph of weekly cases, colored by `region`.
 
 • Map `cases` on the y-axis, `week` on the x-axis, and `region` to color. The `geom_*` function for a line graph is called **`geom_line()`**.
@@ -508,11 +847,16 @@ ggplot(data = nigerm96,
 ```{r}
 # Write code to create your plot:
 
+
 ```
 
 ```{r}
 # Submit your answer:
-nigerm04_line <- "YOUR ANSWER HERE"
+nigerm04_line <- ggplot(data = nigerm04,
+         mapping = aes(x = week,
+                       y = cases,
+                       color = region)) + 
+    geom_line()
 
 # Ask for a hint:
 .HINT_nigerm04_line()
@@ -522,50 +866,73 @@ nigerm04_line <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Fixed aesthetics outside `aes()`
-
-
-
-**Aesthetic mappings** vs **fixed** **aesthetics**
-
-
-
-• Common aesthetics are `color`, `fill`, `size` , and `alpha` (opacity).
-
-
-
-• Any of these can be either a **mapping of a data variable** (e.g., `color = region`) or set to a **fixed value** (`color = "blue"`)
-
-
-
-• This depends on whether or not they appear **inside** **`mapping = aes()`**.
-
-Let's add **`color`** as a **fixed aesthetic** to our original scatter plot and make all the points **blue**.
-
-
+![](images/white_square.jpg)
 
 ```{r}
-# Set color to a fixed value with `geom_point(color = "COLOR_NAME")`
+nigerm04_line
+```
+
+![](images/white_square.jpg)
+
+### Aesthetics parameters outside `aes()`
+
+![](images/white_square.jpg)
+
+**Aesthetic mappings** vs **aesthetic parameters**:
+
+• Aesthetics like `x`, `y`, `color`, `fill`, and `size` could be either a **mapping** or a **parameter**.
+
+![](images/white_square.jpg)
+
+• This depends on whether they appear **inside** or **outside** the **`aes()`** function.
+
+![](images/white_square.jpg)
+
+• **Mappings** always go with a **variable** placed **inside** `mapping = aes()`.
+
+![](images/white_square.jpg)
+
+• **Parameters** are set to a **constant** value **outside** `aes()` and directly inside the `geom_*` function.
+
+![](images/white_square.jpg)
+
+Let's add the **`color`** **parameter** to change all points in our scatter plot to blue.
+
+• `geom_point(color = "COLOR_NAME")`.
+
+![](images/white_square.jpg)
+
+```{r}
+# Use the same color for all points
 ggplot(data = nigerm96, 
        mapping = aes(x = week, 
                      y = cases)) +
   geom_point()       
 ```
 
+![](images/white_square.jpg)
+
 • Every point is the same color
 
-• When `color` is a fixed aesthetic, it does not depend on the data
+![](images/white_square.jpg)
+
+• The color aesthetic parameter does not depend on the data
+
+![](images/white_square.jpg)
 
 • Color names should go inside quotation marks (e.g., `"blue"`)
 
+![](images/white_square.jpg)
+
 • Run `colors()` in your console to see all color choices
-```{r}
-colors()
-```
 
-Now let's modify **`size`** as a **fixed** aesthetic
+![](images/white_square.jpg)
 
-The default line width used by `geom_line()` looks like this:
+Now let's modify the **`size`** **parameter**.
+
+![](images/white_square.jpg)
+
+The default line width used by `geom_line()` is 0.5 mm, which looks like this:
 
 ```{r}
 ggplot(data = nigerm96, 
@@ -575,21 +942,57 @@ ggplot(data = nigerm96,
       geom_line()
 ```
 
+![](images/white_square.jpg)
+
 For thicker lines add `size = 1` inside `geom_line()`:
+
 ```{r}
-ggplot(data = nigerm96,
-       mapping = aes(x = week,
-                     y = cases,
-                     color = region)) +
-  geom_line()
+ggplot(data = nigerm96, 
+             mapping = aes(x = week, 
+                           y = cases,
+                           color = region)) + 
+      geom_line()
 ```
 
-Now it's your turn practice using **`fill`** as a fixed aesthetic to change the fill colors to a constant value on a bar plot.
+• Line width has increased to 1 mm.
+
+![](images/white_square.jpg)
+
+• All lines have the same constant width
+
+![](images/white_square.jpg)
+
+• `size` is numeric, so no need for quotation marks
+
+![](images/white_square.jpg)
+
+::: watch-out
+**Watch Out**\
+Let's move the `size = 1` parameter from `geom_line()` to `aes()` to see how it can go wrong:
+
+```{r}
+ggplot(data = nigerm96, 
+             mapping = aes(x = week, 
+                           y = cases,
+                           color = region)) + 
+      geom_line(size = 1)
+```
+
+Since there is no variable called "1" in the `nigerm96` dataframe, `aes()` cannot process or map this aesthetic correctly.
+:::
+
+![](images/white_square.jpg)
+
+Now practice using the **`fill` parameter** to change the fill colors to a constant value on a bar plot.
+
+![](images/white_square.jpg)
 
 ::: practice
+**Practice Question**
+
 • Use the `nigerm04` data frame to create a bar graph of weekly cases, and fill all bars with the same color.
 
-• Map `cases` on the y-axis, `week` on the x-axis, and set the `fill` aesthetic of all bars to the R color `"hotpink"`.
+• Map `cases` on the y-axis, `week` on the x-axis, and set the `fill` aesthetic parameter of the bars to the R color `"hotpink"`.
 
 ```{r}
 # Write code to create your plot:
@@ -608,11 +1011,19 @@ nigerm04_pinkbar <- "YOUR ANSWER HERE"
 ```
 :::
 
+![](images/white_square.jpg)
+
 ## Additional GG layers
+
+![](images/white_square.jpg)
 
 • So far, we covered only the three required layers.
 
+![](images/white_square.jpg)
+
 • The other layers will start showing up more frequently as we go along.
+
+![](images/white_square.jpg)
 
 • You will soon be able to write code this:
 
@@ -623,27 +1034,76 @@ ggplot(data = nigerm,
                      color = region)) +
   geom_line(size = 0.55, 
             alpha = 0.65) + 
-  facet_wrap(vars(year))+  
-  scale_color_brewer(palette = "Dark2") + 
-  theme_light() +
+  facet_wrap(~year) +
   labs(title = "Annual patterns of measles incidence in Niger",
        subtitle = "Weekly reported at region level (1995-2005)",
        x = "Week of the year",
        y = "Number of cases reported",
        caption = "Source: doi:10.5061/dryad.1jwstqjrd",
-       color = "Region")
+       color = "Region") +  
+  scale_color_brewer(palette = "Dark2") + 
+  theme_light() 
 ```
+
+![](images/white_square.jpg)
+
+## Wrap up
+
+![](images/white_square.jpg)
+
+We learned how build a `ggplot` with the 3 essential GG layers and further modify those elements.
+
+![](images/white_square.jpg)
+
+::: recap
+**Recap**\
+To build a complete `ggplot`, you can copy this code template and adapt it to create different plots:
+
+```{r eval=FALSE}
+ggplot(data = DF_NAME,
+       mapping = aes(AES1 = VAR1,
+                     AES2 = VAR2, 
+                     AES3 = VAR3, 
+                     ...)) +
+  geom_FUCNTION()
+```
+:::
+
+![](images/white_square.jpg)
+
+> The transferable skills from {ggplot2} are not the idiosyncrasies of plotting syntax, but a powerful way of thinking about visualization, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.\
+> - Hadley Wickham
+
+![](images/white_square.jpg)
+
+In short, the grammar of graphics tells us that:
+
+> A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of `geom`etric objects.
+
+![](images/grammar_of_graphics.png){width="515"}
+
+![](images/white_square.jpg)
 
 ## Learning Outcomes
 
+![](images/white_square.jpg)
+
 1.  You can recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
+
+![](images/white_square.jpg)
 
 2.  You can name and describe the 3 essential layers for building a graph: **data**, **aesthetics**, and **geometries**.
 
+![](images/white_square.jpg)
+
 3.  You can write code to **build a complete `ggplot`** **graphic** by correctly supplying the 3 essential layers to the **`ggplot()`** **function**.
+
+![](images/white_square.jpg)
 
 4.  You can create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
 
-5.  You can add and modify **aesthetic mappings** of data variables to **color** and **fill**.
+![](images/white_square.jpg)
 
-[INSERT LINK TO COURSE FOR QUIZZES ETC.]
+5.  You can add or modify **aesthetic mappings** of a plot such as **color** and **fill**.
+
+    ![](images/white_square.jpg)

@@ -23,9 +23,3 @@ devtools::source_gist("https://gist.github.com/kendavidn/05c7055e487ef22e5a336a4
 quiz_path <- "quizzes/ls01_gg_intro/ls01_gg_intro_theory_quiz/quiz.Rmd"
 
 process_theory_quiz(quiz_path)
-
-### Quiz 99 ----
-
-quiz_path <- "quizzes/ls99_title/ls99_title_theory_quiz/quiz.Rmd"
-
-process_theory_quiz(quiz_path)

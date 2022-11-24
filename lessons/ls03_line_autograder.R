@@ -36,7 +36,7 @@ data(.gapminder, package="gapminder")
 #Create a time series plot of the GPD per capita (`gdpPercap`) recorded in the `gap_US` data frame by using `geom_line()` to create a linegraph.
 
 # [backend]
-.check_q1 <-
+.CHECK_q1 <-
   function() {
     .problem_number <<- 1
     
@@ -80,7 +80,7 @@ data(.gapminder, package="gapminder")
 
 # [backend]
 # create one hint per question
-.hint_q1 <- function(){
+.HINT_q1 <- function(){
   'First, supply the correct data frame to the data layer of `ggplot()`.
   Then put the variables you want to map on your x and your y axis inside `mapping = aes()`. 
   Then, add the correct geometry function a line graph.
@@ -88,7 +88,7 @@ data(.gapminder, package="gapminder")
   cat(out)
 }
 # solution of question
-.solution_q1 <- function(){
+.SOLUTION_q1 <- function(){
   'ggplot(gap_US, 
           mapping = aes(x = year, 
                         y = gdpPercap)) +
@@ -103,7 +103,7 @@ data(.gapminder, package="gapminder")
 #Building on the code above, visualize the relationship between time the GPD per capita `gap_US` data frame with both points and lines. Change the color of the points as desired.
 
 # [backend]
-.check_q2 <-
+.CHECK_q2 <-
   function() {
     .problem_number <<- 2
     
@@ -168,13 +168,13 @@ data(.gapminder, package="gapminder")
 
 # [backend]
 # create one hint per question
-.hint_q2 <- function(){
+.HINT_q2 <- function(){
   'We want to plot a line and points: you need to use two different geometry functions.
   Then we want to customize both geometries with their own color and size.' -> out
   cat(out)
 }
 # solution of question
-.solution_q2 <- function(){
+.SOLUTION_q2 <- function(){
   'ggplot(gap_US, 
           mapping = aes(x = year, 
                            y = gdpPercap)) +

@@ -16,6 +16,17 @@ editor_options:
   chunk_output_type: inline
 ---
 
+```{HTML, include = F}
+Hi GRAPH Courses student! 
+  
+This is the document that generates the lesson HTML/PDF handouts on our website. 
+
+You can read through it to follow the lesson, and answer the practice questions. 
+
+If you want to CODE ALONG with the lesson video, please use the the "*_video_code_along" Rmd instead!
+```
+
+
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
 # Load packages 
 if(!require(pacman)) install.packages("pacman")
