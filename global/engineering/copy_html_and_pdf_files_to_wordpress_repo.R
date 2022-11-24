@@ -66,7 +66,7 @@ title_df <-
     "ls05_groupby_summarize", "Grouping and summarizing",
     "ls06_group_by_other_verbs", "Grouping operations on other verbs",
     "ls07_across", "The across function",
-    "ls08_pivoting", "Pivoting",
+    "ls08_pivoting", "Pivoting data",
     "ls09_advanced_pivoting", "Advanced pivoting"
     
     
