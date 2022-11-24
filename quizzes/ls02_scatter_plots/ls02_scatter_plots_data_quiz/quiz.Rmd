@@ -1,0 +1,879 @@
+---
+title: 'Multiple-choice quiz | Scatter plots and smoothing'
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: console
+# quiz_title: '03.03 scatterplots and smoothing'
+# quiz_type: 'simple_theory'
+# course_abbrev: 'IDAR'
+---
+
+```{r, echo = F, message = F, warning = F}
+# LS02 SCATTER PLOTS MCQ
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               googledrive,
+               patchwork,
+               rio,
+               here,
+               knitr)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+opts_chunk$set(warning = F, message = F)
+```
+
+# Intro
+
+This quiz tests your understanding of how of [lesson 2]. Good luck!
+
+Quiz Contributors: [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+
+# Q - fixed aes cars 1
+
+The scatter plot below uses the `mtcars` dataset to visualize automobile weight (`wt`) vs. gross horsepower (`hp`).
+
+```{r}
+# You can run this code on your own computer, mtcars is a built-in R dataset.
+head(mtcars)
+
+ggplot(data = mtcars,
+       mapping = aes(x = wt, 
+                     y = hp)) +
+  geom_point()
+```
+
+
+A number of additional aesthetics can be specified in `geom_point()`, such as `color`, `size`, `shape`, and `alpha`. 
+
+Which of the following is a valid input for modifying aesthetics in `geom_point()`
+
+## A
+
+`geom_point(size = 3)`
+
+## B
+
+`geom_point(alpha = 2)`
+
+## C
+
+`geom_point(color = blue)`
+
+## D
+
+`geom_point(shape = point)`
+
+## Answer
+
+A
+
+## Correct message
+
+Perfect!
+
+Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics. 
+
+- `size` `size` should be set to a number (measured in millimeters), so `size = 3` is a valid input which will increase point size to 3mm.
+- `color` needs to be a character string (e.g., `"blue"`), so `color = blue` will cause an error.
+- `shape` names can be set to certain integers or character strings. There is no shape called `point`. 
+- `alpha` ranges from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 2` does not increase the opacity of points.
+
+See [here](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) to learn more fixed aesthetics for points in {ggplot2}.  
+
+Remember that you can try different options on your own without installing external packages; the `mtcars` dataset is built in to R.
+
+## Incorrect message
+
+Let's *fix* any misunderstandings!
+
+Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics. 
+
+- `size` `size` should be set to a number (measured in millimeters), so `size = 3` is a valid input which will increase point size to 3mm.
+- `color` needs to be a character string (e.g., `"blue"`), so `color = blue` will cause an error.
+- `shape` names can be set to certain integers or character strings. There is no shape called `point`. 
+
+See [here](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) to learn more fixed aesthetics for points in {ggplot2}.  
+
+Remember that you can try different options on your own without installing external packages; the `mtcars` dataset is built in to R.
+
+# Q - fixed aes cars 2
+
+The scatter plot below uses the `mtcars` dataset to visualize the relationship between fuel consumption (`mpg`) vs. weight (`wt`).
+
+```{r}
+# You can run this code on your own computer, mtcars is a built-in R dataset.
+head(mtcars)
+
+ggplot(data = mtcars,
+       mapping = aes(x = wt, 
+                     y = mpg)) +
+  geom_point()
+```
+A number of additional aesthetics can be specified in `geom_point()`, such as `color`, `size`, `shape`, and `alpha`. 
+
+Which of the following is a NOT valid input to `geom_point()`?
+
+## A
+
+`geom_point(size = large)`
+
+## B
+
+`geom_point(alpha = 0.8)`
+
+## C
+
+`geom_point(color = "blue")`
+
+## D
+
+`geom_point(shape = 9)`
+
+## Answer
+
+A
+
+## Correct message
+
+You're miles ahead!
+
+Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics and should be set to a constant value. 
+
+- `size` is set to a numeric value, units are millimeters, so `size = 3` is a valid input.
+- `color` needs to be a character string (e.g., `"blue"`), so `color = blue` will cause an error.
+- `shape` names can be set to certain integers or character strings. There is no shape called `point`. 
+- `alpha` ranges from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 0.8` will decrease the opacity of points.
+
+See [here](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) to learn more fixed aesthetics for points in {ggplot2}.  
+
+Remember that you can try different options on your own without installing external packages; the `mtcars` dataset is built in to R.
+
+## Incorrect message
+
+Let's *fix* this!
+
+Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics and should be set to a constant value. 
+
+- `size` is set to a numeric value, units are millimeters, so `size = 3` is a valid input.
+- `color` needs to be a character string (e.g., `"blue"`), so `color = blue` will cause an error.
+- `shape` names can be set to certain integers or character strings. There is no shape called `point`. 
+- `alpha` ranges from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 0.8` will decrease the opacity of points.
+
+See [here](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) to learn more fixed aesthetics for points in {ggplot2}.  
+
+Remember that you can try different options on your own without installing external packages; the `mtcars` dataset is built in to R.
+
+# Q - overplotting diamonds 1
+
+With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data.
+
+For example, you can use the `diamonds` from {ggplo2} to visualize relationship between the weight of a diamond and it's price in US dollars:
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point()
+```
+
+This scatter plot contains about 54,000 points! They are heavily overplotted, making it impossible to get a sense of the relative density of points in different areas of the graph.
+
+What can you add to this code to help you visualize overlapping points?
+
+## A
+
+We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 0.1` in `geom_point()`
+
+## B
+
+We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 1.9` in `geom_point()`
+
+## C
+
+We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 0.1` in `aes()`
+
+## D
+
+We can make the points semitransparent by avoiding darker shades and using lighter color, by setting `color = "lightgray"` for example.
+
+## Answer
+
+A
+
+## Correct message
+
+Wow, you could see through the wrong answers!
+
+Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points. `alpha = 0.1` makes them 90% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 0.1)
+```
+
+When used as a fixed aesthetic - like we are doing here - `alpha` takes a numeric value that can range from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 1.9` does not increase the transparency, and is not helpful for overplotting. 
+
+Setting point `color` to a lighter color doesn't change the level of opacity/transparency. The points will still be completely opaque (unless we also decrease `alpha`), so this does not help us visualize relative density.
+
+Bonus: Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us increase *clarity* in the presence of overplotting.
+
+## Incorrect message
+
+Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points. `alpha = 0.1` makes them 90% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 0.1)
+```
+
+When used as a fixed aesthetic - like we are doing here - `alpha` takes a numeric value that can range from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 1.9` does not increase the transparency, and is not helpful for overplotting. 
+
+Setting point `color` to a lighter color doesn't change the level of opacity/transparency. The points will still be completely opaque (unless we also decrease `alpha`), so this does not help us visualize relative density.
+
+Remember that you can try different options on your own computer; the `diamonds` dataset is included within the {ggplot2} package.
+
+Bonus: Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us increase *clarity* in the presence of overplotting.
+
+
+# Q - overplotting diamonds 2
+
+With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data.
+
+For example, you can use the `diamonds` from {ggplo2} to visualize relationship between the weight of a diamond and it's price in US dollars:
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point()
+```
+
+This scatter plot contains about 54,000 points! They are heavily overplotted, making it impossible to get a sense of the relative density of points in different areas of the graph.
+
+Which of the following will aid viewers to increase *clarity* in a scatter plot when there is overplotting?
+
+## A
+Setting `alpha = 2` in `aes()`
+
+## B
+
+Setting `alpha = 2` in `geom_point()`
+
+## C
+
+Setting `alpha = 0.1` in `aes()`
+
+## D
+
+None of these options will improve the readability of overplotted points.
+
+## Answer
+
+D
+
+## Correct message
+
+You *clear*ly know what you're doing!
+
+Fixed aesthetics should not be set in `aes()`. Instead, adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.
+
+For example, `alpha = 0.1` makes them 90% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 0.1)
+```
+
+When used as a fixed aesthetic `alpha` takes a numeric value that can range from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 2` does not increase the transparency, and is not helpful for overplotting. 
+
+Bonus: Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us see patterns in the presence of overplotting.
+
+## Incorrect message
+
+Let's *clear* things up!
+
+Fixed aesthetics should not be set in `aes()`. Instead, adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.
+
+For example, `alpha = 0.1` makes them 90% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 1.9)
+```
+
+When used as a fixed aesthetic `alpha` takes a numeric value that can range from 0 (completely transparent) to 1 (completely opaque). Setting `alpha = 2` does not increase the transparency, and is not helpful for overplotting. 
+
+Remember that you can try different options on your own computer; the `diamonds` dataset is included within the {ggplot2} package.
+
+Bonus: Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us see patterns in the presence of overplotting.
+
+# Q - overplotting diamonds 3
+
+With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data.
+
+For example, you can use the `diamonds` from {ggplo2} to visualize relationship between the weight of a diamond and it's price in US dollars:
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point()
+```
+
+This scatter plot contains about 54,000 points! They are heavily overplotted, making it impossible to get a sense of the relative density of points in different areas of the graph.
+
+Which of the following will help us understand relationships in a scatter plot when there are a lot of overlapping points?
+
+## A
+Adding an additional geometric layer with `geom_smooth()`
+
+## B
+
+Setting `alpha = 0.05` in `geom_point()`
+
+## C
+
+Setting `alpha = 0.2` in `geom_point()`
+
+## D
+
+All of these options will aid in highlighting patterns in scatter plot when there is overplotting.
+
+## Answer
+
+D
+
+## Correct message
+
+Great job connecting the dots!
+
+Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.
+
+For example, `alpha = 0.05` makes them 95% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 0.05)
+```
+
+
+Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us increase *clarity* in the presence of overplotting.
+
+## Incorrect message
+
+There are few different approaches to addressing overplotting on a scatterplot:
+
+1) Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.
+
+For example, `alpha = 0.05` makes them 95% transparent. 
+
+```{r}
+ggplot(data = diamonds, 
+       mapping = aes(x = carat, 
+                     y = price)) +
+  geom_point(alpha = 0.05)
+```
+
+2) Fitting a smooth curve through points in a scatter plot with `geom_smooth()` can also help us increase *clarity* in the presence of overplotting.
+
+
+
+The `midwest` dataset from {ggplot2} contains demographic information from the a 2000 US census. We can use a scatter plot to look at the correlation between the percentage of people with high school diploma and the percentage of people with a college (university) education:
+```{r}
+# You can run this code on your computer; the midwest dataset is loaded with {ggplot2}
+ggplot(data = midwest, 
+       mapping = aes(x = perchsd, 
+                     y = percollege)) +
+  geom_point()
+```
+Adding a fitted line to a scatter plot can help us highlight trends in the data. We can do this by adding a second geometry layer with the `geom_smooth()` function.
+
+In `ggplot2` graphs, we chain together multiple geometry layers using the `+` sign, like so:
+```{r warning = F}
+ggplot(data = midwest, 
+       mapping = aes(x = perchsd, 
+                     y = percollege)) +
+  geom_point() +
+  geom_smooth()
+```
+
+Which of the following statements is TRUE?
+
+*Hint*: copy the code above and experiment with different ways of combining layers, and closely examine the results.
+
+## A
+
+{ggplot2} will automatically layer the trend line on top of the points, so the order in which you chain `geom_*()` functions does not matter. 
+
+## B
+
+{ggplot2} will display layers in the order they appear in your code.
+
+##
+Adding `geom_smooth()` before `geom_point()` will result in and error. You need to plot the points first so that line has something to be fitted to. 
+
+## Answer
+
+B
+
+## Correct message
+
+You're trendy!
+
+Geometry layers are plotted in the order they appear in the code, one on top of the other. Adding `geom_point()` before `geom_smooth()` will plot the points first, and then draw the smoothing line on top of it (see above).
+
+The opposite is also true:
+```{r warning = F}
+ggplot(data = midwest, 
+       mapping = aes(x = perchsd, 
+                     y = percollege)) +
+  geom_smooth() +
+  geom_point()
+```
+Adding `geom_smooth()` before `geom_point()` means that the points layer is plotted on top of the smoothing layer. You can increase point size on this plot to see this better. 
+
+## Incorrect message
+
+The order of layers is not pointless!
+
+Geometry layers are plotted in the order they appear in the code, one on top of the other. Adding `geom_point()` before `geom_smooth()` will plot the points first, and then draw the smoothing line on top of it (see above).
+
+The opposite is also true:
+```{r warning = F}
+ggplot(data = midwest, 
+       mapping = aes(x = perchsd, 
+                     y = percollege)) +
+  geom_smooth() +
+  geom_point()
+```
+Adding `geom_smooth()` before `geom_point()` means that the points layer is plotted on top of the smoothing layer. You can increase point size on this plot to see this better. 
+
+Generally, this is not something you want to do, but it's important to understand how the layers are ordered. 
+
+
+# Q - understand smoothing usage
+
+Which of the following is NOT true about smoothing with `geom_smooth()`?
+
+## A
+
+Adding a smoothing layer can aid the eye in seeing overall patterns on a scatterplot.
+
+## B
+
+You can specify which smoothing function to use by adding the `method` argument.
+
+## C
+
+The smoothing function is fitted applied to the data variables specified in `aes()`.
+
+## D
+
+A smoothing curve is drawn to fit the points on a scatter plot created by `geom_point()`. No points will result in no smoothing line being plotted.
+
+## Correct message
+
+You've got the point!
+
+The smoothing method (or function) used by `geom_smooth()` is fitted to the data, not the points on a different layer. 
+
+When we add `geom_smooth()` to `geom_point()`, both layers inherit the `x` and `y` aesthetic mappings from `aes()`: 
+```{r}
+# Percent of elderly below poverty line vs percent college educated
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_point() +
+  geom_smooth()
+```
+Aesthetic inheritance ensures that you're not mapping completely different variables to each geometry layer. So functionally it looks like the line is fitted to the points on the scatterplot.
+
+However, you can use just `geom_smooth()` without `geom_point()` and it will still plot a function to show relationship between the data variables provided:
+```{r}
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_smooth()
+```
+
+The `method` argument specifies which smoothing function should be used to fit the data. If you don't specify a particular method, the default for two continuous variables is generally `"loess"` smooth, but you can use other modelling functions such as like `"lm"` for linear regression.
+
+```{r}
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_smooth(method = "lm")
+```
+
+## Incorrect message
+
+The smoothing method (or function) used by `geom_smooth()` is fitted to the data, not the points on a different layer. 
+
+When we add `geom_smooth()` to `geom_point()`, both layers inherit the `x` and `y` aesthetic mappings from `aes()`: 
+```{r}
+# Percent of elderly below poverty line vs percent college educated
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_point() +
+  geom_smooth()
+```
+Aesthetic inheritance ensures that you're not mapping completely different variables to each geometry layer. So functionally it looks like the line is fitted to the points on the scatterplot.
+
+However, you can use just `geom_smooth()` without `geom_point()` and it will still plot a function to show relationship between the data variables provided:
+```{r}
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_smooth()
+```
+
+The `method` argument specifies which smoothing function should be used to fit the data. If you don't specify a particular method, the default for two continuous variables is generally `"loess"` smooth, but you can use other modelling functions such as like `"lm"` for linear regression.
+
+```{r}
+ggplot(data = midwest, 
+       mapping = aes(x = percollege,
+                     y = percelderlypoverty)) +
+  geom_smooth(method = "lm")
+```
+
+# Q - confidence intervals 1
+
+`geom_smooth()` will automatically display 95% confidence intervals around the smoothing line
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Nice! We're *confident* that you'll rock this quiz!
+
+The `se` argument in `geom_smooth()` dictates whether or not to display confidence intervals. By default, `se = TRUE`. You can remove these by setting `se = FALSE` or `se = F`.
+
+```{r}
+# Default
+ggplot(data = midwest, 
+       mapping = aes(x = percadultpoverty,
+                     y = percelderlypoverty)) +
+  geom_smooth()
+
+# Remove intervals
+ggplot(data = midwest, 
+       mapping = aes(x = percadultpoverty,
+                     y = percelderlypoverty)) +
+  geom_smooth(se = F)
+```
+
+
+## Incorrect answer
+
+The `se` argument in `geom_smooth()` dictates whether or not to display confidence intervals. By default, `se = TRUE`, so . You can remove these by setting `se = FALSE` or `se = F`.
+
+```{r}
+# Default
+ggplot(data = midwest, 
+       mapping = aes(x = percadultpoverty,
+                     y = percelderlypoverty)) +
+  geom_smooth()
+
+# Remove intervals
+ggplot(data = midwest, 
+       mapping = aes(x = percadultpoverty,
+                     y = percelderlypoverty)) +
+  geom_smooth(se = F)
+```
+
+
+# Q - understand scatter usage
+
+Scatter plots created by `geom_point()` are most commonly used to display what kind of information?
+
+## A
+
+The relationship between two continuous variables
+
+## B
+
+The distribution of a single continuous variable
+
+## C
+Distribution of a single discrete variable
+
+## D
+
+All of the answers are correct
+
+## Answer
+
+A
+
+## Correct message
+
+You are on-point! 
+
+Here is a table summarizing the common plot types, what kind of information they can show, and the corresponding `geom_*()` function(s) in {ggplot2}. 
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types.jpg"))
+```
+
+You can check out more plot types on RStudio’s {ggplot2} [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf). This can also be directly accessed in  the RStudio Menu Bar by going to Help -> Cheatsheets -> Data Visualization with ggplot2. 
+
+## Incorrect message
+
+Not quite!
+
+Here is a table summarizing the common plot types, what kind of information they can show, and the corresponding `geom_*()` function(s) in {ggplot2}. 
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types.jpg"))
+```
+
+You can check out more plot types on RStudio’s {ggplot2} [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf). This can also be directly accessed in  the RStudio Menu Bar by going to Help -> Cheatsheets -> Data Visualization with ggplot2. 
+
+# Q - recall alpha
+
+When you define your geometric layers with ggplot, you can specify an alpha value. What can you control with this value?
+
+# A
+
+The opacity/transparency of your geometric objects.
+
+# B
+
+The hierarchy of your geometric objects.
+
+# C
+
+The RGB code to define the colors on the plot.
+
+# Answer
+
+A
+
+# Q - recall geom_smooth
+
+You want to add a smoothing line to your plot, which of the functions below can be used for this?
+
+# A
+
+`geom_smooth()`
+
+# B
+
+`smooth()`
+
+# C
+
+`geom_curve()`
+
+# D
+
+`geom_trend()`
+
+# Answer
+
+C
+
+
+# Q - recall geom_point
+
+What is the name of the function used to create scatter plots in R?
+
+# A
+
+`geom_scatter()`
+
+# B
+
+`geom_point()`
+
+# C
+
+`geom_dot()`
+
+# D
+
+`geom_scatterplot()`
+
+# Answer
+
+B
+
+# Q
+
+A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`. 
+
+These assign a fixed value to color, size, and transparency, respectively. 
+
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+A
+
+# Q
+
+A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`. 
+
+These control the visual elements of the points by mapping data variables to color, size, and transparency, respectively. 
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+B
+
+
+
+# Q
+
+In `ggplot2` graphs, functions are chained together using the `+` sign to build a final plot.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+A
+
+# Q
+
+In `ggplot2` graphs, functions are chained together using the ` %>% ` sign to build a final plot.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+B
+
+# Q
+
+In `ggplot2` graphs, functions are chained together using the `->` sign to build a final plot.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+B
+
+# Q - alpha range
+
+What is the name of the function used to create scatter plots in R?
+
+# A
+
+`alpha = 0` sets the points to be 100% opaque and `alpha = 1` sets the points to be 100% transparent . 
+
+
+# B
+
+We can change the `alpha` argument to be any value between `0` and `1`
+
+
+# C
+
+`alpha = 0` sets the points to be 100% transparent and `alpha = 1` sets the points to be 100% opaque. 
+
+# D
+
+By default, `alpha` is set to `1`.
+
+# Answer
+
+A
+
+# Q fill v color
+
+The `fill` aesthetic controls the interior color of points for specific shapes.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+A
+
+# Q fill v color
+
+The `color` aesthetic controls the outline or border color of points only for specific {ggplot2} shapes.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+A
+
+
+# Q fill v color
+
+The `fill` aesthetic colors the inside of points for all {ggplot2} shapes.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+B
+
+
+# Q
+
+In `ggplot2` graphs, functions are chained together using the ` %>% ` sign to build a final plot.
+
+## A
+TRUE
+
+## B
+FALSE
+
+## Answer
+B
+
