@@ -166,6 +166,79 @@ pacman::p_load(tidyverse,
 }
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## age_height_fever ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.CHECK_age_height_fever <-
+  function() {
+    .problem_number <<- 3
+    
+    .q2_correct <- 
+      ggplot(data = .malidd, 
+             mapping = aes(x = age_months, 
+                           y = height_cm)) + 
+      geom_point(mapping = aes(color = factor(fever)))
+    
+    .autograder <<-
+      function(){
+        if (!is.ggplot(age_height_fever)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        
+        # test 1
+        # that data used is correct
+        .q2_test1 <- all_equal(
+          target = as_tibble(age_height_fever$data), 
+          current = as_tibble(.q2_correct$data))
+        
+        # test 2
+        # that learner used geom_point()
+        .q2_test2 <- any(stringr::str_detect(capture.output(age_height_fever$layers), 
+                                             "geom_point"))
+        # test 3
+        # check the x mapping
+        .q2_test3 <- "* `x` -> `age_months`" %in% capture.output(age_height_fever$mapping)
+        
+        # test 4
+        # check the y mapping
+        .q2_test4 <- "* `y` -> `height_cm`" %in% capture.output(age_height_fever$mapping)
+        
+        # # test 5
+        # # check the color argument: UK spelling
+        # .q2_test5 <- any(stringr::str_detect(capture.output(age_height_fever$layers), 
+        #                                      "colour = ~factor(fever)"))
+        # 
+        if (isTRUE(!(.q2_test1))) return(c(value = 0, message = "! Check which dataset you are plotting."))
+        if (isTRUE(!(.q2_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_point."))
+        if (isTRUE(!(.q2_test3 && .q2_test4))) return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
+        # if (isTRUE(!(.q2_test5))) return(c(value = 0, message = "! Check that you are giving the right input to your color mapping."))
+        # if (isTRUE(.q2_test1 && .q2_test2 && .q2_test3 && .q2_test4 && .q2_test5)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        if (isTRUE(.q2_test1 && .q2_test2 && .q2_test3 && .q2_test4)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        # wrong
+        return(c(value = 0, message = "Wrong. Please try again."))
+      }
+    .apply_autograder()
+  }
+
+# [backend]
+# create one hint per question
+.HINT_age_height_fever <- function(){
+  'Identify which variables from the data you want to map to the x and y positions. 
+  Next, add the correct geometry function needed to create a scatterplot.
+  Remember that we want to color these points. 
+  Keep in mind that ggplot will treat the binay variable `fever` as a continuous variable, but here we want you to give it two distinct colors.' -> out
+  cat(out)
+}
+# solution of question
+.SOLUTION_age_height_fever <- function(){
+  'ggplot(data = malidd, 
+             mapping = aes(x = age_months, 
+                           y = height_cm)) + 
+      geom_point(mapping = aes(color = factor()))' -> out
+  cat(out)
+}
+
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## age_viral_blue ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
