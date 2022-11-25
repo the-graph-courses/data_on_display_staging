@@ -25,7 +25,7 @@ pacman::p_load(tidyverse,
 ## Load data ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.malidd <- read.csv(here::here("data/clean/malidd.csv"))
+.malidd <- read_csv(here::here("data/clean/malidd.csv"))
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## age_height ----
@@ -37,7 +37,7 @@ pacman::p_load(tidyverse,
 .CHECK_age_height <-
   function() {
     .problem_number <<- 1
-   
+    
     .q1_correct <- 
       ggplot(data = .malidd,
              mapping = aes(x = age_months, 
@@ -80,7 +80,8 @@ pacman::p_load(tidyverse,
 # create one hint per question
 .HINT_age_height <- function(){
   'First, identify what you want to plot on your x and your y axis. 
-  Then, think about which geometry function you want to use to plot.' -> out
+  Then, think about which geometry function you want to use to plot.
+  Always remember to check for typos and unclosed brackets!' -> out
   cat(out)
 }
 # solution of question
@@ -96,8 +97,8 @@ pacman::p_load(tidyverse,
 ## age_height_respi ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#Using the `malidd` data frame, create a scatterplot showing the relationship between age and viral load, and map a third variable, `fever`, to color:
-  
+#Using the `malidd` data frame, create a scatterplot showing the relationship between age and viral load, and map a third variable, `freqrespi`, to color:
+
 # [backend]
 .CHECK_age_height_respi <-
   function() {
@@ -107,7 +108,7 @@ pacman::p_load(tidyverse,
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
                            y = viral_load)) + 
-      geom_point(mapping = aes(color = fever))
+      geom_point(mapping = aes(color = freqrespi))
     
     .autograder <<-
       function(){
@@ -134,7 +135,7 @@ pacman::p_load(tidyverse,
         # test 5
         # check the color argument: UK spelling
         .q2_test5 <- any(stringr::str_detect(capture.output(age_height_respi$layers), 
-                                             "colour = ~fever"))
+                                             "colour = ~freqrespi"))
         
         if (isTRUE(!(.q2_test1))) return(c(value = 0, message = "! Check which dataset you are plotting."))
         if (isTRUE(!(.q2_test2))) return(c(value = 0, message = "! Do not forget to use ggplot2 geometry function geom_point."))
@@ -151,7 +152,7 @@ pacman::p_load(tidyverse,
 # create one hint per question
 .HINT_age_height_respi <- function(){
   'First, identify what you want to plot on your x and your y axis. 
-  Then, think about which geometry function you want to use to plot.
+  Then, think about which geometry function you want to use to plot points in ggplot.
   Then remember that we want to color these points.' -> out
   cat(out)
 }
@@ -160,18 +161,18 @@ pacman::p_load(tidyverse,
   'ggplot(data = malidd, 
              mapping = aes(x = age_months, 
                            y = viral_load)) + 
-      geom_point(mapping = aes(color = fever))' -> out
+      geom_point(mapping = aes(color = freqrespi))' -> out
   cat(out)
 }
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## age_height_fever ----
+## age_viral_blue ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Create a scatterplot with the same variables as the previous example, but change the color of the points to `cornflowerblue`, increase the size of points to 3mm and set the opacity at 60%.
 
 # [backend]
-.CHECK_age_height_fever <-
+.CHECK_age_viral_blue <-
   function() {
     .problem_number <<- 4
     
@@ -186,18 +187,18 @@ pacman::p_load(tidyverse,
     
     # to access color, size, alpha of SOLUTION
     .q3_correct_build <- ggplot_build(.q3_correct)
-
+    
     
     .autograder <<-
       function(){
-        if (!is.ggplot(age_height_fever)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!is.ggplot(age_viral_blue)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # to access color, size, alpha of ANSWER
-        .q3_build <- ggplot_build(age_height_fever)
+        .q3_build <- ggplot_build(age_viral_blue)
         
         # test 1
         # that learner used geom_point()
-        .q3_test1 <- any(stringr::str_detect(capture.output(age_height_fever$layers), 
+        .q3_test1 <- any(stringr::str_detect(capture.output(age_viral_blue$layers), 
                                              "geom_point"))
         
         
@@ -226,12 +227,12 @@ pacman::p_load(tidyverse,
 
 # [backend]
 # create one hint per question
-.HINT_age_height_fever <- function(){
+.HINT_age_viral_blue <- function(){
   'Choose the right geom function, then remember to set your color, alpha and size arguments.' -> out
   cat(out)
 }
 # solution of question
-.SOLUTION_age_height_fever <- function(){
+.SOLUTION_age_viral_blue <- function(){
   'ggplot(data = malidd, 
              mapping = aes(x = age_months, 
                            y = viral_load)) + 
@@ -241,21 +242,22 @@ pacman::p_load(tidyverse,
   cat(out)
 }
 
+
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## age_viral_blue ----
+## age_height_2 ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Create a scatterplot with the same variables as the previous example, but change the color of the points to "steelblue", the size to 2.5mm, the transparency to 80%, and add trend line with the smoothing method `lm` (linear model). To make the trend line stand out, change it's color "indianred3".
 
 # [backend]
-.CHECK_age_viral_blue <-
+.CHECK_age_height_2 <-
   function() {
     .problem_number <<- 5
     
     .q4_correct <- 
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
-                           y = viral_load)) + 
+                           y = height_cm)) + 
       geom_point(color = "steelblue",
                  size = 2.5,
                  alpha = 0.8) +
@@ -267,14 +269,14 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(age_viral_blue)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!is.ggplot(age_height_2)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # to access color, size, alpha of ANSWER
-        .q4_build <- ggplot_build(age_viral_blue)
+        .q4_build <- ggplot_build(age_height_2)
         
         # test 1
         # that learner used geom_point()
-        .q4_test1 <- any(stringr::str_detect(capture.output(age_viral_blue$layers), 
+        .q4_test1 <- any(stringr::str_detect(capture.output(age_height_2$layers), 
                                              "geom_point"))
         
         # test 2
@@ -291,14 +293,14 @@ pacman::p_load(tidyverse,
         
         # test 5
         # that learner used geom_smooth()
-        .q4_test5 <- any(stringr::str_detect(capture.output(age_viral_blue$layers), 
+        .q4_test5 <- any(stringr::str_detect(capture.output(age_height_2$layers), 
                                              "geom_smooth"))
         
         # test 6
         # check learner used "lm" method in geom_smooth
         # Other option: go through prediction of the lm model for both plot data
-        # setequal(predict(lm(viral_load~age_months,age_viral_blue$data)) , predict(lm(viral_load~age_months,.q4_correct$data)) )
-        .q4_test6 <- any(stringr::str_detect(capture.output(age_viral_blue$layers), 
+        # setequal(predict(lm(height_cm~age_months,age_height_2$data)) , predict(lm(height_cm~age_months,.q4_correct$data)) )
+        .q4_test6 <- any(stringr::str_detect(capture.output(age_height_2$layers), 
                                              "method = lm"))
         
         if (isTRUE(!(.q4_test1))) return(c(value = 0, message = "! Are you using geom_point?"))
@@ -316,17 +318,17 @@ pacman::p_load(tidyverse,
 
 # [backend]
 # create one hint per question
-.HINT_age_viral_blue <- function(){
+.HINT_age_height_2 <- function(){
   'Choose the right geom functions, 
   then remember to set your color, alpha and size arguments for your points
   and your smoothing method.' -> out
   cat(out)
 }
 # solution of question
-.SOLUTION_age_viral_blue <- function(){
+.SOLUTION_age_height_2 <- function(){
   'ggplot(data = malidd, 
           mapping = aes(x = age_months, 
-                        y = viral_load)) + 
+                        y = height_cm)) + 
       geom_point(color = "steelblue",
                  size = 2.5,
                  alpha = 0.8) +
@@ -335,21 +337,21 @@ pacman::p_load(tidyverse,
 }
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## age_height_2 ----
+## age_height_3 ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Recreate the plot above, but this time change the shape to point to tilted rectangles (number 23), and map the body temperature variable (`temp`) to fill color.
 
 
 # [backend]
-.CHECK_age_height_2 <-
+.CHECK_age_height_3 <-
   function() {
     .problem_number <<- 6
     
     .q5_correct <- 
       ggplot(data = .malidd, 
              mapping = aes(x = age_months, 
-                           y = viral_load)) + 
+                           y = height_cm)) + 
       geom_point(color = "steelblue",
                  size = 2.5,
                  alpha = 0.8,
@@ -402,7 +404,7 @@ pacman::p_load(tidyverse,
         
         # test 8
         # check learner used "gam" method in geom_smooth
-        .q5_test8 <- any(stringr::str_detect(capture.output(age_viral_blue$layers), 
+        .q5_test8 <- any(stringr::str_detect(capture.output(age_height_2$layers), 
                                              "method = gam"))
         
         # test 9
@@ -418,7 +420,7 @@ pacman::p_load(tidyverse,
         if (isTRUE(!(.q5_test7))) return(c(value = 0, message = "! Are you using geom_smooth?"))
         if (isTRUE(!(.q5_test8))) return(c(value = 0, message = "! Are you using the lm method for geom_smooth?"))
         if (isTRUE(!(.q5_test9))) return(c(value = 0, message = "! Your color argument is wrong in geom_smooth."))
-
+        
         if (isTRUE(.q5_test1 && .q5_test2 && .q5_test3 && .q5_test4 && .q5_test5 && .q5_test6 && .q5_test7 && .q5_test8 && .q5_test9)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         # wrong
         return(c(value = 0, message = "Wrong. Please try again."))
@@ -428,15 +430,15 @@ pacman::p_load(tidyverse,
 
 # [backend]
 # create one hint per question
-.HINT_age_height_2 <- function(){
+.HINT_age_height_3 <- function(){
   'Choose the right geom functions, then remember to set your color, alpha, shape, size and method arguments. 
   Think about which should be in the mapping (aes"-thetics") and which should be layer local parameters.' -> out
   cat(out)
 }
 # solution of question
-.SOLUTION_age_height_2 <- function(){
+.SOLUTION_age_height_3 <- function(){
   'ggplot(data = malidd, 
-          mapping = aes(x = age_months, y = viral_load)) + 
+          mapping = aes(x = age_months, y = height_cm)) + 
       geom_point(color = "steelblue",
                  size = 2.5,
                  alpha = 0.8,
