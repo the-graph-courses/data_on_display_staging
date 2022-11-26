@@ -125,12 +125,12 @@ pacman::p_load(tidyverse,
         .q2_test2 <- any(stringr::str_detect(capture.output(age_height_respi$layers), 
                                              "geom_point"))
         # test 3
-        # check the x mapping
-        .q2_test3 <- "* `x` -> `age_months`" %in% capture.output(age_height_respi$mapping)
-        
-        # test 4
-        # check the y mapping
-        .q2_test4 <- "* `y` -> `viral_load`" %in% capture.output(age_height_respi$mapping)
+        # # check the x mapping
+        # .q2_test3 <- "* `x` -> `age_months`" %in% capture.output(age_height_respi$mapping)
+        # 
+        # # test 4
+        # # check the y mapping
+        # .q2_test4 <- "* `y` -> `viral_load`" %in% capture.output(age_height_respi$mapping)
         
         # test 5
         # check the color argument: UK spelling
