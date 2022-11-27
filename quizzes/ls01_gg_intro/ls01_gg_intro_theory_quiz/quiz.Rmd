@@ -647,9 +647,11 @@ ggplot(data = koreas_pop,
 
 How could we change the code to generate a plot with thicker lines?
 
-**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. We have updated the quizzes and lesson code, however the lesson video has not been updated yet. Apologies for any inconvenience.
-If you not updated {ggplot2} since then 04/11/2022, please reinstall the latest version by restarting you R session and then running `install.packages("ggplot2")` in R. You can find out which version you have installed by running `packageVersion("ggplot2")` or by looking at the "Packages" tab in RStudio.
+**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. 
 
+Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. We have updated the quiz and lesson code, but the lesson video has not been edited yet. Apologies for any inconvenience.
+
+If you not updated {ggplot2} since then 04/11/2022, please reinstall the latest version by restarting you R session and then running `install.packages("ggplot2")` in R. You can find out which version you have installed by running `packageVersion("ggplot2")` or by looking at the "Packages" tab in RStudio.
 ## A
 
 Add `linewidth = 3` inside the `aes()` function.
@@ -740,7 +742,10 @@ ggplot(data = china_pop,
 
 Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient.
 
-**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. We have updated the quizzes and lesson code, however the lesson video has not been updated yet. Apologies for any inconvenience.
+**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. 
+
+Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. We have updated the quiz and lesson code, but the lesson video has not been edited yet. Apologies for any inconvenience.
+
 If you not updated {ggplot2} since then 04/11/2022, please reinstall the latest version by restarting you R session and then running `install.packages("ggplot2")` in R. You can find out which version you have installed by running `packageVersion("ggplot2")` or by looking at the "Packages" tab in RStudio.
 
 
@@ -764,9 +769,11 @@ ggplot(data = china_pop,
 
 Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient.
 
-**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. We have updated the quizzes and lesson code, however the lesson video has not been updated yet. Apologies for any inconvenience.
-If you not updated {ggplot2} since then 04/11/2022, please reinstall the latest version by restarting you R session and then running `install.packages("ggplot2")` in R. You can find out which version you have installed by running `packageVersion("ggplot2")` or by looking at the "Packages" tab in RStudio.
+**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. 
 
+Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. We have updated the quiz and lesson code, but the lesson video has not been edited yet. Apologies for any inconvenience.
+
+If you not updated {ggplot2} since then 04/11/2022, please reinstall the latest version by restarting you R session and then running `install.packages("ggplot2")` in R. You can find out which version you have installed by running `packageVersion("ggplot2")` or by looking at the "Packages" tab in RStudio.
 
 # Q 23:
 
