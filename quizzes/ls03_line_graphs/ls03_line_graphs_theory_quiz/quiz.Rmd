@@ -38,7 +38,7 @@ Quiz Contributors: [Zachary Anderson](https://thegraphcourses.org/members/zachar
 
 # Q - ??
 
-What is the geom\_\*() function we use for line graphs?
+What is the `geom_*()` function we use for line graphs?
 
 ## A
 
@@ -451,9 +451,10 @@ ggplot(data = afg_pop,
 # Q
 
 The code below attempts to visualize and compare trends of GDP per capita over time for countries in West Africa.
+
 However, the resulting plot doesn't allow us to tell the countries apart.
 
-```{r eval=F}
+```{r}
 pacman::p_load(gapminder)
 
 gap_wafr <- gapminder::gapminder %>% 
@@ -465,8 +466,9 @@ ggplot(data = gap_wafr,
   geom_point()
 ```
 
-Run this code in R and review the plot.
 What aesthetic can you add in order to visualize *and* compare trends between countries?
+
+Hint: Use the `gapminder` package and try these options out in R
 
 ## A
 
@@ -525,7 +527,7 @@ Some of them might separate the lines, but there won't be any visual indication 
     ```
 
 -   `fill = country` will separate the data because it's trying to give a separate fill color to each country, but all the lines and points will stay black.
-    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.\*
+    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.
 
     ```{r}
     ggplot(data = gap_wafr, 
@@ -543,9 +545,6 @@ Some of them might separate the lines, but there won't be any visual indication 
       geom_point()
     ```
 
-```{=html}
-<!-- -->
-```
 -   `color = continent` will not help either
 
     ```{r}
@@ -555,7 +554,7 @@ Some of them might separate the lines, but there won't be any visual indication 
       geom_point()
     ```
 
-\*Point color be changed with `fill` if `shape` is assigned to a fillable shape.
+Point color be changed with `fill` if `shape` is assigned to a fillable shape.
 
 ```{r}
 ggplot(data = gap_wafr, 
@@ -595,7 +594,7 @@ Some of them might separate the lines, but there won't be any visual indication 
     ```
 
 -   `fill = country` will separate the data because it's trying to give a separate fill color to each country, but all the lines and points will stay black.
-    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.\*
+    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.
 
     ```{r}
     ggplot(data = gap_wafr, 
@@ -613,9 +612,6 @@ Some of them might separate the lines, but there won't be any visual indication 
       geom_point()
     ```
 
-```{=html}
-<!-- -->
-```
 -   `color = continent` will not help either
 
     ```{r}
@@ -625,7 +621,7 @@ Some of them might separate the lines, but there won't be any visual indication 
       geom_point()
     ```
 
-\*Point color be changed with `fill` if `shape` is assigned to a fillable shape.
+Point color be changed with `fill` if `shape` is assigned to a fillable shape.
 
 ```{r}
 ggplot(data = gap_wafr, 
