@@ -413,8 +413,12 @@ ggplot(data = midwest,
   geom_smooth()
 ```
 
+<<<<<<< HEAD
 
 # Q t or f 
+=======
+# Q
+>>>>>>> 4f62cacaa2555b345bd8d6f738fd2bb4ddc74f69
 
 Which of the following statements is TRUE?
 
@@ -473,7 +477,6 @@ ggplot(data = midwest,
 Adding `geom_smooth()` before `geom_point()` means that the points layer is plotted on top of the smoothing layer. You can increase point size on this plot to see this better.
 
 Generally, this is not something you want to do, but it's important to understand how the layers are ordered.
-
 
 # Q - understand smoothing usage
 
@@ -656,7 +659,7 @@ You are on-point!
 Here is a table summarizing the common plot types, what kind of information they can show, and the corresponding `geom_*()` function(s) in {ggplot2}.
 
 ```{r echo = F}
-knitr::include_graphics(here("lessons/images/plot_types.png"))
+knitr::include_graphics(here("lessons/images/plot_types_table.jpg"))
 ```
 
 You can check out more plot types on RStudio's {ggplot2} [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf). This can also be directly accessed in the RStudio Menu Bar by going to Help -\> Cheatsheets -\> Data Visualization with ggplot2.
@@ -715,7 +718,7 @@ You want to add a smoothing line to your plot, which of the functions below can 
 
 ## Answer
 
-C
+A
 
 # Q - recall geom_point
 
@@ -745,7 +748,7 @@ B
 
 A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`.
 
-These assign a fixed value to color, size, and transparency, respectively.
+These assign a **fixed value** to color, size, and transparency, respectively.
 
 ## A
 
@@ -758,24 +761,6 @@ FALSE
 ## Answer
 
 A
-
-# Q
-
-A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`.
-
-These control the visual elements of the points by mapping data variables to color, size, and transparency, respectively.
-
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-B
 
 # Q
 
@@ -827,7 +812,7 @@ B
 
 # Q - alpha range
 
-What is the name of the function used to create scatter plots in R?
+We can control the transparency/opacity of points by setting the `alpha` argument as a fixed aesthetic in `geom_point()`. Which of the following statements is NOT true about `alpha`?
 
 ## A
 
