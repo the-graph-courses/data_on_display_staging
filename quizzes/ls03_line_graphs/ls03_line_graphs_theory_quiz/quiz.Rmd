@@ -1,0 +1,701 @@
+---
+title: 'Multiple-choice quiz | Line graphs'
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+# quiz_title: '03.03 lines, scales, and labels'
+# quiz_type: 'simple_theory'
+# course_abbrev: 'IDAR'
+---
+
+```{r, echo = F, message = F, warning = F}
+opts_chunk$set(warning = F, message = F)
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               googledrive,
+               patchwork,
+               rio,
+               here,
+               knitr)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+```
+
+# Intro
+
+This quiz tests your understanding of [lesson 3].
+Good luck!
+
+Quiz Contributors: [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+
+# Q - ??
+
+What is the geom\_\*() function we use for line graphs?
+
+## A
+
+`geom_line()`
+
+## B
+
+`geom_linegraph()`
+
+## C
+
+`geom_scatter()`
+
+## D
+
+`geom_lines()`
+
+## Answer
+
+A
+
+## Correct message
+
+You have it all lined up!
+
+`geom_line()` is used to create line graphs in {ggplot2}
+
+## Incorrect message
+
+That's a bit off.
+
+`geom_line()` is used to create line graphs in {ggplot2}
+
+# Q -
+
+Line graphs, just like scatter plots, display the relationship between two numeric variables.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+It's all coming together!
+
+As two-dimensional plots, line and scatter plots can both be used to show the relationship of two variables (if the variables are numbers.
+
+## Incorrect message
+
+As two-dimensional plots, line and scatter plots can both be used to show the relationship of two variables (if the variables are numbers.
+
+# Q -
+
+A line graph is an effective method of displaying relationships when one of the two variables represents time.
+Therefore, it is preferred to use line graphs over scatter plots when the variable on the x-axis represents time.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+That's the one!
+
+## Incorrect message
+
+Please look at some of the examples about data across time from our lesson (or other sources).
+
+# Q -
+
+A line graph is an ineffective method of displaying relationships when one of the two variables represents time.
+Therefore, it is preferred to use scatter plots over line graphs when the variable on the x-axis represents time.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+That's the one!
+
+## Incorrect message
+
+You might think that, but read the question again!
+The examples about data across time from our lesson use line graphs, and you may find them in other sources as well.
+
+# Q -
+
+The `linetype` argument can be specified using a name (e.g., `“dotted”`) or with an integer.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Specifically fit!
+The `linetype` argument can be set with either integers or names from a select list.
+
+## Incorrect message
+
+Both are right!
+The `linetype` argument can be set with either integers or names from a select list.
+
+# Q -
+
+Which of the following code blocks will produce a plot with a dotted line?
+
+## A
+
+Either `geom_line(linetype = "dotted")` or `geom_line(linetype = 3)`
+
+## B
+
+`geom_line(linetype = "dotted")`
+
+## C
+
+`geom_line(linetype = 3)`
+
+## D
+
+`geom_dotted_line()`
+
+## Answer
+
+A
+
+## Correct message
+
+Double plus good!
+Both a specific list of integers and a specific list of names can be used with the `linetype` argument to make the line type of your choice.
+(There is no `geom_dotted_line()`.)
+
+```{r}
+image
+```
+
+## Incorrect message
+
+That was tricky!
+Both a specific list of integers and a specific list of names can be used with the `linetype` argument to make the line type of your choice.
+(There is no `geom_dotted_line()`.)
+
+```{r}
+image
+```
+
+# Q -
+
+You can plot points on a line graph by adding a second `geom` layer using `geom_point()`
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+You got it together!
+Try out the following graph as an example:
+
+```{r}
+ggplot(data = beaver1, 
+       mapping = aes(x = time, y = temp)) + 
+  geom_line() + 
+  geom_point()
+```
+
+## Incorrect message
+
+Please go back and find where this was shown in the lesson.
+You can also try out the following graph as an example:
+
+```{r}
+ggplot(data = beaver1, 
+       mapping = aes(x = time, y = temp)) + 
+  geom_line() + 
+  geom_point()
+```
+
+# Q -
+
+A plot must have one and only one `geom_*` layer.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+You're number one!
+However, the geom plots aren't.
+As long as the plots are compatible, you can layer them together.
+This may be especially useful for illustrating specific points of interest about your data.
+
+```{r}
+
+```
+
+## Incorrect message
+
+Let's bring it together.
+As long as the plots are compatible, you can layer them.
+This is especially useful for illustrating specific points of interest about your data.
+
+```{r}
+
+```
+
+# Q -
+
+The linetype argument can only be used as a fixed aesthetic, not an aesthetic mapping.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+Keeping it in line!
+
+`linetype` can be applied to both aesthetic mapping and fixed aesthetic.
+
+```{r}
+
+```
+
+## Incorrect message
+
+`linetype` can be applied to both aesthetic mapping and fixed aesthetic.
+
+```{r}
+
+```
+
+# Q -
+
+The `linetype` argument can only be used as an aesthetic mapping, not a fixed aesthetic.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+You have the right type!
+`linetype` can be applied to both aesthetic mapping and fixed aesthetic.
+
+```{r}
+
+```
+
+## Incorrect message
+
+`linetype` can be applied to both aesthetic mapping and fixed aesthetic.
+
+```{r}
+
+```
+
+# Q - seq for scale breaks
+
+{ggplot2} automatically scales aesthetic mappings like x and y position.
+
+For example, here the x axis is divided into 5-year intervals.
+
+```{r}
+# Subset population dataset from tidyr to data from one country
+afg_pop <- tidyr::population %>% filter(country == "Afghanistan")
+head(afg_pop)
+
+# Plot line graph of population by year
+ggplot(data = afg_pop, 
+       mapping = aes(x = year, y = population)) +
+  geom_line()
+```
+
+We can control position of scale break of continuous x & y axes with `scale_*_countinuos`.
+
+Which function can we use to make a numeric vector for scale breaks?
+
+## A
+
+`seq()` or `c()`
+
+## B
+
+`seq()`
+
+## C
+
+`sequence()`
+
+## D
+
+`unique()`
+
+## E
+
+`c()`
+
+## Answer
+
+A
+
+## Correct message
+
+Good job breaking it down!
+
+Both `seq()` and `c()` can make a numeric vector.
+For example, these two code chunks achieve the same result:
+
+```{r}
+# Manually type vector
+c(1995, 1998, 2001, 2004, 2007, 2010, 2013)
+
+# Generate a sequence with regular intervals
+seq(1995, 2013, 3)
+```
+
+However we recommend `seq()` as it is faster and will ensure your scale breaks are evenly spaced.
+
+## Incorrect answer
+
+Both `seq()` and `c()` can make a numeric vector.
+For example, these two code chunks achieve the same result:
+
+```{r}
+# Manually type vector
+c(1995, 1998, 2001, 2004, 2007, 2010, 2013)
+
+# Generate a sequence with regular intervals
+seq(1995, 2013, 3)
+```
+
+However, we recommend `seq()` as it is faster and will ensure your scale breaks are evenly spaced.
+
+```{r}
+# Add scales layer and by give a numeric vector of positions to the `breaks` argument
+ggplot(data = afg_pop, 
+       mapping = aes(x = year, y = population)) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(1995, 2013, 3))
+```
+
+# Q
+
+The code below attempts to visualize and compare trends of GDP per capita over time for countries in West Africa.
+However, the resulting plot doesn't allow us to tell the countries apart.
+
+```{r eval=F}
+pacman::p_load(gapminder)
+
+gap_wafr <- gapminder::gapminder %>% 
+  filter(country %in% c("Nigeria", "Ghana", "Guinea", "Senegal"))
+
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year)) +
+  geom_line() +
+  geom_point()
+```
+
+Run this code in R and review the plot.
+What aesthetic can you add in order to visualize *and* compare trends between countries?
+
+## A
+
+`color = country` as a fixed aesthetic
+
+## B
+
+`color = continent` as an aesthetic mapping
+
+## C
+
+`fill = country` as an aesthetic mapping
+
+## D
+
+`group = country` as fixed aesthetic
+
+## E
+
+None of these options will produce the desired result.
+
+## Answer
+
+E
+
+## Correct message
+
+Good thinking!
+
+If you try these different options in R, you will see that none of these options will create a plot which tells you which line belongs to which country.
+Some of them might separate the lines, but there won't be any visual indication of which one belongs to which country.
+
+-    `color = country` as a fixed aesthetic will give you an error.
+    This would work as a *mapping*, but not a fixed aesthetic.
+    Fixed aesthetics are set to constant value that doesn't vary with the data.
+
+    ```{r}
+    # Fix color to country (error)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year)) +
+      geom_line(color = country) +
+      geom_point()
+
+    # Fix color to a color (incorrect)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year)) +
+      geom_line(color = "forestgreen") +
+      geom_point(color = "red")
+
+
+    # Map color to country (correct)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+-   `fill = country` will separate the data because it's trying to give a separate fill color to each country, but all the lines and points will stay black.
+    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.\*
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, fill = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+-   `group = country` will separate the lines, but again they will all be the same color
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, group = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+```{=html}
+<!-- -->
+```
+-   `color = continent` will not help either
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = continent)) +
+      geom_line() +
+      geom_point()
+    ```
+
+\*Point color be changed with `fill` if `shape` is assigned to a fillable shape.
+
+```{r}
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, fill = country)) +
+  geom_line() +
+  geom_point(shape = 23)
+```
+
+## Incorrect message
+
+If you try these different options in R, you will see that none of these options will create a plot which tells you which line belongs to which country.
+Some of them might separate the lines, but there won't be any visual indication of which one belongs to which country.
+
+-    `color = country` as a fixed aesthetic will give you an error.
+    This would work as a *mapping*, but not a fixed aesthetic.
+    Fixed aesthetics are set to constant value that doesn't vary with the data.
+
+    ```{r}
+    # Fix color to country (error)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year)) +
+      geom_line(color = country) +
+      geom_point()
+
+    # Fix color to a color (incorrect)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year)) +
+      geom_line(color = "forestgreen") +
+      geom_point(color = "red")
+
+
+    # Map color to country (correct)
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+-   `fill = country` will separate the data because it's trying to give a separate fill color to each country, but all the lines and points will stay black.
+    These geoms won't respond to the `fill` argument because neither of them have an *interior* for fill color.\*
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, fill = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+-   `group = country` will separate the lines, but again they will all be the same color
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, group = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+```{=html}
+<!-- -->
+```
+-   `color = continent` will not help either
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = continent)) +
+      geom_line() +
+      geom_point()
+    ```
+
+\*Point color be changed with `fill` if `shape` is assigned to a fillable shape.
+
+```{r}
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, fill = country)) +
+  geom_line() +
+  geom_point(shape = 23)
+```
+
+# Q 
+
+Which of these {ggplot2} functions work for transform axis scaling from linear to logarithmic?
+
+## A
+
+`scale_x_log()`
+
+## B
+
+`scale_x_log10()`
+
+## C
+
+`scale_x_continuous()`
+
+## D
+
+`scale_log_x()`
+
+## Answer
+
+B
+
+## Correct message
+
+## Incorrect message
+
+# Q 
+
+Which of these {ggplot2} functions work for transform axis scaling from linear to logarithmic?
+
+## A
+
+`scale_y_ln()`
+
+## B
+
+`scale_y_log10()`
+
+## C
+
+`scale_y_continuous()`
+
+## D
+
+`scale_log10_y()`
+
+## Answer
+
+B
+
+## Correct message
+
+Great memory!
+
+It's ease to get these mixed up.
+Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
+
+## Incorrect message
+
+It's ease to get these mixed up.
+Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
