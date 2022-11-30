@@ -23,8 +23,7 @@ pacman::p_load(tidyverse,
 source(here("global/functions/misc_functions.R"))
 if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
 options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload)
-
+opts_knit$set(upload.fun = gdrive_upload)
 opts_chunk$set(warning = F, message = F)
 ```
 
@@ -414,7 +413,12 @@ ggplot(data = midwest,
   geom_smooth()
 ```
 
+<<<<<<< HEAD
+
+# Q t or f 
+=======
 # Q
+>>>>>>> 4f62cacaa2555b345bd8d6f738fd2bb4ddc74f69
 
 Which of the following statements is TRUE?
 
@@ -493,6 +497,10 @@ The smoothing function is fitted applied to the data variables specified in `aes
 ## D
 
 A smoothing curve is drawn to fit the points on a scatter plot created by `geom_point()`. No points will result in no smoothing line being plotted.
+
+## Answer
+
+D
 
 ## Correct message
 
@@ -663,7 +671,7 @@ Not quite!
 Here is a table summarizing the common plot types, what kind of information they can show, and the corresponding `geom_*()` function(s) in {ggplot2}.
 
 ```{r echo = F}
-knitr::include_graphics(here("lessons/images/plot_types.jpg"))
+knitr::include_graphics(here("lessons/images/plot_types.png"))
 ```
 
 You can check out more plot types on RStudio's {ggplot2} [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf). This can also be directly accessed in the RStudio Menu Bar by going to Help -\> Cheatsheets -\> Data Visualization with ggplot2.
@@ -672,19 +680,19 @@ You can check out more plot types on RStudio's {ggplot2} [cheatsheet](https://gi
 
 When you define your geometric layers with ggplot, you can specify an alpha value. What can you control with this value?
 
-# A
+## A
 
 The opacity/transparency of your geometric objects.
 
-# B
+## B
 
 The hierarchy of your geometric objects.
 
-# C
+## C
 
 The RGB code to define the colors on the plot.
 
-# Answer
+## Answer
 
 A
 
@@ -692,23 +700,23 @@ A
 
 You want to add a smoothing line to your plot, which of the functions below can be used for this?
 
-# A
+## A
 
 `geom_smooth()`
 
-# B
+## B
 
 `smooth()`
 
-# C
+## C
 
 `geom_curve()`
 
-# D
+## D
 
 `geom_trend()`
 
-# Answer
+## Answer
 
 A
 
@@ -716,29 +724,29 @@ A
 
 What is the name of the function used to create scatter plots in R?
 
-# A
+## A
 
 `geom_scatter()`
 
-# B
+## B
 
 `geom_point()`
 
-# C
+## C
 
 `geom_dot()`
 
-# D
+## D
 
 `geom_scatterplot()`
 
-# Answer
+## Answer
 
 B
 
 # Q
 
-A number of aesthetics can be specified in a **`geom_*()`** function. Options for the `geom_point()` function include `color`, `size`, and `alpha`.
+A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`.
 
 These assign a **fixed value** to color, size, and transparency, respectively.
 
@@ -753,24 +761,6 @@ FALSE
 ## Answer
 
 A
-
-# Q
-
-A number of aesthetics can be specified inside a **`geom_*()`** function. Options for the `geom_point()` function include `color`, `size`, and `alpha`.
-
-These control the visual elements of the points by **mapping data** variables to color, size, and transparency, respectively.
-
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-B
 
 # Q
 
@@ -824,23 +814,23 @@ B
 
 We can control the transparency/opacity of points by setting the `alpha` argument as a fixed aesthetic in `geom_point()`. Which of the following statements is NOT true about `alpha`?
 
-# A
+## A
 
 `alpha = 0` sets the points to be 100% opaque and `alpha = 1` sets the points to be 100% transparent .
 
-# B
+## B
 
 We can change the `alpha` argument to be any value between `0` and `1`
 
-# C
+## C
 
 `alpha = 0` sets the points to be 100% transparent and `alpha = 1` sets the points to be 100% opaque.
 
-# D
+## D
 
 By default, `alpha` is set to `1`.
 
-# Answer
+## Answer
 
 A
 
