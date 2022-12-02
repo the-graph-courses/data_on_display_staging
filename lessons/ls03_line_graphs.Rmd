@@ -173,12 +173,12 @@ After telling R which data and aesthetic mappings we wanted to plot we then adde
 ::: practice
 Create a time series plot of the GPD per capita (`gdpPercap`) recorded in the `gap_US` data frame by using `geom_line()` to create a line graph.
 
-```{r eval=F}
+```{r eval=F, include=FALSE}
 # Write code to create your plot:
 ggplot()
 ```
 
-```{r eval=F}
+```{r eval=F, include=FALSE}
 # When you think you have the right answer, submit it by replacing "YOUR ANSWER HERE" with your code, and run those lines.
 
 q1 <- "YOUR ANSWER HERE"
@@ -186,19 +186,19 @@ q1 <- "YOUR ANSWER HERE"
 # Make sure that "q1" appears in your Environment tab.
 ```
 
-```{r eval=F}
+```{r eval=F, include=FALSE}
 # Check your answer by running this check function (no inputs required). The output will tell you if you answered correctly or not.
 
 .CHECK_q1()
 ```
 
-```{r eval=F}
+```{r eval=F, include=FALSE}
 # You can ask for a hint by running this hint function (no inputs required).
 
 .HINT_q1()
 ```
 
-```{r}
+```{r, include=FALSE}
 # Get the full solution by typing out the solution function:
 .SOLUTION_q1()
 ```
@@ -287,12 +287,12 @@ Use both points and lines to represent the data.
 
 Change the line type of the line and the color of the points to any valid values of your choice.
 
-```{r}
+```{r, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval=F}
+```{r eval=F, include=FALSE}
 # Submit your answer:
 q2 <- "YOUR ANSWER HERE"
 
@@ -431,12 +431,12 @@ ggplot(gap_mini,
   geom_line()
 ```
 
-```{r}
+```{r, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = FALSE}
+```{r eval = FALSE, include=FALSE}
 # Submit your answer:
 q3 <- "YOUR ANSWER HERE"
 
@@ -461,12 +461,12 @@ ggplot(gap_mini,
 ```
 Don't worry about any fixed aesthetics, just make sure the mapping of data variables is the same.
 
-```{r eval = FALSE}
+```{r eval = FALSE, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = FALSE}
+```{r eval = FALSE, include=FALSE}
 # Submit your answer:
 q4 <- "YOUR ANSWER HERE"
 
@@ -593,12 +593,12 @@ ggplot(data = gap_mini2,
   scale_y_continuous(breaks = seq(from = 1000, to = 7000, by = 1000))
 ```
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Submit your answer:
 q5 <- "YOUR ANSWER HERE"
 
@@ -679,19 +679,19 @@ ggplot(data = gap_mini3,
 ::: practice
 First subset `gapminder` to only the rows containing data for **Uganda:**
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Filter dataset
 gap_Uganda <- gapminder %>% filter()
 ```
 
 Now, use **`gap_Uganda`** to create a time series plot of population (**`pop`**) over time (**`year`**). Transform the y axis to a log scale, edit the scale breaks to **`gap_years`**, change the line color to `forestgreen` and the size to 1mm.
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Submit your answer:
 q6 <- "YOUR ANSWER HERE"
 
@@ -825,9 +825,7 @@ ggplot(data = gap_mini2,
   labs(x = "Year", 
        y = "Income per person",
        title = "GDP per capita in selected Asian economies, 1952-2007",
-       subtitle = "Income is measured in US dollars and is adjusted for inflation.",
-       color = "Country",
-       size = "Population")
+       subtitle = "Income is measured in US dollars and is adjusted for inflation.")
 ```
 
 The default title of a legend or key is the name of the data variable it corresponds to. Here the
@@ -865,7 +863,7 @@ countries** in the `gapminder` data frame.
 
 First, subset the data to three countries of your choice:
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 my_gap_mini <- gapminder %>% filter()
 ```
 
@@ -881,12 +879,12 @@ Use **`my_gap_mini`** to create a plot with the following attributes:
 
 -   Change the x-axis scale breaks to match years in dataset
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Submit your answer:
 q7 <- "YOUR ANSWER HERE"
 
@@ -901,18 +899,18 @@ Finally, add the following labels to your plot:
 
 -   Title: "Health & wealth of nations"
 
--   Subtitle: include country names
-
 -   Axis titles: "Longevity" and "Year"
 
 -   Capitalize legend title
 
-```{r echo = F}
+(Note: subtitle requirement has been removed.)
+
+```{r echo = F, include=FALSE}
 # Write code to create your plot:
 
 ```
 
-```{r eval = F}
+```{r eval = F, include=FALSE}
 # Submit your answer:
 q8 <- "YOUR ANSWER HERE"
 

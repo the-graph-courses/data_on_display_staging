@@ -17,7 +17,7 @@ pacman::p_load(tidyverse,
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Init ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.scores <- rep(-1, times = 6)   # Put total number of questions as `times` argument
+.scores <- rep(-1, times = 8)   # Put total number of questions as `times` argument
 
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +50,7 @@ gap_US <- dplyr::filter(gapminder, country == "United States")
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if(!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
         perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
@@ -434,7 +434,6 @@ gap_US <- dplyr::filter(gapminder, country == "United States")
       labs(x = "Year", 
            y = "Longevity",
            title = "Health & wealth of nations",
-           subtitle = "China, India, and Thailand (1952-2007)",
            color = "Color")
     
     gg_req <- .q8_correct
@@ -473,7 +472,6 @@ gap_US <- dplyr::filter(gapminder, country == "United States")
   labs(x = "Year", 
        y = "Longevity",
        title = "Health & wealth of nations",
-       subtitle = "China, India, and Thailand (1952-2007)",
        color = "Color")' -> out
   cat(out)
 }
