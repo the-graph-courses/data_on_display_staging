@@ -10,8 +10,18 @@ editor_options:
 # course_abbrev: 'IDAR'
 ---
 
-```{r, echo = F, message = F, warning = F}
+```{r, echo = F, message = F, warning = F, eval=F}
 opts_chunk$set(warning = F, message = F)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+```
+
+```{r echo=F}
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse,
@@ -21,13 +31,8 @@ pacman::p_load(tidyverse,
                here,
                knitr)
 
-# Setup for uploading images
-source(here("global/functions/misc_functions.R"))
-if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload)
-
 ```
+
 
 # Intro
 
@@ -167,13 +172,26 @@ A
 
 ## Correct message
 
-Specifically fit!
+Great!
+
 The `linetype` argument can be set with either integers or names from a select list.
+
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
 
 ## Incorrect message
 
 Both are right!
 The `linetype` argument can be set with either integers or names from a select list.
+
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
 
 # Q -
 
@@ -205,19 +223,22 @@ Double plus good!
 Both a specific list of integers and a specific list of names can be used with the `linetype` argument to make the line type of your choice.
 (There is no `geom_dotted_line()`.)
 
-```{r}
-image
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
+
 
 ## Incorrect message
 
-That was tricky!
+
 Both a specific list of integers and a specific list of names can be used with the `linetype` argument to make the line type of your choice.
 (There is no `geom_dotted_line()`.)
 
-```{r}
-image
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
+
 
 # Q -
 
@@ -298,7 +319,7 @@ This is especially useful for illustrating specific points of interest about you
 
 # Q -
 
-The linetype argument can only be used as a fixed aesthetic, not an aesthetic mapping.
+The `linetype` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
 
 ## A
 
@@ -506,20 +527,14 @@ Some of them might separate the lines, but there won't be any visual indication 
     Fixed aesthetics are set to constant value that doesn't vary with the data.
 
     ```{r}
-    # Fix color to country (error)
-    ggplot(data = gap_wafr, 
-           mapping = aes(y = gdpPercap, x = year)) +
-      geom_line(color = country) +
-      geom_point()
-
-    # Fix color to a color (incorrect)
+    # Color as a fixed aesthetic
     ggplot(data = gap_wafr, 
            mapping = aes(y = gdpPercap, x = year)) +
       geom_line(color = "forestgreen") +
       geom_point(color = "red")
 
 
-    # Map color to country (correct)
+    # Color mapped to country
     ggplot(data = gap_wafr, 
            mapping = aes(y = gdpPercap, x = year, color = country)) +
       geom_line() +
@@ -573,20 +588,14 @@ Some of them might separate the lines, but there won't be any visual indication 
     Fixed aesthetics are set to constant value that doesn't vary with the data.
 
     ```{r}
-    # Fix color to country (error)
-    ggplot(data = gap_wafr, 
-           mapping = aes(y = gdpPercap, x = year)) +
-      geom_line(color = country) +
-      geom_point()
-
-    # Fix color to a color (incorrect)
+    # Color as a fixed aesthetic
     ggplot(data = gap_wafr, 
            mapping = aes(y = gdpPercap, x = year)) +
       geom_line(color = "forestgreen") +
       geom_point(color = "red")
 
 
-    # Map color to country (correct)
+    # Color mapped to country
     ggplot(data = gap_wafr, 
            mapping = aes(y = gdpPercap, x = year, color = country)) +
       geom_line() +
@@ -655,8 +664,32 @@ Which of these {ggplot2} functions work for transform axis scaling from linear t
 B
 
 ## Correct message
+Great memory!
+
+These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
+
+Here is the general syntax used by scale functions:
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
+
 
 ## Incorrect message
+
+These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
+
+Here is the general syntax used by scale functions:
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
 
 # Q 
 
@@ -686,12 +719,30 @@ B
 
 Great memory!
 
-It's ease to get these mixed up.
-Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
 There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
+
+
+Here is the general syntax used by scale functions:
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
+
 
 ## Incorrect message
 
-It's ease to get these mixed up.
-Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
+These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
 There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
+
+
+Here is the general syntax used by scale functions:
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
+
