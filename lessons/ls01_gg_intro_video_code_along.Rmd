@@ -1,20 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Intro to ggplot2'
 output:
- # pagedown::html_paged:
   html_document:
     number_sections: true
     toc: true
+    toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 200
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, eval = F, include = F}
@@ -24,7 +16,7 @@ This is a CODE ALONG document where you can type code as you follow the lesson v
 
 We encourage you to do this; typing code with the teacher is the best way to learn the right syntax. 
 
-If you prefer to work with the completed document, please use the the "*_filled" Rmd instead!
+If you prefer to work with the completed document, please use the other Rmd instead!
 ```
 
 

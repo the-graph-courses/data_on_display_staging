@@ -1,19 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Intro to ggplot2'
 output:
   html_document:
     number_sections: true
     toc: true
+    toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, eval = F, include = F}
@@ -23,7 +16,7 @@ This is the document that generates the lesson HTML/PDF handouts on our website.
 
 You can follow the lesson by reading through this document, and you can also answer the included practice questions here. 
 
-If you prefer to CODE ALONG with the lesson video, please use the the "*_video_code_along" Rmd instead!
+If you prefer to CODE ALONG with the lesson video, please use the the "*_VIDEO_CODE_ALONG" Rmd instead!
 ```
 
 ```{r, include = FALSE, warning = FALSE}
@@ -42,9 +35,7 @@ source(here("global/functions/lesson_functions.R"))
 source(here("lessons/ls01_gg_intro_autograder.R"))
 ```
 
-# Building plots with {ggplot2}
-
-## Introduction
+# Introduction
 
 Welcome to The GRAPH Courses' Data Visualization course!
 
@@ -54,7 +45,7 @@ We will focus on learning how to use the **{ggplot2} package** to produce high q
 
 Let's dive in!
 
-## Learning objectives
+# Learning objectives
 
 By the end of this lesson you should be able to:
 
@@ -72,7 +63,7 @@ By the end of this lesson you should be able to:
 
 ![Illustration by Allison Horst](images/ggplot2_masterpiece.png){width="600"}
 
-## Packages
+# Packages
 
 The {tidyverse} meta package includes {ggplot2}, so we don't need to add it separately. The {here} package will help us correctly reference file paths.
 
@@ -82,7 +73,7 @@ pacman::p_load(tidyverse,
                here)
 ```
 
-## Measles outbreaks in Niger
+# Measles outbreaks in Niger
 
 In this lesson, we will explore patterns of measles outbreaks in Niger.
 
@@ -92,7 +83,7 @@ Measles is a **highly infectious virus** spread by airborne respiratory droplets
 
 Since it is transmitted through direct contact, **population density** is an important driver of measles dynamics.
 
-### The `nigerm` dataset
+## The `nigerm` dataset
 
 We will be creating plots with a dataset of weekly reported measles cases at the region level in Niger.
 
@@ -144,7 +135,7 @@ The easiest and clearest way to analyze patterns from this dataset is to visuali
 
 The best way to do this in R is with {ggplot2}. So let's see how that works.
 
-### The layered Grammar of Graphics
+## The layered Grammar of Graphics
 
 The `gg` in `ggplot` is short for "`g`rammar of `g`raphics", which is the data visualization philosophy that {ggplot2} is based on.
 
@@ -178,7 +169,7 @@ You might be wondering why we wrote `data`, `geom`, and `aes` in a computer code
 The terms and syntax used for `ggplot` functions, arguments, and layers can be hard to keep up with at first, but as you gain experience using these terms to make plots in R, you will become fluent in no time.
 :::
 
-## Working through the essential layers
+# Working through the essential layers
 
 In this section, we will work towards a first plot with {ggplot2}. It will be a scatter plot using data from `nigerm`.
 
@@ -203,7 +194,7 @@ Let's look at our new dataframe, `nigerm96`:
 nigerm96
 ```
 
-### Building a `ggplot()` in steps
+## Building a `ggplot()` in steps
 
 Time to start building a `ggplot` in increments! We'll do this by starting with a blank canvas and then adding one layer at a time.
 
@@ -319,7 +310,7 @@ nigerm04_scatter <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Modifying the layers
+# Modifying the layers
 
 Generally speaking, the grammar of graphics allows for a high degree of customization of plots and also a consistent framework for easily updating and modifying them.
 
@@ -327,7 +318,7 @@ We can tinker with our existing code to switch up the data, aesthetics, and geom
 
 Similarly, the `aes`thetics and `geom`etry inputs can also be changed to create different visualizations. In the next few sections we will take the scatter plot we built in the previous section, and make incremental changes to modify different elements of the original code.
 
-### Changing `aes`thetic mappings
+## Changing `aes`thetic mappings
 
 We created a scatter plot of `cases` vs `week` for `nigerm96` with this code:
 
@@ -349,7 +340,7 @@ ggplot(data = nigerm96,
 
 While the y-axis values of the points are the same as before, their x-axis mappings have changed significantly. They are now mapped to 8 separate positions along the x-axis, each corresponding to a discrete category of the `region` variable.
 
-### Changing `geom_*` functions
+## Changing `geom_*` functions
 
 Similarly, we can modify the geometry layer to create a different type of plot, while still using the same aesthetic mappings.
 
@@ -401,7 +392,7 @@ nigerm04_bar <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Additional aesthetic mappings inside `aes()`
+## Additional aesthetic mappings inside `aes()`
 
 So far, we have only mapped variables to the `x` and `y` aesthetic attributes. We can also map variables to other aesthetics like color, size, or shape.
 
@@ -499,7 +490,7 @@ nigerm04_line <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Fixed aesthetics outside `aes()`
+## Fixed aesthetics outside `aes()`
 
 It is very important to understand the difference between **aesthetic mappings** and **fixed aesthetics**. The main aesthetics in `ggplot` are: `x`, `y`, `color`, `fill`, and `size`, and any of these could be either a mapping or a fixed value. This depends on whether they appear inside or outside the `aes()` function.
 
@@ -581,7 +572,7 @@ nigerm04_pinkbar <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Additional GG layers
+# Additional GG layers
 
 In this lesson, we kept things simple and only worked with the three required layers. As you start to delve deeper into plotting with {ggplot2}, you'll start to encounter the other layers more frequently. 
 
@@ -617,7 +608,7 @@ ggplot(data = DF_NAME,
 ```
 :::
 
-## Learning outcomes
+# Learning outcomes
 
 1.  You can recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
 
@@ -629,11 +620,11 @@ ggplot(data = DF_NAME,
 
 5.  You can add or modify aesthetics of a plot such as the **color**, and **size**.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 

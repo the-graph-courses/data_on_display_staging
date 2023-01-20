@@ -1,19 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Lines, scales, and labels'
 output:
   html_document:
     number_sections: true
     toc: true
+    toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
@@ -25,12 +18,10 @@ pacman::p_load(tidyverse, knitr, gapminder, here)
 source(here("global/functions/misc_functions.R"))
 
 # Source autograder script quietly 
-mute(here::here("lessons/ls03_line_autograder.R"))
+mute(here::here("lessons/ls03_line_graphs_autograder.R"))
 ```
 
-# Lines, scales, and labels in {ggplot2}
-
-## Learning Objectives
+# Learning Objectives
 
 1.  You can create **line graphs** to visualize relationships between two numerical variables with
     **`geom_line()`**.
@@ -44,7 +35,7 @@ mute(here::here("lessons/ls03_line_autograder.R"))
 
 ![](images/paste-3755C0EB.png)
 
-## Introduction
+# Introduction
 
 Line graphs are used to show **relationships** between two **numerical variables**, just like
 scatterplots. They are especially useful when the variable on the x-axis, also called the
@@ -56,7 +47,7 @@ weeks, years, etc. Since time is sequential, we connect consecutive observations
 the y-axis with a line. Line graphs that have some notion of time on the x-axis are also called
 **time series plots**.
 
-## Packages
+# Packages
 
 ```{r}
 # Load packages
@@ -65,7 +56,7 @@ pacman::p_load(tidyverse,
                here)
 ```
 
-## The `gapminder` data frame
+# The `gapminder` data frame
 
 In February 2006, a Swedish physician and data advocate named Hans Rosling gave a famous TED talk
 titled ["The best stats you've ever
@@ -141,7 +132,7 @@ to create a new data frame (`gap_US`) by choosing only a subset of rows of origi
 frame (only those that have "United States" in the `country` column).
 :::
 
-## Line graphs via `geom_line()`
+# Line graphs via `geom_line()`
 
 Now we're ready to feed the `gap_US` data frame to `ggplot()`, mapping **time** in years on the
 horizontal x axis and **life expectancy** on the vertical y axis.
@@ -206,7 +197,7 @@ q1 <- "YOUR ANSWER HERE"
 :::
 
 
-### Fixed aesthetics in `geom_line()`
+## Fixed aesthetics in `geom_line()`
 
 The color, line width and line type of the line graph can be customized making use of `color`,
 `size` and `linetype` arguments, respectively.
@@ -250,7 +241,7 @@ ggplot(data = gap_US,
 In these line graphs, it can be hard to tell where exactly there data points are. In the next plot, we'll add points to
 make this clearer.
 
-## Combining compatible geoms
+# Combining compatible geoms
 
 As long as the geoms are compatible, we can layer them on top of one another to further customize a
 graph.
@@ -304,7 +295,7 @@ q2 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Mapping data to multiple lines
+# Mapping data to multiple lines
 
 In the previous section, we only looked at data from one country, but what if we want to plot data
 for multiple countries and compare?
@@ -479,7 +470,7 @@ q4 <- "YOUR ANSWER HERE"
 :::
 
 
-## Modifying continuous x & y scales
+# Modifying continuous x & y scales
 
 {ggplot2} automatically scales variables to an aesthetic mapping according to type of variable it's given.
 
@@ -502,7 +493,7 @@ In some cases the we might want to transform the axis scaling for better visuali
 ![](images/ggplot2_scales.png)
 
 
-### Scale breaks
+## Scale breaks
 
 Let's create a new subset of countries from `gapminder`, and this time we will plot changes in GDP
 over time.
@@ -610,7 +601,7 @@ q5 <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Logarithmic scaling
+## Logarithmic scaling
 
 In the last two mini sets, I chose three countries that had similar range of GDP or life expectancy
 for good scaling and readability so that we can make out these changes.
@@ -706,7 +697,7 @@ q6 <- "YOUR ANSWER HERE"
 
 Next, we can change the text of the axis labels to be more descriptive, as well as add titles, subtitles, and other informative text to the plot.
 
-## Labeling with `labs()`
+# Labeling with `labs()`
 
 You can add labels to a plot with the `labs()` function. Arguments we can specify with the `labs()`
 function include:
@@ -922,7 +913,7 @@ q8 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Preview: Themes
+# Preview: Themes
 
 In the next lesson, you will learn how to use `theme` functions.
 
@@ -944,7 +935,7 @@ ggplot(data = gap_mini2,
   theme_minimal()
 ```
 
-## Wrap up
+# Wrap up
 
 Line graphs, just like scatterplots, display the relationship between two numerical variables. When
 one of the two variables represents time, a line graph can be a more effective method of displaying
@@ -956,12 +947,12 @@ We can change scale breaks and transform scales to make plots easier to read, an
 Hope you found this lesson helpful!
 
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson:
 `r tgc_contributors_list(ids = c("joy", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 
