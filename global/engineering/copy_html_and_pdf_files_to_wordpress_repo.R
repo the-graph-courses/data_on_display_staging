@@ -15,40 +15,31 @@ pacman::p_load_gh("rstudio/pagedown",
 
 blue_print <- function(x) cat(cli::bg_blue(cli::col_white(cli::style_bold(x))))
 
+##  render duplicate
+# some tibble print options for the dfs
+options(pillar.width = 60) # avoid overflow of tibbles
+options(pillar.min_title_chars = 15,
+        pillar.max_footer_lines = 2,
+        pillar.min_chars = 15)
+
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Render Rmds to regular HTML ----
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 current_dir <- here::here()
 
+selected_lessons <- 
+  c("/ls01_gg_intro.Rmd",
+    "/ls02_scatter.Rmd",
+    "/ls03_line_graphs.Rmd")
+
 rmds_to_render <- 
   fs::dir_ls(current_dir, 
-             regexp = "*.Rmd$",
-             recurse = T) %>%
-  as_tibble() %>% 
-  filter(str_detect(value, "/lessons/")) %>% 
-  filter(!str_detect(value, "ch99|ls99|/old/")) %>% 
-  filter(!str_detect(value, "/docs/")) %>% 
-  filter(!str_detect(value, "Test-numbering|-TEACHER|_TEACHER|-GITIGNORE|-STAGING-DRAFT|chXX|snippets")) %>% 
-  filter(!str_detect(value, "/bookdown/")) %>% 
-  
-  ## TEMPORARY 
-  filter(!str_detect(value, "ls06_rmarkdown")) %>% 
-  
-  
-  
-  pull(1)
-
+             regexp = paste0(selected_lessons, collapse = "|"),
+             recurse = T)
 
 # Render documents
 for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
-  
-  # some tibble print options for the dfs
-  options(pillar.width = 60) # avoid overflow of tibbles
-  options(pillar.min_title_chars = 15,
-          pillar.max_footer_lines = 2,
-          pillar.min_chars = 15)
-  
   
   blue_print(paste0("Rendering: \n", rmd, 
                     "\n(", which(rmd == rmds_to_render), " of ", length(rmds_to_render), ")"
@@ -83,21 +74,11 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
   rmd_modified <- 
     read_lines(rmd) %>% 
     str_replace_all("render = reactable_5_rows", "render = head_5_rows") # reactable does not work in this context it seems. Replace with regular renders
- 
   
-  c(rmd_modified,
-    "\n",
-    "---", 
-    yaml_to_append, 
-    "---") %>% # append then write
-    write_lines(file = duplicate_rmd)
+  # append then write
+  write_lines(x = c(rmd_modified,"\n","---", yaml_to_append, "---"), 
+              file = duplicate_rmd)
   
-  ##  render duplicate
-  # some tibble print options for the dfs
-  options(pillar.width = 60) # avoid overflow of tibbles
-  options(pillar.min_title_chars = 15,
-          pillar.max_footer_lines = 2,
-          pillar.min_chars = 15)
   
   output_html <- str_replace(rmd, ".Rmd", "-pagedown.html")
   rmarkdown::render(duplicate_rmd, 
