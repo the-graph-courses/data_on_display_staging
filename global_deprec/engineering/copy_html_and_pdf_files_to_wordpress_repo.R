@@ -31,16 +31,10 @@ rmds_to_render <-
   filter(!str_detect(value, "/docs/")) %>% 
   filter(!str_detect(value, "Test-numbering|-TEACHER|_TEACHER|-GITIGNORE|-STAGING-DRAFT|chXX|snippets")) %>% 
   filter(!str_detect(value, "/bookdown/")) %>% 
-  
-  ## TEMPORARY 
-  filter(!str_detect(value, "ls06_rmarkdown")) %>% 
-  
-  
-  
   pull(1)
 
 
-# Render documents
+# batched re-rendering in case of errors
 for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
   
   # some tibble print options for the dfs
@@ -60,6 +54,29 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
 ## Render Rmds to PDF ----
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+### Dictionary of titles ----
+
+title_df <-
+  tribble(
+    ~doc_name, ~title,
+    "ls01_select_rename", "Selecting and renaming columns", 
+    "ls02_filter", "Filtering rows", 
+    "ls03_mutate", "Mutating values",
+    "ls04_conditional_mutate", "Conditional mutates",
+    "ls05_groupby_summarize", "Grouping and summarizing",
+    "ls06_group_by_other_verbs", "Grouping operations on other verbs",
+    "ls07_across", "The across function",
+    "ls08_pivoting", "Pivoting data",
+    "ls09_advanced_pivoting", "Advanced pivoting"
+    
+    
+    
+    
+    
+    
+    )
+
+
 ### Start loop----
 
 for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
@@ -67,13 +84,14 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
                     "\n(", which(rmd == rmds_to_render), " of ", length(rmds_to_render), ")"
   ))
   
-  # Add yaml to PDF
-  yaml_to_append <- glue::glue('credits: "This document serves as an accompaniment for a lesson found on https://thegraphcourses.org.<br><br>
-                               The GRAPH Courses is a project of the Global Research and Analyses for Public Health (GRAPH) Network,
-                               a non-profit headquartered at the University of Geneva Global Health Institute, 
-                               and supported by the World Health Organization (WHO) and other partners"
+  # figure out title
+  doc_title <- title_df %>% filter(doc_name == sans_ext(basename(rmd))) %>% pull(title)
+  yaml_to_append <- glue::glue('title: "{doc_title}"
+                               credits: "This document serves as an accompaniment for a lesson found on https://thegraphcourses.org.<br><br>
+                               The GRAPH Courses is a project of the Global Research and Analyses for Public Health (GRAPH) Network, 
+                               with the support of the World Health Organization (WHO) and other partners"
                                date: "`r format(Sys.Date(), "%B %Y")`"
-                               author: "Created by the GRAPH Courses team"')
+                               author: "The GRAPH Courses team"')
   
   # duplicate rmd
   duplicate_rmd <- str_replace(rmd, ".Rmd", "-duplicate-for-pagedown.Rmd")
@@ -82,24 +100,29 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
   # modify duplicate
   rmd_modified <- 
     read_lines(rmd) %>% 
-    str_replace_all("render = reactable_5_rows", "render = head_5_rows") # reactable does not work in this context it seems. Replace with regular renders
+    .[. != "title: '\\ '"] %>% 
+   # read in rmd and drop title %>% 
+    str_replace_all("render = reactable_5_rows", "render = head_5_rows") # reactable does not work in this context it seems
  
   
   c(rmd_modified,
-    "\n",
     "---", 
     yaml_to_append, 
     "---") %>% # append then write
     write_lines(file = duplicate_rmd)
   
-  ##  render duplicate
+  
+  # render duplicate
+  output_html <- str_replace(rmd, ".Rmd", "-pagedown.html")
+  
+  
   # some tibble print options for the dfs
+  
   options(pillar.width = 60) # avoid overflow of tibbles
   options(pillar.min_title_chars = 15,
           pillar.max_footer_lines = 2,
           pillar.min_chars = 15)
   
-  output_html <- str_replace(rmd, ".Rmd", "-pagedown.html")
   rmarkdown::render(duplicate_rmd, 
                     output_file = output_html, 
                     output_format = "pagedown::html_paged",
