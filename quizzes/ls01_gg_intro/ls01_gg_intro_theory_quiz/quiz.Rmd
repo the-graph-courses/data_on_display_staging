@@ -742,7 +742,7 @@ ggplot(data = china_pop,
 
 Of course, this is a *redundant* plot. We don't need three layers just to show one series of values. Only one of these geoms would be sufficient.
 
-**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` will still work, but it is recommended to update all code to reflect the new aesthetic. 
+**Important note**: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` aesthetic will still work, but it is recommended to update all code to reflect the new aesthetic. 
 
 Unfortunately, Our lesson was written and recorded before release of {ggplot2} 3.6.0 on 04/11/2022. We have updated the quiz and lesson code, but the lesson video has not been edited yet. Apologies for any inconvenience.
 
