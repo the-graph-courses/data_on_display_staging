@@ -361,11 +361,11 @@ Plot a KDE of the `temp` variable from `malidd` using a KDE.
 # Simple KDE of temp
 ggplot(data =  malidd , 
        mapping = aes(x = temp)) +
-  geom_density(color = "dodgerblue")
+  geom_density(color = )
 ```
 :::
 
-### Adjusting bandwidth 
+### Adjusting bandwidth
 
 Since there are no bins on a KDE, we cannot adjust those. But you can adjust the smoothing **bandwidth** of a KDE with the **`bw`** argument, which controls the standard deviation of the smoothing kernel.
 
@@ -651,7 +651,7 @@ ggplot(data =  malidd ,
 
 ```
 
-## Themes
+
 
 # Faceting plots with
 
@@ -671,14 +671,15 @@ small multiples blah blah
 
 ```{r}
 library(RColorBrewer)
+
 malidd_age_class <- malidd %>% 
-  mutate(age_class = 
+  mutate(ageage_class_class = 
            case_when(age_months <= 3                    ~ 'newborn',
                      age_months > 3 & age_months  <= 12 ~ 'infant',
                      age_months > 12 & age_months <= 48 ~ 'toddler'))
 
 ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_histogram(color="white")+
+  geom_histogram(color="white") +
   facet_grid(sex ~ age_class) + 
   scale_fill_brewer()
 

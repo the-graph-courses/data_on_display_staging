@@ -1,4 +1,4 @@
-# HIVand AIDS data cleaning
+# HIV and AIDS data cleaning
 ## Joy VAz
 ## 2022-11-05
 
@@ -23,7 +23,7 @@
 #' spatial range: global
 #' spatial scale: country
 #' raw file: data/raw/hiv_aids/newly_hiv_infected_number_all_ages.csv
-#' clean file: data/clean/new_hiv.csv
+#' clean file: data/clean/hiv_incidence.csv
 
 
 
@@ -48,6 +48,16 @@ new_hiv_raw <- read_csv("data/raw/hiv_aids/newly_hiv_infected_number_all_ages.cs
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Tidy up rows and columns ----
+
+summary(total_hiv_raw) 
+summary(new_hiv_raw)
+
+# some years are character but some are numeric?
+
+View(total_hiv_raw)
+summary(new_hiv_raw)
+
+# Convert "k" or "M" suffix to thousands and millions (numeric)
 
 total_01 <- total_hiv_raw %>% 
   select(country, `1990`:`2009`) %>% 
@@ -102,7 +112,7 @@ total_03 %>% select(country) %>% as.vector() %>% table() %>%
 new_03 %>% drop_na() %>% select(country) %>% as.vector() %>% table() %>% 
   as.data.frame() %>% filter(!Freq == length(unique(new_03$year)))
 
-### Merge datasets ---
+### Join datasets ---
 
 # Check if they have the same countries
 setdiff(unique(total_03$country), unique(new_03$country))
@@ -166,6 +176,7 @@ pop <- tidyr::population %>%
     country = case_when(country == "Serbia & Montenegro" ~ "Serbia",
                         TRUE ~ country)
     )
+
 
 accentless <- iconv(pop$country,from="UTF-8",to="ASCII//TRANSLIT")
 
@@ -244,12 +255,10 @@ high_prev_countries <- high_mean_prev$country %>% unique()
 
 
 # Subset full to high
-
 high_hiv_prev <- hiv_prev_pop_full %>% 
   filter(country %in% high_prev_countries)
 
 
 # Write CSV
-
 write_csv(high_hiv_prev, here("data/clean/high_hiv_prev_pop.csv"))
 
