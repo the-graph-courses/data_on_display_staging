@@ -8,6 +8,8 @@ editor_options:
 ---
 
 ```{r, echo = F, message = F, warning = F}
+# LS01 GG INTRO DATA QUIZ
+
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(
   # necessary for all quizzes runs
@@ -41,19 +43,24 @@ high_hiv_prev_pop <-
   read_csv(here("data/clean/high_hiv_prev_pop.csv"))
 
 # Sample and plot
-high_prev_countries <- high_hiv_prev_pop$country %>% unique()
+country_sample <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
 
-high_prev_country_sample <- sample(high_prev_countries, 3)
-
-high_hiv_prev <- high_hiv_prev_pop %>% 
-  filter(country %in% high_prev_country_sample)
-
-hiv_prevalence <- high_hiv_prev %>% 
+hiv_prev_sample <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample) %>% 
   mutate(country = as.factor(country))
 
 # Pick random R color
 
-point_color <- sample(colors(), 1)
+point_color <- sample(colors(), 3)
+
+
+hiv_incidence_pop <- read_csv("data/clean/hiv_incidence_pop.csv")
+View(hiv_incidence_pop)
+
+high_hiv_prev_pop %>% ggplot(aes(population, total_cases)) + geom_point()
+
+
 
 ```
 
@@ -64,73 +71,6 @@ upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
 ```
 
 Note that each time you retry a quiz, the dataset is slightly modified so that you get a different set of countries.
-
-Some questions require you to create and submit a plots. You will need to be able run code in R in order to complete this quiz.
-
-In order to submit as plots as answers in this quiz, you will need a function called **`get_plot_key()`**. This function will "digest" your plot and give it a unique alphanumeric **key**, so you don't need to save and submit every plot for grading.
-
-We will now walk you through a reproducible example of how to use `get_plot_key()` to create an answer for this quiz.
-
-First, run this code to add `get_plot_key()` as a function in your R environment.
-
-```{r}
-
-# Import function
-
-# devtools::source_gist("INSERT LINK")
-```
-
-A quiz question might ask you to do the following:
-
-**Use the `iris`** **dataset in R to create a scatter plot of `Sepal.Width` against `Sepal.Length`. Color the points by `Species`**.
-
-First, write your solution to the quest using `ggplot()` in R.
-
-```{r}
-# Create plot to answer the question
-ggplot(data = iris,
-       mapping = aes(x = Sepal.Width,
-                     y = Sepal.Length,
-                     color = Species)) +
-  geom_point()
-
-```
-
-Once you are sure you have your final answer, save your plot as an R object.
-
-```{r}
-# Store plot as an R object
-plot_name <- 
-  ggplot(data = iris,
-       mapping = aes(x = Sepal.Width,
-                     y = Sepal.Length,
-                     color = Species)) +
-  geom_point()
-  
-```
-
-Next, put your plot object in the **`get_plot_key()`** function. This will produce the unique key.
-
-```{r}
-# Run function on plot object
-get_plot_key(plot_name)
-```
-
-The unique alphanumeric key for this plot is 1c1df9d84a66e103b59e2b8e0ed1c386. Your key will look different, but it should also be 32 characters long and contain letters and numbers.
-
-```{r echo = F}
-hash_iris <- get_plot_key(plot_name)
-```
-
-Finally, you will need to submit your answer by copying the key string and pasting into the corresponding answer box in this quiz.
-
-The answer box will look like this:
-
-**Enter the unique key for your plot here**: {`r hash_iris`}
-
-Try entering the key from the last plot.
-
-We will use the keys to check your answers, so please ensure you have copied and pasted the whole key string correctly.
 
 # HIV dataset
 
@@ -212,13 +152,8 @@ filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
   geom_col()
 
 filled_bar
-
-hash_filled_bar <- get_plot_key(filled_bar)
 ```
 
-Process your plot with `get_plot_key()` and copy the resulting alphanumeric string.
-
-**Enter the unique key for your plot here**: {`r hash_filled_bar` \|5}
 
 **Complete the below code to create a colored line graph** **showing a separate line for each country.**
 
@@ -279,18 +214,6 @@ ggplot(hiv_prevalence,
                          color = country)) +
   geom_line(size = 1)
 ```
-
-```{r echo = F}
-# Generate correct hash
-line_size <- ggplot(hiv_prevalence, 
-                     aes(year, total_cases,
-                         color = country)) +
-  geom_line(size = 1)
-
-hash_line_size <- get_plot_key(line_size)
-```
-
-**Enter the unique key for your plot here**: {`r hash_line_size` \|5}
 
 Here are two plots showing the distribution of `total_cases` for each country.
 
