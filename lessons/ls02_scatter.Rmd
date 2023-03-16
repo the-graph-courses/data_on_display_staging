@@ -1,19 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Scatter plots and smoothing lines'
 output:
   html_document:
     number_sections: true
     toc: true
+    toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, eval = F, include = F}
@@ -23,7 +16,7 @@ This is the document that generates the lesson HTML/PDF handouts on our website.
 
 You can follow the lesson by reading through this document, and you can also answer the included practice questions here. 
 
-If you prefer to CODE ALONG with the lesson video, please use the the "*_video_code_along" Rmd instead!
+If you prefer to CODE ALONG with the lesson video, please use the the "*_VIDEO_CODE_ALONG" Rmd instead!
 ```
 
 
@@ -40,9 +33,7 @@ source(here("lessons/ls02_scatter_autograder.R"))
 
 ```
 
-# Scatter plots and smoothing lines with {ggplot2}
-
-## Introduction
+# Introduction
 
 **Scatter plots** - which are sometimes called **bivariate plots** - allow you to visualize the **relationship** between two numerical variables.
 
@@ -54,14 +45,14 @@ Trends and relationships in a scatter plot can be made clearer by adding a smoot
 
 We will use ggplot to do all that and more. Let's get started!
 
-## Learning Objectives
+# Learning Objectives
 
 1.  You can visualize relationships between numerical variables using **scatter plots** with **`geom_point()`**.
 2.  You can use **`color`** as an aesthetic argument to map variables from the dataset onto individual points.
 3.  You can change the size, shape, color, fill, and opacity of geometric objects by setting **fixed aesthetics**.
 4.  You can add a **trend line** to a scatter plot with **`geom_smooth()`**.
 
-## Childhood diarrheal diseases in Mali
+# Childhood diarrheal diseases in Mali
 
 We will be using data collected for a prospective observational study of acute **diarrhea in children** aged 0-59 months. The study was conducted in Mali and in early 2020.
 
@@ -83,7 +74,7 @@ We will begin by visualizing the relationship between the following two numerica
 1.  `age_months`: the patient's **age** in months on the horizontal **x**-axis and
 2.  `viral_load`: the patient's **viral load** on the vertical **y**-axis
 
-## Scatter plots via `geom_point()`
+# Scatter plots via `geom_point()`
 
 We will explore relationships between some numerical variables in the **`malidd`** data frame.
 
@@ -124,7 +115,7 @@ age_height
 ```
 :::
 
-## Aesthetic modifications
+# Aesthetic modifications
 
 An aesthetic is a visual property of the geometric objects (`geom`s) in your plot. Aesthetics include things like the size, the shape, or the color of your points. You can display a point in different ways by changing the values of its aesthetic properties.
 
@@ -134,7 +125,7 @@ Remember, there are two methods for changing the aesthetic properties of your `g
 
 2.  You can also *set* the aesthetic properties of your `geom`s *manually*. Here the aesthetic doesn't convey information about a variable, but only changes the appearance of the plot. To change an aesthetic manually, you set the aesthetic by name as an argument of your `geom_*()` function; i.e. it goes *outside* of `aes()`.
 
-### Mapping data to aesthetics
+## Mapping data to aesthetics
 
 In addition to mapping variables to the **x** and **y** axes like with did above, variables can be mapped to the color, shape, size, opacity, and other visual characteristics of `geom`s. This allows groups of observations to be superimposed in a single graph.
 
@@ -219,7 +210,7 @@ age_height_fever
 ```
 :::
 
-### Setting fixed aesthetics
+## Setting fixed aesthetics
 
 Aesthetic arguments set to a fixed value will be static, and the visual effect is not data-dependent. To add a fixed aesthetic, we add as a direct argument of the `geom_*()` function; i.e., it goes *outside* of `mapping = aes()`.
 
@@ -237,7 +228,7 @@ Let's look at some of the aesthetic arguments we can place directly within `geom
 
 To use these options to create a more attractive scatter plot, you'll need to pick a value for each argument that makes sense for that aesthetic, as shown in the examples below.
 
-#### Changing `color`, `size` and `alpha`
+### Changing `color`, `size` and `alpha`
 
 Let's change the color of the points to a fixed value by setting the `color` argument directly within `geom_point()`. The color we choose must be a character string that R recognizes as a color. Here we will set the point colors to steel blue:
 
@@ -292,7 +283,7 @@ age_viral_blue
 ```
 :::
 
-#### Changing `shape` and `fill`
+### Changing `shape` and `fill`
 
 We can change the appearance of points in a scatter plot with the `shape` aesthetic.
 
@@ -351,7 +342,7 @@ ggplot(data = malidd,
              alpha = 0.75)              # set level of opacity
 ```
 
-## Adding a trend line
+# Adding a trend line
 
 It can be hard to view relationships or trends with just points alone. Often we want to add a smoothing line in order to see what the trends look like. This can be especially helpful when trying to understand regressions.
 
@@ -457,17 +448,17 @@ age_height_3
 ```
 :::
 
-## Summary
+# Summary
 
 scatter plots display the relationship between two numerical variables.
 
 With medium to large datasets, you may need to play around with the different modifications to scatter plots we saw such as adding trend lines, changing the color, size, shape, fill, or opacity of the points. This tweaking is often a fun part of data visualization, since you'll have the chance to see different relationships emerge as you tinker with your plots.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 

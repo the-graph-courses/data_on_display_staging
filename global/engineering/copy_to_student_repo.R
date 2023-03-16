@@ -1,5 +1,5 @@
 # Copy staging repo to student repo ----
-## GRAPH Courses team
+## Kene David Nwosu
 ## 2021-03-27
 
 #' Copies internal staging repo to the outward-facing student repo. 
@@ -17,15 +17,6 @@ pacman::p_load(tidyverse,
                here, 
                fs)
 
-my.file.copy_file <- function(from, to, ...) {
-  
-  for (i in 1:length(from)){
-  
-  if (!dir.exists(dirname(to[[i]])))  dir.create(dirname(to[[i]]), recursive = TRUE) 
-  file.copy(from = from[[i]],  to = to[[i]], ...)
-  
-  }
-}
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ##  Establish paths  ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,10 +75,9 @@ all_copied_files <- fs::dir_ls(to, type = "file", recurse = T)
 files_to_delete_search_string <- paste(c(".docx", "-TEACHER", 
                                          "_TEACHER",
                                          "-GITIGNORE", 
-                                         "_blank",
                                         ".html", 
                                         "chXX",
-                                        "data_on_display_staging.Rproj",
+                                        "data_untangled_staging.Rproj",
                                         ".pptx"
                                         ),
                                       collapse = "|")
@@ -109,40 +99,32 @@ rmds_to_sanitize <- fs::dir_ls(to,
              regexp = "*.Rmd$",
              recurse = T) %>%
   as_tibble() %>% 
+  filter(!str_detect(value, "/snippets")) %>% 
   pull(1)
 
 
-primary_rmds <-
-  rmds_to_sanitize %>% 
-  as_tibble() %>% filter(!str_detect(value, "code_along")) %>% pull(1)
-
-#rmds_to_sanitize <- rmds_to_sanitize[1:2]  ## TEMPORARY! REMOVE WHEN LESSON 3 is ready
-
-
-full_name <- basename(rmds_to_sanitize) %>% tools::file_path_sans_ext()
-short_name <- basename(primary_rmds) %>% tools::file_path_sans_ext() %>% str_remove_all("_filled")
-full_name_primary_rmds <- basename(primary_rmds) %>% tools::file_path_sans_ext()
+name <- basename(rmds_to_sanitize) %>% tools::file_path_sans_ext()
 
 # create a folder in the target for each repo
-fs::dir_create(path = paste0(to, "/", "data_on_display_", short_name))
+fs::dir_create(path = paste0(to, "/", "untangled_", name))
 
 # create a Rproj file in each for each repo
-fs::file_copy(path = rep(paste0(from, "/data_on_display_staging.Rproj"), length(short_name)) , 
-              new_path = paste0(to, "/data_on_display_", short_name, "/data_on_display_",   short_name, ".Rproj"), overwrite = T)
+fs::file_copy(path = rep(paste0(from, "/data_untangled_staging.Rproj"), length(name)) , 
+              new_path = paste0(to, "/untangled_", name, "/untangled_",   name, ".Rproj"), overwrite = T)
 
 # create a folder for images, functions and data in each target repo
-fs::dir_create(path = paste0(to, "/", "data_on_display_", short_name, "/data"))
-fs::dir_create(path = paste0(to, "/", "data_on_display_", short_name, "/autograder"))
-fs::dir_create(path = paste0(to, "/", "data_on_display_", short_name, "/images"))
+fs::dir_create(path = paste0(to, "/", "untangled_", name, "/data"))
+fs::dir_create(path = paste0(to, "/", "untangled_", name, "/autograder"))
+fs::dir_create(path = paste0(to, "/", "untangled_", name, "/images"))
 # copy global folder into each repo 
-fs::dir_copy(rep(paste0(to, "/global"), length(short_name)) , 
-             paste0(to, "/", "data_on_display_", short_name, "/global"), overwrite = T)
+fs::dir_copy(rep(paste0(to, "/global"), length(name)) , 
+             paste0(to, "/", "untangled_", name, "/global"), overwrite = T)
 
 
 # rename paths as needed in rmds
 for (rmd in rmds_to_sanitize){
 
-  ith_rmd_name <- basename(rmd) %>% tools::file_path_sans_ext() %>% str_remove_all("_video_code_along|_written_code_along|_filled")
+  ith_rmd_name <- basename(rmd) %>% tools::file_path_sans_ext()
   
   xfun::gsub_dir(dir = to, 
                pattern = paste0("lessons/", ith_rmd_name, "_autograder.R"), 
@@ -153,24 +135,19 @@ for (rmd in rmds_to_sanitize){
 
 
 # copy autograders into target folders
-file.copy(from = paste0(to, "/lessons/", short_name, "_autograder.R"),
-          to = paste0(to,  "/data_on_display_", short_name, "/autograder/", short_name, "_autograder.R"), 
+file.copy(from = paste0(to, "/lessons/", name, "_autograder.R"),
+          to = paste0(to,  "/untangled_", name, "/autograder/", name, "_autograder.R"), 
           overwrite = T)
 
 # copy Rmds into target folders
-file.copy(from = paste0(to, "/lessons/", full_name, ".Rmd"),
-          to = paste0(to,  "/data_on_display_", 
-                      str_remove_all(full_name, "_written_code_along|_video_code_along|_filled"), 
-                      "/", full_name, ".Rmd"), 
+file.copy(from = paste0(to, "/lessons/", name, ".Rmd"),
+          to = paste0(to,  "/untangled_", name, "/", name, ".Rmd"), 
           overwrite = T)
-
-
 
 # copy images used in each Rmd into target folders
 for (rmd in rmds_to_sanitize) {
   
   rmd_base_name <- basename(rmd) %>% tools::file_path_sans_ext()
-  rmd_repo_name <- rmd_base_name %>% str_remove_all("_video_code_along|_written_code_along|_filled")
   
   all_lines <- read_lines(rmd)
   
@@ -181,7 +158,7 @@ for (rmd in rmds_to_sanitize) {
   
   source <- paste0(to, "/lessons/", images_used$.)
   
-  target <- paste0(to, "/data_on_display_", rmd_repo_name, "/", images_used$.)
+  target <- paste0(to, "/untangled_", rmd_base_name, "/", images_used$.)
   
   file.copy(source, target, overwrite = T)
   
@@ -191,10 +168,6 @@ for (rmd in rmds_to_sanitize) {
 for (rmd in rmds_to_sanitize) {
   
   rmd_base_name <- basename(rmd) %>% tools::file_path_sans_ext()
-  short_name <- basename(rmd) %>% tools::file_path_sans_ext() %>% str_remove_all("_filled") %>% 
-    str_remove_all("_video_code_along") %>% 
-    str_remove_all("_written_code_along")
-  
   
   all_lines <- read_lines(rmd)
   
@@ -207,9 +180,9 @@ for (rmd in rmds_to_sanitize) {
 
   source <- paste0(to, "/", datasets_used$value)
   
-  target <- paste0(to, "/data_on_display_", short_name, "/", datasets_used$value)
+  target <- paste0(to, "/untangled_", rmd_base_name, "/", datasets_used$value)
   
-  my.file.copy_file(source, target, overwrite = T)
+  file.copy(source, target, overwrite = T)
   
 }
 
