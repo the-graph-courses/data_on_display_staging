@@ -24,21 +24,58 @@ if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, here, patchwork)
 
 # Source functions 
-source(here("global/functions/misc_functions.R"))
+source(here("global/functions/lesson_functions.R"))
 
 # Source autograder script quietly 
-#mute(here("ch_03_intro_to_data_viz/lessons/05_5NG_bar.R"))
+.mute(here("lessons/ls04_histograms_autograder.R"))
 
 ```
 
 # Histograms, density curves, position adjustments
 
+```{r echo = F, eval = F}
+ggplot(data =  malidd , 
+       mapping = aes(x = muac_cm)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 bins = 22,
+                 mapping = aes(y = after_stat(density))) +
+  geom_density(fill = "seagreen4",
+               color = "gray30", 
+               alpha = 0.25,
+               linewidth = 1,
+               bw = 0.4) +
+  labs(x = "Middle-upper arm circumfrence (cm)",
+       y = "Probability density") +
+  theme_light()
+```
+
+![](images/hist_dens_01.png){width="567"}
+
+## Introduction
+
+Histograms and kernel density estimates (KDEs) are both univariate plots that are used to visualize the distribution of continuous data. You can think of a KDE as a 'smoothed histogram'. 
+
+In this lesson we will learn how to plot them using {ggplot2}.
+
 ## Learning objectives
 
 1.  You can plot a histogram to visualize the distribution of continuous variables using **`geom_histogram()`**.
-2.  You can adjust the number or size of bins in a histogram with `bins` or `binwidth`.
-3.  You can plot a kernel density curve to visualize the distribution of continuous variables using **`geom_density()`**.
-4.  You can use **`position`** adjustments to plot stacked, dodged, or overlapping distributions.
+2.  You can adjust the number or size of bins on a histogram by with **`bins`** or **`binwidth`**.
+3.  You can plot a kernel density estimate (KDE) to visualize the distribution of continuous variables using **`geom_density()`**.
+4.  You can adjust the smoothing bandwidth of a KDE with **`bw`**.
+5.  You can plot a histogram and KDE on the same plot.
+6.  You can use **`position`** adjustments to plot stacked, dodged, or overlapping distributions.
+
+## Univariate distributions in {ggplot2}
+
+The Geoms section of the {ggplot2} cheatsheet lists common plot types and the `geom_*()` functions used to create them. 
+
+![](images/ggplot_cheatsheet-1.png)
+In previous lessons we've used scatterplots and line graphs to visualize *relationships* between *two* continuous variables (bivariate plots), but now we are going to focus on plotting distributions of a *single* continuous variable (univariate plots). 
+
+![](images/ggplot2_one_continuous_geoms.png)
+The `geom_*()` functions we'll use in this lesson are `geom_histogram()` and `geom_density()`.
 
 ## Packages
 
@@ -52,7 +89,7 @@ p_load(tidyverse,
 
 We will visualize distributions of numerical variables in the `malidd` data frame, which we've seen in previous lessons.
 
-```{r render = reactable_10_rows, message = FALSE}
+```{r render = .reactable_10_rows, message = FALSE}
 malidd <- read.csv(here::here("data/clean/malidd.csv"))
 malidd
 ```
@@ -63,13 +100,10 @@ These data were collected as part of an observational study of acute diarrhea in
 
 The dataframe has 21 variables, many of which are continuous, like `height_cm`, `viral_load`, or `temp`.
 
-```{r}
-summary(malidd)
-```
 
 ## Basic histograms with `geom_histogram()`
 
-Now let's use {ggplot2} to plot the distribution of childrens' height.
+Now let's use {ggplot2} to plot the distribution of childrens' heights, which is recorded in the `height_cm` column of `malidd`.
 
 ```{r}
 # Simple histogram showing the distribution of height_cm
@@ -78,15 +112,19 @@ ggplot(data = malidd,
   geom_histogram()
 ```
 
-A histogram is a plot that visualizes the *distribution* of a numerical value as follows:
+::: warning
+After running the previous R code, the warning message “`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.” is returned. This is because we have not set a bin width manually. We can ignore this for now, and we'll learn how to remove it in the next section.
+:::
 
-1.  We first cut up the x-axis into a series of *bins*, where each bin represents a range of values.
+The y-axis of the histogram is automatically computed as follows:
 
-2.  For each bin, we count the number of observations that fall in the range corresponding to that bin.
+1.  The x-axis is cut into a series of *bins*, where each bin represents a range of values.
+
+2.  We then count the number of observations that fall within the range of each bin.
 
 3.  Then for each bin, we draw a bar whose height marks the corresponding count.
 
-It's hard to get a sense for which range of heights is spanned by each bin in the previous plot, since everything is one big amorphous blob. So let's add borders around the bins and ignore the warning about setting the number of bins to a better value:
+In the previous histogram, it's hard to where the boundaries for each bin start and end since everything is one big amorphous blob. So let's add borders around the bins:
 
 ```{r}
 # Set border color to "white"
@@ -95,7 +133,7 @@ ggplot(data =  malidd ,
   geom_histogram(color = "white")
 ```
 
-We now have an easier time associating ranges of cases to each of the bins.
+We now have an easier time associating ranges of values to each of the bins.
 
 We can also vary the color of the bars by setting the `fill` argument:
 
@@ -107,7 +145,7 @@ ggplot(data =  malidd ,
                  fill = "steelblue")
 ```
 
-Now that we can see the bars more clearly, let's unpack the resulting histogram.
+Now that we can see the bars more clearly, let's unpack the resulting histogram. Some key questions to ask are:
 
 1.  What are the smallest and largest values?
 2.  What is the "center" or "most typical" value?
@@ -119,11 +157,12 @@ We can see that heights range from 50 to 105cm. The center is around 70cm, most 
 ::: error
 There is only one data variable - the `x` aesthetic - being mapped in `aes()` for histograms. The `y` aesthetic of a histogram is the count of the observations in each bin, which gets computed for you automatically.
 
-What happens when we specify a second variable?
+What happens if we try to map two variables with `geom_histogram()`?
 
 ```{r}
 ggplot(data = malidd, 
-       mapping = aes(x = height_cm, y = age_months)) +
+       mapping = aes(x = height_cm, 
+                     y = age_months)) +
   geom_histogram()
 ```
 
@@ -133,7 +172,7 @@ Now, what happens if we try to make a histogram of a non-continuous variable?
 
 ```{r}
 ggplot(data = malidd, 
-       mapping = aes(x = commune)) +
+       mapping = aes(x = sex)) +
   geom_histogram()
 ```
 
@@ -143,25 +182,16 @@ The `geom_histogram()` function doesn't like this either. We must give it a sing
 ::: practice
 Plot a histogram showing the distribution of age (`age_months`) in `malidd`. Make the borders and fill of the bars "seagreen", and reduce opacity to 40%.
 
-```{r}
-ggplot(data = malidd, 
-       mapping = aes(x = age_months)) +
-    geom_histogram(fill = "seagreen",
-                   color = "seagreen",
-                   alpha = 0.4)
+```{r eval=F, include=F}
+# Create plot 
+
 ```
 
-Now add change the x and y axis titles to "Age (months)" and "Number of children".
+Next, change the x and y axis titles to "Age (months)" and "Number of children".
 
 ```{r eval=F, include=F}
-# Create your plot
-ggplot(data = malidd, 
-       mapping = aes(x = age_months)) +
-    geom_histogram(fill = "seagreen",
-                   color = "seagreen",
-                   alpha = 0.4) +
-  labs(x = "Age (months)",
-       y = "Number of children")
+# Update plot
+
 ```
 
 ```{r eval=F, include=FALSE}
@@ -328,7 +358,7 @@ Let's look at the distribution of a different numerical variable, `muac_cm`. MUA
 ggplot(malidd, 
        aes(x = muac_cm)) +
     geom_histogram(binwidth= 0.5, 
-                   colour="black", 
+                    colour="black", 
                    fill="white")
 ```
 
@@ -373,19 +403,22 @@ Since there are no bins on a KDE, we cannot adjust those. But you can adjust the
 # Try different levels of bw
 a <- ggplot(data =  malidd, 
        mapping = aes(x = muac_cm)) +
-  geom_density(color = "chartreuse4", linewidth = 1,
+  geom_density(color = "chartreuse4", 
+               linewidth = 1,
                bw = 0.1) +
   labs(title = "bw = 0.1")
 
 b <- ggplot(data =  malidd, 
        mapping = aes(x = muac_cm)) +
-  geom_density(color = "cornflowerblue", linewidth = 1,
+  geom_density(color = "cornflowerblue", 
+               linewidth = 1,
                bw = 0.3) +
   labs(title = "bw = 0.3")
 
 c <- ggplot(data =  malidd, 
        mapping = aes(x = muac_cm)) +
-  geom_density(color = "brown3", linewidth = 1,
+  geom_density(color = "brown3", 
+               linewidth = 1,
                bw = 1) +
   labs(title = "bw = 1")
 
@@ -651,8 +684,6 @@ ggplot(data =  malidd ,
 
 ```
 
-
-
 # Faceting plots with
 
 Faceting creates small multiples of a plot, where each panel contains a subset of the data.
@@ -732,7 +763,7 @@ Histograms, unlike scatterplots and linegraphs, present information on only a si
 
 ## Contributors {.unlisted .unnumbered}
 
-The following team members contributed to this lesson: `r tgc_contributors_list(ids = c("joy", "admin"))`
+The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
 ## References {.unlisted .unnumbered}
 
@@ -747,4 +778,4 @@ Some material in this lesson was adapted from the following sources:
 
 -   <https://stulp.gmw.rug.nl/dataviz/singledistributions.html> - error with adding y example
 
-`r tgc_license()`
+`r .tgc_license()`
