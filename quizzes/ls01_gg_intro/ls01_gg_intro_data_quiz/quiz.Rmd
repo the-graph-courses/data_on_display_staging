@@ -293,6 +293,7 @@ ggplot(data = hiv_prevalence,
       {geom_line({[color = point_color][colour = point_color][col = point_color]|2})}
 ```
 
+
 ```{r echo = F}
 
 # correct
@@ -384,6 +385,7 @@ correct_plot_letter <- which(names(plotlist) == "correct_plot") %>% chartr(old =
 
 option_grid <- cowplot::plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], plotlist[[4]], labels = "auto")
 ```
+
 
 **Next, create a ggplot2 line graph of population over time. Then indicate which of the plots below (from a to f) most closely resembles your output plot. Letter answer: {`r correct_plot_letter`}**
 
