@@ -1,0 +1,642 @@
+---
+title: 'Multiple-choice quiz | Histograms'
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+---
+
+```{r echo=F}
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               googledrive,
+               patchwork,
+               rio, 
+               here,
+               knitr)
+
+```
+
+```{r, echo = F, message = F, warning = F, eval=F}
+opts_chunk$set(warning = F, message = F)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+```
+
+# Intro
+
+This quiz tests your understanding of [lesson 4].
+Good luck!
+
+Quiz Contributors: [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+
+# Q - geom function
+
+What is the `geom_*()` function we use for histograms in {ggplot2}?
+
+## A
+
+`geom_histogram()`
+
+## B
+
+`geom_hist()`
+
+## C
+
+`geom_bar()`
+
+## D
+
+`geom_col()`
+
+## Answer
+
+A
+
+## Correct message
+
+Correct!
+
+`geom_histogram()` is used to create histograms in {ggplot2}
+
+## Incorrect message
+
+`geom_histogram()` is used to create histograms in {ggplot2}
+
+# Q - distribution T/F
+
+Histograms are used to display distributions.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Correct!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+## Incorrect message
+
+Check again!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+# Q - relationships T/F
+
+Histograms are used to display relationships.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+B
+
+## Correct message
+
+Correct!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+## Incorrect message
+
+Check again!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+# Q - continuous T/F
+
+Histograms are used to visualize continuous data.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Correct!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+## Incorrect message
+
+Check again!
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+# Q - bins T/F
+
+The `bins` argument must be set equal to a number.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+A
+
+## Correct message
+
+Great!
+
+We set `bins` equal to an integer which tells `geom_histogram()` how many bars to draw.
+
+## Incorrect message
+
+It's true.
+We set `bins` equal to an integer which tells `geom_histogram()` how many bars to draw.
+
+# Q - binwidth def
+
+What does the `binwidth` argument specify?
+
+## A
+
+The width of the bins
+
+## B
+
+The range of x-axis values
+
+## C
+
+The number of bins
+
+## D
+
+The height of bars
+
+## Answer
+
+A
+
+## Correct message
+
+Correct!
+As the name suggests, `binwidth` controls how wide each bin is.
+
+The number of bins can be specified with the `bins` argument.
+The height of bars is determined by the number of observations that fall into the corresponding bin.
+The x-axis range is determined by the range of values in the data variable being plotted.
+
+## Incorrect message
+
+As the name suggests, `binwidth` controls how wide each bin is.
+
+The number of bins can be specified with the `bins` argument.
+The height of bars is determined by the number of observations that fall into the corresponding bin.
+The x-axis range is determined by the range of values in the data variable being plotted.
+
+# Q - bins def
+
+What does the `bins` argument specify?
+
+## A
+
+The width of the bins
+
+## B
+
+The range of x-axis values
+
+## C
+
+The number of bins
+
+## D
+
+The height of bars
+
+## Answer
+
+C
+
+## Correct message
+
+Correct!
+`bins` controls the number of bins to divide our data into.
+For example, setting `bins = 20` will divide the data into 20 bins, and plot a bar for each bin.
+
+The width of bins can be specified with the `binwidth` argument.
+The height of bars is determined by the number of observations that fall into the corresponding bin.
+The x-axis range is determined by the range of values in the data variable being plotted.
+
+## Incorrect message
+
+`bins` controls the number of bins to divide our data into.
+For example, setting `bins = 20` will divide the data into 20 bins, and plot a bar for each bin.
+
+The width of bins can be specified with the `binwidth` argument.
+The height of bars is determined by the number of observations that fall into the corresponding bin.
+The x-axis range is determined by the range of values in the data variable being plotted.
+
+# Q - bins vs binwidth
+
+Which statement is correct?
+
+## A
+
+Increasing `binwidth` of a histogram will reduce the total number of bins.
+
+## B
+
+Increasing `binwidth` of a histogram will increase the total number of bins.
+
+## C
+
+Increasing `binwidth` of a histogram has no effect on the number of bins plotted.
+
+## Answer
+
+A
+
+## Correct message
+
+Correct!
+Larger bin width means that there will be fewer bins overall, and vice versa.
+Try running the code in R to see how `binwidth` indirectly influences the number of bins.
+
+```{r}
+# No binwidth give: defaults to 30 bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white")
+
+# Small binwidth of 0.1 results in more bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.1)
+# Larger binwidth of 0.5 results in fewer bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.5)
+```
+
+If you specify both `bins` and `binwidth`, `bins` will be overridden by `binwidth`.
+
+```{r}
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.25,
+                 bins = 3) # this argument is ignored in favor of binwidth
+```
+
+## Incorrect message
+
+Larger bin width means that there will be fewer bins overall, and vice versa.
+Try running the code in R to see how `binwidth` indirectly influences the number of bins.
+
+```{r}
+# No binwidth give: defaults to 30 bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white")
+
+# Small binwidth of 0.1 results in more bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.1)
+# Larger binwidth of 0.5 results in fewer bins
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.5)
+```
+
+If you specify both `bins` and `binwidth`, `bins` will be overridden by `binwidth`.
+
+```{r}
+ggplot(data = iris,
+       mapping = aes(x = Sepal.Length)) +
+  geom_histogram(fill = "seagreen",
+                 color = "white",
+                 binwidth = 0.25,
+                 bins = 3) # this argument is ignored in favor of binwidth
+```
+
+# Q - KDE
+
+You can plot a kernel density estimation curve with a histogram in {ggplot2} just by adding the function `geom_density()`.
+
+## A
+
+TRUE
+
+## B
+
+FALSE
+
+## Answer
+
+B
+
+## Correct message
+
+Simply adding the `geom_density()` function will give an error (see code below examples below).
+You must also add a mapping to `geom_histogram()`, shown below.
+
+```{r}
+# Simple histogram
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram()
+
+# Error
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram() +
+  geom_density()
+
+# Histogram overlaid with KDE
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram(mapping = aes(y = after_stat(density))) +
+  geom_density()
+```
+
+Refer to the lesson video or notes for more explanation!
+
+## Incorrect message
+
+Simply adding the `geom_density()` function will give an error (see code below examples below).
+You must also add a mapping to `geom_histogram()`, shown below.
+
+```{r}
+# Simple histogram
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram()
+
+# Error
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram() +
+  geom_density()
+
+# Histogram overlaid with KDE
+ggplot(data = mtcars, 
+       mapping = aes(x = mpg)) + 
+  geom_histogram(mapping = aes(y = after_stat(density))) +
+  geom_density()
+```
+
+Refer to the lesson video or notes for more explanation!
+
+# Q - binwidth fixed vs mapped
+
+The `binwidth` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+B
+
+## Correct message
+
+## Incorrect message
+
+# Q - bins fixed vs mapped
+
+The `bins` argument can only be used as an aesthetic mapping, not a fixed aesthetic.
+
+## A
+
+FALSE
+
+## B
+
+TRUE
+
+## Answer
+
+A
+
+## Correct message
+
+## Incorrect message
+
+# Q - univariate continuous
+
+A histogram can visualize:
+
+## A
+
+One continuous variable
+
+## B
+
+Two continuous variables \## C One discrete variable and one continuous variable \## D Two discrete variables
+
+# Answer
+
+A
+
+## Correct message
+
+Correct!
+A histogram is a univariate plot that can be used to visualize the distribution of one continuous variable.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+## Incorrect message
+
+A histogram is a univariate plot that can be used to visualize the distribution of one continuous variable.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
+```
+
+# Q - Boundary usage
+
+What argument in `geom_histogram()` can you use to shift and align bins on a histogram?
+
+## A
+
+`bins` \## B `binwidth` \## C `boundary` \## D `breaks`
+
+## Answer
+
+C
+
+## Correct message
+
+Correct!
+You can use the `boundary` argument in `geom_histogram()` to shift and align bins on a histogram.
+
+## Incorrect message
+
+You can use the `boundary` argument in `geom_histogram()` to shift and align bins on a histogram.
+
+# Q - breaks usage
+
+What argument in `geom_histogram()` can you use to set bin boundaries to a sequence of values?
+## A `bins` \## B `binwidth` \## C `boundary` \## D `breaks`
+
+# Answer
+
+D
+
+## Correct message
+
+Correct!
+You can use the `breaks` argument in `geom_histogram()` to set bin boundaries to a sequence of values.
+
+The `boundary` argument is set to a single value, not a sequence, and it is used to shift and align bins on a histogram.
+
+## Incorrect message
+
+You can use the `breaks` argument in `geom_histogram()` to set bin boundaries to a sequence of values.
+
+The `boundary` argument is set to a single value, not a sequence, and it is used to shift and align bins on a histogram.
+
+# Q - precedence bins vs binwidth
+
+What happens if you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`?
+
+## A
+
+R throws an error \## B `binwidth` takes precedence over `bins` \## C `bins` takes precedence over `binwidth` \## D Both arguments are ignored
+
+## Answer
+
+B
+
+## Correct message
+
+Right on!
+If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.
+
+## Incorrect message
+
+If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.
+
+# Q - boundary range (remove?)
+
+What happens if you set the `boundary` argument to a value outside the range of the data in `geom_histogram()`?
+
+## A
+
+R throws an error \## B The histogram is still plotted with the closest boundary \## C The histogram is not plotted \## D The data is truncated at the boundary
+
+## Answer
+
+B
+
+## Feedback message
+
+If you set the `boundary` argument to a value outside the range of the data in `geom_histogram()`, the histogram is still plotted with the closest boundary.
+
+# Q - default bins number
+
+What is the default value for the `bins` argument in `geom_histogram()`?
+
+## A
+
+5 \## B 30 \## C 15 \## D 20
+
+## Answer
+
+B
+
+## Correct message
+
+Correct!
+The default value for the `bins` argument in `geom_histogram()` is 30.
+
+If you you don't modify the bins, you get a warning message that says "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`."
+
+## Incorrect message
+
+The default value for the `bins` argument in `geom_histogram()` is 30.
+
+If you you don't modify the bins, you get a warning message that says "`stat_bin()` using `bins = 30`. Pick better value with `binwidth.`"
+
+# Q - breaks with who code example
+
+```{r}
+library(tidyverse)
+who
+```
+
+# Q - bounday with diamonds code example
+
+```{r}
+library(ggplot2)
+
+ggplot(diamonds, aes(x = price)) +
+  geom_histogram(boundary = 0, 
+                 color = "white", 
+                 fill = "dodgerblue",
+                 binwidth = 500) +
+  scale_x_continuous(breaks = seq(0, 20000, 2500))
+
+range(diamonds$price)
+```

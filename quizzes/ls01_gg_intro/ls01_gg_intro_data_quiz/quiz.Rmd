@@ -60,7 +60,7 @@ View(hiv_incidence_pop)
 
 high_hiv_prev_pop %>% ggplot(aes(population, total_cases)) + geom_point()
 
-
+hiv_prevalence <- read_csv("data/clean/hiv_prevalence.csv")
 
 ```
 
@@ -284,4 +284,104 @@ ggplot(data = hiv_prevalence,
              mapping = aes(x = year, 
                            {[y = population][population]|2})) {+} 
       {geom_line({[color = point_color][colour = point_color][col = point_color]|2})}
+```
+
+
+
+```{r echo = F}
+
+# correct
+correct_plot <- ggplot(hiv_prev_sample, 
+       aes(year, population, color = country)) + 
+    geom_line() +
+  theme(legend.position = "none")
+
+# wrong 1
+country_sample2 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample2 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample2) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot1 <- ggplot(hiv_prev_sample2, 
+       aes(year, population, 
+           color = country)) + 
+    geom_line() +
+  theme(legend.position = "none")
+
+# wrong 2
+country_sample3 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample3 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample3) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot2 <- ggplot(hiv_prev_sample3, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 2
+country_sample3 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample3 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample3) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot2 <- ggplot(hiv_prev_sample3, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 3
+country_sample4 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample4 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample4) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot3 <- ggplot(hiv_prev_sample4, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 4
+country_sample5 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample5 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample5) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot4 <- ggplot(hiv_prev_sample5, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+
+plotlist <- sample(list(correct_plot = correct_plot, wrong_plot1 = wrong_plot1, wrong_plot2 = wrong_plot2, 
+                        wrong_plot3 = wrong_plot3, wrong_plot4 = wrong_plot4))
+
+correct_plot_letter <- which(names(plotlist) == "correct_plot") %>% chartr(old = "1234", new = "abcd")
+
+option_grid <- cowplot::plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], plotlist[[4]], labels = "auto")
+```
+
+**Next, create a ggplot2 scatterplot with the two calculated variables. Then indicate which of the plots below (from a to f) most closely resembles your output plot. Letter answer: {`r correct_plot_letter`}**
+
+```{r echo = F}
+option_grid
 ```
