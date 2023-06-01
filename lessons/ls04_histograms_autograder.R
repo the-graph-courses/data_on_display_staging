@@ -1,4 +1,4 @@
-# Ch03 Ls04 Histograms and KDEs
+# Ch03 Ls04 Histograms
 ## Joy Vaz
 ## 2023-02-11
 
@@ -16,7 +16,7 @@ pacman::p_load(tidyverse,
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Init ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.scores <- rep(-1, times = 8)   # Put total number of questions as `times` argument
+.scores <- rep(-1, times = 5)   # Put total number of questions as `times` argument
 
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

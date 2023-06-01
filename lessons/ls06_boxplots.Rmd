@@ -67,27 +67,15 @@ By the end of this lesson, you will be able to:
 
 A boxplot is one of the simplest ways of representing a distribution of a continuous variable.
 
-![Anatomy of a boxplot](images/boxplot_anatomy.png){alt="Anatomy of a boxplot"}
+A boxplot allows us to visualize the distribution of one or more numeric variables.
+
+![Anatomy of a boxplot](images/boxplot_anatomy.png){alt="Anatomy of a boxplot" width="664"}
 
 It consists of two parts:
 
 1.  Box --- Extends from the first to the third quartile (Q1 to Q3) with a line in the middle that represents the median. The range of values between Q1 and Q3 is also known as an Interquartile range (IQR).
 
-2.  Whiskers --- Lines extending from both ends of the box indicate variability outside Q1 and Q3. The minimum/maximum whisker values are calculated as $Q1 - 1.5 \times IQR$ to $Q3 + 1.5 \times IQR$ . Everything outside is represented as an outlier.
-
-A boxplot allows us to visualize the distribution of one or more numeric variables.
-
-A boxplot is composed of several elements:
-
--   The solid line that divides the box into 2 parts represents the [median](https://en.wikipedia.org/wiki/Median) of the data. If the median is 10, it means that there are the same number of data points below and above 10.
-
--   The ends of the box shows the upper (Q3) and lower (Q1) [quartiles](https://en.wikipedia.org/wiki/Quartile). If the third quartile is 15, it means that 75% of the observation are lower than 15.
-
--   The difference between Quartiles 1 and 3 is called the [interquartile range](https://en.wikipedia.org/wiki/Interquartile_range) (IQR). It is a measure of the spread of the middle 50% of values, with longer boxes indicating more variability.
-
--   The extreme line (or "whisker") shows $Q1 - 1.5 \times IQR$ to $Q3 + 1.5 \times IQR$ (the lowest to highest values, excluding outliers).
-
--   Dots (or other markers) represent values that fall beyond the extremes of the whiskers and are plotted individually. These are called *outliers* and they can be thought of as anomalous ("out-of-the-ordinary") values.
+2.  Whiskers --- Lines extending from both ends of the box indicate variability outside Q1 and Q3. The minimum/maximum whisker values are calculated as $Q1 - 1.5 \times IQR$ to $Q3 + 1.5 \times IQR$ . Everything outside is represented as an outlier using dots or other markers.
 
 ## Packages
 
@@ -117,20 +105,13 @@ summary(gapminder)
 Data are recorded every 5 years from 1952 to 2007 (a total of 12 years).
 :::
 
-This time, we will use boxplots display and compare *distributions* of variables across multiple groups.
-
-```{r}
-# Data summary
-summary(gapminder)
-```
-
-Data are recorded every 5 years from 1952 to 2007 (a total of 12 years).
-
 ## Basic boxplots with `geom_boxplot()`
 
-Let start with a base boxplot and then then add more aesthetics and layers from {ggplot2}.
+We will use boxplots display and compare *distributions* of variables across multiple groups.
 
 The `gapminder` data frame gives us the life expectancy (`lifeExp`) for each country. Let's make a boxplot of life expectancy across continents.
+
+Let's start with a base boxplot and then then add more aesthetics and layers from {ggplot2}.
 
 We will first provide the `gapminder` data frame to `ggplot()` and then specify the aesthetics with `aes()` function. Inside `aes()`, we will specify *x*-axis and *y*-axis variables. To make the boxplot between `continent` vs `lifeExp`, we will use the `geom_boxplot()` layer
 
@@ -176,6 +157,10 @@ q2 <- "YOUR ANSWER HERE"
   
 q2
 ```
+
+MAKE THESE ONE QUESTION AND SPECIFY BORDER AND FILL COLORS
+
+ADD SECTION TO RESCALE WITH SCALE_Y_LOG10()
 :::
 
 The continents are a factor, and are ordered alphabetically by default. It might be more useful to order them by the mean or median life expectancy.
@@ -197,6 +182,10 @@ ggplot(gapminder,
 
 We can clearly see that there are notable differences in median life expectancy between continents. However, there is a lot of overlap between the range of values from each continent. For example, the median life expectancy for the continent of Africa is lower than that of Europe, but several African countries have life expectancy values higher than than the majority of European countries.
 
+### Reordering by function
+
+mean, median, etc.
+
 ::: practice
 -   Create the boxplot showing the distribution of GDP per capita for each continent, like you did in practice question 2. This time, change the x axis variable to reorder the boxes according to `gdpPercap`.
 
@@ -206,6 +195,8 @@ q3 <- "YOUR ANSWER HERE"
   
 q3
 ```
+
+ADD QUESTION ON LABS
 :::
 
 ## Adding data points with `geom_jitter()`
@@ -268,6 +259,8 @@ q5 <- "YOUR ANSWER HERE"
   
 q5
 ```
+SPECIFY VALUES FOR WIDTH AND ALPHA
+
 :::
 
 ::: challenge

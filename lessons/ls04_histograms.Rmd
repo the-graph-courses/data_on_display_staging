@@ -180,26 +180,6 @@ Next, change the x and y axis titles to "Age (months)" and "Number of children".
 ```
 
 ```{r eval=F, include=FALSE}
-# When you think you have the right answer, submit it by replacing "YOUR ANSWER HERE" with your code, and run those lines.
-
-q1 <- "YOUR ANSWER HERE"
-
-# Make sure that "q1" appears in your Environment tab.
-```
-
-```{r eval=F, include=FALSE}
-# Check your answer by running this check function (no inputs required). The output will tell you if you answered correctly or not.
-
-.CHECK_q1()
-```
-
-```{r eval=F, include=FALSE}
-# You can ask for a hint by running this hint function (no inputs required).
-
-.HINT_q1()
-```
-
-```{r, eval=F, include=FALSE}
 # Get the full solution by typing out the solution function:
 .SOLUTION_q1()
 ```
@@ -654,6 +634,14 @@ ggplot(data =  malidd_age_class,
        mapping = aes(x = height_cm, fill = age_class)) +
   geom_density(alpha = 0.4, position = "stack")
 
+ggplot(data =  malidd_age_class, 
+       mapping = aes(x = height_cm, fill = age_class)) +
+  geom_histogram(alpha = 0.4, position = "stack")
+
+ggplot(data =  malidd_age_class, 
+       mapping = aes(x = height_cm, fill = age_class)) +
+  geom_histogram(alpha = 0.4, position = "identity")
+
 ```
 
 fix order of age groups by converting to factor
@@ -675,114 +663,6 @@ ggplot(data =  malidd_age_class,
 
 ```
 
-### more position examples to be used for PQs
-
-```{r warning=TRUE}
-
-ggplot(data =  malidd , 
-       mapping = aes(x = height_cm)) +
-  geom_histogram()
-
-# fill by fever but no position
-ggplot(data =  malidd , 
-       mapping = aes(x = viral_load, fill = factor(fever))) +
-  geom_histogram(alpha = 0.4)
-
-# identity
-ggplot(data =  malidd , 
-       mapping = aes(x = viral_load, fill = factor(fever))) +
-  geom_histogram(alpha = 0.4, position = "identity")
-
-# stack
-ggplot(data =  malidd , 
-       mapping = aes(x = viral_load, fill = factor(fever))) +
-  geom_histogram(alpha = 0.4, position = "stack")
-
-ggplot(data =  malidd , 
-       mapping = aes(x = viral_load, fill = factor(fever))) +
-  geom_histogram(alpha = 0.4, position = "dodge", bins = 16)
-
-
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, fill = sex)) +
-  geom_histogram(color="#e9ecef", alpha=0.6, position = 'identity',
-                 bins = 40)
-
-```
-
-# Faceting plots with
-
-Faceting creates small multiples of a plot, where each panel contains a subset of the data.
-
-When we **facet** a graphs, it gets split up into **multiple panels**, one for each level of a categorical variable.
-
-![](images/gglayers_facet.png){width="500"}
-
-small multiples blah blah
-
-## Facet wrap
-
-`facet_wrap()`
-
-## Facet grid
-
-```{r}
-library(RColorBrewer)
-
-malidd_age_class <- malidd %>% 
-  mutate(ageage_class_class = 
-           case_when(age_months <= 3                    ~ 'newborn',
-                     age_months > 3 & age_months  <= 12 ~ 'infant',
-                     age_months > 12 & age_months <= 48 ~ 'toddler'))
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_histogram(color="white") +
-  facet_grid(sex ~ age_class) + 
-  scale_fill_brewer()
-
-```
-
-```{r}
-# convert age group to factor
-malidd_age_class <- malidd_age_class %>% 
-  mutate(age_class = factor(age_class, levels = c("newborn", 
-                                                  "infant", 
-                                                  "toddler" )))
-
-# facet by sex and age group
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white")+
-  facet_grid(sex ~ age_class) + 
-  scale_fill_brewer(type = "qual")
-
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white")+
-  facet_grid(sex ~ age_class) + 
-  scale_fill_brewer(type = "qual")
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white", alpha = 0.7)+
-  facet_grid(sex ~ age_class) + 
-  scale_fill_viridis_d()
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white", alpha = 0.7)+
-  facet_grid(sex ~ fever) + 
-  scale_fill_viridis_d()
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white", alpha = 0.7)+
-  facet_wrap(~sex) + 
-  scale_fill_viridis_d()
-
-ggplot(malidd_age_class, mapping = aes(x= height_cm, fill = age_class))+
-  geom_density(color="white", alpha = 0.7)+
-  facet_wrap(~sex) + 
-  scale_fill_viridis_d()
-
-```
-
 ## Summary
 
 Histograms, unlike scatterplots and linegraphs, present information on only a single numerical variable. Specifically, they are visualizations of the distribution of the numerical variable in question.
@@ -797,11 +677,5 @@ Some material in this lesson was adapted from the following sources:
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
-
-# To add
-
--   text for position adjustments: <https://r4ds.had.co.nz/data-visualisation.html#position-adjustments>
-
--   <https://stulp.gmw.rug.nl/dataviz/singledistributions.html> - error with adding y example
 
 `r .tgc_license()`

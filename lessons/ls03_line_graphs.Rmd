@@ -84,8 +84,7 @@ Each row in this table corresponds to a country-year combination. For each row, 
 
 3)  **`year`**: Calendar year
 
-4)  **`lifeExp`**: Average number of years a newborn child would live if current mortality patterns
-    were to stay the same
+4)  **`lifeExp`**: Average number of years a newborn child would live if current mortality patterns were to stay the same
 
 5)  **`pop`**: Total population
 
