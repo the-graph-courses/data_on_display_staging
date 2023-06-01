@@ -1,0 +1,147 @@
+---
+title: '\ '
+output: blogdown::html_page
+params:
+  seed: 1
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r, echo = F, message = F, warning = F}
+# LS04 HISTOGRAMS DATA QUIZ
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+  # necessary for all quizzes runs
+  tidyverse, 
+  here,
+  knitr,
+  googledrive,
+  rio,
+  #required for it to run:
+  blogdown,
+  shiny,
+  readxl, 
+  janitor,
+  devtools,
+  patchwork
+  )
+knitr::opts_chunk$set(warning = F, message = F)
+source(here("global/functions/misc_functions.R"))
+source(here("global/functions/ggplot_digest.R"))
+# Setup for uploading images and datasets
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+# Set seed
+set.seed(params$seed)
+```
+
+```{r echo = F}
+# Prep data samples
+
+diabetes_china <- 
+  read_csv(here("data/raw/diabetes_china_chen.csv")) %>% 
+  select(c(1:3, 5:14)) %>% 
+  slice_sample(n = 200)
+
+colnames(diabetes_china) <- c("id",
+                              "age",
+                              "sex",
+                              "height_cm",
+                              "weight_kg",
+                              "bmi",
+                              "sbp_mmHg",
+                              "dbp_mmHg",
+                              "fpg_mmol_L",
+                              "cholesterol_mmol_L",
+                              "triglyceride_mmol_L",
+                              "hdl_mmol_L",
+                              "ldl_mmol_L")
+
+```
+
+Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
+
+```{r echo = F, results = "asis"}
+upload_and_link(diabetes_china, filename = "diabetes_china", format =  "csv")
+```
+
+Note that each time you retry a quiz, the dataset is slightly modified so that you get a different set of countries.
+
+# Diabetes dataset
+
+Here, you will analyze parts of a dataset documenting clinical variables for 500 patients that were collected as part of a research study.
+
+This version of the dataset contains a random sample of 200 records from the total 500. When you retake this quiz, you will get a different subset of the data.
+
+Here are the top 6 rows of **`diabetes_china`** after import:
+
+```{r}
+head(diabetes_china)
+
+```
+
+Take a closer look at the composition of each of the 13 variable in this dataset:
+
+```{r}
+summary(diabetes_china)
+```
+
+In this quiz you will create histograms to look at the distribution of various numeric variables from this dataset.
+
+**Complete the code below to create a histogram of BMI. Color the outline of the bars in `"coral"` and the inside in `"white"`.**
+
+The resulting plot should look like this:
+
+```{r echo = F}
+
+ggplot(diabetes_china, aes(bmi)) +
+  geom_histogram(color = "coral", fill = "white") +
+  labs(x = "Body mass index (kg/m2)",
+       y = "Count")
+```
+
+```{r eval = F}
+
+ggplot({data} = diabetes_china, 
+       mapping = aes(x = {bmi})) +
+  {geom_histogram}(color = "coral",
+                   fill = {"white"}) +
+  {labs}({x} = "Body mass index (kg/m2)",
+         y = {"Count"})
+```
+
+**Fill this code to add an aesthetic argument that will get rid of the warning message and result in a total of 9 bins.**
+
+```{r echo=F}
+
+ggplot(diabetes_china, aes(bmi)) +
+  geom_histogram(color = "coral", 
+                 fill = "white",
+                 {[binwidth][bins]} = {[2][9]}) +
+  labs(x = "Body mass index (kg/m2)",
+       y = "Count")
+```
+
+```{r eval = F}
+
+ggplot(diabetes_china, aes(bmi)) {+}
+  geom_histogram({[color][col][colour]} = "coral", 
+                 {fill} = {["#FFFFFF"]["white"]},
+                 {binwidth} = 2)
+```
+
+The aesthetic argument we just added is a fixed aesthetic: {[true][t]} (**`true`** or **`false`**)
+
+**Use the `diabetes_china`** **dataset in R to create a histogram of cholesterol levels.**
+
+The plot should look like this:
+
+```{r echo = F}
+filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
+                          fill = country)) +
+  geom_col()
+
+filled_bar 
+```

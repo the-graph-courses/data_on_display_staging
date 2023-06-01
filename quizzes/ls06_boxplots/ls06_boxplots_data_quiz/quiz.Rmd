@@ -1,0 +1,98 @@
+---
+title: '\ '
+output: blogdown::html_page
+params:
+  seed: 1
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r, echo = F, message = F, warning = F}
+# LS06 BOSPLOTS DATA QUIZ
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+  # necessary for all quizzes runs
+  tidyverse, 
+  here,
+  knitr,
+  googledrive,
+  rio,
+  #required for it to run:
+  blogdown,
+  shiny,
+  readxl, 
+  janitor,
+  devtools,
+  patchwork
+  )
+knitr::opts_chunk$set(warning = F, message = F)
+source(here("global/functions/misc_functions.R"))
+source(here("global/functions/ggplot_digest.R"))
+# Setup for uploading images and datasets
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+# Set seed
+set.seed(params$seed)
+```
+
+```{r echo = F}
+# Prep data samples
+
+nigerm <- 
+  read_csv(here("data/clean/nigerm_cases_rgn.csv")) %>% 
+  slice_sample(n = 2000)
+
+```
+
+Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
+
+```{r echo = F, results = "asis"}
+upload_and_link(nigerm, filename = "nigerm", format =  "csv")
+```
+
+Note that each time you retry a quiz, the dataset is slightly modified so that you get a different set of countries.
+
+# Diabetes dataset
+
+Here, you will analyze parts of a dataset documenting clinical variables for 500 patients that were collected as part of a research study.
+
+Here are the top 6 rows of **`nigerm`** after import:
+
+```{r}
+head(nigerm)
+
+```
+
+Take a closer look at the composition of each of the 13 variable in this dataset:
+
+```{r}
+summary(nigerm)
+```
+
+This version of the dataset contains a random sample of 200 records from the total 500.
+
+In this quiz you will create boxplots to look at the distribution of the `cases` numeric variable from `nigerm`, split by categorical variables such as `region` and `year`.
+
+```{r message=FALSE, warning=FALSE, fig.width = 7, fig.height = 35}
+theme_set(theme_grey())
+nigerm05 <- nigerm %>% filter(!year == 2005)
+a <- ggplot() +
+  labs(title = "Layer 1")
+b <- ggplot(nigerm05, aes(x = region, y = cases, fill = region)) +
+  labs(title = "Layer 2")
+c <- b + geom_boxplot(alpha = 0.8) + 
+  labs(title = "Layer 3")
+d <- c + facet_wrap(vars(year), ncol = 2) +
+  labs(title = "Layer 4")
+e <- d + stat_summary() +
+  labs(title = "Layer 5")
+f <- e + coord_cartesian(ylim = c(0, 2000)) +  
+  scale_fill_brewer(palette = "Spectral") +
+  labs(title = "Layer 6")
+g <- f + theme_minimal(13) +
+  labs(title = "Layer 7")
+a + b + c + d + e + f + g + plot_layout(nrow = 7, ncol = 1)
+```
+
