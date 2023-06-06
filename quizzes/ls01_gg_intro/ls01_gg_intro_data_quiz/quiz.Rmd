@@ -24,11 +24,12 @@ pacman::p_load(
   readxl, 
   janitor,
   devtools,
-  patchwork
+  patchwork,
+  cowplot
   )
 knitr::opts_chunk$set(warning = F, message = F)
 source(here("global/functions/misc_functions.R"))
-source(here("global/functions/ggplot_digest.R"))
+source(here("global/functions/quiz_functions.R"))
 # Setup for uploading images and datasets
 if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
 options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
@@ -37,7 +38,7 @@ knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload ima
 set.seed(params$seed)
 ```
 
-```{r echo = F}
+```{r echo = F, message = F}
 # Prep data samples
 high_hiv_prev_pop <- 
   read_csv(here("data/clean/high_hiv_prev_pop.csv"))
@@ -50,24 +51,18 @@ hiv_prev_sample <- high_hiv_prev_pop %>%
   filter(country %in% country_sample) %>% 
   mutate(country = as.factor(country))
 
-# Pick random R color
+hiv_prevalence <- hiv_prev_sample
 
-point_color <- sample(colors(), 3)
+#hiv_incidence_pop <- read_csv("data/clean/hiv_incidence_pop.csv")
 
-
-hiv_incidence_pop <- read_csv("data/clean/hiv_incidence_pop.csv")
-View(hiv_incidence_pop)
-
-high_hiv_prev_pop %>% ggplot(aes(population, total_cases)) + geom_point()
-
-hiv_prevalence <- read_csv("data/clean/hiv_prevalence.csv")
+#hiv_prev_full <- read_csv("data/clean/hiv_prevalence.csv")
 
 ```
 
 Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
 
 ```{r echo = F, results = "asis"}
-upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
+#upload_and_link(hiv_prev_sample, filename = "hiv_prevalence", format =  "csv")
 ```
 
 Note that each time you retry a quiz, the dataset is slightly modified so that you get a different set of countries.
@@ -80,7 +75,6 @@ Here are the top 6 rows of **`hiv_prevalence`** after import:
 
 ```{r}
 head(hiv_prevalence)
-
 ```
 
 There are four variables:
@@ -113,7 +107,7 @@ ggplot(hiv_prevalence, aes(year, total_cases)) +
   geom_point()
 ```
 
-Hint: note which variables are mapped to which axis, and refer to the `ggplot()` syntax template to structure your code.
+*Hint: note which variables are mapped to which axis, and refer to the `ggplot()` syntax template to structure your code.*
 
 ```{r echo = F}
 knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
@@ -150,12 +144,12 @@ The aesthetic argument we just added is a fixed aesthetic: {[false][f]} (**`true
 
 **Use the `high_prevalence`** **dataset in R to create a stacked bar plot of total cases per year.**
 
-Hint: you will need to use the **`geom_col()`** function.
+*Hint: you will need to use the **`geom_col()`** function.*
 
-The plot should look like this
+The plot should look like this:
 
 ```{r echo = F}
-filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
+filled_bar <- ggplot(hiv_prevalence, aes(year, total_cases,
                           fill = country)) +
   geom_col()
 
@@ -256,19 +250,24 @@ ggplot(hiv_prevalence,
 
 **Complete the code below to generate this plot.**
 
-Hint: The R color used to color points in this plot is "black".
+*Hint: The R color used to color bars in this plot is "black".*
 
 ```{r eval = F}
 ggplot(data = hiv_prevalence, 
        mapping = aes(x = year,
                      y = total_cases,
                      {fill} = {country})) +
-  geom_point({[color][col][colour]} = {["black"]["#000000"]})
+  geom_col({[color][col][colour]} = {["black"]["#000000"]})
 ```
 
 Here are two plots showing the change in population over time for each country:
 
 ```{r echo=F}
+
+# Pick random R color
+
+point_color <- sample(colors(), 1)
+
 plot3 <- ggplot(hiv_prevalence, 
        aes(year, population, color = country)) + 
   geom_point() +
@@ -276,7 +275,7 @@ plot3 <- ggplot(hiv_prevalence,
 
 plot4 <- ggplot(hiv_prevalence, 
        aes(year, population)) + 
-  geom_point(color = point_color) +
+  geom_point(color = point_color[1]) +
   ggtitle("Plot B")
 
 plot3 + plot4
@@ -292,13 +291,18 @@ ggplot(data = hiv_prevalence,
                            {[y = population][population]|2})) {+} 
       {geom_line({[color = point_color][colour = point_color][col = point_color]|2})}
 ```
-
+------------------------
 
 ```{r echo = F}
 
 # correct
 correct_plot <- ggplot(hiv_prev_sample, 
        aes(year, population, color = country)) + 
+    geom_line() +
+  theme(legend.position = "none")
+
+ggplot(hiv_prev_sample4, 
+       aes(year, total_cases, color = country)) + 
     geom_line() +
   theme(legend.position = "none")
 
@@ -387,8 +391,15 @@ option_grid <- cowplot::plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], p
 ```
 
 
-**Next, create a ggplot2 line graph of population over time. Then indicate which of the plots below (from a to f) most closely resembles your output plot. Letter answer: {`r correct_plot_letter`}**
+**Next, create a ggplot2 line graph of population over time, with lines colored by country. Then indicate which of the plots below (from a to f) most closely resembles your output plot. Letter answer: {`r correct_plot_letter`}**
 
 ```{r echo = F}
 option_grid
 ```
+
+Things to change: 
+- point color thing doesn't work, nix it. or looks at how it was done for data wrangling quizzes
+- also that one the fill in blank has a character limit??
+- the placing of question and ans and hint images is a bit confusing in some sections. add line breaks or titles or something to differentiate. 
+- add message at end that says check answers and submit. cannot submit unless all blanks are filled in. retake as needed
+- change option grid question to cases.
