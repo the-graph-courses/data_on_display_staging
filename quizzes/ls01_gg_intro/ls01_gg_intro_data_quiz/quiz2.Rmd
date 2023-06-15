@@ -1,0 +1,394 @@
+---
+title: '\ '
+output: blogdown::html_page
+params:
+  seed: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = F, message = F, warning = F}
+# LS01 GG INTRO DATA QUIZ
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+  # necessary for all quizzes runs
+  tidyverse, 
+  here,
+  knitr,
+  googledrive,
+  rio,
+  #required for it to run:
+  blogdown,
+  shiny,
+  readxl, 
+  janitor,
+  devtools,
+  patchwork
+  )
+knitr::opts_chunk$set(warning = F, message = F)
+source(here("global/functions/misc_functions.R"))
+source(here("global/functions/ggplot_digest.R"))
+# Setup for uploading images and datasets
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload) # pulled by knitr to upload image
+# Set seed
+set.seed(params$seed)
+```
+
+```{r echo = F}
+# Prep data samples
+high_hiv_prev_pop <- 
+  read_csv(here("data/clean/high_hiv_prev_pop.csv"))
+
+# Sample and plot
+country_sample <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample) %>% 
+  mutate(country = as.factor(country))
+
+# Pick random R color
+
+point_color <- sample(colors(), 3)
+
+
+hiv_incidence_pop <- read_csv("data/clean/hiv_incidence_pop.csv")
+View(hiv_incidence_pop)
+
+high_hiv_prev_pop %>% ggplot(aes(population, total_cases)) + geom_point()
+
+hiv_prevalence <- read_csv("data/clean/hiv_prevalence.csv")
+
+```
+
+Welcome to your first data-based quiz on data visualization! For data-based quizzes, you will need to import data into R as you follow the questions.
+
+```{r echo = F, results = "asis"}
+upload_and_link(hiv_prevalence, filename = "hiv_prevalence", format =  "csv")
+```
+
+Note that each time you retry a quiz, the dataset is slightly modified so that you get a different set of countries.
+
+# HIV dataset
+
+Here, you will analyze parts of a dataset documenting global HIV prevalence from 1990 to 2011.
+
+Here are the top 6 rows of **`hiv_prevalence`** after import:
+
+```{r}
+head(hiv_prevalence)
+
+```
+
+There are four variables:
+
+1\. **`country`** : Country name
+
+2\. **`year`** : Calendar year
+
+3\. **`total_cases`**: Number of people estimated to be infected by HIV.
+
+4\. **`population`**: Total population
+
+Take a closer look at the composition of each variable:
+
+```{r}
+summary(hiv_prevalence)
+```
+
+This version of the dataset contains records of HIV case count and population for **3 countries** over **15 years** (1995 to 2009).
+
+In this quiz you will create plots to look at how the number of total HIV cases in these countries changes over this time period.
+
+**Complete the code below to create a simple scatter plot of HIV incidence over time using `ggplot()`.**
+
+The resulting plot should look like this:
+
+```{r echo = F}
+
+ggplot(hiv_prevalence, aes(year, total_cases)) +
+  geom_point()
+```
+
+Hint: note which variables are mapped to which axis, and refer to the `ggplot()` syntax template to structure your code.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3.png"))
+```
+
+```{r eval = F}
+
+ggplot(data = hiv_prevalence, 
+       mapping = aes(x = {year},
+                       y = {total_cases})) +
+  geom_point()
+```
+
+This scatter plot doesn't allow us to distinguish between the 3 countries in the dataset.
+
+**Add an aesthetic argument that will color each point according to country.**
+
+```{r include=F}
+
+ggplot(hiv_prevalence, aes(year, total_cases, color = country)) +
+  geom_point()
+```
+
+```{r eval = F}
+
+ggplot(data = {hiv_prevalence}, 
+       {mapping} = aes(x = year,
+                       y = total_cases,
+                       {[color=country][colour=country][col=country]|2})) +
+  geom_point()
+```
+
+The aesthetic argument we just added is a fixed aesthetic: {[false][f]} (**`true`** or **`false`**)
+
+**Use the `high_prevalence`** **dataset in R to create a stacked bar plot of total cases per year.**
+
+Hint: you will need to use the **`geom_col()`** function.
+
+The plot should look like this
+
+```{r echo = F}
+filled_bar <- ggplot(high_hiv_prev, aes(year, total_cases,
+                          fill = country)) +
+  geom_col()
+
+filled_bar
+```
+
+**Complete the below code to create a colored line graph** **showing a separate line for each country.**
+
+```{r include = F}
+
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           y = total_cases,
+                           color = country)) + 
+      geom_line()
+```
+
+```{r eval = F}
+
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           y = total_cases,
+                           {[color][col][colour]} = country)) {+} 
+      {geom_line()}
+```
+
+The plot that should be created from the code above will look like this:
+
+```{r echo = F}
+ggplot(hiv_prevalence, 
+                     aes(year, total_cases,
+                         color = country)) +
+  geom_line()
+```
+
+Let's say I want the lines in the plot to be a little thicker.
+
+**Name an aesthetic argument you can use to change the width of lines in a line graph**. {[size][lwd][linewidth]}
+
+I wrote the following code to change the width of all lines in this plot to 1 mm:
+
+```{r fig.width=5}
+
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           y = total_cases,
+                           color = country,
+                           size = 1)) + 
+      geom_line()
+```
+
+Uh oh! That doesn't look right. Can you find and fix the mistake in my code?
+
+*Hint: Aesthetic arguments like `x`, `y`, `color`, `fill`, and `size` can either be a mapping of a variable or a fixed value. This depends on whether they are written inside `mapping = aes()` or inside a `geom_*()` function.*
+
+**Use the `hiv_prevalence` dataframe in R to create the line graph of population vs. year where the width of all lines is 1 mm.**
+
+The plot should look like this:
+
+```{r echo = F}
+ggplot(hiv_prevalence, 
+                     aes(year, total_cases,
+                         color = country)) +
+  geom_line(size = 1)
+```
+
+Here are two plots showing the distribution of `total_cases` for each country.
+
+```{r echo=FALSE}
+p_load(patchwork)
+theme_set(theme_grey())
+
+plot1 <- ggplot(hiv_prevalence, aes(country, total_cases,
+                                    fill = country)) +
+  geom_boxplot() +
+  ggtitle("Plot A")
+
+plot2 <- ggplot(hiv_prevalence, aes(country, total_cases,
+                                    color = country)) +
+  geom_boxplot() +
+  ggtitle("Plot B")
+
+plot1 + plot2
+```
+
+**Identify which plot is using the `color` aesthetic for the `country` variable.**
+
+Answer with `A` or `B`: Plot {B}
+
+Now let's create a bar plot where the outline color and fill color are different. For example, the bars in this bar plot of cases per year have colorful segments and a black outline:
+
+```{r echo=F}
+# Fixed color and mapped fill
+ggplot(hiv_prevalence, 
+       aes(year, total_cases, fill = country)) +
+  geom_col(color = "black")
+```
+
+**Complete the code below to generate this plot.**
+
+Hint: The R color used to color points in this plot is "black".
+
+```{r eval = F}
+ggplot(data = hiv_prevalence, 
+       mapping = aes(x = year,
+                     y = total_cases,
+                     {fill} = {country})) +
+  geom_point({[color][col][colour]} = {["black"]["#000000"]})
+```
+
+Here are two plots showing the change in population over time for each country:
+
+```{r echo=F}
+plot3 <- ggplot(hiv_prevalence, 
+       aes(year, population, color = country)) + 
+  geom_point() +
+  ggtitle("Plot A")
+
+plot4 <- ggplot(hiv_prevalence, 
+       aes(year, population)) + 
+  geom_point(color = point_color) +
+  ggtitle("Plot B")
+
+plot3 + plot4
+```
+
+**Complete the code below to create Plot B**
+
+Note: The R color used to color points in Plot B is called "`r point_color`".
+
+```{r eval = F}
+ggplot(data = hiv_prevalence, 
+             mapping = aes(x = year, 
+                           {[y = population][population]|2})) {+} 
+      {geom_line({[color = point_color][colour = point_color][col = point_color]|2})}
+```
+
+
+```{r echo = F}
+
+# correct
+correct_plot <- ggplot(hiv_prev_sample, 
+       aes(year, population, color = country)) + 
+    geom_line() +
+  theme(legend.position = "none")
+
+# wrong 1
+country_sample2 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample2 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample2) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot1 <- ggplot(hiv_prev_sample2, 
+       aes(year, population, 
+           color = country)) + 
+    geom_line() +
+  theme(legend.position = "none")
+
+# wrong 2
+country_sample3 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample3 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample3) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot2 <- ggplot(hiv_prev_sample3, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 2
+country_sample3 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample3 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample3) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot2 <- ggplot(hiv_prev_sample3, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 3
+country_sample4 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample4 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample4) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot3 <- ggplot(hiv_prev_sample4, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+# wrong 4
+country_sample5 <- high_hiv_prev_pop$country %>% 
+  unique() %>% sample(3)
+
+hiv_prev_sample5 <- high_hiv_prev_pop %>% 
+  filter(country %in% country_sample5) %>% 
+  mutate(country = as.factor(country))
+
+
+wrong_plot4 <- ggplot(hiv_prev_sample5, 
+                      aes(year, population, 
+                          color = country)) + 
+  geom_line() +
+  theme(legend.position = "none")
+
+
+plotlist <- sample(list(correct_plot = correct_plot, wrong_plot1 = wrong_plot1, wrong_plot2 = wrong_plot2, 
+                        wrong_plot3 = wrong_plot3, wrong_plot4 = wrong_plot4))
+
+correct_plot_letter <- which(names(plotlist) == "correct_plot") %>% chartr(old = "1234", new = "abcd")
+
+option_grid <- cowplot::plot_grid(plotlist[[1]], plotlist[[2]], plotlist[[3]], plotlist[[4]], labels = "auto")
+```
+
+
+**Next, create a ggplot2 line graph of population over time. Then indicate which of the plots below (from a to f) most closely resembles your output plot. Letter answer: {`r correct_plot_letter`}**
+
+```{r echo = F}
+option_grid
+```

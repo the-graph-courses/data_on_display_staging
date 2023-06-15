@@ -19,7 +19,6 @@ You can follow the lesson by reading through this document, and you can also ans
 If you prefer to CODE ALONG with the lesson video, please use the the "*_VIDEO_CODE_ALONG" Rmd instead!
 ```
 
-
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
 # Load packages 
 if(!require(pacman)) install.packages("pacman")
