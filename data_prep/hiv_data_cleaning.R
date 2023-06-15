@@ -1,5 +1,5 @@
 # HIV and AIDS data cleaning
-## Joy VAz
+## Joy Vaz
 ## 2022-11-05
 
 #' Prepares two datasets for use in the data viz course
@@ -63,7 +63,7 @@ total_01 <- total_hiv_raw %>%
   select(country, `1990`:`2009`) %>% 
   mutate(across(everything(), ~ifelse(grepl('k$',.), 
                                       as.numeric(gsub('k','',.))*1000,
-                                      ifelse(grepl('M$',.) ,
+                                      ifelse(grepl('M$',.),
                                              as.numeric(gsub('M','',.))*1000000,.)))) 
 
 new_01 <- new_hiv_raw %>% 
@@ -85,11 +85,15 @@ new_02 <- new_01 %>%
 # Drop years for which there is no data
 
 total_03 <- total_02 %>% drop_na() %>% 
-  mutate(country = as.factor(country), year = as.factor(year), total_cases = as.numeric(total_cases))
+  mutate(country = as.factor(country), 
+         year = as.factor(year), 
+         total_cases = as.numeric(total_cases))
 
 
 new_03 <- new_02 %>% drop_na() %>% 
-  mutate(country = as.factor(country), year = as.factor(year), new_cases = as.numeric(new_cases))
+  mutate(country = as.factor(country), 
+         year = as.factor(year), 
+         new_cases = as.numeric(new_cases))
 
 
 
