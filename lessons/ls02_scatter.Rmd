@@ -107,7 +107,7 @@ age_height <- "YOUR ANSWER HERE"
 age_height
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 .CHECK_age_height()
 .HINT_age_height()
@@ -188,7 +188,7 @@ age_height_respi <-  "YOUR ANSWER HERE"
 age_height_respi
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 .CHECK_age_height_respi()
 .HINT_age_height_respi()
@@ -202,7 +202,7 @@ age_height_fever <-  "YOUR ANSWER HERE"
 age_height_fever
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 .CHECK_age_height_fever()
 .HINT_age_height_fever()
@@ -275,7 +275,7 @@ age_viral_blue <-  "YOUR ANSWER HERE"
 age_viral_blue
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 .CHECK_age_viral_blue()
 .HINT_age_viral_blue()
@@ -426,7 +426,7 @@ age_height_2 <-  "YOUR ANSWER HERE"
 age_height_2
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 .CHECK_age_height_2()
 .HINT_age_height_2()
@@ -440,7 +440,7 @@ age_height_3 <-  "YOUR ANSWER HERE"
 age_height_3
 ```
 
-```{r include = FALSE}
+```{r eval = FALSE, include = FALSE}
 # Check your answer:
 #.CHECK_age_height_3()
 #.HINT_age_height_3()
@@ -449,7 +449,7 @@ age_height_3
 
 # Summary
 
-scatter plots display the relationship between two numerical variables.
+Scatter plots display the relationship between two numerical variables.
 
 With medium to large datasets, you may need to play around with the different modifications to scatter plots we saw such as adding trend lines, changing the color, size, shape, fill, or opacity of the points. This tweaking is often a fun part of data visualization, since you'll have the chance to see different relationships emerge as you tinker with your plots.
 
@@ -465,4 +465,4 @@ Some material in this lesson was adapted from the following sources:
 -   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   Giroux-Bougard, Xavier, Maxwell Farrell, Amanda Winegardner, Étienne Low-Decarie and Monica Granados. 2020. *Workshop 3: Introduction to Data Visualisation with {ggplot2}*. <http://r.qcbs.ca/workshop03/book-en/>.
 
-`.r tgc_license()`
+`r .tgc_license()`
