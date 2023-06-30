@@ -67,7 +67,6 @@ A histogram is a plot that visualizes the *distribution* of a numerical value as
 
 3.  Then for each bin, we draw a bar whose height marks the corresponding count.
 
-
 ## Packages
 
 ```{r}
@@ -92,6 +91,7 @@ These data were collected as part of an observational study of acute diarrhea in
 # View first few rows of the data frame
 head(malidd)
 ```
+
 The dataframe has 21 variables, many of which are continuous, like `height_cm`, `viral_load`, and `freqrespi`.
 
 ## Basic histograms with `geom_histogram()`
@@ -193,8 +193,7 @@ q2 <- "YOUR ANSWER HERE"
 
 ![Histograms plotting the same variable with different bin settings.](images/hist_varied_bins.png)
 
-
-After running code in previous examples, we got a histogram as well as a warning message about bins and bin width. The warning message is telling us that the histogram was constructed using `bins = 30` for 30 equally spaced bins. 
+After running code in previous examples, we got a histogram as well as a warning message about bins and bin width. The warning message is telling us that the histogram was constructed using `bins = 30` for 30 equally spaced bins.
 
 ```{r}
 # Warning message tells us to change the default of 30 bins
@@ -326,3 +325,20 @@ q3 <- "YOUR ANSWER HERE"
 .CHECK_q3()
 ```
 :::
+
+## Summary
+
+Histograms, unlike scatterplots and linegraphs, present information on only a single numerical variable. Specifically, they are visualizations of the distribution of the numerical variable in question.
+
+## Contributors {.unlisted .unnumbered}
+
+The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
+
+## References {.unlisted .unnumbered}
+
+Some material in this lesson was adapted from the following sources:
+
+-   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
+-   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
+
+`r .tgc_license()`
