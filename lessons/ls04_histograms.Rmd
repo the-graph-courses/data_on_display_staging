@@ -17,8 +17,6 @@ editor_options:
 ---
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
-knitr::opts_chunk$set(error = T)
-
 # Load packages 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, here, patchwork)
@@ -27,24 +25,13 @@ pacman::p_load(tidyverse, knitr, here, patchwork)
 source(here("global/functions/lesson_functions.R"))
 
 # Source autograder script quietly 
-.mute(here("lessons/ls04_histograms_autograder.R"))
+source(here("lessons/ls04_histograms_autograder.R"))
 
 ```
 
-# Histograms, density curves, position adjustments
+# Histograms with {ggplot2}
 
-```{r echo = F, eval = F}
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm)) +
-  geom_histogram(fill = "seagreen",
-                 color = "white",
-                 breaks = seq(9,16,0.5)) +
-  labs(x = "Middle-upper arm circumfrence (cm)",
-       y = "Frequency") +
-  theme_light()
-```
-
-```{r echo = F, eval = F}
+```{r echo = F, include=F, eval=F}
 ggplot(data =  malidd , 
        mapping = aes(x = muac_cm)) +
   geom_histogram(fill = "seagreen",
@@ -61,59 +48,57 @@ ggplot(data =  malidd ,
   theme_light()
 ```
 
-![](images/hist_dens_01.png){width="567"}
-
-## Introduction
-
-Histograms and kernel density estimates (KDEs) are both univariate plots that are used to visualize the distribution of continuous data. You can think of a KDE as a 'smoothed histogram'.
-
-In this lesson we will learn how to plot them using {ggplot2}.
-
-## Learning objectives
+## Learning Objectives
 
 By the end of this lesson, you will be able to:
 
 1.  Plot a histogram to visualize the distribution of continuous variables using **`geom_histogram()`**.
-2.  Adjust the number or size of bins on a histogram by with **`bins`** or **`binwidth`**.
-3.  You can plot a kernel density estimate (KDE) to visualize the distribution of continuous variables using **`geom_density()`**.
-4.  You can adjust the smoothing bandwidth of a KDE with **`bw`**.
-5.  You can plot a histogram and KDE on the same plot.
-6.  You can use **`position`** adjustments to plot stacked, dodged, or overlapping distributions.
+2.  Adjust the number or size of bins on a histogram by with the **`bins`** or **`binwidth`** arguments.
+3.  Shift and align bins on a histogram with the **`boundary`** argument.
+4.  Set bin boundaries to a sequence of values with the **`breaks`** argument.
 
-## Univariate distributions in {ggplot2}
+## Introduction
 
-The Geoms section of the {ggplot2} cheatsheet lists common plot types and the `geom_*()` functions used to create them.
+A histogram is a plot that visualizes the *distribution* of a numerical value as follows:
 
-![](images/ggplot_cheatsheet-1.png) In previous lessons we've used scatterplots and line graphs to visualize *relationships* between *two* continuous variables (bivariate plots), but now we are going to focus on plotting distributions of a *single* continuous variable (univariate plots).
+1.  We first cut up the x-axis into a series of *bins*, where each bin represents a range of values.
 
-![](images/ggplot2_one_continuous_geoms.png) The `geom_*()` functions we'll use in this lesson are `geom_histogram()` and `geom_density()`.
+2.  For each bin, we count the number of observations that fall in the range corresponding to that bin.
+
+3.  Then for each bin, we draw a bar whose height marks the corresponding count.
+
 
 ## Packages
 
 ```{r}
-p_load(tidyverse,
-       patchwork,
-       here)
+pacman::p_load(tidyverse,
+               here)
 ```
 
 ## Childhood diarrheal diseases in Mali
 
 We will visualize distributions of numerical variables in the `malidd` data frame, which we've seen in previous lessons.
 
-```{r render = .reactable_10_rows, message = FALSE}
-malidd <- read.csv(here::here("data/clean/malidd.csv"))
-malidd
+```{r message = FALSE}
+# Import data from CSV
+malidd <- read_csv(here::here("data/clean/malidd.csv"))
 ```
 
 ::: recap
 These data were collected as part of an observational study of acute diarrhea in children aged 0-59 months. The study was conducted in Mali and in early 2020. The dataset records demographic and clinical information for 150 patients.
 :::
 
-The dataframe has 21 variables, many of which are continuous, like `height_cm`, `viral_load`, or `temp`.
+```{r render = .reactable_10_rows}
+# View first few rows of the data frame
+head(malidd)
+```
+The dataframe has 21 variables, many of which are continuous, like `height_cm`, `viral_load`, and `freqrespi`.
 
 ## Basic histograms with `geom_histogram()`
 
-Now let's use {ggplot2} to plot the distribution of childrens' heights, which is recorded in the `height_cm` column of `malidd`.
+Now let's use {ggplot2} to plot the distribution of childrens' heights, which is recorded in the `heigh_cm` column of `malidd`.
+
+The `geom_*()` function used for histograms is **`geom_histogram()`**
 
 ```{r}
 # Simple histogram showing the distribution of height_cm
@@ -122,17 +107,9 @@ ggplot(data = malidd,
   geom_histogram()
 ```
 
-::: warning
-After running the previous R code, the warning message "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`." is returned. This is because we have not set a bin width manually. We can ignore this for now, and we'll learn how to remove it in the next section.
+::: side-note
+If we don't adjust the bins in `geom_histogram()`, we get a warning message. You can ignore this warning message for now, and will learn how to customize bins in the next section.
 :::
-
-The y-axis of the histogram is automatically computed as follows:
-
-1.  The x-axis is cut into a series of *bins*, where each bin represents a range of values.
-
-2.  We then count the number of observations that fall within the range of each bin.
-
-3.  Then for each bin, we draw a bar whose height marks the corresponding count.
 
 In the previous histogram, it's hard to where the boundaries for each bin start and end since everything is one big amorphous blob. So let's add borders around the bins:
 
@@ -143,7 +120,7 @@ ggplot(data =  malidd ,
   geom_histogram(color = "white")
 ```
 
-We now have an easier time associating ranges of values to each of the bins.
+We now have an easier time associating ranges of cases to each of the bins.
 
 We can also vary the color of the bars by setting the `fill` argument:
 
@@ -155,14 +132,14 @@ ggplot(data =  malidd ,
                  fill = "steelblue")
 ```
 
-Now that we can see the bars more clearly, let's unpack the resulting histogram. Some key questions to ask are:
+Now that we can see the bars more clearly, let's unpack the resulting histogram. Some questions we mihgt want to answer are:
 
 1.  What are the smallest and largest values?
 2.  What is the "center" or "most typical" value?
 3.  How do the values spread out?
 4.  What are frequent and infrequent values?
 
-We can see that heights range from 50 to 105cm. The center is around 70cm, most patients fall in the 60-80cm range, and values less than 55cm as well as values above 90cm are rather rare. Observe that the histogram has a bell shape, meaning that the variable has a normal distribution (more or less).
+We can see that heights range from 50 to 105cm. The center is around 70cm, most patients fall in the 60-80cm range, with very few below 55cm or above 90cm. Observe that the histogram has a bell shape, meaning that the variable has a *normal distribution* (more or less).
 
 ::: practice
 Plot a histogram showing the distribution of age (`age_months`) in `malidd`. Make the borders and fill of the bars "seagreen", and reduce opacity to 40%.
@@ -172,55 +149,70 @@ Plot a histogram showing the distribution of age (`age_months`) in `malidd`. Mak
 
 ```
 
-Next, change the x and y axis titles to "Age (months)" and "Number of children".
+```{r eval=F, include=FALSE}
+# When you think you have the right answer, submit it by replacing "YOUR ANSWER HERE" with your code, and run those lines.
 
-```{r eval=F, include=F}
-# Update plot
+q1 <- "YOUR ANSWER HERE"
+
+# Make sure that "q1" appears in your Environment tab.
+```
+
+```{r eval=F, include=FALSE}
+# Check your answer by running this check function (no inputs required). The output will tell you if you answered correctly or not.
+
+.CHECK_q1()
+```
+
+```{r eval=F, include=FALSE}
+# You can ask for a hint by running this hint function (no inputs required).
+
+.HINT_q1()
+```
+
+Building on your code for the previous plot, modify the axis titles to "Age (months)" and "Number of children", respectively.
+
+```{r}
+# Change axis titles 
 
 ```
 
 ```{r eval=F, include=FALSE}
-# Get the full solution by typing out the solution function:
-.SOLUTION_q1()
+# Submit your answer:
+q2 <- "YOUR ANSWER HERE"
+
+# Ask for a hint:
+.HINT_q2()
+
+# Check your answer:
+.CHECK_q2()
+
 ```
 :::
 
 ## Adjusting bins in a histogram
 
-```{r echo=FALSE, fig.cap="Histogram with different bin settings"}
-bins5 <- 
+![Histograms plotting the same variable with different bin settings.](images/hist_varied_bins.png)
+
+
+After running code in previous examples, we got a histogram as well as a warning message about bins and bin width. The warning message is telling us that the histogram was constructed using `bins = 30` for 30 equally spaced bins. 
+
+```{r}
+# Warning message tells us to change the default of 30 bins
 ggplot(data =  malidd , 
        mapping = aes(x = height_cm)) +
-  geom_histogram(bins = 5, 
-                 color = "white", 
+  geom_histogram(color = "white", 
                  fill = "steelblue")
-
-bins20 <- 
-ggplot(data =  malidd , 
-       mapping = aes(x = height_cm)) +
-  geom_histogram(bins = 20, 
-                 color = "white", 
-                 fill = "steelblue")
-
-bins50 <- 
-ggplot(data =  malidd , 
-       mapping = aes(x = height_cm)) +
-  geom_histogram(bins = 50, 
-                 color = "white", 
-                 fill = "steelblue")
-
-bins5 + bins20 + bins50
 ```
 
-After running code in previous examples, we got a histogram as well as a warning message. We'll discuss the warning message first.
+Unless you override this default number of bins with a number you specify, R will keep giving this message.
 
-The message is telling us that the histogram was constructed using `bins = 30` for 30 equally spaced bins. Unless you override this default number of bins with a number you specify, R will choose 30 by default.
+We can change the number of bins to another value using one of these three arguments to `geom_histogram()`:
 
-We can change the number of bins to another value than the default in one of two ways:
+1.  Set the number of bins with **`bins`**
 
-1.  By adjusting the number of bins via the `bins` argument to `geom_histogram()`.
+2.  Set the width of the bins with **`binwidth`**
 
-2.  By adjusting the width of the bins via the `binwidth` argument to `geom_histogram()`.
+3.  Set bin boundaries **`breaks`**
 
 ### Set the number of bins with `bins`
 
@@ -238,9 +230,9 @@ ggplot(data =  malidd ,
 
 ggplot(data =  malidd , 
        mapping = aes(x = height_cm)) +
-  geom_histogram(bins = 15, 
+  geom_histogram(bins = 20, 
                  color = "white", 
-                 fill = "steelblue", closed = "left")
+                 fill = "steelblue")
 
 ggplot(data =  malidd , 
        mapping = aes(x = height_cm)) +
@@ -251,7 +243,7 @@ ggplot(data =  malidd ,
 
 ### Set the width of bins with `binwidth`
 
-Using the second method, instead of specifying the number of bins, we specify the width of the bins by using the `binwidth` argument in the `geom_histogram()`.
+Using the second method, instead of specifying the number of bins, we specify the width of the bins by using the `binwidth` argument in `geom_histogram()`.
 
 ```{r}
 # Try different bin widths
@@ -259,32 +251,18 @@ ggplot(data =  malidd,
        mapping = aes(x = height_cm)) +
   geom_histogram(binwidth = 5, 
                  color = "white", 
-                 fill = "steelblue",
-                 boundary = 0, closed = "left") 
+                 fill = "steelblue")
 ```
 
 ::: practice
-Make a histogram of frequency of respiration (`freqrespi`), which is measured in breaths per minute. Set the interior color to "indianred3", and border color to "lightgray".
+Make a histogram of frequency of respiration (`freqrespi`), which is measured in breaths per minute. Set the bin width to be 1.5, the interior color to "indianred3", and border color to "lightgray".
 
 ```{r}
 ggplot(data = malidd, 
        mapping = aes(x = freqrespi)) +
-    geom_histogram(binwidth = 1,
+    geom_histogram(binwidth = 1.5,
                    fill = "indianred3",
                    color = "lightgray")
-```
-
-Notice that with the default of 30 bins, there are some intervals for which no bar is plotted (i.e., there were no observations in that range).
-
-Low the number of bins until there are no empty intervals. You should choose the highest value of bins for which there are no empty spaces.
-
-```{r}
-ggplot(data = malidd, 
-       mapping = aes(x = freqrespi)) +
-    geom_histogram(binwidth = 1,
-                   fill = "indianred3",
-                   color = "lightgray",
-                   bins = 20)
 ```
 
 ```{r, include=FALSE}
@@ -303,34 +281,32 @@ q2 <- "YOUR ANSWER HERE"
 .CHECK_q2()
 ```
 
-Now create the same plot again, but this time set the bin width to 1, and change the x and y axis labels to "Respiratory rate" and "Frequency".
+Notice that there are some bins for which no bar is plotted (i.e., there were no observations in that range).
+
+Now create the same plot again, but this time set the number of bins low enough that there are no empty bins. Then, increase the number of bins in increments until you reach the highest value for which there are no empty bins.
 
 ```{r}
+# Set to largest number of bins 
 ggplot(data = malidd, 
        mapping = aes(x = freqrespi)) +
-    geom_histogram(binwidth = 2,
+    geom_histogram(bins = 20,
                    fill = "indianred3",
-                   color = "lightgray") +
-  labs(x = "Respiratory rate",
-       y = "Frequency")
+                   color = "lightgray")
 ```
 
-Then, adjust the bin breaks on the x-axis to range from the lowest value of `freqrespi` to the highest, with intervals of 4.
-
-Finally, adjust the x-axis scale breaks using a `scale_*()` function. Set the range to 24-60, with an intervals of 8.
+Change the x and y axis labels to "Respiratory rate" and "Frequency". Then, adjust the scale breaks on the x-axis to range from 25-60, with an interval of 5.
 
 ```{r}
 # Change labels and scale breaks
 
 ggplot(data = malidd, 
        mapping = aes(x = freqrespi)) +
-    geom_histogram(fill = "indianred3",
-                   color = "lightgray", 
-                   binwidth = 4, 
-                   boundary =4) +
+    geom_histogram(bins = 20,
+                   fill = "indianred3",
+                   color = "lightgray") +
   labs(x = "Respiratory rate",
        y = "Frequency") +
-  scale_x_continuous(breaks = seq(24, 60, 8))
+  scale_x_continuous(breaks = seq(25, 60, 5))
 
 ```
 
@@ -350,332 +326,3 @@ q3 <- "YOUR ANSWER HERE"
 .CHECK_q3()
 ```
 :::
-
-## Kernel density estimation with `geom_density()`
-
-A kernel **density estimation (KDE)**, which is a *smoothed* version of a histogram. The `geom_*()` function used to create these is called **`geom_density()`**.
-
-![Kernel density plots show the smoothed distribution of a numerical variable.](images/geom_density.png){alt="Kernel density plots show the smoothed distribution of a numerical variable." width="300"}
-
-Let's look at the distribution of a different numerical variable, `muac_cm`. MUAC stands for middle-upper arm circumference, and is measured in centimeters. We can use a histogram to display this distribution, like we did in previous sections:
-
-```{r}
-# Histogram of MUAC with black outline and white fill
-ggplot(malidd, 
-       aes(x = muac_cm)) +
-    geom_histogram(binwidth= 0.5, 
-                    colour="black", 
-                   fill="white")
-```
-
-We can replace `geom_histogram()` with `geom_density()` to show the smoothed distribution of `muac_cm`:
-
-```{r}
-# Density curve
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm)) +
-  geom_density()
-```
-
-The `geom_density()` function accepts fixed aesthetics like `color`, `fill`, and `linewidth`.
-
-```{r}
-# Add `fill = "white"`
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm)) +
-  geom_density(color = "indianred",
-               fill = "white",
-               linewidth = 1.5)
-```
-
-The `color` argument changes the line color, and `fill` colors in the area beneath the curve.
-
-::: practice
-Plot a KDE of the `temp` variable from `malidd` using a KDE.
-
-```{r}
-# Simple KDE of temp
-ggplot(data =  malidd , 
-       mapping = aes(x = temp)) +
-  geom_density(color = )
-```
-:::
-
-### Adjusting KDE bandwidth with `bw`
-
-Since there are no bins on a KDE, we cannot adjust those. But you can adjust the smoothing **bandwidth** of a KDE with the **`bw`** argument, which controls the standard deviation of the smoothing kernel.
-
-```{r echo = F}
-# Try different levels of bw
-a <- ggplot(data =  malidd, 
-       mapping = aes(x = muac_cm)) +
-  geom_density(color = "chartreuse4", 
-               linewidth = 1,
-               bw = 0.1) +
-  labs(title = "bw = 0.1")
-
-b <- ggplot(data =  malidd, 
-       mapping = aes(x = muac_cm)) +
-  geom_density(color = "cornflowerblue", 
-               linewidth = 1,
-               bw = 0.3) +
-  labs(title = "bw = 0.3")
-
-c <- ggplot(data =  malidd, 
-       mapping = aes(x = muac_cm)) +
-  geom_density(color = "brown3", 
-               linewidth = 1,
-               bw = 1) +
-  labs(title = "bw = 1")
-
-library(patchwork)
-a + b + c
-```
-
-We see that when `bw` is too small (the first curve), there are a lot of wiggly structures on our density curve. This is a sign of *undersmoothing* - the amount of smoothing is too small so that some patterns shown might be just caused by randomness.
-
-On the other hand, when `bw` is too large (the last curve), we see that the two bumps are smoothed out. This situation is called *oversmoothing* -- some important patterns are obscured by the huge amount of smoothing.
-
-## Histogram overlaid with KDE
-
-Kernel density plots give us a high-level overview of the distribution, but we might want to see them alongside more fine scale data that histograms provide. Often we we do this by displaying both on the same plot.
-
-We do this by adding both geoms to the same plot, just like we combined compatible geometrical layers in the past (scatter plots overlaid with a smoothing curve, and line graphs overlaid with points).
-
-When `geom_histogram()` and add `geom_density()`. over a histogram in {ggplot2} you will need to add `aes(y = after_stat(density))`
-
-```{r}
-# Histogram overlaid with kernel density curve
-
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm)) +
-  geom_histogram(fill = "steelblue",
-                 color = "white",
-                 bins = 25, 
-                 linewidth = 1,
-                 mapping = aes(y = after_stat(density))) +
-  geom_density(color = "indianred3",
-               linewidth = 2,
-               bw = 0.4)
-```
-
-::: practice
-Visualize the distribution of the `temp` variable from `malidd` with a KDE and histogram on the same plot. Change the width of bins in the histogram to 0.2, the outline color to "coral4", and the fill color to "coral3"
-
-```{r echo = F}
-ggplot(data =  malidd , 
-       mapping = aes(x = temp)) +
-  geom_histogram(binwidth = 0.2, 
-                 color = "coral4",
-                 fill = "coral3",
-                 aes(y = after_stat(density))) +
-  geom_density()
-```
-
-Next, shade the area under the KDE curve by setting fill color to "white". Then set the level of transparency to 60%, so the histogram will keep visible.
-
-```{r}
-# Overlay with semi-transparent density plot
-ggplot(data =  malidd , 
-       mapping = aes(x = temp)) +
-  geom_histogram(binwidth = 0.2, 
-                 color = "coral4",
-                 fill = "coral3",
-                 aes(y = after_stat(density))) +
-  geom_density(alpha= 0.4, 
-               fill="white")
-```
-:::
-
-## Comparing distributions
-
-Multiple distributions on the same axis - fill with 3rd var
-
-```{r}
-ggplot(data = malidd, 
-        mapping = aes(x = temp, fill = factor(fever))) +
-     geom_histogram(binwidth = 0.1)
-
-ggplot(data = malidd, 
-        mapping = aes(x = temp, fill = factor(fever))) +
-     geom_histogram(binwidth = 0.1) +
-  scale_fill_manual(values = 
-                      c("blue", "red"))
-
-ggplot(data = malidd, 
-        mapping = aes(x = temp, fill = factor(fever))) +
-     geom_histogram(binwidth = 0.1) +
-  scale_fill_manual(values = 
-                      c("cornflowerblue", "indianred"))
-
-ggplot(data = malidd, 
-        mapping = aes(x = temp, fill = factor(fever))) +
-     geom_histogram(binwidth = 0.1) +
-  scale_fill_manual(values = c("dodgerblue", "tomato3"), 
-                    labels = c("No fever", "Fever"),
-                    name = NULL)
-```
-
-::: practice
-```{r}
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex,
-                     color = sex)) +
-  geom_histogram(alpha = 0.5)
-```
-:::
-
-## Position adjustments
-
-First we can overlay the histograms by using the `fill` parameter. The `fill` parameter will color code the values based on a categorical variable.
-
-```{r}
-# Map fill to sex, decrease opacity, add outline color
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex)) +
-  geom_histogram()
-```
-
-You can change the position adjustment within `geom_histogram()`.
-
-![](images/gg_min_build3.png)
-
-Possible values for the argument **position** in `geom_histogram()` are `“identity”`, `“stack”`, `“dodge”`. Default value is `“stack”`.
-
-```{r}
-# stack: stacked distributions of a categorical variable  
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex,
-                     color = sex)) +
-  geom_histogram(alpha = 0.4, 
-                 position = "stack") + 
-  labs(title = "position = 'stack'")
-
-# identity: draw overlapping distributions on the same plot
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex,
-                     color = sex)) +
-  geom_histogram(alpha = 0.4, 
-                 position = "identity") + 
-  labs(title = "position = identity")
-
-# dodge: interweave distributions on the same plot
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex,
-                     color = sex)) +
-  geom_histogram(alpha = 0.4, 
-                 position = "dodge") + 
-  labs(title = "position = 'dodge'")
-
-
-```
-
-```{r}
-# Aesthetic modifications
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, 
-                     fill = sex,
-                     color = sex)) +
-  geom_histogram(alpha = 0.4, 
-                 # set dib width
-                 binwidth = 0.25, 
-                 # set boundary
-                 boundary = 10,
-                 position = "dodge") +
-  # add custom scale breaks
-  scale_x_continuous(breaks = seq(10, 16, 2))
-```
-
-We can also add position adjustments in `geom_density()` to plot overlapping kernel density curves.
-
-```{r}
-# Default position
-ggplot(data =  malidd, 
-       mapping = aes(x = muac_cm, 
-                     fill = sex)) +
-  geom_density(alpha = 0.4) + 
-  labs(title = "No position argument")
-
-
-ggplot(data =  malidd, 
-       mapping = aes(x = muac_cm, fill = sex)) +
-  geom_density(alpha = 0.4, position = "identity") + 
-  labs(title = "position = identity")
-
-# stacked (cumulitive)
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, fill = sex)) +
-  geom_density(alpha = 0.4, position = "stack") +
-  labs(title = "position = 'stack'")
-
-# Fill 
-ggplot(data =  malidd , 
-       mapping = aes(x = muac_cm, fill = sex)) +
-  geom_density(alpha = 0.4, position = "fill") +
-  labs(title = "position = 'fill'")
-
-```
-
-```{r}
-# create new variable with 3 age groups
-malidd_age_class <- malidd %>% 
-  mutate(age_class = 
-           case_when(
-             age_months <= 3                    ~ 'newborn',
-             age_months > 3 & age_months <= 12  ~ 'infant',
-             age_months > 12 & age_months <= 48 ~ 'toddler'))
-
-ggplot(data =  malidd_age_class, 
-       mapping = aes(x = height_cm, fill = age_class)) +
-  geom_density(alpha = 0.4, position = "stack")
-
-ggplot(data =  malidd_age_class, 
-       mapping = aes(x = height_cm, fill = age_class)) +
-  geom_histogram(alpha = 0.4, position = "stack")
-
-ggplot(data =  malidd_age_class, 
-       mapping = aes(x = height_cm, fill = age_class)) +
-  geom_histogram(alpha = 0.4, position = "identity")
-
-```
-
-fix order of age groups by converting to factor
-
-```{r}
-
-malidd_age_class <- malidd_age_class %>% 
-  mutate(age_class = factor(age_class, levels = rev(c("newborn", 
-                                                  "infant", 
-                                                  "toddler" ))))
-
-ggplot(data =  malidd_age_class, 
-       mapping = aes(x = height_cm, fill = age_class)) +
-  geom_density(alpha = 0.4, position = "stack")
-
-ggplot(data =  malidd_age_class, 
-       mapping = aes(x = height_cm, fill = age_class)) +
-  geom_density(alpha = 0.4, position = "identity")
-
-```
-
-## Summary
-
-Histograms, unlike scatterplots and linegraphs, present information on only a single numerical variable. Specifically, they are visualizations of the distribution of the numerical variable in question.
-
-## Contributors {.unlisted .unnumbered}
-
-The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
-
-## References {.unlisted .unnumbered}
-
-Some material in this lesson was adapted from the following sources:
-
--   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
--   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
-
-`r .tgc_license()`
