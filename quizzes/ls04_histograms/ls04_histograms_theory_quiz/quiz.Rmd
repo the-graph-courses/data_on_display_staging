@@ -584,7 +584,15 @@ What happens if you set the `boundary` argument to a value outside the range of 
 
 ## A
 
-R throws an error \## B The histogram is still plotted with the closest boundary \## C The histogram is not plotted \## D The data is truncated at the boundary
+R throws an error 
+
+## B 
+The histogram is still plotted with the closest boundary 
+## C
+The histogram is not plotted 
+
+## D 
+The data is truncated at the boundary
 
 ## Answer
 
@@ -600,7 +608,14 @@ What is the default value for the `bins` argument in `geom_histogram()`?
 
 ## A
 
-5 \## B 30 \## C 15 \## D 20
+5 
+## B 
+
+30 
+## C 
+15 
+## D 
+20
 
 ## Answer
 
@@ -618,25 +633,3 @@ If you you don't modify the bins, you get a warning message that says "`stat_bin
 The default value for the `bins` argument in `geom_histogram()` is 30.
 
 If you you don't modify the bins, you get a warning message that says "`stat_bin()` using `bins = 30`. Pick better value with `binwidth.`"
-
-# Q - breaks with who code example
-
-```{r}
-library(tidyverse)
-who
-```
-
-# Q - bounday with diamonds code example
-
-```{r}
-library(ggplot2)
-
-ggplot(diamonds, aes(x = price)) +
-  geom_histogram(boundary = 0, 
-                 color = "white", 
-                 fill = "dodgerblue",
-                 binwidth = 500) +
-  scale_x_continuous(breaks = seq(0, 20000, 2500))
-
-range(diamonds$price)
-```
