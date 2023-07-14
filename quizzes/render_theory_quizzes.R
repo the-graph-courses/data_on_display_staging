@@ -20,6 +20,6 @@ devtools::source_gist("https://gist.github.com/kendavidn/05c7055e487ef22e5a336a4
 ## Enter quiz information ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-quiz_path <- "quizzes/ls03_line_graphs/ls03_line_graphs_theory_quiz/quiz.Rmd"
+quiz_path <- "quizzes/ls04_histograms/ls04_histograms_theory_quiz/quiz.Rmd"
 
 process_theory_quiz(quiz_path)
