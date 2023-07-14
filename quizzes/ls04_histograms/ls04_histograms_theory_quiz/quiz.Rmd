@@ -71,7 +71,7 @@ Correct!
 
 `geom_histogram()` is used to create histograms in {ggplot2}
 
-# Q - distribution T/F
+# Q - distribution TF
 
 Histograms are used to display distributions.
 
@@ -103,7 +103,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - relationships T/F
+# Q - relationships TF
 
 Histograms are used to display relationships.
 
@@ -135,7 +135,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - continuous T/F
+# Q - continuous TF
 
 Histograms are used to visualize continuous data.
 
@@ -167,7 +167,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - bins T/F
+# Q - bins TF
 
 The `bins` argument must be set equal to a number.
 
@@ -373,6 +373,8 @@ ggplot(data = iris,
                  bins = 3) # this argument is ignored in favor of binwidth
 ```
 
+
+
 # Q - binwidth fixed vs mapped
 
 The `binwidth` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
@@ -391,7 +393,13 @@ B
 
 ## Correct message
 
+Good work!
+
 ## Incorrect message
+
+Keep going.
+
+
 
 # Q - bins fixed vs mapped
 
@@ -411,7 +419,14 @@ A
 
 ## Correct message
 
+Good work!
+
 ## Incorrect message
+
+Keep going.
+
+
+
 
 # Q - univariate continuous
 
@@ -424,12 +439,16 @@ One continuous variable
 ## B
 
 Two continuous variables 
+
 ## C 
+
 One discrete variable and one continuous variable 
+
 ## D 
+
 Two discrete variables
 
-# Answer
+## Answer
 
 A
 
@@ -450,17 +469,26 @@ A histogram is a univariate plot that can be used to visualize the distribution 
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
+
+
 # Q - Boundary usage
 
 What argument in `geom_histogram()` can you use to shift and align bins on a histogram?
 
 ## A
-`bins` 
-## B 
-`binwidth` 
-## C 
-`boundary` 
-## D 
+
+`bins`
+
+## B
+
+`binwidth`
+
+## C
+
+`boundary`
+
+## D
+
 `breaks`
 
 ## Answer
@@ -476,34 +504,7 @@ You can use the `boundary` argument in `geom_histogram()` to shift and align bin
 
 You can use the `boundary` argument in `geom_histogram()` to shift and align bins on a histogram.
 
-# Q - breaks usage
 
-What argument in `geom_histogram()` can you use to set bin boundaries to a sequence of values?
-## A 
-`bins` 
-## B 
-`binwidth` 
-## C 
-`boundary` 
-## D 
-`breaks`
-
-# Answer
-
-D
-
-## Correct message
-
-Correct!
-You can use the `breaks` argument in `geom_histogram()` to set bin boundaries to a sequence of values.
-
-The `boundary` argument is set to a single value, not a sequence, and it is used to shift and align bins on a histogram.
-
-## Incorrect message
-
-You can use the `breaks` argument in `geom_histogram()` to set bin boundaries to a sequence of values.
-
-The `boundary` argument is set to a single value, not a sequence, and it is used to shift and align bins on a histogram.
 
 # Q - precedence bins vs binwidth
 
@@ -512,11 +513,17 @@ What happens if you set the `binwidth` and `bins` arguments at the same time in 
 ## A
 
 R throws an error 
+
 ## B 
+
 `binwidth` takes precedence over `bins` 
+
 ## C 
+
 `bins` takes precedence over `binwidth` 
+
 ## D 
+
 Both arguments are ignored
 
 ## Answer
@@ -532,19 +539,24 @@ If you set the `binwidth` and `bins` arguments at the same time in `geom_histogr
 
 If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.
 
+
 # Q - default bins number
 
 What is the default value for the `bins` argument in `geom_histogram()`?
 
 ## A
+5
 
-5 
-## B 
+## B
 
-30 
-## C 
-15 
-## D 
+30
+
+## C
+
+15
+
+## D
+
 20
 
 ## Answer
@@ -563,3 +575,7 @@ If you you don't modify the bins, you get a warning message that says "`stat_bin
 The default value for the `bins` argument in `geom_histogram()` is 30.
 
 If you you don't modify the bins, you get a warning message that says "`stat_bin()` using `bins = 30`. Pick better value with `binwidth.`"
+
+
+
+
