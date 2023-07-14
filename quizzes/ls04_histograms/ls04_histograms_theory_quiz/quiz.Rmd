@@ -373,74 +373,6 @@ ggplot(data = iris,
                  bins = 3) # this argument is ignored in favor of binwidth
 ```
 
-# Q - KDE
-
-You can plot a kernel density estimation curve with a histogram in {ggplot2} just by adding the function `geom_density()`.
-
-## A
-
-TRUE
-
-## B
-
-FALSE
-
-## Answer
-
-B
-
-## Correct message
-
-Simply adding the `geom_density()` function will give an error (see code below examples below).
-You must also add a mapping to `geom_histogram()`, shown below.
-
-```{r}
-# Simple histogram
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram()
-
-# Error
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram() +
-  geom_density()
-
-# Histogram overlaid with KDE
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram(mapping = aes(y = after_stat(density))) +
-  geom_density()
-```
-
-Refer to the lesson video or notes for more explanation!
-
-## Incorrect message
-
-Simply adding the `geom_density()` function will give an error (see code below examples below).
-You must also add a mapping to `geom_histogram()`, shown below.
-
-```{r}
-# Simple histogram
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram()
-
-# Error
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram() +
-  geom_density()
-
-# Histogram overlaid with KDE
-ggplot(data = mtcars, 
-       mapping = aes(x = mpg)) + 
-  geom_histogram(mapping = aes(y = after_stat(density))) +
-  geom_density()
-```
-
-Refer to the lesson video or notes for more explanation!
-
 # Q - binwidth fixed vs mapped
 
 The `binwidth` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
@@ -491,7 +423,11 @@ One continuous variable
 
 ## B
 
-Two continuous variables \## C One discrete variable and one continuous variable \## D Two discrete variables
+Two continuous variables 
+## C 
+One discrete variable and one continuous variable 
+## D 
+Two discrete variables
 
 # Answer
 
@@ -519,8 +455,13 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 What argument in `geom_histogram()` can you use to shift and align bins on a histogram?
 
 ## A
-
-`bins` \## B `binwidth` \## C `boundary` \## D `breaks`
+`bins` 
+## B 
+`binwidth` 
+## C 
+`boundary` 
+## D 
+`breaks`
 
 ## Answer
 
@@ -538,7 +479,14 @@ You can use the `boundary` argument in `geom_histogram()` to shift and align bin
 # Q - breaks usage
 
 What argument in `geom_histogram()` can you use to set bin boundaries to a sequence of values?
-## A `bins` \## B `binwidth` \## C `boundary` \## D `breaks`
+## A 
+`bins` 
+## B 
+`binwidth` 
+## C 
+`boundary` 
+## D 
+`breaks`
 
 # Answer
 
@@ -563,7 +511,13 @@ What happens if you set the `binwidth` and `bins` arguments at the same time in 
 
 ## A
 
-R throws an error \## B `binwidth` takes precedence over `bins` \## C `bins` takes precedence over `binwidth` \## D Both arguments are ignored
+R throws an error 
+## B 
+`binwidth` takes precedence over `bins` 
+## C 
+`bins` takes precedence over `binwidth` 
+## D 
+Both arguments are ignored
 
 ## Answer
 
@@ -577,30 +531,6 @@ If you set the `binwidth` and `bins` arguments at the same time in `geom_histogr
 ## Incorrect message
 
 If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.
-
-# Q - boundary range (remove?)
-
-What happens if you set the `boundary` argument to a value outside the range of the data in `geom_histogram()`?
-
-## A
-
-R throws an error 
-
-## B 
-The histogram is still plotted with the closest boundary 
-## C
-The histogram is not plotted 
-
-## D 
-The data is truncated at the boundary
-
-## Answer
-
-B
-
-## Feedback message
-
-If you set the `boundary` argument to a value outside the range of the data in `geom_histogram()`, the histogram is still plotted with the closest boundary.
 
 # Q - default bins number
 
