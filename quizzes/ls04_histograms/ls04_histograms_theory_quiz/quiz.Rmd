@@ -22,12 +22,11 @@ pacman::p_load(tidyverse,
 ```{r, echo = F, message = F, warning = F, eval=F}
 opts_chunk$set(warning = F, message = F)
 
-# Setup for uploading images
-source(here("global/functions/misc_functions.R"))
-if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload)
-
+# # Setup for uploading images
+# source(here("global/functions/misc_functions.R"))
+# if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+# options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = imgur_upload)
 ```
 
 # Intro
@@ -90,6 +89,9 @@ A
 ## Correct message
 
 Correct!
+
+IMAGETEST
+![](../../../lessons/images/plot_types_table_cropped.jpg)
 
 ```{r echo = F}
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
