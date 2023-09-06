@@ -1,18 +1,20 @@
 ---
 title: '\ '
 output:
-  html_document:
-    number_sections: true
-    toc: true
-    css: !expr here::here("global/style/style.css")
-    highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
+  pdf_document:
+    toc: yes
   word_document:
-    toc: true
+    toc: yes
+  html_document:
+    number_sections: yes
+    toc: yes
+    css: here::here("global/style/style.css")
+    highlight: kate
+    pandoc_args: "--shift-heading-level-by=-1"
 editor_options:
   markdown:
     wrap: 100
-  canonical: true
+  canonical: yes
   chunk_output_type: inline
 ---
 
@@ -132,7 +134,7 @@ ggplot(data =  malidd ,
                  fill = "steelblue")
 ```
 
-Now that we can see the bars more clearly, let's unpack the resulting histogram. Some questions we mihgt want to answer are:
+Now that we can see the bars more clearly, let's unpack the resulting histogram. Some questions we might want to answer are:
 
 1.  What are the smallest and largest values?
 2.  What is the "center" or "most typical" value?
@@ -142,7 +144,7 @@ Now that we can see the bars more clearly, let's unpack the resulting histogram.
 We can see that heights range from 50 to 105cm. The center is around 70cm, most patients fall in the 60-80cm range, with very few below 55cm or above 90cm. Observe that the histogram has a bell shape, meaning that the variable has a *normal distribution* (more or less).
 
 ::: practice
-Plot a histogram showing the distribution of age (`age_months`) in `malidd`. Make the borders and fill of the bars "seagreen", and reduce opacity to 40%.
+- Plot a histogram showing the distribution of age (`age_months`) in `malidd`. Make the borders and fill of the bars "seagreen", and reduce opacity to 40%.
 
 ```{r eval=F, include=F}
 # Create plot 
@@ -169,9 +171,9 @@ q1 <- "YOUR ANSWER HERE"
 .HINT_q1()
 ```
 
-Building on your code for the previous plot, modify the axis titles to "Age (months)" and "Number of children", respectively.
+- Building on your code for the previous plot, modify the axis titles to "Age (months)" and "Number of children", respectively.
 
-```{r}
+```{r include=F}
 # Change axis titles 
 
 ```
@@ -240,6 +242,14 @@ ggplot(data =  malidd ,
                  fill = "steelblue")
 ```
 
+::: practice
+Make a histogram of frequency of respiration (`freqrespi`), which is measured in breaths per minute. Set the interior color to "indianred3", and border color to "lightgray".
+
+Notice that with the default of 30 bins, there are some intervals for which no bar is plotted (i.e., there were no observations in that range).
+
+Low the number of bins until there are no empty intervals. You should choose the highest value of bins for which there are no empty spaces.
+:::
+
 ### Set the width of bins with `binwidth`
 
 Using the second method, instead of specifying the number of bins, we specify the width of the bins by using the `binwidth` argument in `geom_histogram()`.
@@ -248,82 +258,58 @@ Using the second method, instead of specifying the number of bins, we specify th
 # Try different bin widths
 ggplot(data =  malidd, 
        mapping = aes(x = height_cm)) +
-  geom_histogram(binwidth = 5, 
-                 color = "white", 
-                 fill = "steelblue")
+  geom_histogram(color = "white", 
+                 fill = "steelblue",
+                 binwidth = 3)
+```
+
+Looking at the range of the variable can help us choose an appropriate bin width.
+
+```{r}
+range(malidd$height_cm)
+```
+
+```{r}
+ggplot(data =  malidd, 
+       mapping = aes(x = height_cm)) +
+  geom_histogram(color = "white", 
+                 fill = "steelblue", 
+                 binwidth = 5)
+```
+
+We can use the `boundary` argument to align the bins to the x-axis intervals.
+
+```{r}
+# Set `boundary` equal to the low end of the variable
+ggplot(data =  malidd, 
+       mapping = aes(x = height_cm)) +
+  geom_histogram(color = "white", 
+                 fill = "steelblue", 
+                 binwidth = 5,
+                 boundary = 50)
 ```
 
 ::: practice
-Make a histogram of frequency of respiration (`freqrespi`), which is measured in breaths per minute. Set the bin width to be 1.5, the interior color to "indianred3", and border color to "lightgray".
+Create the same `freqrespi` histogram from the last practice question, but this time set the bin width to to a value that results in 18 bins. Then align the bars to the x axis breaks by adjusting the bin boundaries.
+:::
+
+### Modify bin boundaries with `breaks`
+
+Set `breaks` equal to a **numeric vector** in `geom_histogram()`:
 
 ```{r}
-ggplot(data = malidd, 
-       mapping = aes(x = freqrespi)) +
-    geom_histogram(binwidth = 1.5,
-                   fill = "indianred3",
-                   color = "lightgray")
+# Supply a vector that covers the range of values in height_cm
+ggplot(data =  malidd, 
+       mapping = aes(x = height_cm)) +
+  geom_histogram(color = "white", 
+                 fill = "steelblue",
+                 breaks = seq(50, 105, 5))
 ```
 
-```{r, include=FALSE}
-# Write code to create your plot:
+::: practice
+Plot the `freqrespi` histogram with bin breaks that range from the lowest value of `freqrespi` to the highest, with intervals of 4.
 
-```
-
-```{r eval=F, include=FALSE}
-# Submit your answer:
-q2 <- "YOUR ANSWER HERE"
-
-# Ask for a hint:
-.HINT_q2()
-
-# Check your answer:
-.CHECK_q2()
-```
-
-Notice that there are some bins for which no bar is plotted (i.e., there were no observations in that range).
-
-Now create the same plot again, but this time set the number of bins low enough that there are no empty bins. Then, increase the number of bins in increments until you reach the highest value for which there are no empty bins.
-
-```{r}
-# Set to largest number of bins 
-ggplot(data = malidd, 
-       mapping = aes(x = freqrespi)) +
-    geom_histogram(bins = 20,
-                   fill = "indianred3",
-                   color = "lightgray")
-```
-
-Change the x and y axis labels to "Respiratory rate" and "Frequency". Then, adjust the scale breaks on the x-axis to range from 25-60, with an interval of 5.
-
-```{r}
-# Change labels and scale breaks
-
-ggplot(data = malidd, 
-       mapping = aes(x = freqrespi)) +
-    geom_histogram(bins = 20,
-                   fill = "indianred3",
-                   color = "lightgray") +
-  labs(x = "Respiratory rate",
-       y = "Frequency") +
-  scale_x_continuous(breaks = seq(25, 60, 5))
-
-```
-
-```{r, include=FALSE}
-# Write code to create your plot:
-
-```
-
-```{r eval = FALSE, include=FALSE}
-# Submit your answer:
-q3 <- "YOUR ANSWER HERE"
-
-# Ask for a hint:
-.HINT_q3()
-
-# Check your answer:
-.CHECK_q3()
-```
+Next, adjust the x-axis scale breaks by adding a `scale_*()` function. Set the range to 24-60, with an intervals of 8.
 :::
 
 ## Summary

@@ -33,6 +33,9 @@ selected_lessons <-
     "/ls02_scatter.Rmd",
     "/ls03_line_graphs.Rmd")
 
+selected_lessons <- 
+  c("/ls06_boxplots.Rmd")
+
 rmds_to_render <- 
   fs::dir_ls(current_dir, 
              regexp = paste0(selected_lessons, collapse = "|"),

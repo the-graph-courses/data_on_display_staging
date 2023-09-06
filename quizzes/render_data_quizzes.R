@@ -19,9 +19,9 @@ source(here("global/functions/misc_functions.R"))
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 course_abbrev <- "idar" # abbrevs for our four courses are "idar", "fdar", "err" and "egh"
 quiz_folder <- here::here("quizzes/ls01_gg_intro/ls01_gg_intro_data_quiz")
-quiz_title <- "Data Quiz | Building plots with {ggplot2}" # User-facing title. 
+quiz_title <- "Data Quiz | Intro to {ggplot2}" # User-facing title. 
 quiz_type <- "data" # "data" "stratified_theory" or "simple_theory"
-n_quizzes <- 2 # Should default to 30. (We want at least 30 unique quiz samples for each quiz.) Using a lower number here for expedience.
+n_quizzes <- 5 # Should default to 30. (We want at least 30 unique quiz samples for each quiz.) Using a lower number here for expedience.
 
 
 # course_abbrev <- "idar" # abbrevs for our four courses are "idar", "fdar", "err" and "egh"
