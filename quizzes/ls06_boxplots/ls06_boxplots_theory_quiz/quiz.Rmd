@@ -32,8 +32,7 @@ knitr::opts_knit$set(upload.fun = gdrive_upload)
 
 # Intro
 
-This quiz tests your understanding of [lesson 6].
-Good luck!
+This quiz tests your understanding of [lesson 6]. Good luck!
 
 Quiz Contributors: [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
 
@@ -42,53 +41,40 @@ Quiz Contributors: [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_
 What is the `geom_*()` function we use for boxplots in {ggplot2}?
 
 ## A
-
 `geom_boxplot()`
 
 ## B
-
 `geom_box()`
 
 ## C
-
 `geom_bar()`
 
 ## D
-
 `geom_boxes()`
 
 ## Answer
-
 A
 
 ## Correct message
-
-Correct!
-
-`geom_boxplot()` is used to create boxplots in {ggplot2}
+Exactly! `geom_boxplot()` is used to create boxplots in {ggplot2}
 
 ## Incorrect message
-
 `geom_boxplot()` is used to create boxplots in {ggplot2}
 
 # Q - distribution T/F
 
-boxplots are used to display distributions of a continuous variable, split by values of second discrete/categorical variable.
+Boxplots are used to display distributions of a continuous variable, split by values of second discrete/categorical variable.
 
 ## A
-
 TRUE
 
 ## B
-
 FALSE
 
 ## Answer
-
 A
 
 ## Correct message
-
 Correct!
 
 ```{r echo = F}
@@ -96,7 +82,6 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
 ## Incorrect message
-
 Check again!
 
 ```{r echo = F}
@@ -108,19 +93,15 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 Boxplots are used to display distributions of a continuous variable, split by values of second continuous variable.
 
 ## A
-
 TRUE
 
 ## B
-
 FALSE
 
 ## Answer
-
 B
 
 ## Correct message
-
 Correct!
 
 ```{r echo = F}
@@ -128,31 +109,24 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
 ## Incorrect message
-
 Check again!
-
 ```{r echo = F}
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
 # Q - continuous T/F
-
 Boxplots are used to visualize continuous data.
 
 ## A
-
 TRUE
 
 ## B
-
 FALSE
 
 ## Answer
-
 A
 
 ## Correct message
-
 Correct!
 
 ```{r echo = F}
@@ -160,7 +134,6 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
 ## Incorrect message
-
 Check again!
 
 ```{r echo = F}
@@ -172,27 +145,21 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 What function can you use in `aes()` to reorder side-by-side boxplots?
 
 ## A
-
 `scale_x_discrete()`
 
 ## B
-
 `facet_grid()`
 
 ## C
-
 `reorder()`
 
 ## D
-
 `position_dodge()`
 
 ## Answer
-
 C
 
 ## Correct message
-
 Correct!
 
 You can use the `reorder()` function in `aes()` to reorder side-by-side boxplots.
@@ -206,69 +173,55 @@ You can use the `reorder()` function in `aes()` to reorder side-by-side boxplots
 What argument in `geom_boxplot()` can you use to adjust the color of the box and whiskers?
 
 ## A
-
 `color`
 
 ## B
-
 `fill`
 
 ## C
-
 `linecolor`
 
 ## D
-
 `border`
 
 ## Answer
-
 A
 
 ## Correct message
 
 Correct!
 
-You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers.
-This is a fixed aesthetic that will set the color to a constant value.
+You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers. This is a fixed aesthetic that will set the color to a constant value.
 
 ## Incorrect message
 
-You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers.
-This is a fixed aesthetic that will set the color to a constant value.
+You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers. This is a fixed aesthetic that will set the color to a constant value.
 
 # Q - fill usage
 
 What argument in `geom_boxplot()` can you use to adjust the interior color of the box and whiskers?
 
 ## A
-
 `color`
 
 ## B
-
 `fill`
 
 ## C
-
 `linecolor`
 
 ## D
-
 `border`
 
 ## Answer
-
 B
 
 ## Correct message
 
 Correct!
 
-You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers.
-This is a fixed aesthetic that will set the color to a constant value.
+You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers. This is a fixed aesthetic that will set the color to a constant value.
 
 ## Incorrect message
 
-You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers.
-This is a fixed aesthetic that will set the color to a constant value.
+You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers. This is a fixed aesthetic that will set the color to a constant value.
