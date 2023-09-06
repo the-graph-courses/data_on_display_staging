@@ -4,7 +4,7 @@ output: blogdown::html_page
 editor_options: 
   chunk_output_type: console
   markdown: 
-    wrap: sentence
+    wrap: none
 ---
 
 ```{r echo=F}
@@ -73,7 +73,7 @@ Correct!
 
 # Q - distribution T/F
 
-boxplots are used to display distributions of a continuous variable, split by values of second discrete/categorial variable.
+boxplots are used to display distributions of a continuous variable, split by values of second discrete/categorical variable.
 
 ## A
 
@@ -105,7 +105,7 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 
 # Q - distribution T/F
 
-boxplots are used to display distributions of a continuous variable, split by values of second continuous variable.
+Boxplots are used to display distributions of a continuous variable, split by values of second continuous variable.
 
 ## A
 
