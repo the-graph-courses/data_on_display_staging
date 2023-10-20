@@ -1,0 +1,462 @@
+---
+title: '\ '
+output:
+  html_document:
+    number_sections: true
+    toc: true
+    css: !expr here::here("global/style/style.css")
+    highlight: kate
+    pandoc_args: --shift-heading-level-by=-1
+  word_document:
+    toc: true
+editor_options:
+  markdown:
+    wrap: 100
+  canonical: true
+  chunk_output_type: inline
+---
+
+```{r, include = FALSE, warning = FALSE, message = FALSE}
+# Load packages 
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, gapminder, here)
+
+# Source functions 
+source(here("global/functions/lesson_functions.R"))
+```
+
+# Les boîtes à moustache avec {ggplot2}
+
+```{r include = FALSE}
+ggplot(gapminder, 
+       aes(x = reorder(continent, gdpPercap, median), 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.6, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  scale_y_log10(labels = scales::dollar) +
+  scale_x_discrete(labels = c("Africa" = "Afrique", "Americas" = "Amérique", "Asia" = "Asie", "Oceania" = "Océanie" )) +
+  labs(y = "Revenu par habitant",
+       title = "PIB par habitant groupé par continent",
+       subtitle = "Données Gapminder de 142 pays (1952-2007)") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty.png", path = "images", 
+       width = 4.5, height = 3)
+
+ggplot(gapminder, 
+       aes(x = continent, 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.6, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  scale_y_log10(labels = scales::dollar) +
+  labs(y = "Income per person") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_unordered.png", path = "images", 
+       width = 5, height = 5)
+
+ggplot(gapminder, 
+       aes(x = reorder(continent, gdpPercap, median), 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.6, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  scale_y_log10(labels = scales::dollar) +
+  labs(y = "Income per person") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_ordered.png", path = "images", 
+       width = 5, height = 5)
+```
+
+## Objectifs d'apprentissage
+
+À la fin de ce cours, vous serez capable de :
+
+1. Tracer une boîte à moustache pour visualiser la distribution de données continues en utilisant **`geom_boxplot()`**.
+2. Réorganiser les* diagrammes en boîte côte à côte* avec la fonction **`reorder()`**.
+3. Ajouter une couche de points de données sur une boîte à moustache en utilisant **`geom_jitter()`**.
+
+## Introduction
+
+### Structure d'une boîte à moustache
+
+La boîte à moustache permet de visualiser la **distribution** de variables **numériques**.
+
+Il est composé de deux éléments :
+
+1. **Boîte** --- S'étend du premier au troisième quartile (Q1 à Q3) avec une ligne au milieu qui représente la *médiane*. La plage de valeurs entre Q1 et Q3 est également connu sous le nom d'*écart interquartile (IQR)*.
+
+2. **Moustaches** --- Des lignes partant des deux bords de la boîte indiquent la variabilité en dehors de Q1 et Q3. Les valeurs minimales/maximales des moustaches sont calculées selon la formule $Q1 - 1.5 \times IQR$ et $Q3 + 1.5 \times IQR$. Tout ce qui se trouve au-delà est considéré comme une *valeur aberrante* et est représenté par des points ou d'autres symboles.
+
+*Ceci est un *diagramme en boîte côte à côte*. Il nous permet de comparer la distribution d'une variable numérique divisée par les valeurs d'une autre variable.*
+
+Ici, nous comparons le PIB par habitant (variable continue) entre différentes régions du monde (variable catégorielle).
+
+### Pièges potentiels
+
+Les boîtes à moustache résument les données en cinq nombres, ce qui pourrait nous faire passer à côté de caractéristiques importantes des données.
+
+Si le volume de données que vous manipulez n'est pas trop grand, ajouter des points de données individuels peut rendre le graphique plus informatif.
+
+
+```{r echo = FALSE}
+ggplot(gapminder, 
+       aes(x = reorder(continent, gdpPercap, median), 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.7, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  geom_jitter(width = 0.35, 
+              alpha = 0.2, 
+              color = "black",
+              shape = 16) +
+  scale_y_log10(labels = scales::dollar) +
+  scale_x_discrete(labels = c("Africa" = "Afrique", "Americas" = "Amérique", "Asia" = "Asie", "Oceania" = "Océanie" )) +
+  labs(y = "Revenu par habitant",
+       title = "PIB par habitant groupé par continent",
+       subtitle = "Données Gapminder de 142 pays (1952-2007)") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_points.png", path = "images", 
+       width = 4.5, height = 3)
+```
+## Charger les packages
+
+```{r}
+pacman::p_load(tidyverse,
+               gapminder,
+               here)
+```
+
+## Le dataset `gapminder`
+
+Pour ce cours, nous allons visualiser des données mondiales sur la santé et l'économie à partir du dataframe **`gapminder`**, que nous avons déjà utilisé dans les cours précédents.
+
+```{r render = .reactable_10_rows}
+# Visualiser les premières lignes des données
+head(gapminder)
+```
+
+::: recap
+Gapminder est un dataset pays-année. Il contient des informations sur 142 pays divisés en 5 "continents" ou régions du monde.
+
+```{r}
+# Résumé des données
+summary(gapminder)
+```
+
+Les données sont enregistrées tous les 5 ans de 1952 à 2007 (soit un total de 12 années).
+:::
+
+## Boîte à moustache basique avec `geom_boxplot()`
+
+La fonction pour créer des boîtes à moustaches avec {ggplot2} est **`geom_boxplot()`**.
+
+Nous allons commencer par tracer une boîte à moustaches basique, puis ajouter des esthétiques et couches supplémentaires.
+
+Commençons par créer une boîte à moustache simple en associant une variable numérique de `gapminder`, l'espérance de vie (**`lifeExp`**) à la position `x`. 
+
+```{r}
+# Diagramme à moustaches simple de lifeExp
+ggplot(data = gapminder,
+       mapping = aes(x = lifeExp)) +
+  geom_boxplot()
+```
+
+Pour créer *des boîte à moustaches juxtaposées* (ce qui est généralement notre objectif), nous devons ajouter une variable catégorielle à l'esthétique de position `y`.
+
+Comparons la distribution de l'espérance de vie entre les continents - *c'est-à-dire, divisons `lifeExp` par la variable **`continent`**.*
+
+```{r}
+# Boîte à moustaches juxtaposés de lifeExp par continent
+ggplot(gapminder, 
+       aes(x = lifeExp, 
+           y = continent)) +
+  geom_boxplot()
+```
+
+*Le résultat est un diagramme à moustaches basique de `lifeExp` pour plusieurs continents.*
+
+```{r}
+# Diagramme à moustaches juxtaposé de lifeExp par continent (vertical)
+ggplot(data = gapminder,
+       mapping = aes(x = continent,
+                     y = lifeExp)) +
+  geom_boxplot()
+```
+
+Ajoutons des couleurs aux boîtes. Nous pouvons assigner la variable `continent` à `fill` pour que chaque boîte soit colorée en fonction du continent qu'elle représente.
+
+```{r}
+# Attribuer une couleur différenter à chaque continent avec fill
+ggplot(gapminder, 
+       aes(x = continent,
+           y = lifeExp, 
+           fill = continent)) +
+  geom_boxplot()
+```
+
+Nous pouvons également ajouter les esthétiques `color` et `alpha` pour modifier la couleur du contour et la transparence.
+
+```{r}
+# Changer la couleur du contour et augmenter la transparence
+ggplot(gapminder, 
+       aes(x = continent,
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+::: practice
+-   En utilisant le dataframe `gapminder`, créez une boîte à moustaches comparant la distribution du **PIB par habitant (`gdpPercap`)** entre les continents. Attribuez la **couleur de remplissage** des boîtes à `continent`, et réglez la **largeur de ligne** à 1.
+
+```{r include = F}
+# Écrivez le code pour créer votre graphique
+
+```
+
+-   En se basant sur le code de la dernière question, ajoutez une fonction `scale_*()` qui transforme l'axe des y en échelle logarithmique.
+
+```{r include = F}
+# Soumettez votre réponse :
+q2 <- "VOTRE RÉPONSE ICI"
+
+```
+:::
+
+## Réorganiser les boîtes avec `reorder()`
+
+![Réorganiser les boîtes à moustache en fonction de l'espérance de vie plutôt que par ordre alphabétique.]()
+
+Les modalités de la variable `continent` sont ordonnées par défaut par ordre alphabétique. Si vous regardez l'axe des x, il commence avec l'Afrique et va alphabétiquement jusqu'à l'Océanie. 
+Il serait plus intéressant de les ordonner selon l'espérance de vie, la variable de l'axe des y.
+
+*Nous pouvons changer les niveaux d'un facteur dans R en utilisant la fonction **`reorder()`. Si nous réorganisons les niveaux de la variable `continent`, les diagrammes en boîte seront tracés sur l'axe des x dans cet ordre.`reorder()` traite son premier argument comme une variable catégorielle, et réorganise ses niveaux en fonction des valeurs d'une seconde variable numérique.Pour réorganiser les niveaux de la variable `continent` en fonction de `lifeExp`, nous utiliserons la syntaxe **`reorder(VAR_CATEGORIELLE, VAR_NUMERIQUE)`**. Comme ceci : `reorder(continent, lifeExp)`.Ici, nous allons modifier l'argument `x` et dire à `ggplot()` de réorganiser la variable.*
+
+```{r}
+ggplot(gapminder,        
+       aes(x = reorder(continent, lifeExp),           
+           y = lifeExp,            
+           fill = continent,           
+           color = continent)) +  
+  geom_boxplot(alpha = 0.6)
+```
+
+Nous pouvons clairement voir qu'il y a des différences notables dans l'espérance de vie médiane entre les continents. Cependant, il y a beaucoup de chevauchement entre la plage de valeurs de chaque continent. Par exemple, l'espérance de vie médiane du continent africain est inférieure à celle de l'Europe, mais plusieurs pays africains ont des valeurs d'espérance de vie supérieures à celles de la majorité des pays européens.
+
+### Réorganiser par fonction
+
+La méthode par défaut réorganise le facteur en fonction de la **moyenne** de la variable numérique.
+
+Nous pouvons ajouter un troisième argument pour choisir une méthode différente, comme la **médiane** ou le **maximum**.
+
+```{r}
+# Organiser les diagrammes en boîte par espérance de vie médiane
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp, median),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+
+# Organiser les diagrammes en boîte par espérance de vie maximale
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp, max),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+Les boîtes à moustaches sont organisés dans un ordre **croissant**.
+
+Pour trier les boîtes par ordre **décroissant**, nous ajoutons une **négation** à `lifeExp` dans la fonction `reorder()`.
+
+```{r}
+# Organiser les diagrammes en boîte par espérance de vie médiane décroissante
+ggplot(gapminder, 
+       aes(x = reorder(continent, -lifeExp, median),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+::: pratique
+Créez le diagramme en boîte montrant la distribution du PIB par habitant pour chaque continent, comme vous l'avez fait dans l'exercice  2. Conservez le remplissage, la largeur de ligne et l'échelle de ce graphique.
+
+Maintenant, **réorganisez** les boîtes en fonction de la **moyenne** de `gdpPercap` et par ordre **décroissant**.
+
+```{r include = F}
+# Soumettez votre réponse :
+q3 <- "VOTRE RÉPONSE ICI"
+
+```
+
+En vous basant sur le code de la question précédente, ajoutez des **étiquettes** à votre graphique.
+
+-   Définissez le **titre principal** comme "Variation du PIB par habitant à travers les continents (1952-2007)"
+
+-   Changez le **titre de l'axe des x** en "Continent", et
+
+-   Changez le **titre de l'axe des y** en "Revenu par personne (USD)".
+
+```{r include = F}
+# Soumettez votre réponse :
+q4 <- "VOTRE RÉPONSE ICI"
+```
+:::
+
+## Ajouter des points de données avec `geom_jitter()`
+
+Les boîtes à moustaches fournissent un résumé de la distribution d'une variable numérique pour plusieurs groupes. Sauf que résumer signifie aussi perdre de l'information.
+
+Si nous prenons pour exemple notre boîte à moustache de `lifeExp`, il est facile de conclure que l'Océanie a une valeur plus élevée que les autres. Cependant, nous ne pouvons pas voir la distribution sous-jacente des points de données dans chaque groupe ou le nombre d'observations.
+
+```{r}
+# Diagramme en boîte basique de lifeExp précédant
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+Voyons ce qui se passe lorsque boîte à moustaches est améliorée en utilisant des éléments supplémentaires.
+
+Une façon d'afficher la distribution des points de données individuels est de tracer une **couche supplémentaire de points** sur le graphique en boîte.
+
+Nous *pourrions* faire cela en ajoutant simplement la fonction `geom_point()`.
+
+```{r}
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp), 
+           y = lifeExp,
+           fill = continent)) +
+      geom_boxplot()+
+      geom_point()
+```
+
+Cependant, `geom_point()` a tracé tous les points de données sur une ligne verticale. Ce n'est pas très utile car tous les points ayant la même valeur d'espérance de vie se chevauchent directement et sont tracés les uns sur les autres.
+
+Une solution à cela est de décaler aléatoirement les points de données horizontalement. `ggplot` vous permet de le faire avec la fonction **`geom_jitter()`**.
+
+```{r}
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp), 
+           y = lifeExp,
+           fill = continent)) +
+  geom_boxplot() +
+  geom_jitter()
+```
+
+Vous pouvez également contrôler la quantité de "jitter" avec l'argument **`width`** et spécifier l'opacité des points avec `alpha`.
+
+```{r}
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp), 
+           y = lifeExp,
+           fill = continent)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.25, 
+              alpha = 0.5)
+```
+
+Ici, de nouveaux modèles apparaissent clairement. L'Océanie a une plus petite taille d'échantillon par rapport aux autres groupes. C'est un élément important à prendre en compte avant de dire que l'Océanie a une espérance de vie plus élevée que les autres.
+
+::: récapitulatif
+Les boîtes à moustaches sont limitées par le fait qu'elles résument les données en cinq nombres : le 1er quartile, la médiane (le 2ème quartile), le 3ème quartile, et les moustaches supérieure et inférieure. En faisant cela, nous pourrions manquer des caractéristiques importantes des données. Une façon d'éviter cela est de visualiser les données avec des points.
+:::
+
+::: pratique
+-   Créez une boîte à moustaches montrant la distribution du PIB par habitant pour chaque continent, comme vous l'avez fait dans l'exercice 3. Puis ajoutez une couche de points décalés.
+
+```{r include = F}
+# Soumettez votre réponse :
+q5 <- "VOTRE RÉPONSE ICI"
+```
+
+-   Ajustez votre réponse à la question 4 pour rendre les points 45% transparents et changez la largeur du jitter à 0.3mm.
+
+```{r include = F}
+# Tapez et visualisez votre réponse :
+q6 <- "VOTRE RÉPONSE ICI" 
+```
+:::
+
+::: défi
+**Ajout de marqueurs de moyenne à un graphique en boîte**
+
+Il peut être intéressant de visualiser la valeur moyenne des distributions sur un graphique en boîte.
+
+Nous pouvons le faire en ajoutant une couche de statistiques en utilisant la fonction **`stat_summary()`**.
+
+```{r}
+# Ajouter un marqueur pour montrer la moyenne
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp), 
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6) +
+  stat_summary(fun = "mean",
+               geom = "point",
+               size = 3,
+               shape = 23,
+               fill = "white")
+```
+:::
+
+## En résumé
+
+Les graphiques en boîte juxtaposés permettent de comparer la distribution d'une variable continue à travers plusieurs valeurs d'une autre variable. On peut voir où la médiane tombe à travers les différents groupes en comparant les lignes solides au centre des boîtes.
+
+Pour étudier la dispersion d'une variable continue à l'intérieur de l'une des boîtes, observez à la fois la longueur de la boîte et aussi jusqu'où les moustaches s'étendent de chaque extrémité de la boîte. Les valeurs aberrantes sont encore plus facilement identifiées lorsqu'on regarde un graphique en boîte que lorsqu'on regarde un histogramme car elles sont marquées par des points distincts.
+
+## Résultats d'apprentissage
+
+1.  Vous pouvez tracer un graphique en boîte pour visualiser la distribution des données continues en utilisant **`geom_boxplot()`**.
+2.  Vous pouvez réorganiser les graphiques en boîte côte à côte avec la fonction **`reorder()`**.
+3.  Vous pouvez ajouter une couche de points de données individuels sur un graphique en boîte en utilisant **`geom_jitter()`**.
+
+## Contributeurs 
+
+Ont contribué à ce cours :
+`r .tgc_contributors_list(ids = c("joy", "admin"))`
+
+## Références 
+
+Le contenu de ce cours est en partie adapté des sources suivantes :
+
+-   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
+
+`r .tgc_license()`
