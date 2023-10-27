@@ -52,7 +52,7 @@ ggplot(data =  malidd ,
 
 # Introduction
 
-Un histogramme est un graphique qui visualise la *distribution* d'une variable quantitative comme suit :
+Un histogramme est un graphique qui visualise la *distribution* d'une variable numérique comme suit :
 
 1.  Nous divisons d'abord l'axe des abscisses en une série de *classes*, chaque classe représentant un intervalle de valeurs.
 
@@ -69,7 +69,7 @@ pacman::p_load(tidyverse,
 
 # Maladies diarrhéiques chez l'enfant au Mali
 
-Nous allons visualiser la distribution des variables quantitatives du dataframe `malidd` que nous avons vu dans les cours précédents.
+Nous allons visualiser la distribution des variables numériques du dataframe `malidd` que nous avons vu dans les cours précédents.
 
 ```{r message = FALSE}
 # Importer les données du CSV
@@ -305,7 +305,7 @@ Ensuite, ajustez l'échelle de l'axe des abscisses en ajoutant une fonction scal
 
 # En résumé
 
-Contrairement aux nuages de points et aux graphiques linéaires, les histogrammes représentent les informations d'une seule variable quantitative. Plus précisément, ils permettent de visualiser la distribution de la variable quantitative en question.
+Contrairement aux nuages de points et aux graphiques linéaires, les histogrammes représentent les informations d'une seule variable numérique. Plus précisément, ils permettent de visualiser la distribution de la variable numérique en question.
 
 # Contributeurs {.unlisted .unnumbered}
 
@@ -315,7 +315,7 @@ Les membres suivants ont contribué à ce cours :
 
 # Références {.unlisted .unnumbered}
 
-Le contenu de ce cours a été adapté des sources suivantes :
+Le contenu de ce cours a été en partie adapté des sources suivantes :
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
