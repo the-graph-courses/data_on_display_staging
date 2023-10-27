@@ -111,7 +111,7 @@ Rappelez-vous, il y a deux manières de modifier les propriétés esthétiques d
 
 2.  **Définir manuellement les esthétiques** en spécifiant l'esthétique en tant qu'argument de la fonction `geom_*()`, *en dehors* de `aes()`. Dans ce cas, l'esthétique ne véhicule pas d'information sur une variable, mais sert uniquement à modifier l'apparence du graphique.
 
-## Mappage des données aux esthétiques
+## Mapping des données aux esthétiques
 
 En plus de mapper des variables aux axes **x** et **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles des `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
 
