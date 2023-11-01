@@ -45,7 +45,7 @@ Nous allons utiliser ggplot pour faire tout cela et plus encore. C'est parti !
 3.  Changer la taille, la forme, la couleur, le remplissage et l'opacité des objets géométriques en définissant des **esthétiques fixes**.
 4.  Ajouter une **ligne de tendance** à un diagramme de dispersion avec **`geom_smooth()`**.
 
-# Maladies diarrhéiques chez l'enfant au Mali
+# Maladies diarrhéiques chez les enfants au Mali
 
 Nous allons utiliser les données recueillies lors d'une étude observationnelle prospective sur la **diarrhée aiguë chez les enfants** âgés de 0 à 59 mois. L'étude a été menée au Mali au début de l'année 2020.
 
@@ -78,7 +78,7 @@ N'oubliez pas d'inclure les deux premières couches à l'intérieur de la foncti
 1.  Nous utilisons le dataframe `malidd` comme argument **`data`**, en spécifiant **`data = malidd`**.
 2.  Dans la fonction `aes`thetics de l'argument **`mapping`**, nous définissons les variables à représenter en utilisant **`mapping = aes(x = age_months, y = viral_load)`**. Plus précisément, la variable `age_months` est associée à l'axe des `x`, tandis que la variable `viral_load` est associée à l'axe des `y`.
 
-Ensuite, nous ajoutons une nouvelle couche à l'aide de l'opérateur **`+`** et la **la fonction `geom_*()`**. Pour un graphique de dispersion, les objets géométriques nécessaires sont des points, donc nous ajoutons **`geom_point()`**.
+Ensuite, nous ajoutons une nouvelle couche à l'aide de l'opérateur **`+`** et **la fonction `geom_*()`**. Pour un graphique de dispersion, les objets géométriques nécessaires sont des points, donc nous ajoutons **`geom_point()`**.
 
 En exécutant le code suivant, vous obtiendrez le graphique de dispersion illustré ci-dessous :
 
@@ -113,7 +113,7 @@ Rappelez-vous, il y a deux manières de modifier les propriétés esthétiques d
 
 ## Mapping des données aux esthétiques
 
-En plus de mapper des variables aux axes **x** et **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles des `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
+En plus de mapper des variables aux axes **x** et **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles de `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
 
 Pour mapper une variable à une esthétique, il faut associer le nom de l'esthétique au nom de la variable à l'intérieur de `aes()`. De cette façon, vous pouvez visualiser une troisième variable dans un graphique de dispersion à deux dimensions en la mappant à une nouvelle esthétique.
 
@@ -141,7 +141,7 @@ ggplot(data = malidd,
   geom_point(mapping = aes(color = breastfeeding))
 ```
 
-Nous obtenons la même échelle de couleurs que celle obtenue avec la variable `height_cm`. Cette échelle de couleurs suggère une variabilité continue, ce qui n'est pas idéal dans notre cas, car notre variable `breastfeeding` ne peut prendre que deux valeurs distinctes - 0 ou 1.
+Nous obtenons la même échelle de couleurs que celle obtenue avec la variable `height_cm`. Cette échelle de couleurs suggère une variabilité continue, ce qui n'est pas idéal dans notre cas, car notre variable `breastfeeding` ne peut prendre que deux valeurs distinctes : 0 ou 1.
 
 Cela est dû à la classe de la variable `breastfeeding` dans `malidd` :
 
@@ -369,7 +369,7 @@ ggplot(data = malidd,
 
 Cette régression linéaire confirme ce que nous avions initialement observé dans le premier nuage de points : Une *relation négative* existe entre `age_months` et `viral_load` : lorsque l'âge augmente, la charge virale tend à diminuer.
 
-Introduisons maintenant une troisième variable du dataset `malidd` appelée`vomit`. Cette variable binaire enregistre si le patient a vomi ou non. Nous allons incorporer la variable `vomit` au graphique en la mappant à l'esthétique de la couleur. Nous allons changer à nouveau la méthode de lissage pour le modèle additif généralisé ("`gam`") et nous apporterons quelques modifications esthétiques à la ligne dans la couche `geom_smooth()`.
+Introduisons maintenant une troisième variable du dataset `malidd` appelée `vomit`. Cette variable binaire enregistre si le patient a vomi ou non. Nous allons incorporer la variable `vomit` au graphique en la mappant à l'esthétique de la couleur. Nous allons changer à nouveau la méthode de lissage pour le modèle additif généralisé ("`gam`") et nous apporterons quelques modifications esthétiques à la ligne dans la couche `geom_smooth()`.
 
 ```{r warning=FALSE}
 ggplot(data = malidd, 
@@ -422,6 +422,7 @@ Le contenu de ce cours a été adapté en partie des sources suivantes :
 # Solutions d'exercices {.unlisted .unnumbered}
 
 **Exercice 1**
+
 ```{r}
 ggplot(data = malidd,
              mapping = aes(x = age_months, 
@@ -446,6 +447,7 @@ ggplot(data = malidd,
                            y = height_cm)) + 
       geom_point(mapping = aes(color = factor(fever)))
 ```
+
 **Exercice 4**
 
 ```{r}
