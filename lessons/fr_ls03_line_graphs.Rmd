@@ -37,8 +37,7 @@ mute(here::here("lessons/ls03_line_graphs_autograder.R"))
 
 # Introduction
 
-Les graphiques linéaires sont utilisés pour montrer les **relations** entre deux **variables numériques**, tout comme les nuages de points.
-Ils sont particulièrement utiles lorsque la variable sur l'axe des x, également appelée variable *explicative*, est de nature **séquentielle**. En d'autres termes, il y a un ordre inhérent à la variable.
+Les graphiques linéaires sont utilisés pour montrer les **relations** entre deux **variables numériques**, tout comme les nuages de points. Ils sont particulièrement utiles lorsque la variable sur l'axe des x, également appelée variable *explicative*, est de nature **séquentielle**. En d'autres termes, il y a un ordre inhérent à la variable.
 
 Les exemples les plus courants de graphiques linéaires incluent une composante **temporelle sur l'axe des x**, tels que les heures, les jours, les semaines ou les années. Étant donné que le temps est une séquence, nous relions les observations consécutives de la variable sur l'axe des y avec une ligne. Ces graphiques linéaires, qui intègrent une notion de temps sur l'axe des x, sont communément appelés des **graphiques de série temporelle**.
 
@@ -75,7 +74,7 @@ Chaque ligne de ce tableau correspond à une combinaison pays-année. Pour chaqu
 
 3)  **`year`** : Année calendaire
 
-4)  **`lifeExp`** :  L'espérance de vie à la naissance en années
+4)  **`lifeExp`** : L'espérance de vie à la naissance en années
 
 5)  **`pop`** : Population totale
 
@@ -97,7 +96,7 @@ Cette version du dataset **`gapminder`** contient des informations pour **142 pa
 summary(gapminder)
 ```
 
-Les données sont enregistrées tous les 5 ans de 1952 à 2007 (soit un total de 12 années). 
+Les données sont enregistrées tous les 5 ans de 1952 à 2007 (soit un total de 12 années).
 
 Supposons que nous voulions visualiser la relation entre le temps (`year`) et l'espérance de vie (`lifeExp`).
 
@@ -180,7 +179,7 @@ ggplot(data = gap_US,
             linetype = "twodash") 
 ```
 
-Dans les graphiques linéaires,  il peut parfois être difficile de déterminer l'emplacement exact des points de données. Dans le graphique suivant, nous allons inclure des points pour une meilleure visualisation.
+Dans les graphiques linéaires, il peut parfois être difficile de déterminer l'emplacement exact des points de données. Dans le graphique suivant, nous allons inclure des points pour une meilleure visualisation.
 
 # Combiner les éléments géométriques
 
@@ -314,7 +313,6 @@ Lorsque nous fournissons plusieurs mappings et geoms, {ggplot2} peut discerner q
 Ici, `color` a été appliqué aux points et aux lignes, mais `lty` a été ignoré par `geom_point()` et `shape` a été ignoré par `geom_line()`, puisqu'ils ne peuvent pas être appliqués.
 
 ::: challenge
-
 Les mappings sont inclus soit dans la fonction `ggplot()`, soit dans la couche `geom_*()`.
 
 Par exemple, les mappings esthétiques peuvent aller dans `geom_line()` et ne seront appliqués qu'à cette couche :
@@ -402,7 +400,7 @@ gap_mini2 <- filter(gapminder,
                                    "Thailand"))
 ```
 
-Ici, nous allons changer le mapping de l'axe des y de `lifeExp` à `gdpPercap` :
+Ici, nous allons changer le mapping de l'axe des **y** de `lifeExp` à `gdpPercap` :
 
 ```{r}
 ggplot(data = gap_mini2,        
@@ -413,7 +411,7 @@ ggplot(data = gap_mini2,
   geom_line(size = 0.75)
 ```
 
-Les étiquettes de l'axe des x pour `year` ne correspondent pas aux années dans le dataset.
+Les étiquettes de l'axe des **x** pour `year` ne correspondent pas aux années dans le dataset.
 
 ```{r}
 gap_mini2$year %>% unique()
@@ -472,7 +470,7 @@ ggplot(data = gap_mini2,
 ::: practice
 Nous pouvons personnaliser les graduations de l'axe **y** continu avec **`scale_y_continuous()`**.
 
-Copiez le code du dernier exemple et ajoutez `scale_y_continuous()` pour ajouter les graduations de l'axe des y suivantes :
+Copiez le code du dernier exemple et ajoutez `scale_y_continuous()` pour ajouter les graduations de l'axe des **y** suivantes :
 
 ```{r echo = FALSE}
 ggplot(data = gap_mini2,        
@@ -490,7 +488,7 @@ ggplot(data = gap_mini2,
 ```
 :::
 
-## Définir une échelle logarithmique 
+## Définir une échelle logarithmique
 
 Dans les deux derniers mini-datasets, nous avons choisi trois pays qui avaient des PIB ou une espérance de vie similaires afin que nous puissions les comparer facilement.
 
@@ -521,9 +519,9 @@ ggplot(data = gap_mini3,
   scale_x_continuous(breaks = gap_years)
 ```
 
-Les courbes pour l'Inde et la Chine montrent une augmentation exponentielle du PIB par habitant. Cependant, les valeurs de l'axe des y pour ces deux pays sont beaucoup plus faibles que celle de la Nouvelle-Zélande, donc les lignes sont un peu "compressées". Cela rend les données difficiles à lire. De plus, nous nous retrouvons avec une grande zone vide au milieu.
+Les courbes pour l'Inde et la Chine montrent une augmentation exponentielle du PIB par habitant. Cependant, les valeurs de l'axe des **y** pour ces deux pays sont beaucoup plus faibles que celle de la Nouvelle-Zélande, donc les lignes sont un peu "compressées". Cela rend les données difficiles à lire. De plus, nous nous retrouvons avec une grande zone vide au milieu.
 
-Nous pouvons résoudre ce problème avec une transformation logarithmique de l'axe y en utilisant `scale_y_log10()`. Nous ajouterons cette fonction en tant que nouvelle couche avec l'opérateur `+`, comme d'habitude :
+Nous pouvons résoudre ce problème avec une transformation logarithmique de l'axe **y** en utilisant `scale_y_log10()`. Nous ajouterons cette fonction en tant que nouvelle couche avec l'opérateur `+`, comme d'habitude :
 
 ```{r}
 # Ajouter scale_y_log10()
@@ -536,7 +534,7 @@ ggplot(data = gap_mini3,
   scale_y_log10()
 ```
 
-Nous avons changé l'échelle de l'axe des y, et les étiquettes des graduations d'échelle nous indiquent qu'elle est non linéaire.
+Nous avons changé l'échelle de l'axe des **y**, et les étiquettes des graduations d'échelle nous indiquent qu'elle est non linéaire.
 
 Nous pouvons ajouter une couche de points pour rendre cela plus clair :
 
@@ -611,7 +609,7 @@ ggplot(data = gap_US,
        y = "Espérance de vie (années)")
 ```
 
-Ensuite, nous ajouter un titre au-dessus du graphique avec l'argument `title`.
+Ensuite, nous allons ajouter un titre au-dessus du graphique avec l'argument `title`.
 
 ```{r}
 # Ajouter un titre principal: "L'espérance de vie augmente avec le temps"
@@ -797,10 +795,8 @@ Les membres suivants ont contribué à ce cours :
 
 Le contenu de ce cours a été adapté en partie des sources suivantes :
 
--   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and
-    the Tidyverse*. <https://moderndive.com/>.
--   Kabacoff, Rob. 2020. *Data Visualization with R*.
-    <https://rkabacoff.github.io/datavis/>.
+-   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
+-   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   <https://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/>
 
 `r tgc_license()`
@@ -901,4 +897,3 @@ ggplot(data = my_gap_mini,
        title = "Santé et richesse des pays",
        color = "Pays")
 ```
-
