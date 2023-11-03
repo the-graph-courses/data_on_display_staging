@@ -14,14 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
-# Load packages 
+# Charger les packages 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, here)
 
-# Source functions 
+# Fonction
 source(here("global/functions/lesson_functions.R"))
-
-# Source autograder script quietly 
 source(here("lessons/ls02_scatter_autograder.R"))
 
 ```
@@ -64,8 +62,8 @@ malidd
 
 Nous allons commencer par visualiser la relation entre les deux variables quantitatives suivantes :
 
-1.  `age_months` : l'**âge** du patient en mois sur l'axe horizontal **x** et
-2.  `viral_load` : la **charge virale** du patient sur l'axe vertical **y**.
+1.  `age_months` : l'**âge** du patient en mois sur l'axe des **x** et
+2.  `viral_load` : la **charge virale** du patient sur l'axe des **y**.
 
 # Graphiques de dispersion avec `geom_point()`
 
@@ -93,6 +91,8 @@ ggplot(data = malidd,
 Cela suggère que la charge virale **diminue** généralement avec l'âge.
 
 ::: practice
+**Exercice 1**
+
 -   En utilisant le dataframe `malidd`, créez un graphique de dispersion montrant la relation entre l'âge et la taille (`height_cm`).
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
@@ -113,7 +113,7 @@ Rappelez-vous, il y a deux manières de modifier les propriétés esthétiques d
 
 ## Mapping des données aux esthétiques
 
-En plus de mapper des variables aux axes **x** et **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles de `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
+En plus de mapper des variables aux axes des **x** et des **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles de `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
 
 Pour mapper une variable à une esthétique, il faut associer le nom de l'esthétique au nom de la variable à l'intérieur de `aes()`. De cette façon, vous pouvez visualiser une troisième variable dans un graphique de dispersion à deux dimensions en la mappant à une nouvelle esthétique.
 
@@ -167,6 +167,8 @@ Ce graphique met en évidence une relation claire entre l'âge et l'allaitement 
 L'ajout de couleurs à notre diagramme de dispersion nous a permis de visualiser une **troisième variable** en plus de la relation entre l'âge et la charge virale. Cette troisième variable peut être soit discrète (comme dans le cas de l'allaitement), soit continue.
 
 ::: practice
+**Exercice 2**
+
 -   Créez un graphique de dispersion à partir du dataframe `malidd`, montrant la relation entre l'âge et la charge virale, et mappez une troisième variable `freqrespi` à la couleur.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
@@ -240,6 +242,8 @@ En rendant les points semi-transparents, nous pouvons voir où les points se che
 Souvenez-vous, changer la couleur, la taille, ou l'opacité de nos points ici ne transmet aucune information supplémentaire sur les données - ce sont des choix de conception que nous faisons pour rendre nos graphiques plus esthétiques.
 
 ::: practice
+**Exercice 3**
+
 -   Créez un graphique de dispersion avec les mêmes variables que dans l'exemple précédent, mais changez la couleur des points à `cornflowerblue`, augmentez la taille des points à 3 mm et réglez l'opacité à 60%.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
@@ -384,6 +388,8 @@ ggplot(data = malidd,
 Notez la distribution des points bleus (représentant les enfants qui ont vomi) par rapport aux points rouges (représentant les enfants qui n'ont pas vomi). Les points bleus se situent principalement au-dessus de la ligne de tendance, ce qui indique que les charges virales plus élevées étaient non seulement associées à des enfants plus jeunes, mais aussi à des enfants plus susceptibles de présenter des symptômes de vomissements.
 
 ::: practice
+**Exercice 4**
+
 -   Créez un graphique de dispersion avec les variables `age_months` et `viral_load`. Définissez la couleur des points à "steelblue", la taille à 2,5 mm et l'opacité à 80%. Puis ajoutez une ligne de tendance avec la méthode de lissage "lm" (modèle linéaire). Pour faire ressortir la ligne de tendance, définissez sa couleur à "indianred3".
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
@@ -405,11 +411,11 @@ Les graphiques de dispersion permettent de visualiser la relation entre deux var
 
 Avec un dataset de taille moyenne à grande, vous pouvez expérimenter avec différentes variations des éléments d'un graphique de dispersion que nous avons vus, comme l'ajout de lignes de tendance, la modification de la couleur, de la taille, de la forme, du remplissage ou de l'opacité des points. Cette personnalisation est souvent un aspect ludique de la visualisation de données, car elle vous permet de découvrir différentes relations qui se dévoilent au fur et à mesure que vous ajustez vos graphiques.
 
-# Contributeurs {.unlisted .unnumbered}
+# Contributeurs {.unnumbered}
 
-Ont contribué à ce cours : `r .tgc_contributors_list(ids = c("joy", "admin"))`
+Ont contribué à ce cours : `r .tgc_contributors_list(ids = c("joy", "imane", "admin"))`
 
-# Références {.unlisted .unnumbered}
+# Références {.unnumbered}
 
 Le contenu de ce cours a été adapté en partie des sources suivantes :
 
@@ -417,9 +423,7 @@ Le contenu de ce cours a été adapté en partie des sources suivantes :
 -   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   Giroux-Bougard, Xavier, Maxwell Farrell, Amanda Winegardner, Étienne Low-Decarie and Monica Granados. 2020. *Workshop 3: Introduction to Data Visualisation with {ggplot2}*. <http://r.qcbs.ca/workshop03/book-en/>.
 
-`r .tgc_license()`
-
-# Solutions d'exercices {.unlisted .unnumbered}
+# Solutions d'exercices {.unnumbered}
 
 **Exercice 1**
 
@@ -439,7 +443,6 @@ ggplot(data = malidd,
       geom_point(mapping = aes(color = freqrespi))
 ```
 
-**Exercice 3**
 
 ```{r}
 ggplot(data = malidd, 
@@ -448,7 +451,7 @@ ggplot(data = malidd,
       geom_point(mapping = aes(color = factor(fever)))
 ```
 
-**Exercice 4**
+**Exercice 3**
 
 ```{r}
 ggplot(data = malidd, 
@@ -459,7 +462,7 @@ ggplot(data = malidd,
                  alpha = 0.6)
 ```
 
-**Exercice 5**
+**Exercice 4**
 
 ```{r}
 ggplot(data = malidd, 
@@ -471,8 +474,6 @@ ggplot(data = malidd,
       geom_smooth(method = "lm")
 ```
 
-**Exercice 6**
-
 ```{r}
 ggplot(data = malidd, 
           mapping = aes(x = age_months, y = height_cm)) + 
@@ -483,3 +484,5 @@ ggplot(data = malidd,
                  mapping = aes(fill = temp)) +
       geom_smooth(method = "lm")
 ```
+
+`r .tgc_license()`

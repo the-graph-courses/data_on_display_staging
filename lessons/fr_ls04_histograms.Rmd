@@ -138,6 +138,8 @@ Maintenant que nous sommes en mesure de distinguer les barres, analysons l'histo
 Nous pouvons voir que les tailles varient de 50 à 105 cm. Le centre se situe aux alentours de 70 cm, la majorité des patients ayant une taille comprise entre 60 et 80 cm, avec très peu de personnes mesurant moins de 55 cm ou plus de 90 cm. Il est à noter que l'histogramme présente une forme de cloche, ce qui suggère que la variable suit une *distribution normale* (à peu près).
 
 ::: practice
+**Exercice 1**
+
 -   Tracez un histogramme montrant la distribution de l'âge (`age_months`) dans `malidd`. Définissez les bordures et le remplissage des barres à "seagreen", et réduisez l'opacité à 40%.
 
 ```{r include = FALSE, message=FALSE, warning=FALSE}
@@ -203,19 +205,11 @@ ggplot(data =  malidd,
 ```
 
 ::: practice
+**Exercice 2**
+
 Traçez un histogramme de la fréquence respiratoire (`freqrespi`), qui est mesurée en respirations par minute. Réglez la couleur de remplissage à "indianred3" et la couleur de la bordure à "lightgray".
 
-```{r message=TRUE, warning=TRUE, include= FALSE}
-# Créez votre graphique
-
-```
-
 Notez qu'avec les 30 classes par défaut, il existe certains intervalles pour lesquels aucune barre n'est tracée (c'est-à-dire qu'il n'y avait aucune observation dans cet intervalle).
-
-```{r message=TRUE, warning=TRUE, include= FALSE}
-# Créez votre graphique
-
-```
 
 Diminuez le nombre de classes jusqu'à ce qu'il n'y ait plus d'intervalles vides. Sélectionnez la valeur la plus élevée pour laquelle il n'y a pas d'espaces vides.
 
@@ -266,6 +260,8 @@ ggplot(data =  malidd,
 ```
 
 ::: practice
+**Exercice 3**
+
 Créez le même histogramme de la variable `freqrespi` en définissant cette fois-ci la largeur des classes de manière à obtenir 18 classes. Ensuite, alignez les classes sur les valeurs de l'axe des x en ajustant les limites des classes.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
@@ -288,8 +284,9 @@ ggplot(data =  malidd,
 ```
 
 ::: practice
-Tracez l'histogramme de `freqrespi` avec des limites allant de la valeur la plus basse de `freqrespi` à la plus élevée et des intervalles de 4.
+**Exercice 4**
 
+Tracez l'histogramme de `freqrespi` avec des limites allant de la valeur la plus basse de `freqrespi` à la plus élevée et des intervalles de 4.
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
 
@@ -307,22 +304,20 @@ Ensuite, ajustez l'échelle de l'axe des abscisses en ajoutant une fonction scal
 
 Contrairement aux nuages de points et aux graphiques linéaires, les histogrammes représentent les informations d'une seule variable numérique. Plus précisément, ils permettent de visualiser la distribution de la variable numérique en question.
 
-# Contributeurs {.unlisted .unnumbered}
+# Contributeurs {.unnumbered}
 
 Les membres suivants ont contribué à ce cours :
 
-`r .tgc_contributors_list(ids = c("joy", "admin"))`
+`r .tgc_contributors_list(ids = c("joy", "imane", "admin"))`
 
-# Références {.unlisted .unnumbered}
+# Références {.unnumbered}
 
 Le contenu de ce cours a été en partie adapté des sources suivantes :
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
 
-`r .tgc_license()`
-
-# Solutions d'exercices {.unlisted .unnumbered}
+# Solutions d'exercices {.unnumbered}
 
 **Exercice 1**
 
@@ -332,9 +327,8 @@ ggplot(data = malidd,
     geom_histogram(fill = "seagreen",
                    color = "seagreen",
                    alpha = 0.4)
-```
 
-**Exercice 2**
+```
 
 ```{r}
 ggplot(data = malidd, 
@@ -346,7 +340,7 @@ ggplot(data = malidd,
            y = "Nombre d'enfants")
 ```
 
-**Exercice 3**
+**Exercice 2**
 
 ```{r}
 ggplot(data = malidd, 
@@ -356,7 +350,7 @@ ggplot(data = malidd,
                    bins = 20)
 ```
 
-**Exercice 4**
+**Exercice 3**
 
 ```{r}
 ggplot(data = malidd, 
@@ -367,7 +361,7 @@ ggplot(data = malidd,
                    boundary = 24)
 ```
 
-**Exercice 5**
+**Exercice 4**
 
 ```{r}
 ggplot(data = malidd, 
@@ -377,3 +371,5 @@ ggplot(data = malidd,
                    binwidth = 4) +
   scale_x_continuous(breaks = seq(24, 60, 8))
 ```
+
+`r .tgc_license()`

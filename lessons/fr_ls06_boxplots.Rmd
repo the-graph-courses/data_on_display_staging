@@ -263,6 +263,8 @@ ggplot(gapminder,
 ```
 
 ::: practice
+**Exercice 1**
+
 -   En utilisant le dataframe `gapminder`, créez une boîte à moustaches comparant la distribution du **PIB par habitant (`gdpPercap`)** entre les continents. Attribuez la **couleur de remplissage** des boîtes à `continent`, et réglez la **largeur de ligne** à 1.
 
 ```{r include = F}
@@ -340,6 +342,8 @@ ggplot(gapminder,
 ```
 
 ::: practice
+**Exercice 2**
+
 Créez une boîte à moustaches montrant la distribution du PIB par habitant pour chaque continent, comme vous l'avez fait dans l'exercice 2. Conservez le remplissage, la largeur de ligne et l'échelle de ce graphique.
 
 Maintenant, **réorganisez** les boîtes en fonction de la **moyenne** de `gdpPercap` et par ordre **décroissant**.
@@ -426,6 +430,8 @@ Les boîtes à moustaches sont limitées par le fait qu'elles résument les donn
 :::
 
 ::: practice
+**Exercice 3**
+
 -   Créez une boîte à moustaches montrant la distribution du PIB par habitant pour chaque continent, comme vous l'avez fait dans l'exercice 3. Puis ajoutez une couche de points décalés.
 
 ```{r include = F}
@@ -476,20 +482,18 @@ Pour étudier la dispersion d'une variable continue à l'intérieur de l'une des
 2. Réorganiser les boites à moustaches avec la fonction **`reorder()`**.
 3. Ajouter une couche de points de données sur une boîte à moustaches en utilisant **`geom_jitter()`**.
 
-## Contributeurs {.unlisted .unnumbered}
+## Contributeurs {.unnumbered}
 
 Les membres suivants ont contribué à ce cours :
 `r .tgc_contributors_list(ids = c("joy", "imane", "admin"))`
 
-## Références {.unlisted .unnumbered}
+## Références {.unnumbered}
 
 Le contenu de ce cours est en partie adapté des sources suivantes :
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 
-`r .tgc_license()`
-
-# Solutions d'exercices {.unlisted .unnumbered}
+## Solutions d'exercices {.unnumbered}
 
 **Exercice 1**
 
@@ -499,8 +503,6 @@ ggplot(data = gapminder,
   geom_boxplot(linewidth = 1)
 ```
 
-**Exercice 2**
-
 ```{r}
 ggplot(data = gapminder,
   mapping = aes(x = continent, y = gdpPercap, fill = continent)) +
@@ -508,7 +510,7 @@ ggplot(data = gapminder,
   scale_y_log10()
 ```
 
-**Exercice 3**
+**Exercice 2**
 
 ```{r}
 ggplot(data = gapminder,
@@ -519,8 +521,6 @@ ggplot(data = gapminder,
   geom_boxplot(linewidth = 1) +
   scale_y_log10()
 ```
-
-**Exercice 4**
 
 ```{r}
 ggplot(data = gapminder,
@@ -535,7 +535,7 @@ ggplot(data = gapminder,
     y = "Revenu par personne (USD)")
 ```
 
-**Exercice 5**
+**Exercice 3**
 
 ```{r}
 ggplot(data = gapminder,
@@ -551,8 +551,6 @@ ggplot(data = gapminder,
   geom_jitter()
 ```
 
-**Exercice 6**
-
 ```{r}
 ggplot(data = gapminder,
   mapping = aes(
@@ -566,3 +564,5 @@ ggplot(data = gapminder,
     y = "Revenu par personne (USD)") + 
   geom_jitter(width = 0.3, alpha = 0.55)
 ```
+
+`r .tgc_license()`

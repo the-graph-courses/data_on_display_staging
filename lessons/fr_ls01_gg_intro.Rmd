@@ -10,17 +10,15 @@ output:
 ---
 
 ```{r, include = FALSE, warning = FALSE}
-# Load packages
+# Charger les packages
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, 
                RColorBrewer,
                knitr, 
                here)
 
-# Source lesson functions 
+# Fonctions
 source(here("global/functions/lesson_functions.R"))
-
-# Source autograder script 
 source(here("lessons/ls01_gg_intro_autograder.R"))
 ```
 
@@ -300,7 +298,7 @@ Si les valeurs sur l'axe des ordonnées n'ont pas changé, le mapping sur l'axe 
 
 De la même manière, nous pouvons modifier la couche de géométrie pour créer un type de graphique différent, tout en conservant les mêmes mappings esthétiques.
 
-![{ggplot2} propose une variété de fonctions `geom_*` et d'objets géométriques que vous pouvez utiliser pour visualiser vos données. Voici quelques exemples de différents types de geoms qui peuvent être utilisés avec `ggplot()`.](images/geoms_fr.png)
+![{ggplot2} propose une variété de fonctions `geom_*` et d'objets géométriques que vous pouvez utiliser pour visualiser vos données. Voici quelques exemples de différents types de geoms qui peuvent être utilisés avec `ggplot()`.](images/geoms.png)
 
 Nous allons réutiliser le code originel du nuage de points, mais cette fois nous allons uniquement modifier la fonction `geom_*` au lieu de l'esthétique `x`. Si nous remplaçons `geom_point()` par `geom_col()`, nous obtenons un diagramme en barres (appelé aussi un diagramme en `col`onne) :
 
@@ -328,7 +326,7 @@ ggplot(data = nigerm96,
 C'est parce qu'un histogramme montre la répartition d'une seule variable numérique. `ggplot()` ne peut pas mapper deux variables à la fois sur les positions des axes `x` et `y` avec un histogramme, donc il renvoie un message d'erreur.
 :::
 
-:::practice
+::: practice
 **Exercice 2**
 
 Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebdomadaires avec la fonction `geom_col()`. Mappez `cases` sur l'axe des y et `week` sur l'axe des x.
@@ -356,7 +354,7 @@ ggplot(data = nigerm96,
 
 Nous pouvons ajouter d'autres esthétiques, comme la couleur ou la taille.
 
-![](paste-72D5BE04.png)
+![](images/paste-72D5BE04.png)
 
 ::: pro-tip
 Pour voir la liste complète des esthétiques qui peuvent être utilisées avec une fonction `geom_*` spécifique, référez-vous à la documentation de la fonction. Vous pouvez accéder à cette documentation en appuyant sur F1 après avoir tapé le nom de la fonction, par exemple `geom_point()`. Cela ouvrira l'onglet d'aide où vous pouvez faire défiler jusqu'à la section "Aesthetics", où vous trouverez une liste complète des esthétiques que vous pouvez personnaliser. Une alternative est de taper et d'exécuter `?geom_point` dans votre onglet Console, ce qui vous dirigera directement vers la documentation de la fonction geom_point().
@@ -519,7 +517,6 @@ ggplot(data = nigerm,
   scale_color_brewer(palette = "Dark2") + 
   theme_light() 
 ```
-
 
 ::: recap
 Pour créer un graphique complet avec `ggplot`, vous devez d'abord fournir un jeu de données à l'aide de l'argument **`data`** de `ggplot()`. Ensuite, définissez les variables que vous souhaitez visualiser et mappez-les aux esthétiques à l'intérieur de la fonction `aes()` en utilisant l'argument **`mapping`** de `ggplot()`. Enfin, créez une nouvelle couche avec le signe **`+`** et spécifiez le type de graphique que vous souhaitez à l'aide de la fonction **`geom_*`** appropriée. Vous pouvez utiliser ce modèle de code et l'ajuster pour créer différents types de graphiques avec ggplot :
