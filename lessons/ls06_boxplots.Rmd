@@ -292,7 +292,7 @@ To study the spread of a continuous variable within one of the boxes, look at bo
 
 ## Contributors {.unlisted .unnumbered}
 
-The following team members contributed to this lesson: `r tgc_contributors_list(ids = c("joy", "admin"))`
+The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
 ## References {.unlisted .unnumbered}
 
@@ -300,4 +300,4 @@ Some material in this lesson was adapted from the following sources:
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 
-`r tgc_license()`
+`r .tgc_license()`

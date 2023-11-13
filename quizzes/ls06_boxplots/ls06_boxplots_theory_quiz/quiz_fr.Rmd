@@ -1,0 +1,229 @@
+---
+title: 'Quiz à choix multiples | Boîtes à moustaches'
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: none
+---
+
+```{r echo=F}
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               googledrive,
+               patchwork,
+               rio,
+               here,
+               knitr)
+
+```
+
+```{r, echo = F, message = F, warning = F, eval=F}
+opts_chunk$set(warning = F, message = F)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+```
+
+# Introduction
+
+Ce quiz teste votre compréhension de la [leçon 5].
+Bonne chance!
+
+Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+
+# Q - fonction geom
+
+Quelle est la fonction `geom_*()` que nous utilisons pour les boxplots dans {ggplot2} ?
+
+## A
+`geom_boxplot()`
+
+## B
+`geom_box()`
+
+## C
+`geom_bar()`
+
+## D
+`geom_boxes()`
+
+## Réponse
+A
+
+## Message correct
+Exactement ! `geom_boxplot()` est utilisée pour créer des boxplots dans {ggplot2}
+
+## Message incorrect
+`geom_boxplot()` est utilisée pour créer des boxplots dans {ggplot2}
+
+# Q - Distribution V/F
+
+Les boîtes à moustaches sont utilisées pour comparer la distribution d’une variable numérique pour chaque niveau d’une variable catégorielle.
+
+## A
+VRAI
+
+## B
+FAUX
+
+## Réponse
+A
+
+## Message correct
+Correct !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+## Message incorrect
+Vérifiez à nouveau !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+# Q - Distribution V/F
+
+Les boîtes à moustaches sont utilisées pour comparer la distribution d’une variable numérique en fonction d'une autre varibale numérique.
+
+## A
+VRAI
+
+## B
+FAUX
+
+## Réponse
+B
+
+## Message correct
+Correct !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+## Message incorrect
+Vérifiez à nouveau !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+
+# Q - variable continue V/F
+Les boîtes à moustaches sont utilisées pour visualiser des données continues.
+
+## A
+VRAI
+
+## B
+FAUX
+
+## Réponse
+A
+
+## Message correct
+Correct !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+## Message incorrect
+Vérifiez à nouveau !
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
+```
+
+# Q - rappel sur reorder
+
+Quelle fonction pouvez-vous utiliser dans `aes()` pour réorganiser les boîtes à moustaches ?
+
+## A
+`scale_x_discrete()`
+
+## B
+`facet_grid()`
+
+## C
+`reorder()`
+
+## D
+`position_dodge()`
+
+## Réponse
+C
+
+## Message correct
+Correct !
+
+Vous pouvez utiliser la fonction `reorder()` dans `aes()` pour réorganiser les boîtes à moustaches.
+
+## Message incorrect
+Vous pouvez utiliser la fonction `reorder()` dans `aes()` pour réorganiser les boîtes à moustaches.
+
+# Q - utilisation de color
+
+Quel argument de `geom_boxplot()` pouvez-vous utiliser pour ajuster la couleur de la boîte et des moustaches ?
+
+## A
+`color`
+
+## B
+`fill`
+
+## C
+`linecolor`
+
+## D
+`border`
+
+## Réponse
+A
+
+## Message correct
+
+Correct !
+
+Vous pouvez utiliser l'argument `color` dans `geom_boxplot()` pour ajuster la couleur de la boîte et des moustaches. C'est une esthétique fixe qui définira la couleur à une valeur constante.
+
+## Message incorrect
+
+Vous pouvez utiliser l'argument `color` dans `geom_boxplot()` pour ajuster la couleur de la boîte et des moustaches. C'est une esthétique fixe qui définira la couleur à une valeur constante.
+
+# Q - utilisation de fill
+
+Quel argument de `geom_boxplot()` pouvez-vous utiliser pour ajuster la couleur intérieure de la boîte et des moustaches ?
+
+## A
+`color`
+
+## B
+`fill`
+
+## C
+`linecolor`
+
+## D
+`border`
+
+## Réponse
+B
+
+## Message correct
+
+Correct !
+
+Vous pouvez utiliser l'argument `fill` dans `geom_boxplot()` pour ajuster la couleur intérieure de la boîte et des moustaches. C'est une esthétique fixe qui définira la couleur à une valeur constante.
+
+## Message incorrect
+
+Vous pouvez utiliser l'argument `fill` dans `geom_boxplot()` pour ajuster la couleur intérieure de la boîte et des moustaches. C'est une esthétique fixe qui définira la couleur à une valeur constante.
