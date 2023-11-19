@@ -93,7 +93,7 @@ set.seed(1024)
     
     .q2_correct <- 
       ggplot(data = gapminder,
-        mapping = aes(x = continent, y = gdpPercap, fill = continent)) +
+             mapping = aes(x = continent, y = gdpPercap, fill = continent)) +
       geom_boxplot(linewidth = 1) +
       scale_y_log10() 
     
@@ -147,18 +147,18 @@ set.seed(1024)
     
     .q3_correct <- 
       ggplot(gapminder, 
-        aes(x = reorder(continent, -gdpPercap),
-          y = gdpPercap,
-          fill = continent)) +
+             aes(x = reorder(continent, -gdpPercap),
+                 y = gdpPercap,
+                 fill = continent)) +
       geom_boxplot(linewidth = 1) +
       scale_y_log10()
     
     gg_req <- .q3_correct
     gg_ans <- q3
     gg_req_alt <- ggplot(gapminder, 
-      aes(x = reorder(continent, -gdpPercap, mean),
-        y = gdpPercap,
-        fill = continent)) +
+                         aes(x = reorder(continent, -gdpPercap, mean),
+                             y = gdpPercap,
+                             fill = continent)) +
       geom_boxplot(linewidth = 1) +
       scale_y_log10()
     
@@ -216,15 +216,15 @@ set.seed(1024)
     
     .q4_correct <- 
       ggplot(data = gapminder,
-        mapping = aes(
-          x = reorder(continent, -gdpPercap), 
-          y = gdpPercap, 
-          fill = continent)) +
+             mapping = aes(
+               x = reorder(continent, -gdpPercap), 
+               y = gdpPercap, 
+               fill = continent)) +
       geom_boxplot(linewidth = 1) +
       scale_y_log10() +
       labs(title = "Variation in GDP per capita across continents (1952-2007)",
-        x = "Continent",
-        y = "Income per person (USD)") 
+           x = "Continent",
+           y = "Income per person (USD)") 
     
     gg_req <- .q4_correct
     gg_ans <- q4

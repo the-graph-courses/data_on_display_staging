@@ -1,5 +1,5 @@
 ---
-title: 'Lesson notes | Scatter plots and smoothing lines'
+title: 'Lesson notes | Scatter plots and smoothing with {ggplot2}'
 output:
   html_document:
     number_sections: true
@@ -17,7 +17,9 @@ This is a CODE ALONG document where you can type code as you follow the lesson v
 
 We encourage you to do this; typing code with the teacher is the best way to learn the right syntax. 
 
-If you prefer to work with the completed document, please use the other Rmd instead!
+See our video explanation if you are unsure how to use this code along document: https://thegraphcourses.org/rmd-practice
+
+For better clarity, we recommend viewing this document in VISUAL MODE.
 ```
 
 
@@ -36,9 +38,7 @@ source(here("lessons/ls02_scatter_autograder.R"))
 
 ```
 
-# Scatter plots and smoothing lines with {ggplot2}
-
-## Learning Objectives
+# Learning Objectives
 
 By the end of this lesson, you will be able to:
 
@@ -49,7 +49,7 @@ By the end of this lesson, you will be able to:
 
 
 
-## Packages
+# Packages
 
 ```{r}
 # Load packages 
@@ -58,7 +58,7 @@ pacman::p_load()
 
 
 
-## Childhood diarrheal diseases in Mali
+# Childhood diarrheal diseases in Mali
 
 • Data from a prospective observational study of acute diarrhea in children
 
@@ -80,7 +80,7 @@ malidd
 
 We will explore relationships between some numerical variables in the **`malidd`** data frame using scatter plots.
 
-## Scatter plots via `geom_point()`
+# Scatter plots via `geom_point()`
 
 Let's begin by visualizing the relationship between:
 
@@ -130,7 +130,7 @@ age_height <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Modifying the aesthetics of points
+# Modifying the aesthetics of points
 
 ::: reminder
 There are two methods for changing the aesthetic properties of your `geom`s (in this case, points):
@@ -140,7 +140,7 @@ There are two methods for changing the aesthetic properties of your `geom`s (in 
 2.  You can also set the aesthetic properties of your `geom`s to a *fixed* value, as a direct argument of your `geom_*()` function; i.e. it goes *outside* of `aes()`.
 :::
 
-### Mapping data to aesthetics
+## Mapping data to aesthetics
 
 • First we map will variables to an aesthetic inside `aes()`
 
@@ -238,7 +238,7 @@ age_height_fever <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Setting fixed aesthetics
+## Setting fixed aesthetics
 
 • Aesthetic arguments set to a fixed value will not change with the data
 
@@ -257,7 +257,7 @@ In this section we will change the following aesthetic arguments to fixed values
 
 • `fill` - point fill color (only applies if the point has an outline)
 
-#### Changing `color`, `size` and `alpha`
+### Changing `color`, `size` and `alpha`
 
 • Set the color of the points to a fixed value by setting the `color` argument directly within `geom_point()`.
 
@@ -333,7 +333,7 @@ age_viral_blue
 :::
 
 
-#### Changing `shape` and `fill`
+### Changing `shape` and `fill`
 
 • We can shape of points by setting `shape` aesthetic to a number corresponding to our desired shape
 
@@ -396,7 +396,7 @@ ggplot(data = malidd,
              fill = "seagreen")
 ```
 
-## Adding a trend line
+# Adding a trend line
 
 • It can be hard to view relationships or trends with just points
 
@@ -526,24 +526,24 @@ age_height_3 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Learning Outcomes
+# Learning Outcomes
 
 1.  You can visualize relationships between two numerical variables using **scatter plots** with **`geom_point()`**.
 2.  You can use **`color`** as an aesthetic argument to map additional variables from the data onto a bivariate scatter plot.
 3.  You can assign **fixed aesthetics** such as size, shape, color, fill, and opacity of geometric objects
 4.  You can add and modify a **trend line** to a scatter plot with **`geom_smooth()`**.
 
-## Summary
+# Summary
 
 Scatter plots display the relationship between two numerical variables.
 
 With medium to large datasets, you may need to play around with the different modifications to scatter plots we saw such as adding trend lines, changing the color, size, shape, fill, or opacity of the points. This tweaking is often a fun part of data visualization, since you'll have the chance to see different relationships emerge as you tinker with your plots.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 

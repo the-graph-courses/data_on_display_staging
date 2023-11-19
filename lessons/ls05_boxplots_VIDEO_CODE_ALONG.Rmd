@@ -1,19 +1,11 @@
 ---
-title: '\ '
+title: 'Lesson notes | Boxplots with {ggplot2}'
 output:
   html_document:
     number_sections: true
     toc: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r include=FALSE, eval=FALSE}
@@ -23,7 +15,9 @@ This is a CODE ALONG document where you can type code as you follow the lesson v
 
 We encourage you to do this; typing code with the teacher is the best way to learn the right syntax. 
 
-For better clarity, we reccomend viewing this document in VISUAL MODE.
+See our video explanation if you are unsure how to use this code along document: https://thegraphcourses.org/rmd-practice
+
+For better clarity, we recommend viewing this document in VISUAL MODE.
 ```
 
 
@@ -36,7 +30,7 @@ source(here("global/functions/lesson_functions.R"))
 
 # Source autograder script quietly 
 set.seed(1024)
-source(here("lessons/ls06_boxplots_autograder.R"))
+source(here("lessons/ls05_boxplots_autograder.R"))
 ```
 
 # Boxplots with {ggplot2}

@@ -16,7 +16,9 @@ This is a CODE ALONG document where you can type code as you follow the lesson v
 
 We encourage you to do this; typing code with the teacher is the best way to learn the right syntax. 
 
-If you prefer to work with the completed document, please use the other Rmd instead!
+See our video explanation if you are unsure how to use this code along document: https://thegraphcourses.org/rmd-practice
+
+For better clarity, we recommend viewing this document in VISUAL MODE.
 ```
 
 
@@ -37,9 +39,7 @@ source(here("global/functions/lesson_functions.R"))
 source(here("lessons/ls01_gg_intro_autograder.R"))
 ```
 
-# Building plots with {ggplot2}
-
-## Learning Objectives
+# Learning Objectives
 
 By the end of this lesson you should be able to:
 
@@ -55,7 +55,7 @@ By the end of this lesson you should be able to:
 
 ![Illustration by Allison Horst](images/ggplot2_masterpiece.png){width="531"}
 
-## Packages
+# Packages
 
 ```{r}
 # Load packages 
@@ -63,7 +63,7 @@ pacman::p_load(tidyverse,
                here)
 ```
 
-## Measles outbreaks in Niger
+# Measles outbreaks in Niger
 
 • We will **visualize patterns** of measles epidemics in Niger
 
@@ -71,7 +71,7 @@ pacman::p_load(tidyverse,
 
 • Fluctuation in **population density** drives measles dynamics
 
-### The `nigerm` dataset
+## The `nigerm` dataset
 
 • **Weekly case reports of measles** surveyed from different regions
 
@@ -125,7 +125,7 @@ summary(nigerm)
 
 
 
-## Fundamentals of data visualization with {ggplot2}
+# Fundamentals of data visualization with {ggplot2}
 
 ![{ggplot2} is the core packages of the {tidyverse} metapackage.](images/ggplot2-part-of-tidyverse.png){width="192"}
 
@@ -143,7 +143,7 @@ summary(nigerm)
 
 
 
-### The layered Grammar of Graphics
+## The layered Grammar of Graphics
 
 • The **grammar of graphics** (GG) deconstructs a graph into individual elements
 
@@ -169,7 +169,7 @@ We wrote `data`, `geom`, and `aes` in a computer code type font because we use t
 The terms and syntax used for `ggplot` functions, arguments, and layers can be hard to keep up with at first, but as you gain experience using these terms to make plots in R, you will become fluent in no time.
 :::
 
-## Working through the essential layers
+# Working through the essential layers
 
 • Our first plot with {ggplot2} will be a scatter plot to explore Niger measles dataset
 
@@ -197,7 +197,7 @@ We will use **incremental composition**: adding elements to a plot incrementally
 
 ![](images/paste-4C7E1687.png)
 
-### Building a `ggplot()` in three steps
+## Building a `ggplot()` in three steps
 
 **Step 0: Initialize the plot**
 
@@ -314,7 +314,7 @@ nigerm04_scatter <- ggplot()
 ```
 :::
 
-## Modifying the layers
+# Modifying the layers
 
 • GG framework allows for a high degree of customization
 
@@ -326,7 +326,7 @@ The `data`, `aes`thetics, and `geom`etry inputs can be easily tweaked
 
 
 
-### Changing `aes`thetic mappings
+## Changing `aes`thetic mappings
 
 We created a scatter plot of `cases` vs `week` for `nigerm96` with this code:
 
@@ -353,7 +353,7 @@ ggplot(data = nigerm96,
 
 • points are mapped to 8 positions which correspond to each of the 8 `region`s
 
-### Changing `geom_*` functions
+## Changing `geom_*` functions
 
 • Modifying the geometry layer creates a different type of plot
 
@@ -407,7 +407,7 @@ nigerm04_bar <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Additional aesthetic mappings inside `aes()`
+## Additional aesthetic mappings inside `aes()`
 
 • `aes()` stands for **aesthetics** - things we can see
 
@@ -514,7 +514,7 @@ nigerm04_line <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Fixed aesthetics outside `aes()`
+## Fixed aesthetics outside `aes()`
 
 
 
@@ -600,7 +600,7 @@ nigerm04_pinkbar <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Additional GG layers
+# Additional GG layers
 
 • So far, we covered only the three required layers.
 
@@ -626,7 +626,7 @@ ggplot(data = nigerm,
        color = "Region")
 ```
 
-## Learning Outcomes
+# Learning Outcomes
 
 1.  You can recall and explain how the **{ggplot2}** package for data visualization is based on a theoretical framework called the **grammar of graphics**.
 
@@ -637,5 +637,3 @@ ggplot(data = nigerm,
 4.  You can create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
 
 5.  You can add and modify **aesthetic mappings** of data variables to **color** and **fill**.
-
-[INSERT LINK TO COURSE FOR QUIZZES ETC.]

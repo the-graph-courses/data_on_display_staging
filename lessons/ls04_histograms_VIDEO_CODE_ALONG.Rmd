@@ -1,19 +1,11 @@
 ---
-title: '\ '
+title: 'Lesson notes | Histograms with {ggplot2}'
 output:
   html_document:
     number_sections: true
     toc: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, eval = F, include = F}
@@ -23,7 +15,9 @@ This is a CODE ALONG document where you can type code as you follow the lesson v
 
 We encourage you to do this; typing code with the teacher is the best way to learn the right syntax. 
 
-For better clarity, we reccomend viewing this document in VISUAL MODE.
+See our video explanation if you are unsure how to use this code along document: https://thegraphcourses.org/rmd-practice
+
+For better clarity, we recommend viewing this document in VISUAL MODE.
 ```
 
 ```{r setup, include = FALSE, warning = FALSE, message = FALSE}
@@ -38,9 +32,7 @@ source(here("global/functions/lesson_functions.R"))
 source(here("lessons/ls04_histograms_autograder.R"))
 ```
 
-# Histograms with {ggplot2}
-
-## Learning Objectives
+# Learning Objectives
 
 By the end of this lesson, you will be able to:
 
@@ -49,19 +41,20 @@ By the end of this lesson, you will be able to:
 3.  Shift and align bins on a histogram with the **`boundary`** argument.
 4.  Set bin boundaries to a sequence of values with the **`breaks`** argument.
 
-## Packages
+# Packages
 
 ```{r}
 pacman::p_load()
 ```
 
-## Childhood diarrheal diseases dataset
+# Childhood diarrheal diseases dataset
 
 We will use the **`malidd`** dataset for plotting.
 
 ```{r message = F}
 # Import data from CSV
-
+malidd <- read_csv(here("data/clean/malidd.csv"))
+malidd
 ```
 
 ::: recap
@@ -75,7 +68,7 @@ This dataset is from a 2020 research study of diarrhea in children aged 0-59 mon
 head()
 ```
 
-## Basic histograms with `geom_histogram()`
+# Basic histograms with `geom_histogram()`
 
 Now let's use {ggplot2} to plot the distribution of the **`height_cm`** variable.
 
@@ -159,7 +152,7 @@ q2 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Adjusting bins in a histogram
+# Adjusting bins in a histogram
 
 If we don't adjust the bins in `geom_histogram()`, we get a warning message.
 
@@ -181,7 +174,7 @@ We can modify bins using one of these three arguments:
 
 These are fixed aesthetics, so they go inside `geom_histogram()`.
 
-### Modify the number of bins with `bins`
+## Modify the number of bins with `bins`
 
 Set `bins` equal to an **integer** in `geom_histogram()`:
 
@@ -224,7 +217,7 @@ q3 <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Modify the width of bins with `binwidth`
+## Modify the width of bins with `binwidth`
 
 Set `binwidth` equal to a **numeric value** in `geom_histogram()`:
 
@@ -253,7 +246,7 @@ ggplot(data =  malidd,
 We can use the **`boundary`** argument to align the bins to the x-axis intervals.
 
 ```{r}
-# Set `boundary` equal to the low end of
+# Set `boundary` equal to the low end of the variable
 ggplot(data =  malidd, 
        mapping = aes(x = height_cm)) +
   geom_histogram(color = "white", 
@@ -283,7 +276,7 @@ q4 <- "YOUR ANSWER HERE"
 ```
 :::
 
-### Modify bin boundaries with `breaks`
+## Modify bin boundaries with `breaks`
 
 Set `breaks` equal to a **numeric vector** in `geom_histogram()`:
 
@@ -324,18 +317,18 @@ q5 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Learning Outcomes
+# Learning Outcomes
 
 1.  You can plot a histogram to visualize the distribution of continuous variables using **`geom_histogram()`**.
 2.  You can adjust the number or size of bins on a histogram by with the **`bins`** or **`binwidth`** arguments.
 3.  You can shift and align bins on a histogram with the **`boundary`** argument.
 4.  You can set bin boundaries to a sequence of values with the **`breaks`** argument.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 
