@@ -285,9 +285,6 @@ for (dir in directories) {
   # Change the working directory back to the parent directory
   setwd(here())
   
-  # Now delete the original folder 
-  fs::dir_delete(dir)
-  
 }
 
 
