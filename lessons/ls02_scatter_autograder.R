@@ -389,7 +389,7 @@ pacman::p_load(tidyverse,
                  alpha = 0.8,
                  shape = 23,
                  mapping = aes(fill = temp)) +
-      geom_smooth(method = "lm")
+      geom_smooth(method = "lm", color = "indianred3")
     
     gg_req <- .q6_correct
     gg_ans <- age_height_3
@@ -428,6 +428,6 @@ pacman::p_load(tidyverse,
                  alpha = 0.8,
                  shape = 23,
                  mapping = aes(fill = temp)) +
-      geom_smooth(method = "lm")' -> out
+      geom_smooth(method = "lm", color = "indianred3")' -> out
   cat(out)
 }
