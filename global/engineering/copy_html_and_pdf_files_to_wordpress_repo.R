@@ -122,18 +122,6 @@ fs::file_copy(files_to_copy,
               str_replace(files_to_copy, "staging", "wp"), 
               overwrite = TRUE)
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Delete rendered stuff from the source repo  ----
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-lesson_files <- dir_ls(lesson_from_folder)
-
-pdf_files_to_delete <- lesson_files[str_ends(lesson_files, "\\.pdf")]
-file.remove(pdf_files_to_delete)
-
-html_files_to_delete <- lesson_files[str_ends(lesson_files, "\\.html")]
-file.remove(html_files_to_delete)
-
-
-
+# Delete rendered stuff from the source repo  
+file.remove(files_to_copy)
 
