@@ -9,13 +9,10 @@
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if (!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse, here, fs, cli, glue, xfun, parsermd)
-pacman::p_load_gh("rstudio/pagedown", 
-                  "rfortherestofus/pagedreport")
+pacman::p_load(tidyverse, here, fs, cli, glue, xfun, parsermd, pagedown)
 
 blue_print <- function(x) cat(cli::bg_blue(cli::col_white(cli::style_bold(x))))
 
-##  render duplicate
 # some tibble print options for the dfs
 options(pillar.width = 60) # avoid overflow of tibbles
 options(pillar.min_title_chars = 15,
@@ -31,10 +28,9 @@ current_dir <- here::here()
 selected_lessons <- 
   c("/ls01_gg_intro.Rmd",
     "/ls02_scatter.Rmd",
-    "/ls03_line_graphs.Rmd")
-
-selected_lessons <- 
-  c("/ls06_boxplots.Rmd")
+    "/ls03_line_graphs.Rmd",
+    "/ls04_histograms.Rmd",
+    "/ls05_boxplots.Rmd")
 
 rmds_to_render <- 
   fs::dir_ls(current_dir, 
@@ -102,66 +98,42 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
   
 }
 
-
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Copy the lessons folder into wp repo  ----
+## Copy the rendered lessons into wp repo  ----
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from <- here::here()
 to <- stringr::str_replace(from, "staging", "wp")
 
 # list files to be copied
-search_string <- paste(c("lessons"),collapse = "|")
-folders_to_copy <- dir_ls(from)[str_detect(dir_ls(from), search_string)]
+lesson_names <- basename(rmds_to_render) %>%  tools::file_path_sans_ext()
 
-fs::dir_copy(folders_to_copy, 
-             str_replace(folders_to_copy, "staging", "wp"), 
-             overwrite = TRUE)
-
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Delete non HTML and non PDF stuff from the target repo  ----
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-## Now delete non HTML files (there is smarter way to do this [we should be able to copy JUST the html files], but I leave like this for now)
-all_copied_files <- dir_ls(to, recurse = T, all = T)
-files_to_delete <- all_copied_files[!str_ends(all_copied_files, "\\.pdf|\\.html|\\.Rproj|README.md") & 
-                                      !str_detect(all_copied_files, "\\.git")]
-file.remove(files_to_delete)
-
-## finally delete empty folders with terminal command (as at 2022-03-17, this does not seem to delete everything)
-system2(
-  command = "find",
-  args = c(to, "-empty", "-type d", "-delete")
+search_string <- paste0(
+  paste0(paste(c(lesson_names),collapse = ".pdf|"), ".pdf"), "|",
+  paste0(paste(c(lesson_names),collapse = ".html|"), ".html")
 )
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Delete PDFs stuff from the source repo  ----
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+lesson_from_folder <- paste0(from, "/lessons")
 
+files_to_copy <- dir_ls(lesson_from_folder)[str_detect(dir_ls(lesson_from_folder), search_string)]
+files_to_copy
 
-## Now delete non HTML files (there is smarter way to do this [we should be able to copy JUST the html files], but I leave like this for now)
-all_files <- dir_ls(from, recurse = T, all = T)
-files_to_delete <- all_files[str_ends(all_files, "\\.pdf")]
-file.remove(files_to_delete)
-
-## finally delete empty folders with terminal command (as at 2022-03-17, this does not seem to delete everything)
-system2(
-  command = "find",
-  args = c(to, "-empty", "-type d", "-delete")
-)
+fs::file_copy(files_to_copy, 
+              str_replace(files_to_copy, "staging", "wp"), 
+              overwrite = TRUE)
 
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## TODO: Pull then push -wp repo  ----
+## Delete rendered stuff from the source repo  ----
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+lesson_files <- dir_ls(lesson_from_folder)
 
+pdf_files_to_delete <- lesson_files[str_ends(lesson_files, "\\.pdf")]
+file.remove(pdf_files_to_delete)
 
+html_files_to_delete <- lesson_files[str_ends(lesson_files, "\\.html")]
+file.remove(html_files_to_delete)
 
-
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## TODO: Squash all but most recent commit in order to minimize space  ----
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
