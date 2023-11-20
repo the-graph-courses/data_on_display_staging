@@ -1,19 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Boxplots with {ggplot2}'
 output:
   html_document:
     number_sections: true
     toc: true
+    toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: --shift-heading-level-by=-1
-  word_document:
-    toc: true
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: true
-  chunk_output_type: inline
 ---
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}

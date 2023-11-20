@@ -1,21 +1,12 @@
 ---
-title: '\ '
+title: 'Lesson notes | Histograms with {ggplot2}'
 output:
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
   html_document:
-    number_sections: yes
-    toc: yes
-    css: here::here("global/style/style.css")
+    number_sections: true
+    toc: true
+    toc_float: true
+    css: !expr here::here("global/style/style.css")
     highlight: kate
-    pandoc_args: "--shift-heading-level-by=-1"
-editor_options:
-  markdown:
-    wrap: 100
-  canonical: yes
-  chunk_output_type: inline
 ---
 
 ```{r, include = FALSE, warning = FALSE, message = FALSE}
