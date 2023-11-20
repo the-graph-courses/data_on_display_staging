@@ -394,7 +394,7 @@ ggplot(gapminder,
 
 ## Contributors {.unlisted .unnumbered}
 
-The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
+The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "kendavidn", "admin"))`
 
 ## References {.unlisted .unnumbered}
 

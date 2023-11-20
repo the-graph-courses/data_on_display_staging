@@ -418,7 +418,7 @@ ggplot(data = malidd,
 Observe the distribution of blue points (children who vomited) compared to red points (children who did not vomit). The blue points mostly occur above the trend line. This shows that higher viral loads were not only associated with younger children, but that children with higher viral loads were more likely to exhibit symptoms of vomiting.
 
 ::: practice
--   Create a scatter plot with the `age_months` and `viral_load` variables. Set the color of the points to "steelblue", the size to 2.5mm, the opacity to 80%. Then add trend line with the smoothing method "lm" (linear model). To make the trend line stand out, set its color to "indianred3".
+-   Create a scatter plot with the `age_months` and `height_cm` variables. Set the color of the points to "steelblue", the size to 2.5mm, the opacity to 80%. Then add trend line with the smoothing method "lm" (linear model). To make the trend line stand out, set its color to "indianred3".
 
 ```{r eval = FALSE, include=FALSE}
 # Type and view your answer:
