@@ -341,7 +341,7 @@ Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebd
 
 Jusqu'à présent, nous avons mapper nos variables uniquement aux attributs esthétiques `x` et `y`. Nous pouvons également mapper les variables à d'autres esthétiques comme la couleur, la taille ou la forme.
 
-![Attributs esthétiqes couramment utilisés dans les graphiques `ggplot`.](images/common_aesthetics_1_fr.png)
+![Attributs esthétiques couramment utilisés dans les graphiques `ggplot`.](images/common_aesthetics_1_fr.png)
 
 Revenons à notre diagramme de dispersion originel (`cases` vs `week`):
 
