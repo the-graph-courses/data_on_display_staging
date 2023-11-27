@@ -848,7 +848,7 @@ to use the variable name instead of the aesthetic name in `labs()`, so watch out
 :::
 
 ::: practice
-Create a time series plot comparing the trends in GDP per capita from 1952-2007 for **three
+Create a time series plot comparing the trends in life expectancy from 1952-2007 for **three
 countries** in the `gapminder` data frame.
 
 First, subset the data to three countries of your choice:
