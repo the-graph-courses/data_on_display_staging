@@ -32,10 +32,10 @@ knitr::opts_knit$set(upload.fun = imgur_upload)
 
 # Introduction
 
-Ce quiz teste votre compréhension de la [leçon 4].
+Ce quiz teste votre compréhension de la leçon 4.
 Bonne chance!
 
-Contributeurs du quiz : [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+Contributeurs au quiz : [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
 
 # Q - fonction geom
 
@@ -95,7 +95,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Message incorrect
 
 Vérifiez à nouveau.
 
@@ -119,7 +119,7 @@ FAUX
 
 B
 
-## Message  correct
+## Message correct
 
 Correct !
 
@@ -127,7 +127,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Message incorrect
 
 Vérifiez à nouveau !
 
@@ -151,7 +151,7 @@ FAUX
 
 A
 
-## Message  correct
+## Message correct
 
 Correct !
 
@@ -159,7 +159,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Message incorrect
 
 Vérifiez à nouveau !
 
@@ -183,13 +183,13 @@ FAUX
 
 A
 
-## Message  correct
+## Message correct
 
 Super !
 
 Nous définissons `bins` égal à un entier qui indique à `geom_histogram()` le nombre de barres à dessiner.
 
-## Message  incorrect
+## Message incorrect
 
 C'est vrai.
 Nous définissons `bins` égal à un entier qui indique à `geom_histogram()` le nombre de barres à dessiner.
@@ -218,7 +218,7 @@ La hauteur des barres
 
 A
 
-## Message  correct
+## Message correct
 
 Correct !
 Comme son nom l'indique, `binwidth` contrôle la largeur de chaque classe.
