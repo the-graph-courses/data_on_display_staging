@@ -115,7 +115,7 @@ ggplot(data =  malidd ,
 
 Il est maintenant plus facile d'associer chaque barre à la classe à laquelle elle correspond.
 
-Nous pouvons également modifier la couleur des barres en définissant l'argument `fill` :
+Nous pouvons également modifier la couleur des barres en ajoutant l'argument `fill` :
 
 ```{r}
 # Définir la couleur de remplissage à "steelblue"
@@ -177,7 +177,7 @@ Nous pouvons modifier le nombre de classes en utilisant l'un de ces trois argume
 
 2.  Définir la largeur des classes avec **`binwidth`**
 
-3.  Définir les limites des classes **`breaks`**
+3.  Définir les limites des classes avec **`breaks`**
 
 ## Définir le nombre de classes avec `bins`
 
@@ -287,6 +287,7 @@ ggplot(data =  malidd,
 **Exercice 4**
 
 Tracez l'histogramme de `freqrespi` avec des limites allant de la valeur la plus basse de `freqrespi` à la plus élevée et des intervalles de 4.
+
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
 
@@ -368,7 +369,9 @@ ggplot(data = malidd,
        mapping = aes(x = freqrespi)) +
     geom_histogram(fill = "indianred3",
                    color = "lightgray", 
-                   binwidth = 4) +
+                   breaks = seq(from = min(malidd$freqrespi),
+                                to = max(malidd$freqrespi),
+                                by = 4)) +
   scale_x_continuous(breaks = seq(24, 60, 8))
 ```
 
