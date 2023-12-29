@@ -1,0 +1,700 @@
+---
+title: 'Quiz à choix multiples | graphique linéaire'
+output: blogdown::html_page
+editor_options: 
+  chunk_output_type: inline
+  markdown: 
+    wrap: sentence
+# quiz_title: '03.03 lines, scales, and labels'
+# quiz_type: 'simple_theory'
+# course_abbrev: 'IDAR'
+---
+
+```{r, echo = F, message = F, warning = F, eval=F}
+opts_chunk$set(warning = F, message = F)
+
+# Setup for uploading images
+source(here("global/functions/misc_functions.R"))
+if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+```
+
+```{r echo=F}
+
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               googledrive,
+               patchwork,
+               rio,
+               here,
+               knitr)
+
+```
+
+# Introduction
+
+Ce quiz teste votre compréhension de la leçon 3.
+Bonne chance !
+
+Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
+
+# Q - ??
+
+Quelle est la fonction `geom_*()` que nous utilisons pour les graphiques linéaires ?
+
+## A
+
+`geom_line()`
+
+## B
+
+`geom_linegraph()`
+
+## C
+
+`geom_scatter()`
+
+## D
+
+`geom_lines()`
+
+## Réponse
+
+A
+
+## Message correct
+
+Correct !
+
+`geom_line()` est utilisée pour créer des graphiques linéaires dans {ggplot2}
+
+## Message incorrect
+
+`geom_line()` est utilisée pour créer des graphiques linéaires dans {ggplot2}
+
+# Q -
+
+Les graphiques linéaires, tout comme les graphiques de dispersion, affichent la relation entre deux variables numériques.
+
+## A
+
+VRAI
+
+## B
+
+FAUX
+
+## Réponse
+
+A
+
+## Message correct
+
+Correct !
+
+Les graphiques linéaires et de dispersion peuvent tous les deux être utilisés pour montrer la relation entre deux variables (si les variables sont numériques)
+
+## Message incorrect
+
+Les graphiques linéaires et de dispersion peuvent tous les deux être utilisés pour montrer la relation entre deux variables (si les variables sont numériques)
+
+# Q -
+
+Il est préférable d'utiliser un graphique linéaire plutôt qu'un graphique de dispersion lorsque la variable sur l'axe des x représente le temps.
+
+## A
+
+VRAI
+
+## B
+
+FAUX
+
+## Réponse
+
+A
+
+## Message correct
+
+Bravo !
+
+## Message incorrect
+
+Consultez le cours (ou d'autres ressources) pour voir des exemples sur les graphiques temporelles.
+
+# Q -
+
+Il est préférable d'utiliser un graphique de dispersion plutôt qu'un graphique linéaire lorsque la variable sur l'axe des x représente le temps.
+
+## A
+
+FAUX
+
+## B
+
+VRAI
+
+## Réponse
+
+A
+
+## Message correct
+
+Bravo !
+
+## Message incorrect
+
+Consultez le cours (ou d'autres ressources) pour voir des exemples sur les graphiques temporelles.
+
+# Q -
+
+L'argument `linetype` peut être spécifié en utilisant un nom (par exemple, `“dotted”`) ou avec un entier.
+
+## A
+
+VRAI
+
+## B
+
+FAUX
+
+## Réponse
+
+A
+
+## Message correct
+
+Super !
+
+L'argument `linetype` peut être défini avec des entiers ou des noms spécifiques.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
+## Message incorrect
+
+Les deux sont corrects !
+L'argument `linetype` peut être défini avec des entiers ou des noms spécifiques.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
+# Q -
+
+Parmi les blocs de code suivants, lequel produira un graphique avec une ligne en pointillé (dotted line) ?
+
+## A
+
+`geom_line(linetype = "dotted")` ou `geom_line(linetype = 3)`
+
+## B
+
+`geom_line(linetype = "dotted")`
+
+## C
+
+`geom_line(linetype = 3)`
+
+## D
+
+`geom_dotted_line()`
+
+## Réponse
+
+A
+
+## Message correct
+
+Doublement bon !
+Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linetype` pour choisir le type de ligne.
+(La fonction `geom_dotted_line()` n'existe pas.)
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
+## Message incorrect
+
+Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linetype` pour choisir le type de ligne.
+(La fonction `geom_dotted_line()` n'existe pas.)
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/line_types.png"))
+```
+
+# Q -
+
+Vous pouvez tracer des points sur un graphique linéaire en ajoutant une seconde couche geométrique `geom_point()`
+
+## A
+
+VRAI
+
+## B
+
+FAUX
+
+## Réponse
+
+A
+
+## Message correct
+
+Vous avez tout compris !
+Essayez le graphique suivant comme exemple :
+
+```{r}
+ggplot(data = beaver1, 
+       mapping = aes(x = time, y = temp)) + 
+  geom_line() + 
+  geom_point()
+```
+
+## Message incorrect
+
+Consultez le cours pour voir des exemples.
+Vous pouvez également essayer le graphique suivant comme exemple :
+
+```{r}
+ggplot(data = beaver1, 
+       mapping = aes(x = time, y = temp)) + 
+  geom_line() + 
+  geom_point()
+```
+
+# Q -
+
+Un graphique doit avoir une seule couche `geom_*`.
+
+## A
+
+FAUX
+
+## B
+
+VRAI
+
+## Réponse
+
+A
+
+## Message correct
+
+Vous avez tout bon !
+Tant que les graphiques sont compatibles, vous pouvez les superposer.
+Cela peut être particulièrement utile pour illustrer des éléments d'intérêt de vos données.
+
+## Message incorrect
+
+Tant que les graphiques sont compatibles, vous pouvez les superposer.
+Cela peut être particulièrement utile pour illustrer des éléments d'intérêt de vos données.
+
+# Q -
+
+L'argument `linetype` ne peut être utilisé que comme esthétique fixe, pas comme esthétique mappée.
+
+## A
+
+FAUX
+
+## B
+
+VRAI
+
+## Réponse
+
+A
+
+## Message correct
+
+On garde le cap !
+
+`linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
+
+## Message incorrect
+
+`linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
+
+# Q -
+
+L'argument `linetype` ne peut être utilisé que comme mapping esthétique, pas comme une esthétique fixe.
+
+## A
+
+FAUX
+
+## B
+
+VRAI
+
+## Réponse
+
+A
+
+## Message correct
+
+On garde le cap !
+
+`linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
+
+## Message incorrect
+
+`linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
+
+# Q - scale breaks
+
+{ggplot2} choisit automatiquement une échelle pour les mappings esthétiques comme la position x et y.
+
+Par exemple, ici l'axe des x est divisé en intervalles de 5 ans.
+
+```{r}
+# Créer un subset des données d'un seul pays à partir du dataset population intégré au package tidyr
+afg_pop <- tidyr::population %>% filter(country == "Afghanistan")
+head(afg_pop)
+
+# Créer un graphique linéaire de la populatin par année
+ggplot(data = afg_pop, 
+       mapping = aes(x = year, y = population)) +
+  geom_line()
+```
+
+Nous pouvons contrôler les graduations des axes x et y continus avec `scale_*_continuous`.
+
+Quelle fonction pouvons-nous utiliser pour créer un vecteur numérique pour les graduations ?
+
+## A
+
+`seq()` ou `c()`
+
+## B
+
+`seq()`
+
+## C
+
+`sequence()`
+
+## D
+
+`unique()`
+
+## E
+
+`c()`
+
+## Réponse
+
+A
+
+## Message correct
+
+Bon travail !
+
+`seq()` et `c()` peuvent tous deux créer un vecteur numérique.
+Par exemple, ces deux morceaux de code produisent le même résultat :
+
+```{r}
+# Taper le vecteur manuellement
+c(1995, 1998, 2001, 2004, 2007, 2010, 2013)
+
+# Générer une séquence avec des intervalles réguliers
+seq(1995, 2013, 3)
+```
+
+Cependant, nous recommandons `seq()` car il est plus rapide et garantit que les graduations seront également espacées.
+
+## Réponse incorrecte
+
+`seq()` et `c()` peuvent tous deux créer un vecteur numérique.
+Par exemple, ces deux fragments de code produisent le même résultat :
+
+```{r}
+# Taper le vecteur manuellement
+c(1995, 1998, 2001, 2004, 2007, 2010, 2013)
+
+# Générer une séquence avec des intervalles réguliers
+seq(1995, 2013, 3)
+```
+
+Cependant, nous recommandons `seq()` car il est plus rapide et garantit que les graduations seront également espacées.
+
+```{r}
+# Ajouter la couche "scale" avec pour argument "breaks" un vecteur numérique
+ggplot(data = afg_pop, 
+       mapping = aes(x = year, y = population)) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(1995, 2013, 3))
+```
+
+# Q
+
+Le code ci-dessous tente de visualiser et de comparer le PIB par habitant au fil du temps pour les pays de l'Afrique de l'Ouest.
+
+Cependant, le graphique résultant ne nous permet pas de distinguer les pays.
+
+```{r}
+pacman::p_load(gapminder)
+
+gap_wafr <- gapminder::gapminder %>% 
+  filter(country %in% c("Nigeria", "Ghana", "Guinea", "Senegal"))
+
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year)) +
+  geom_line() +
+  geom_point()
+```
+
+Quel esthétique pouvez-vous ajouter afin de visualiser *et* comparer les tendances entre les pays ?
+
+Indice : Utilisez le package `gapminder` et essayez ces options sur R
+
+## A
+
+`color = country` comme esthétique fixe
+
+## B
+
+`color = continent` comme mapping esthétique
+
+## C
+
+`fill = country` comme mapping esthétique
+
+## D
+
+`group = country` comme esthétique fixe
+
+## E
+
+Aucune de ces options ne produira le résultat souhaité.
+
+## Réponse
+
+E
+
+## Message correct
+
+Bonne réflexion !
+
+Si vous essayez ces différentes options sur R, vous verrez qu'aucune d'elles ne créera un graphique qui vous indique à quelle ligne correspond chaque pays.
+Certaines d'entre elles pourraient séparer les lignes, mais il n'y aura pas d'indication visuelle pour savoir laquelle correspond chaque pays.
+
+-   `color = country` comme esthétique fixe ne donne pas le résultat recherché. Cela fonctionnerait comme un *mapping*, mais pas comme une esthétique fixe. Les esthétiques fixes sont définies par une valeur constante qui ne varie pas avec les données.
+
+```{r}
+# Color en tant qu’esthétique fixe
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year)) +
+  geom_line(color = "forestgreen") +
+  geom_point(color = "red")
+
+
+# Color mappé à country
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, color = country)) +
+  geom_line() +
+  geom_point()
+```
+
+-   `fill = country` séparera les données car il essaie de donner une couleur de remplissage distincte pour chaque pays, mais toutes les lignes et les points resteront noirs. Ces géométries ne répondront pas à l'argument `fill`, car `fill` est destiné à être utilisé avec des géométries qui ont une notion de forme à remplir, ce qui n'est pas le cas des lignes.
+
+```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, fill = country)) +
+      geom_line() +
+      geom_point()
+```
+
+-   `group = country` séparera les lignes, mais là encore elles seront toutes de la même couleur
+
+```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, group = country)) +
+      geom_line() +
+      geom_point()
+```
+
+-   `color = continent` n'aidera pas non plus
+
+```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = continent)) +
+      geom_line() +
+      geom_point()
+```
+
+La couleur des points peut être modifiée avec `fill` si `shape` est attribué à une forme remplissable.
+
+```{r}
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, fill = country)) +
+  geom_line() +
+  geom_point(shape = 23)
+```
+
+## Message incorrect
+
+Si vous essayez ces différentes options sur R, vous verrez qu'aucune d'elles ne créera un graphique qui vous indique à quelle ligne correspond chaque pays.
+Certaines d'entre elles pourraient séparer les lignes, mais il n'y aura pas d'indication visuelle pour savoir laquelle correspond chaque pays.
+
+-   `color = country` comme esthétique fixe ne donne pas le résultat recherché. Cela fonctionnerait comme un *mapping*, mais pas comme une esthétique fixe. Les esthétiques fixes sont définies par une valeur constante qui ne varie pas avec les données.
+
+```{r}
+# Color en tant qu’esthétique fixe
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year)) +
+  geom_line(color = "forestgreen") +
+  geom_point(color = "red")
+
+
+# Color mappé à country
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, color = country)) +
+  geom_line() +
+  geom_point()
+```
+
+-   `fill = country` séparera les données car il essaie de donner une couleur de remplissage distincte pour chaque pays, mais toutes les lignes et les points resteront noirs.
+    Ces géométries ne répondront pas à l'argument `fill`, car `fill` est destiné à être utilisé avec des géométries qui ont une notion de forme à remplir, ce qui n'est pas le cas des lignes.
+
+    ```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, fill = country)) +
+      geom_line() +
+      geom_point()
+    ```
+
+-   `group = country` séparera les lignes, mais là encore elles seront toutes de la même couleur
+
+```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, group = country)) +
+      geom_line() +
+      geom_point()
+```
+
+-   `color = continent` n'aidera pas non plus
+
+```{r}
+    ggplot(data = gap_wafr, 
+           mapping = aes(y = gdpPercap, x = year, color = continent)) +
+      geom_line() +
+      geom_point()
+```
+
+La couleur des points peut être modifiée avec `fill` si `shape` est attribué à une forme remplissable.
+
+```{r}
+ggplot(data = gap_wafr, 
+       mapping = aes(y = gdpPercap, x = year, fill = country)) +
+  geom_line() +
+  geom_point(shape = 23)
+```
+
+# Q
+
+Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axes d'une échelle linéaire à une échelle logarithmique ?
+
+## A
+
+`scale_x_log()`
+
+## B
+
+`scale_x_log10()`
+
+## C
+
+`scale_x_continuous()`
+
+## D
+
+`scale_log_x()`
+
+## Réponse
+
+B
+
+## Message correct
+
+Excellente mémoire !
+
+Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
+Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une esthétique spécifique.
+
+Voici la syntaxe générale utilisée par les fonctions scale :
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
+
+## Message incorrect
+
+Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
+Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une esthétique spécifique.
+
+Voici la syntaxe générale utilisée par les fonctions scale :
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
+
+# Q
+
+Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axes d'une échelle linéaire à une échelle logarithmique ?
+
+## A
+
+`scale_y_ln()`
+
+## B
+
+`scale_y_log10()`
+
+## C
+
+`scale_y_continuous()`
+
+## D
+
+`scale_log10_y()`
+
+## Réponse
+
+B
+
+## Message correct
+
+Excellente mémoire !
+
+Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
+Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une ésthétique spécifique.
+
+Voici la syntaxe générale utilisée par les fonctions scale :
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
+
+## Message incorrect
+
+Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
+Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une ésthétique spécifique.
+
+Voici la syntaxe générale utilisée par les fonctions scale :
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
+```
+
+Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
