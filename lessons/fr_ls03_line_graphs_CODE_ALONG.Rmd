@@ -1,5 +1,5 @@
 ---
-title: "Lignes, échelles et étiquettes"
+title: 'Notes de cours | Lignes, échelles et étiquettes '
 output:
   html_document:
     number_sections: true
@@ -9,48 +9,54 @@ output:
     highlight: kate
 ---
 
-```{r, include = FALSE, warning = FALSE, message = FALSE}
-# Charger les packages
-if(!require(pacman)) install.packages("pacman")
-pacman::p_load(tidyverse, knitr, gapminder, here)
+```{r, eval = F, include = F}
+Salut étudiant de GRAPH Courses !
 
-# Fonctions
-source(here("global/functions/misc_functions.R"))
-mute(here::here("lessons/ls03_line_graphs_autograder.R"))
+Ceci est un document CODE ALONG où vous pouvez taper le code pendant que vous suivez la vidéo de la leçon.
+
+Nous vous encourageons à le faire; taper le code avec l'enseignant est le meilleur moyen d'apprendre la bonne syntaxe.
 ```
 
-# Objectifs d'Apprentissage
+```{r setup, include = FALSE, warning = FALSE}
+knitr::opts_chunk$set(error = T)
 
-1.  Créer des **graphiques linéaires** pour visualiser les relations entre deux variables numériques avec **`geom_line()`**.
+# Charger les packages 
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse, 
+               RColorBrewer,
+               knitr, 
+               here)
 
-2.  **Ajouter des points** à un graphique linéaire avec `geom_point()`.
+# Sourcer les fonctions de la leçon 
+source(here("global/functions/lesson_functions.R"))
+```
 
-3.  Utiliser des esthétiques comme **`size`**, **`color`**, et **`linetype`** pour modifier les graphiques linéaires.
+## Objectifs d'apprentissage
 
-4.  **Manipuler les échelles (scale) des axes** de données continues avec **`scale_*_continuous()`** et **`scale_*_log10()`**.
+1.  Vous pouvez créer des **graphiques linéaires** pour visualiser les relations entre deux variables numériques avec **`geom_line()`**.
+2.  Vous pouvez **ajouter des points** à un graphique linéaire avec `geom_point()`.
+3.  Vous pouvez utiliser des esthétiques comme **`color`**, **`size`**, **`color`**, et **`linetype`** pour modifier les graphiques linéaires.
+4.  Vous pouvez **manipuler les échelles d'axes** pour les données continues avec **`scale_*_continuous()`** et **`scale_*_log10()`**.
+5.  Vous pouvez **ajouter des étiquettes** à un graphique comme **`title`**, **`subtitle`**, ou **`caption`** avec la fonction **`labs()`**.
 
-5.  **Ajouter des étiquettes (labels)** à un graphique tels que **`title`**, **`subtitle`**, ou **`caption`** avec la fonction **`labs()`**.
+## Introduction
 
-![](images/paste-3755C0EB_fr.png)
+Les graphiques linéaires sont utilisés pour montrer les **relations** entre deux **variables numériques**, tout comme les nuages de points. Ils sont particulièrement utiles lorsque la variable sur l'axe des x, également appelée variable *explicative*, est de nature **séquentielle**. En d'autres termes, il y a un ordre inhérent à la variable. Les exemples les plus courants de graphiques linéaires ont une notion de **temps sur l'axe des x** : heures, jours, semaines, années, etc. Comme le temps est séquentiel, nous relions les observations consécutives de la variable sur l'axe des y avec une ligne. Les graphiques linéaires qui ont une notion de temps sur l'axe des x sont également appelés **graphiques de séries temporelles**.
 
-# Introduction
-
-Les graphiques linéaires sont utilisés pour montrer les **relations** entre deux **variables numériques**, tout comme les nuages de points. Ils sont particulièrement utiles lorsque la variable sur l'axe des x, également appelée variable *explicative*, est de nature **séquentielle**. En d'autres termes, il y a un ordre inhérent à la variable.
-
-Les exemples les plus courants de graphiques linéaires incluent une composante **temporelle sur l'axe des x**, tels que les heures, les jours, les semaines ou les années. Étant donné que le temps est une séquence, nous relions les observations consécutives de la variable sur l'axe des y avec une ligne. Ces graphiques linéaires, qui intègrent une notion de temps sur l'axe des x, sont communément appelés des **graphiques de série temporelle**.
-
-# Packages
+## Packages
 
 ```{r}
 # Charger les packages
-pacman::p_load(tidyverse, 
-               gapminder, 
-               here)
+pacman::p_load()
 ```
 
-# Le dataframe `gapminder`
+## Le dataframe `gapminder`
 
-En février 2006, un médecin suédois et défenseur des données nommé Hans Rosling a donné une célèbre conférence TED intitulée ["Les meilleures statistiques jamais vues"](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen) où il a présenté des données économiques, sanitaires et de développement mondial compilées par la Fondation Gapminder.
+En 2006, un médecin suédois et professeur de santé mondiale nommé Hans Rosling a donné une célèbre conférence TED intitulée ["The best stats you've ever seen"](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen).
+
+![](images/paste-987E202A.png)
+
+Il a présenté des données mondiales sur l'économie, la santé et le développement compilées par la Fondation Gapminder.
 
 [![Des outils de visualisation de données interactifs avec des données actualisées sont disponibles sur le site web de Gapminder.](images/paste-6726AD73.png)](https://www.gapminder.org/tools/)
 
@@ -58,7 +64,7 @@ Nous pouvons accéder à un subset de ces données avec le package R {**gapminde
 
 ```{r render = reactable_10_rows, message = FALSE}
 # Charger le dataframe gapminder à partir du package gapminder
-data(gapminder, package="gapminder")
+data()
 
 # Afficher le dataframe
 gapminder
@@ -78,29 +84,31 @@ Chaque ligne de ce tableau correspond à une combinaison pays-année. Pour chaqu
 
 6)  **`gdpPercap`** : Produit intérieur brut par personne (en dollar américain ajusté en fonction de l'inflation)
 
-La fonction `str()` peut nous en apprendre plus sur ces variables.
-
 ```{r}
 # Structure des données
-str(gapminder)
+
 ```
 
 Cette version du dataset **`gapminder`** contient des informations sur **142 pays** répartis en **5 continents**.
 
-![](images/gap_map.png)
-
 ```{r}
 # Résumé des données
-summary(gapminder)
+summary()
 ```
 
 Les données sont enregistrées tous les 5 ans de 1952 à 2007 (soit un total de 12 années).
 
-Supposons que nous voulions visualiser la relation entre le temps (`year`) et l'espérance de vie (`lifeExp`).
+## Graphiques linéaires avec `geom_line()`
 
-Pour l'instant, concentrons-nous uniquement sur un pays - les États-Unis. D'abord, nous devons créer un nouveau dataframe avec uniquement les données de ce pays.
+Les graphiques linéaires montrent les **relations** entre deux **variables numériques**.
 
-```{r render = reactable_10_rows, message = FALSE}
+Les graphiques linéaires qui ont une notion de temps sur l'axe des x sont également appelés **graphiques de séries temporelles**.
+
+Supposons que nous voulions visualiser l'évolution de l'espérance de vie (`lifeExp`) au fil du temps (`year`) pour un pays particulier.
+
+Créons un nouveau dataframe contenant uniquement les données des États-Unis.
+
+```{r}
 # Sélectionner les cas US
 gap_US <- dplyr::filter(gapminder,
                         country == "United States")
@@ -108,25 +116,12 @@ gap_US <- dplyr::filter(gapminder,
 gap_US
 ```
 
-::: reminder
-Le code ci-dessus est couvert dans notre cours sur la manipulation de données en utilisant le package {dplyr}. La manipulation de données est le processus de transformation et de nettoyage des données dans le but de les rendre plus appropriées à des fins d'analyse. Par exemple, ce code utilise la fonction `filter()` pour créer un nouveau dataframe (`gap_US`) en incluant uniquement les lignes du dataframe `gapminder` qui ont "United States" dans la colonne `country`.
-:::
-
-# Graphiques linéaires avec `geom_line()`
-
-Nous allons utiliser le dataframe `gap_US` avec `ggplot()` pour traçer **le temps** en années sur l'axe des abscisses x et **l'espérance de vie** sur l'axe des ordonnées y.
-
-Nous pouvons visualiser les données de séries temporelles en utilisant `geom_line()` pour créer un graphique linéaire, au lieu d'utiliser `geom_point()` comme nous l'avons fait précédemment pour créer un nuage de points :
+Nous pouvons visualiser ces données de séries temporelles en utilisant `geom_line()` :
 
 ```{r}
 # Graphique linéaire simple
-ggplot(data = gap_US, 
-       mapping = aes(x = year, 
-                     y = lifeExp)) +
-  geom_line() 
-```
 
-Tout comme avec le code `ggplot()` qui a créé le nuage de points de l'âge et de la charge virale avec `geom_point()`, décomposons ce code couche par couche en utilisant la grammaire des graphiques :
+```
 
 Dans l'appel de la fonction `ggplot()`, nous précisons deux des composants de la grammaire des graphiques comme arguments :
 
@@ -146,28 +141,23 @@ Créez un graphique de série temporelle du PIB par habitant (`gdpPercap`) à pa
 ```
 :::
 
-## Les esthétiques fixes dans `geom_line()`
+### Esthétiques fixes dans `geom_line()`
 
-La couleur, l'épaisseur des lignes et le type de ligne du graphique linéaire peuvent être personnalisés en utilisant les arguments `color`, `size` et `linetype`, respectivement.
+La couleur, l'épaisseur et le type de ligne du graphique linéaire peuvent être personnalisés en utilisant les arguments `color`, `size` et `linetype`, respectivement.
 
-Nous avons changé la couleur et la taille des géométries dans le cours précédent.
+Nous avons utilisé `color` et `size` dans les leçons précédentes.
 
-Nous allons les réutiliser comme esthétiques fixes :
-
-```{r warning=FALSE}
-# Améliorer le graphique linéaire en ajoutant la couleur et la taille comme esthétiques fixes
+```{r}
+# graphique linéaire amélioré avec color et size comme esthétiques fixes
 ggplot(data = gap_US, 
        mapping = aes(x = year, 
                      y = lifeExp)) +
-  geom_line(color = "thistle",
-            size = 1.5) 
+  geom_line() 
 ```
 
-Nous allons maintenant introduire une nouvelle esthétique fixe qui est spécifique aux graphiques linéaires : `linetype` (ou `lty` en abrégé).
+Dans cette leçon, nous introduisons une nouvelle esthétique fixe qui est spécifique aux graphiques linéaires : **`linetype`** (ou `lty` en abrégé).
 
 ![](images/line_types.png)
-
-Le type de ligne dans un graphique peut être spécifié en utilisant un nom ou un entier. Les types de ligne valides peuvent être définis à l'aide de chaînes de caractères compréhensibles : `"blank"`, `"solid"`, `"dashed"`, `"dotted"`, `"dotdash"`, `"longdash"`, et `"twodash"` sont tous compris par `linetype` ou `lty`.
 
 ```{r}
 # Améliorer le graphique linéaire en ajoutant la couleur, l'épaisseur et le type de ligne comme esthétiques fixes
@@ -175,38 +165,30 @@ ggplot(data = gap_US,
        mapping = aes(x = year, 
                      y = lifeExp)) +
   geom_line(color = "thistle3",
-            size = 1.5,
-            linetype = "twodash") 
+            size = 1.5) 
 ```
 
-Dans les graphiques linéaires, il peut parfois être difficile de déterminer l'emplacement exact des points de données. Dans le graphique suivant, nous allons inclure des points pour une meilleure visualisation.
+## Combiner les éléments géométriques
 
-# Combiner les éléments géométriques
-
-Tant que les géométries sont compatibles, nous pouvons les superposer les unes sur les autres pour personnaliser davantage un graphique.
-
-Par exemple, nous pouvons ajouter des points à notre graphique linéaire en utilisant l'opérateur `+` pour ajouter une seconde couche de `geom` avec `geom_point()` :
+Tant que les `geom` sont compatibles, nous pouvons les superposer les uns sur les autres pour personnaliser davantage un graphique.
 
 ```{r}
 # Graphique linéaire simple avec des points
-ggplot(data = gap_US, 
-       mapping = aes(x = year,
-                     y = lifeExp)) +
-  geom_line() +
-  geom_point()
+ggplot(data = gap_US,        
+       mapping = aes(x = year,                     
+                     y = lifeExp)) +  
+  geom_line()
 ```
 
-Nous pouvons améliorer l'apparence du graphique en personnalisant la taille et la couleur de nos géométries.
+Nous pouvons améliorer l'apparence du graphique en personnalisant l'épaisseur et la couleur de nos géométries.
 
 ```{r}
 # Graphique linéaire avec des points et des esthétiques fixes
 ggplot(data = gap_US, 
        mapping = aes(x = year,
                      y = lifeExp)) +
-  geom_line(size = 1.5, 
-            color = "lightgrey") +
-  geom_point(size = 3, 
-             color = "steelblue")
+  geom_line() +
+  geom_point()
 ```
 
 ::: practice
@@ -226,10 +208,6 @@ Changez le type de ligne et la couleur des points par n'importe quelle valeur va
 
 # Mapper les données sur plusieurs lignes
 
-Dans la section précédente, nous n'avons examiné les données que d'un seul pays, mais que faire si nous voulons tracer les données de plusieurs pays et les comparer ?
-
-D'abord, ajoutons deux autres pays à notre subset :
-
 ```{r render = reactable_10_rows}
 # Créer un subset pour visualiser plusieurs catégories
 gap_mini <- filter(gapminder,
@@ -239,15 +217,14 @@ gap_mini <- filter(gapminder,
 gap_mini
 ```
 
-Lorsque nous remplaçons `gap_US` par `gap_mini` dans notre code, les lignes ne sont pas automatiquement séparées par pays :
+Les lignes ne sont pas automatiquement séparées par pays :
 
 ```{r}
-# Graphique en ligne sans esthétique de groupe
+# Graphique linéaire sans esthétique de groupe
 ggplot(data = gap_mini, 
        mapping = aes(y = lifeExp, 
                      x = year)) +
-  geom_line() +
-  geom_point()
+  geom_line()
 ```
 
 Ce graphique n'est pas très utile pour faire des comparaisons entre les groupes.
@@ -260,11 +237,10 @@ ggplot(data = gap_mini,
        mapping = aes(y = lifeExp,
                      x = year, 
                      group = country)) +
-  geom_line() +
-  geom_point()
+  geom_line()
 ```
 
-Maintenant que les données sont groupées par pays, nous avons 3 lignes séparées - une pour chaque modalité de la variable `country`.
+Maintenant que les données sont regroupées par pays, nous avons 3 lignes séparées - une pour chaque modalité de la variable `country`.
 
 Nous pouvons également appliquer des esthétiques fixes aux couches géométriques.
 
@@ -280,9 +256,7 @@ ggplot(data = gap_mini,
   geom_point(size = 2)                  # définir la taille du point
 ```
 
-Dans le graphiques ci-dessus, le type, la couleur et l'épaisseur des lignes sont les mêmes pour les trois groupes.
-
-Cela ne nous permet pas de distinguer les groupes. Il faut ajouter un mapping esthétique qui peut nous aider à identifier à quel pays appartient chaque ligne, comme la couleur ou le type de ligne.
+Il faut ajouter un mapping esthétique qui peut nous aider à identifier à quel pays appartient chaque ligne, comme la couleur ou le type de ligne.
 
 ```{r}
 # Mapper le pays à la couleur
@@ -299,7 +273,7 @@ Les mappings esthétiques spécifiés dans l'appel de la fonction `ggplot()` son
 Au lieu de grouper par `country`, nous pouvons également grouper par `continent` :
 
 ```{r}
-# Mapper le continent à la couleur, au type de ligne et à la forme des poits
+# Mapper le continent à la couleur, au type de ligne et à la forme des points
 ggplot(data = gap_mini, 
        mapping = aes(x = year,
                      y = lifeExp,
@@ -315,6 +289,8 @@ Lorsque nous fournissons plusieurs mappings et geoms, {ggplot2} peut discerner q
 Ici, `color` a été appliqué aux points et aux lignes, mais `lty` a été ignoré par `geom_point()` et `shape` a été ignoré par `geom_line()`, puisqu'ils ne peuvent pas être appliqués.
 
 ::: challenge
+**Challenge**
+
 Les mappings sont inclus soit dans la fonction `ggplot()`, soit dans la couche `geom_*()`.
 
 Par exemple, les mappings esthétiques peuvent aller dans `geom_line()` et ne seront appliqués qu'à cette couche :
@@ -323,9 +299,8 @@ Par exemple, les mappings esthétiques peuvent aller dans `geom_line()` et ne se
 ggplot(data = gap_mini, 
        mapping = aes(x = year,
                      y = lifeExp)) +
-  geom_line(size = 1, mapping = aes(color = continent)) + 
-  geom_point(mapping = aes(shape = country, 
-                           size = pop))
+  geom_line(size = 1) + 
+  geom_point(size = 2)
 ```
 
 Essayez d'ajouter `mapping= aes()` dans `geom_point()` et mappez `continent` à une esthétique appropriée !
@@ -336,14 +311,7 @@ Essayez d'ajouter `mapping= aes()` dans `geom_point()` et mappez `continent` à 
 
 En utilisant le dataframe `gap_mini`, créez un graphique de la croissance de la **population** avec ces mappings esthétiques :
 
-```{r echo = FALSE}
-ggplot(gap_mini,
-       aes(x = year,
-           y = pop,
-           color = country,
-           linetype = country)) +
-  geom_line()
-```
+![](ex_3.png)
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
@@ -352,16 +320,7 @@ ggplot(gap_mini,
 
 Ensuite, ajoutez une couche de points au graphique précédent, et ajoutez les mappings esthétiques requis pour produire un graphique qui ressemble à ceci :
 
-```{r echo = FALSE}
-ggplot(gap_mini,
-       aes(x = year,
-           y = pop,
-           color = country,
-           shape = continent,
-           lty = country)) +
-  geom_line() +
-  geom_point()
-```
+![](ex_3b.png)
 
 Ne vous souciez pas des esthétiques fixes, assurez-vous seulement que le mapping des variables est le même.
 
@@ -371,7 +330,7 @@ Ne vous souciez pas des esthétiques fixes, assurez-vous seulement que le mappin
 ```
 :::
 
-# Modifier les échelles continues x et y
+## Modifier les échelles continues x & y
 
 {ggplot2} choisit automatiquement l'échelle à utiliser en fonction du type de variable.
 
@@ -384,7 +343,7 @@ ggplot(data = gap_mini,
   geom_line(size = 1)
 ```
 
-Dans certains cas, il faut transformer l'échelle des axes pour une meilleure visualisation. Nous pouvons personnaliser ces échelles avec la famille de fonctions `scale_*()`.
+Nous pouvons personnaliser ces échelles avec les fonctions `scale_*()`.
 
 ![](images/gg_min_build2_fr.png)
 
@@ -399,12 +358,11 @@ Créons un nouveau subset de pays à partir de `gapminder`. Cette fois, nous all
 ```{r render = reactable_10_rows}
 # Subset de données incluant l'Inde, la Chine et la Thaïlande
 gap_mini2 <- filter(gapminder,                    
-                    country %in% c("India",                   
-                                   "China",                   
-                                   "Thailand"))
+                    country %in% c())
+gap_mini2
 ```
 
-Ici, nous allons changer le mapping de l'axe des **y** de `lifeExp` à `gdpPercap` :
+Nous allons créer un graphique linéaire de `gdpPercap` à partir de `gap_mini2` :
 
 ```{r}
 ggplot(data = gap_mini2,        
@@ -427,37 +385,28 @@ Nous pouvons spécifier exactement où étiqueter l'axe en fournissant un vecteu
 # Vous pouvez entrer manuellement les graduations (ne faites pas ça)
 
 c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007)
-```
 
-```{r}
 # Il est préférable de créer le vecteur avec seq()
 
-seq(from = 1952, to = 2007, by = 5)
+seq()
 ```
 
 Utilisez `scale_x_continuous` pour faire correspondre les graduations avec le dataset :
 
 ```{r}
 # Personnalisez les graduations des x avec `scale_x_continuous (breaks = VECTEUR)
-
 ggplot(data = gap_mini2,        
        mapping = aes(x = year,                      
                      y = gdpPercap,                      
                      color = country)) +  
-  geom_line(size = 1) +  
-  scale_x_continuous(breaks = seq(from = 1952, 
-                                  to = 2007, 
-                                  by = 5)) +  
-  geom_point()
+  geom_line(size = 1)
 ```
 
 Stockez les valeurs des graduations dans un objet R pour les référencer plus facilement.
 
 ```{r}
 # Stocker le vecteur numérique dans un objet
-gap_years <- seq(from = 1952, 
-                 to = 2007, 
-                 by = 5)
+
 ```
 
 ```{r}
@@ -467,7 +416,7 @@ ggplot(data = gap_mini2,
                      y = gdpPercap,     
                      color = country)) +  
   geom_line(size = 1) +  
-  scale_x_continuous(breaks = gap_years) 
+  scale_x_continuous(breaks = seq(from = 1952, to = 2007, by = 5))
 ```
 
 ::: practice
@@ -477,15 +426,7 @@ Nous pouvons personnaliser les graduations de l'axe des **y** continu avec **`sc
 
 Copiez le code du dernier exemple et ajoutez `scale_y_continuous()` pour ajouter les graduations de l'axe des **y** suivantes :
 
-```{r echo = FALSE}
-ggplot(data = gap_mini2,        
-       mapping = aes(x = year,                      
-                     y = gdpPercap,                      
-                     color = country)) +  
-  geom_line(size = 1) +  
-  scale_x_continuous(breaks = gap_years) +  
-  scale_y_continuous(breaks = seq(from = 1000, to = 7000, by = 1000))
-```
+![](ex_4.png)
 
 ```{r eval = F, include=FALSE}
 # Écrivez le code pour créer votre graphique :
@@ -494,10 +435,6 @@ ggplot(data = gap_mini2,
 :::
 
 ## Définir une échelle logarithmique
-
-Dans les deux derniers mini-datasets, nous avons choisi trois pays qui avaient des PIB ou une espérance de vie similaires afin que nous puissions les comparer facilement.
-
-Mais si nous ajoutons un pays qui diffère significativement, l'échelle utilisée par défaut ne convient plus dans ce cas.
 
 Nous allons voir un exemple où il vaut mieux convertir les axes de l'échelle linéraire par défaut à une échelle logarithmique.
 
@@ -508,8 +445,7 @@ Ajoutons la Nouvelle-Zélande au dataset précédent et créons `gap_mini3` :
 gap_mini3 <- filter(gapminder,
                     country %in% c("India",
                                    "China",
-                                   "Thailand",
-                                   "New Zealand"))
+                                   "Thailand"))
 gap_mini3
 ```
 
@@ -524,9 +460,7 @@ ggplot(data = gap_mini3,
   scale_x_continuous(breaks = gap_years)
 ```
 
-Les courbes pour l'Inde et la Chine montrent une augmentation exponentielle du PIB par habitant. Cependant, les valeurs de l'axe des **y** pour ces deux pays sont beaucoup plus faibles que celle de la Nouvelle-Zélande, donc les lignes sont un peu "tassées". Cela rend les données difficiles à lire. De plus, nous nous retrouvons avec une grande zone vide au milieu.
-
-Nous pouvons résoudre ce problème avec une transformation logarithmique de l'axe des **y** en utilisant `scale_y_log10()`. Nous ajouterons cette fonction en tant que nouvelle couche avec l'opérateur `+`, comme d'habitude :
+Nous pouvons résoudre ce problème avec une transformation logarithmique de l'axe des **y** en utilisant `scale_y_log10()` :
 
 ```{r}
 # Ajouter scale_y_log10()
@@ -535,36 +469,20 @@ ggplot(data = gap_mini3,
                      y = gdpPercap, 
                      color = country)) +
   geom_line(size = 1) +
-  scale_x_continuous(breaks = gap_years) +
-  scale_y_log10()
-```
-
-Nous avons changé l'échelle de l'axe des **y**, et les étiquettes des graduations d'échelle nous indiquent qu'elle est non linéaire.
-
-Nous pouvons ajouter une couche de points pour rendre cela plus clair :
-
-```{r}
-ggplot(data = gap_mini3, 
-       mapping = aes(x = year, 
-                     y = gdpPercap, 
-                     color = country)) +
-  geom_line(size = 1) +
-  scale_x_continuous(breaks = gap_years) +
-  scale_y_log10() +
-  geom_point()
+  scale_x_continuous(breaks = gap_years)
 ```
 
 ::: practice
 **Exercice 5**
 
-Tout d'abord, créez un subest à partir de `gapminder` contenant uniquement les données de l'**Uganda** :
+Tout d'abord, créez un subset à partir de `gapminder` contenant uniquement les données de l'**Uganda:**
 
 ```{r eval = F, include=FALSE}
 # Filtrer le jeu de données
 gap_Uganda <- gapminder %>% filter()
 ```
 
-Maintenant, utilisez **`gap_Uganda`** pour créer un graphique de série temporelle de la population (**`pop`**) au fil du temps (**`year`**). Transformez l'échelle de l'axe des y en une échelle logarithmique, modifiez les graduations en utilisant **`gap_years`**, changez la couleur de la ligne à `forestgreen` et l'épaisseur à 1mm.
+Maintenant, utilisez **`gap_Uganda`** pour créer un graphique de série temporelle de la population (**`pop`**) au fil du temps (**`year`**). Transformez l'échelle de l'axe des y en une échelle logarithmique, modifiez les graduations en utilisant **`gap_years`**, changez la couleur de la ligne à `forestgreen` et la taille à 1mm.
 
 ```{r eval = F, include=FALSE}
 # Écrivez le code pour créer votre tracé :
@@ -576,7 +494,9 @@ Ensuite, nous pouvons changer le texte des étiquettes des axes pour qu'il soit 
 
 # Étiquetage avec `labs()`
 
-Vous pouvez ajouter des étiquettes (labels) à un graphique avec la fonction `labs()`. Les arguments que nous pouvons spécifier avec la fonction `labs()` incluent :
+Vous pouvez ajouter des étiquettes (labels) à un graphique avec la fonction `labs()`.
+
+Les arguments que nous pouvons spécifier avec la fonction `labs()` incluent :
 
 -   `title`: Changer ou ajouter un titre
 -   `subtitle`: Ajouter un sous-titre sous le titre
@@ -595,12 +515,10 @@ ggplot(data = gap_US,
             color = "lightgrey") +
   geom_point(size = 3, 
              color = "steelblue") +
-  scale_x_continuous(breaks = gap_years) 
+  scale_x_continuous(breaks = gap_years)
 ```
 
-Nous ajoutons `labs()` à notre code en utilisant l'opérateur `+`.
-
-D'abord, nous allons ajouter les arguments `x` et `y` à `labs()`, et changer les titres des axes de la valeur par défaut (nom de la variable) à quelque chose de plus informatif.
+Nous allons remplacé le titre des axes par `Année` et `Espérance de vie` et `y` à `labs()`.
 
 ```{r}
 # Changer les titres des axes
@@ -611,9 +529,7 @@ ggplot(data = gap_US,
             color = "lightgrey") +
   geom_point(size = 3, 
              color = "steelblue") +
-  scale_x_continuous(breaks = gap_years) +
-  labs(x = "Année",
-       y = "Espérance de vie (années)")
+  scale_x_continuous(breaks = gap_years)
 ```
 
 Ensuite, nous allons ajouter un titre au-dessus du graphique avec l'argument `title`.
@@ -629,8 +545,7 @@ ggplot(data = gap_US,
              color = "steelblue") +
   scale_x_continuous(breaks = gap_years) +
   labs(x = "Année",
-       y = "Espérance de vie (années)",
-       title = "L'espérance de vie augmente avec le temps")
+       y = "Espérance de vie (années)")
 ```
 
 L'argument `subtitle` ajoute un sous-titre sous le titre principal.
@@ -647,8 +562,7 @@ ggplot(data = gap_US,
   scale_x_continuous(breaks = gap_years) +
   labs(x = "Année",
        y = "Espérance de vie (années)",
-       title = "Changement de l'espérance de vie au fil du temps",
-       subtitle = "États-Unis (1952-2007)")
+       title = "Changement de l'espérance de vie au fil du temps")
 ```
 
 Enfin, nous pouvons fournir l'argument `caption` pour ajouter une note de bas de page sous le graphique.
@@ -666,17 +580,13 @@ ggplot(data = gap_US,
   labs(x = "Année",
        y = "Espérance de vie (années)",
        title = "Changement de l'espérance de vie au fil du temps",
-       subtitle = "États-Unis (1952-2007)", 
-       caption = "Source: http://www.gapminder.org/data/")
+       subtitle = "États-Unis (1952-2007)")
 ```
 
 ::: challenge
 Lorsque vous utilisez un mapping esthétique (par exemple, `color` ou `size`), {ggplot2} crée automatiquement une échelle pour cette esthétique en fonction des données fournies et ajoute une légende.
 
-Voici une version mise à jour du graphique `gap_mini3` que nous avons réalisé précédemment. Nous changeons la couleur des points et des lignes en définissant `aes(color = country)` dans `ggplot()`, et la taille des points en définissant `aes(fill = pop)`. Notez que `labs()` est utilisé pour changer le titre, le sous-titre et les étiquettes des axes.
-
 ```{r}
-
 ggplot(data = gap_mini2, 
        mapping = aes(x = year, 
                      y = gdpPercap, 
@@ -692,10 +602,6 @@ ggplot(data = gap_mini2,
        title = "PIB par habitant d'économies asiatiques, 1952-2007",
        subtitle = "Le revenu est mesuré en dollars américains et est ajusté pour l'inflation.")
 ```
-
-Le titre par défaut d'une légende est le nom de la variable à laquelle elle correspond. Ici, la légende de `color` est intitulée `country`, et la légende de `size` est intitulée `pop`.
-
-Nous pouvons également les modifier dans `labs()` en définissant `NOM_AES = "NOUVEAU_TITRE"`.
 
 ```{r}
 
@@ -716,8 +622,6 @@ ggplot(data = gap_mini2,
        color = "Pays",
        size = "Population")
 ```
-
-La même syntaxe peut être utilisée pour modifier les titres des légendes des autres mappings esthétiques. Une erreur courante est d'utiliser le nom de la variable au lieu du nom de l'esthétique dans `labs()`, donc faites attention !
 :::
 
 ::: practice
@@ -762,38 +666,6 @@ Enfin, ajoutez les étiquettes suivantes à votre graphique :
 ```
 :::
 
-# Preview : Les thèmes
-
-Dans le prochain cours, nous allons apprendre à utiliser les fonctions `theme`.
-
-```{r}
-# Utiliser theme_minimal()
-ggplot(data = gap_mini2, 
-       mapping = aes(x = year, 
-                     y = gdpPercap, 
-                     color = country)) +
-  geom_line(size = 1, alpha = 0.5) +
-  geom_point(size = 2) +
-  scale_x_continuous(breaks = gap_years) +
-  scale_y_log10() +
-  labs(x = "Année", 
-       y = "Revenu par personne",
-       title = "PIB par habitant d'économies asiatiques, 1952-2007",
-       subtitle = "Le revenu est mesuré en dollars américains et est ajusté pour l'inflation.",
-       caption = "Source : www.gapminder.org/data",
-       color = "Pays") +
-  scale_color_discrete(labels = c("China" = "Chine", "India" = "Inde", "Thailand" = "Thaïlande")) +
-  theme_minimal()
-```
-
-# En résumé
-
-Les graphiques linéaires, à l'instar des graphiques de dispersion, sont des outils efficaces pour représenter la relation entre deux variables numériques. Lorsque l'une de ces variables est temporelle, l'usage d'un graphique linéaire est plus adapté. De ce fait, il est conseillé d'opter pour des graphiques linéaires plutôt que des graphiques de dispersion lorsque la variable sur l'axe des abscisses (c'est-à-dire, la variable explicative) possède un ordre intrinsèque, comme c'est le cas pour une variable temporelle telle que `year` dans le dataframe `gapminder`.
-
-Il est possible de transformer les échelles et de modifier les graduations des axes afin de rendre nos graphiques plus lisibles. De plus, l'ajout d'étiquettes permet d'incorporer davantage d'informations.
-
-J'espère que vous avez trouvé ce cours instructif !
-
 # Contributeurs {.unnumbered}
 
 Les membres suivants ont contribué à ce cours :
@@ -822,12 +694,12 @@ ggplot(gap_US,
 **Exercice 2**
 
 ```{r eval=FALSE}
-ggplot(gap_US,
+ggplot(gap_US, 
        mapping = aes(x = year, 
                      y = gdpPercap)) +
   geom_line(size = 1.5, 
             color = "grey") +
-  geom_point(size = 3, 
+  geom_point(size = 3,
              color = "forestgreen")
 ```
 
@@ -867,7 +739,7 @@ ggplot(data = gap_mini2,
 
 **Exercice 5**
 
-```{r eval=FALSE}
+```{r}
 gap_Uganda <- gapminder %>% filter(country == "Uganda")
 ```
 
