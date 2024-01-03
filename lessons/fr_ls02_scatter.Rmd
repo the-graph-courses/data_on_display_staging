@@ -113,7 +113,7 @@ Rappelez-vous, il y a deux manières de modifier les propriétés esthétiques d
 
 ## Mapping des données aux esthétiques
 
-En plus de mapper des variables aux axes des **x** et des **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles de `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
+En plus de mapper des variables aux axes des **x** et des **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles du `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
 
 Pour mapper une variable à une esthétique, il faut associer le nom de l'esthétique au nom de la variable à l'intérieur de `aes()`. De cette façon, vous pouvez visualiser une troisième variable dans un graphique de dispersion à deux dimensions en la mappant à une nouvelle esthétique.
 
@@ -149,7 +149,7 @@ Cela est dû à la classe de la variable `breastfeeding` dans `malidd` :
 class(malidd$breastfeeding)
 ```
 
-Même si cette variable est numérique, elle ne peut prendre que deux valeurs. Par conséquent, une échelle de couleurs continue n'est pas la représentation la plus appropriée dans ce cas.
+Même si cette variable est numérique, elle ne peut prendre que deux valeurs. Par conséquent, une échelle de couleurs continue n'est pas la représentation la plus appropriée pour ce cas.
 
 Dans des cas comme celui-ci, nous ajoutons la fonction `factor()` autour de la variable `breastfeeding` pour dire à `ggplot()` de traiter la variable comme un facteur. Voyons ce qui se passe lorsque nous faisons cela :
 
@@ -429,60 +429,60 @@ Le contenu de ce cours a été adapté en partie des sources suivantes :
 
 ```{r}
 ggplot(data = malidd,
-             mapping = aes(x = age_months, 
-                           y = height_cm)) +
-      geom_point()
+       mapping = aes(x = age_months, 
+                     y = height_cm)) +
+  geom_point()
 ```
 
 **Exercice 2**
 
 ```{r}
 ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = viral_load)) + 
-      geom_point(mapping = aes(color = freqrespi))
+       mapping = aes(x = age_months, 
+                     y = viral_load)) +
+  geom_point(mapping = aes(color = freqrespi))
 ```
 
-
 ```{r}
-ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = height_cm)) + 
-      geom_point(mapping = aes(color = factor(fever)))
+ggplot(data = malidd,
+       mapping = aes(x = age_months,
+                     y = viral_load)) +
+  geom_point(mapping = aes(color = factor(fever)))
 ```
 
 **Exercice 3**
 
 ```{r}
 ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = viral_load)) + 
-      geom_point(color = "cornflowerblue",
-                 size = 3,
-                 alpha = 0.6)
+       mapping = aes(x = age_months, 
+                     y = viral_load)) + 
+  geom_point(color = "cornflowerblue",
+             size = 3,
+             alpha = 0.6)
 ```
 
 **Exercice 4**
 
 ```{r}
 ggplot(data = malidd, 
-          mapping = aes(x = age_months, 
-                        y = height_cm)) + 
-      geom_point(color = "steelblue",
-                 size = 2.5,
-                 alpha = 0.8) +
-      geom_smooth(method = "lm")
+       mapping = aes(x = age_months, 
+                     y = viral_load)) +
+  geom_point(color = "steelblue",
+             size = 2.5,
+             alpha = 0.8) +
+  geom_smooth(method = "lm")
 ```
 
 ```{r}
 ggplot(data = malidd, 
-          mapping = aes(x = age_months, y = height_cm)) + 
-      geom_point(color = "steelblue",
-                 size = 2.5,
-                 alpha = 0.8,
-                 shape = 23,
-                 mapping = aes(fill = temp)) +
-      geom_smooth(method = "lm")
+          mapping = aes(x = age_months, 
+                        y = viral_load)) + 
+  geom_point(color = "steelblue",
+             size = 2.5,
+             alpha = 0.8,
+             shape = 23,
+             mapping = aes(fill = temp)) +
+  geom_smooth(method = "lm")
 ```
 
 `r .tgc_license()`
