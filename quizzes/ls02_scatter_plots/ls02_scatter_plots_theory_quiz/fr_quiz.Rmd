@@ -20,11 +20,7 @@ pacman::p_load(tidyverse,
                knitr)
 
 # Setup for uploading images
-source(here("global/functions/misc_functions.R"))
-if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-opts_knit$set(upload.fun = gdrive_upload)
-opts_chunk$set(warning = F, message = F)
+
 ```
 
 # Introduction
@@ -387,8 +383,8 @@ ggplot(data = diamonds,
 L'ensemble de données `midwest` de {ggplot2} contient des données démographiques du recensement américain de l'an 2000. Nous pouvons utiliser un nuage de points pour observer la corrélation entre le pourcentage de personnes ayant un diplôme d'études secondaires et le pourcentage de personnes ayant une éducation universitaire :
 
 ```{r}
-# Vous pouvez exécuter ce code sur votre ordinateur ; le jeu de données midwest est chargé avec 
-{ggplot2} ggplot(data = midwest,         
+# Vous pouvez exécuter ce code sur votre ordinateur ; le jeu de données midwest est chargé avec {ggplot2} 
+ggplot(data = midwest,         
                  mapping = aes(x = perchsd,
                                y = percollege)) +   
   geom_point() 
