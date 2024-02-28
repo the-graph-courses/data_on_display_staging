@@ -19,7 +19,7 @@ pacman::p_load(tidyverse,
 
 # Fonctions
 source(here("global/functions/lesson_functions.R"))
-source(here("lessons/ls01_gg_intro_autograder.R"))
+source(here("lessons/fr_ls01_gg_intro_autograder.R"))
 ```
 
 # Introduction
@@ -254,13 +254,27 @@ nigerm04
 Tracer avec un ensemble de données différent vous permettra également de vérifier si ce que nous observons pour 1996 est également valable pour 2004.
 
 ::: practice
-**Exercice 1**
-
 Utilisez le dataframe `nigerm04` pour générer le code `ggplot` qui représentera graphiquement la relation entre les cas `cases` (sur l'axe des ordonnées) et les semaines `week` (sur l'axe des abscisses) sous forme d'un nuage de points.
 
-```{r eval=FALSE, include=FALSE}
-# Écrivez le code pour créer votre graphique :
+```{r eval=F}
+# Lorsque vous pensez avoir la bonne réponse, soumettez-la en faisant ce qui suit : supprimez "VOTRE_RÉPONSE_ICI", remplacez-la par votre code et exécutez ces lignes.
 
+nigerm04_scatter <- "VOTRE_RÉPONSE_ICI"
+
+# Assurez-vous que "nigerm04_scatter" apparaît dans votre onglet Environnement.
+```
+
+```{r eval=F}
+# Vérifiez votre réponse en exécutant cette fonction de vérification (aucune entrée requise). La sortie vous indiquera si vous avez répondu correctement ou non.
+
+.CHECK_nigerm04_scatter()
+
+# Vous pouvez demander un indice en exécutant cette fonction d'indice (aucune entrée requise).
+
+.HINT_nigerm04_scatter()
+
+# Obtenez la solution complète en tapant la fonction de solution :
+.SOLUTION_nigerm04_scatter()
 ```
 :::
 
@@ -327,13 +341,17 @@ C'est parce qu'un histogramme montre la répartition d'une seule variable numér
 :::
 
 ::: practice
-**Exercice 2**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebdomadaires avec la fonction `geom_col()`. Mappez `cases` sur l'axe des y et `week` sur l'axe des x.
 
 ```{r include = F}
 # Écrivez le code pour créer votre graphique
+nigerm04_bar <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse:
+.CHECK_nigerm04_bar()
+
+# Demander un indice :
+.HINT_nigerm04_bar()
 ```
 :::
 
@@ -415,13 +433,17 @@ Voila! Nous avons ajouté une couleur de remplissage des barres.
 Maintenant, entraînez-vous à utiliser l'esthétique `color` avec un nouveau type de graphique : les graphiques linéaires. Les graphiques linéaires sont considérés comme l'un des meilleurs types de graphiques pour les données de séries temporelles.
 
 ::: practice
-**Exercice 3**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique linéaire des cas par semaine, coloré par `region`. Mappez `cases` sur l'axe des y, `week` sur l'axe des x, et `region` à la couleur. La fonction `geom_*` pour un graphique linéaire est **`geom_line()`**.
 
-```{r eval=FALSE, include=FALSE}
-# Écrivez le code pour créer votre graphique:
+```{r include=FALSE}
+# Écrivez le code pour créer votre graphique :
+nigerm04_line <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse :
+.CHECK_nigerm04_line()
+
+# Demandez un indice :
+.HINT_nigerm04_line()
 ```
 :::
 
@@ -488,13 +510,17 @@ ggplot(data = nigerm96,
 Entraînez-vous à utiliser `fill` comme esthétique fixe pour un graphique à barres.
 
 ::: practice
-**Exercice 4**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebdomadaires, et remplissez toutes les barres avec la même couleur. Mappez `cases` sur l'axe des y, `week` sur l'axe des x, et fixez l'esthétique `color` des barres à la couleur R "hotpink".
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 # Écrivez le code pour créer votre graphique:
+nigerm04_pinkbar <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse :
+.CHECK_nigerm04_pinkbar()
+
+# Demandez un indice :
+.HINT_nigerm04_pinkbar()
 ```
 :::
 
@@ -549,7 +575,7 @@ ggplot(data = NOM_DF,
 
 Les membres suivants ont contribué à ce cours :
 
-`r .tgc_contributors_list(ids = c("joy", "imane"))`
+`r .tgc_contributors_list(ids = c("joy", "imane", "sabina"))`
 
 # Références {.unnumbered}
 
@@ -576,44 +602,5 @@ Le contenu de ce cours a été en partie adapté des sources suivantes :
 -   Pius, Ewen Harrison and Riinu. n.d. *R for Health Data Science*. Consulté le 11 octobre 2022. <https://argoshare.is.ed.ac.uk/healthyr_book/>.
 
 -   Prabhakaran, Selva. 2016. "How to Make Any Plot in Ggplot2? \| Ggplot2 Tutorial." 2016. <http://r-statistics.co/ggplot2-Tutorial-With-R.html>.
-
-# Solutions d'exercices {.unnumbered}
-
-**Exercice 1**
-
-```{r}
-ggplot(data = nigerm04,
-             mapping = aes(x = week, 
-                           y = cases)) +
-      geom_point()
-```
-
-**Exercice 2**
-
-```{r}
-ggplot(data = nigerm04, 
-          mapping = aes(x = week, 
-                        y = cases)) + 
-     geom_col()
-```
-
-**Exercice 3**
-
-```{r}
-ggplot(data = nigerm04,
-         mapping = aes(x = week,
-                       y = cases,
-                       color = region)) + 
-    geom_line()
-```
-
-**Exercice 4**
-
-```{r}
-ggplot(data = nigerm04, 
-          mapping = aes(x = week, 
-                        y = cases)) +
-      geom_col(fill = "hotpink")
-```
 
 `r .tgc_license()`
