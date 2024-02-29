@@ -1,5 +1,5 @@
 ---
-title: 'Multiple-choice quiz | Scatter plots and smoothing'
+title: 'Quiz à choix multiples | Diagrammes de dispersion et lissage'
 output: blogdown::html_page
 editor_options: 
   chunk_output_type: inline
@@ -20,16 +20,19 @@ pacman::p_load(tidyverse,
                knitr)
 
 # Setup for uploading images
+# imgur image upload
+options(knitr.imgur.key = "e31c418fd800891")
+knitr::opts_knit$set(upload.fun = imgur_upload)
 
 ```
 
-# Introduction
+# Intro
 
 Ce quiz teste votre compréhension de la leçon 4. Bonne chance!
 
 Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
 
-# Q - esthétiques fixes cars 1
+# Q: - esthétiques fixes cars 1
 
 Le graphique de dispersion ci-dessous utilise le dataset `mtcars` pour visualiser le poids d'une voiture (`wt`) par rapport à la puissance du moteur (`hp`).
 
@@ -63,11 +66,11 @@ Parmi les propositions suivantes, laquelle permet de modifier les esthétiques d
 
 `geom_point(shape = point)`
 
-## Réponse
+## Answer
 
 A
 
-## Message réponse correct
+## Correct message
 
 Parfait !
 
@@ -82,7 +85,7 @@ Voir [ici](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) pour
 
 N'oubliez pas que vous pouvez essayer différentes options sans installer de packages externes; le dataset `mtcars` est intégré à R.
 
-## Message incorrect
+## Incorrect message
 
 Les esthétiques définies directement à l'intérieur d'une fonction `geom_*()` sont des esthétiques fixes.
 
@@ -95,7 +98,7 @@ Voir [ici](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) pour
 
 N'oubliez pas que vous pouvez essayer différentes options sans installer de packages externes; le dataset `mtcars` est intégré à R.
 
-# Q - esthétiques fixes cars 2
+# Q: - esthétiques fixes cars 2
 
 Le graphique de dispersion ci-dessous utilise le dataset `mtcars` pour visualiser le poids d'une voiture (`wt`) par rapport à la puissance du moteur (`hp`).
 
@@ -129,11 +132,11 @@ Parmi les propositions suivantes, laquelle ne permet PAS de modifier les esthét
 
 `geom_point(shape = 9)`
 
-## Réponse
+## Answer
 
 A
 
-## Message réponse correct
+## Correct message
 
 Parfait !
 
@@ -148,7 +151,7 @@ Voir [ici](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) pour
 
 N'oubliez pas que vous pouvez essayer différentes options par vous-même sans installer de packages externes; le dataset `mtcars` est intégré à R.
 
-## Message incorrect
+## Incorrect message
 
 Les esthétiques définies directement à l'intérieur d'une fonction `geom_*()` sont des esthétiques fixes.
 
@@ -161,7 +164,7 @@ Voir [ici](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) pour
 
 N'oubliez pas que vous pouvez essayer différentes options sans installer de packages externes; le dataset `mtcars` est intégré à R.
 
-# Q - Sur-échantillonnage diamonds 1
+# Q: - Sur-échantillonnage diamonds 1
 
 Avec de grands ensembles de données, les points dans un nuage de points peuvent se chevaucher et empêcher d'évaluer avec précision la distribution des données.
 
@@ -194,11 +197,11 @@ Nous pouvons rendre les points semi-transparents en utilisant l'esthétique `alp
 
 Nous pouvons rendre les points semi-transparents en évitant les teintes plus foncées et en utilisant une couleur plus claire, en réglant `color = "lightgray"` par exemple.
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Waouh, vous avez su voir à travers les mauvaises réponses !
 
@@ -217,7 +220,7 @@ Lorsqu'il est utilisé comme une esthétique fixe - comme nous le faisons ici - 
 
 Bonus : L'ajout d'une courbe lisse sur un nuage de points avec `geom_smooth()` peut également nous aider à augmenter la *clarté* en présence de sur-échantillonnage.
 
-## Message incorrect
+## Incorrect message
 
 L'ajout d'un degré de transparence avec `alpha` en tant qu'esthétique fixe dans `geom_point()` peut aider à visualiser les points qui se chevauchent. `alpha = 0.1` les rend transparents à 90%.
 
@@ -236,7 +239,7 @@ N'oubliez pas que vous pouvez essayer différentes options sur votre propre ordi
 
 Bonus : L'ajout d'une courbe lisse sur un nuage de points avec `geom_smooth()` peut également nous aider à augmenter la *clarté* en présence de sur-échantillonnage.
 
-# Q - Sur-échantillonnage diamonds 2
+# Q: - Sur-échantillonnage diamonds 2
 
 Avec de grands ensembles de données, les points dans un nuage de points peuvent se chevaucher et empêcher d'évaluer avec précision la distribution des données.
 
@@ -269,11 +272,11 @@ Régler `alpha = 0.1` dans `aes()`
 
 Aucune de ces options n'améliore la visibilité des points.
 
-## Réponse
+## Answer
 
 D
 
-## Message correct
+## Correct message
 
 Waouh, vous avez su voir à travers les mauvaises réponses !
 
@@ -292,7 +295,7 @@ Lorsqu'il est utilisé comme une esthétique fixe - comme nous le faisons ici - 
 
 Bonus : L'ajout d'une courbe lisse sur un nuage de points avec `geom_smooth()` peut également nous aider à augmenter la *clarté* en présence de sur-échantillonnage.
 
-## Message incorrect
+## Incorrect message
 
 Les esthétiques fixes vont en dehors de `aes()`. Il faut ajouter `alpha` en tant qu'esthétique fixe dans `geom_point()` pour aider à visualiser les points qui se chevauchent.
 
@@ -309,7 +312,7 @@ Lorsqu'il est utilisé comme une esthétique fixe - comme nous le faisons ici - 
 
 Bonus : L'ajout d'une courbe lisse sur un nuage de points avec `geom_smooth()` peut également nous aider à augmenter la *clarté* en présence de sur-échantillonnage.
 
-# Q - surimpression de diamants 3
+# Q: - surimpression de diamants 3
 
 Avec de grands ensembles de données, les points dans un nuage de points peuvent se chevaucher et empêcher d'évaluer avec précision la distribution des données.
 
@@ -342,11 +345,11 @@ Définir `alpha = 0.2` dans `geom_point()`
 
 Toutes ces options mettent en valeur les tendances dans un nuage de points lorsqu'il y a une surimpression.
 
-## Réponse
+## Answer
 
 D
 
-## Message correct
+## Correct message
 
 Excellent travail !
 
@@ -363,7 +366,7 @@ ggplot(data = diamonds,
 
 L'ajout d'une courbe lisse sur un nuage de points avec `geom_smooth()` peut également nous aider à augmenter la *clarté* en présence de sur-échantillonnage.
 
-## **Message incorrect**
+## **Incorrect message**
 
 Il existe plusieurs approches pour résoudre la surimpression dans un nuage de points :
 
@@ -402,7 +405,7 @@ ggplot(data = midwest,
   geom_smooth()
 ```
 
-# Q - comprendre l'utilisation du lissage
+# Q: - comprendre l'utilisation du lissage
 
 Lequel des énoncés suivants n'est PAS vrai à propos du lissage avec `geom_smooth()` ?
 
@@ -422,11 +425,11 @@ La fonction de lissage est appliquée aux variables spécifiées dans `aes()`.
 
 Une courbe de lissage est tracée pour s'ajuster aux points sur un nuage de points créé par `geom_point()`. Pas de points veut dire pas de ligne de lissage tracée.
 
-## Réponse
+## Answer
 
 D
 
-## Message correct
+## Correct message
 
 Tu as compris l'essentiel !
 
@@ -463,7 +466,7 @@ ggplot(data = midwest,
   geom_smooth(method = "lm")
 ```
 
-## Message incorrect
+## Incorrect message
 
 La méthode de lissage (ou fonction) utilisée par `geom_smooth()` est adaptée aux données, et non aux points d'une autre couche.
 
@@ -498,7 +501,7 @@ ggplot(data = midwest,
   geom_smooth(method = "lm")
 ```
 
-# Q - Intervalles de confiance 1
+# Q: - Intervalles de confiance 1
 
 `geom_smooth()` affiche automatiquement des intervalles de confiance à 95% autour de la ligne de lissage.
 
@@ -510,11 +513,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bien joué ! Nous sommes *confiants* que tu réussiras ce quiz !
 
@@ -534,7 +537,7 @@ ggplot(data = midwest,
   geom_smooth(se = F)
 ```
 
-## Message incorrect
+## Incorrect message
 
 L'argument `se` dans `geom_smooth()` dicte s'il faut afficher ou non les intervalles de confiance. Par défaut, `se = TRUE`. Vous pouvez les supprimer en réglant `se = FALSE` ou `se = F`.
 
@@ -552,7 +555,7 @@ ggplot(data = midwest,
   geom_smooth(se = F)
 ```
 
-# Q - type variable dans nuage de points
+# Q: - type variable dans nuage de points
 
 Les graphiques de dispersion créés avec `geom_point()` sont le plus souvent utilisés pour afficher quel type d'information ?
 
@@ -572,11 +575,11 @@ La distribution d'une seule variable discrète
 
 Toutes les réponses sont correctes
 
-## Réponse
+## Answer
 
 A
 
-## Message réponse correct
+## Correct message
 
 Bien joué !
 
@@ -588,7 +591,7 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 
 Vous pouvez consulter plus de types de graphiques sur l'[aide-mémoire](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf) {ggplot2} de RStudio. Vous pouvez également y accéder directement dans la barre de menu RStudio en allant à Aide -\> cheat sheet -\> Visualisation de données avec ggplot2.
 
-## Message réponse incorrect
+## Message Answer incorrect
 
 Pas tout à fait !
 
@@ -600,7 +603,7 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 
 Vous pouvez consulter plus de types de graphiques sur l'[aide-mémoire](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf) {ggplot2} de RStudio. Vous pouvez également y accéder directement dans la barre de menu RStudio en allant à Aide -\> cheat sheet -\> Visualisation de données avec ggplot2.
 
-# Q - rappel alpha
+# Q: - rappel alpha
 
 Lorsque vous définissez vos couches géométriques avec ggplot, vous pouvez spécifier une valeur `alpha`. Que pouvez-vous contrôler avec cette valeur ?
 
@@ -616,11 +619,11 @@ La hiérarchie de vos objets géométriques.
 
 Le code RGB pour définir les couleurs sur le graphique.
 
-## Réponse
+## Answer
 
 A
 
-# Q - rappel geom_smooth
+# Q: - rappel geom_smooth
 
 Quelle fonction faut-il utiliser pour ajouter une ligne de lissage à votre graphique ?
 
@@ -640,11 +643,11 @@ Quelle fonction faut-il utiliser pour ajouter une ligne de lissage à votre grap
 
 `geom_trend()`
 
-## Réponse
+## Answer
 
 A
 
-# Q - rappel geom_point
+# Q: - rappel geom_point
 
 Quel est le nom de la fonction utilisée pour créer des graphiques de dispersion avec R ?
 
@@ -664,11 +667,11 @@ Quel est le nom de la fonction utilisée pour créer des graphiques de dispersio
 
 `geom_scatterplot()`
 
-## Réponse
+## Answer
 
 B
 
-# Q
+# Q: 1
 
 Un certain nombre d'esthétiques peuvent être spécifiées dans une fonction `geom_*()`. Les options pour la fonction `geom_point()` incluent `color`, `size`, et `alpha`.
 
@@ -682,11 +685,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-# Q
+# Q: 2
 
 Dans les graphiques `ggplot2`, les fonctions sont enchaînées en utilisant l'opérateur `+` pour construire le graphique.
 
@@ -698,11 +701,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-# Q
+# Q: 3
 
 Dans les graphiques `ggplot2`, les fonctions sont enchaînées en utilisant l'opérateur `->` pour construire le graphique.
 
@@ -714,11 +717,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 B
 
-# Q - alpha
+# Q: - alpha
 
 Nous pouvons contrôler la transparence/opacité des points en définissant l'argument `alpha` comme une esthétique fixe dans `geom_point()`. Laquelle des affirmations suivantes n'est PAS correcte à propos de `alpha` ?
 
@@ -738,11 +741,11 @@ L'argument `alpha` peut prendre n'importe quelle valeur entre `0` et `1`.
 
 Par défaut, `alpha` est réglé sur `1`.
 
-## Réponse
+## Answer
 
 A
 
-# fill vs color
+# Q: fill vs color
 
 L'esthétique `fill` contrôle la couleur intérieure des points pour des formes spécifiques.
 
@@ -754,11 +757,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-# Q fill vs color
+# Q: fill vs color 1
 
 L'esthétique `color` contrôle la couleur du contour ou de la bordure des points uniquement pour certaines formes de {ggplot2}.
 
@@ -770,11 +773,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-# Q fill vs color
+# Q: fill vs color 2
 
 L'esthétique `fill` colore l'intérieur des points pour toutes les formes de {ggplot2}.
 
@@ -786,11 +789,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 B
 
-# Q
+# Q: 4
 
 Dans les graphiques `ggplot2`, les fonctions sont enchaînées en utilisant l'opérateur `%>%` pour construire le graphique.
 
@@ -802,6 +805,6 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 B
