@@ -23,14 +23,28 @@ options(pillar.min_title_chars = 15,
 ## Render Rmds to regular HTML ----
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Set language
+LANGUAGE = "FR"
+
 current_dir <- here::here()
 
-selected_lessons <- 
-  c("/ls01_gg_intro.Rmd",
-    "/ls02_scatter.Rmd",
-    "/ls03_line_graphs.Rmd",
-    "/ls04_histograms.Rmd",
-    "/ls05_boxplots.Rmd")
+if (LANGUAGE == "FR") {
+  selected_lessons <- 
+    c("/fr_ls01_gg_intro.Rmd",
+      "/fr_ls02_scatter.Rmd"#,
+      # "/fr_ls03_line_graphs.Rmd",
+      # "/fr_ls04_histograms.Rmd",
+      # "/fr_ls05_boxplots.Rmd"
+    )
+} else if (LANGUAGE == "EN") {
+  selected_lessons <- 
+    c(# "/ls01_gg_intro.Rmd",
+      # "/ls02_scatter.Rmd",
+      # "/ls03_line_graphs.Rmd",
+      # "/ls04_histograms.Rmd",
+      # "/ls05_boxplots.Rmd"
+    )
+}
 
 rmds_to_render <- 
   fs::dir_ls(current_dir, 
@@ -53,17 +67,28 @@ for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
 ### Start loop----
 
 for (rmd in rmds_to_render[1:length(rmds_to_render)]) {
+  
+  # Print rendering message
   blue_print(paste0("Rendering: \n", rmd, 
                     "\n(", which(rmd == rmds_to_render), " of ", length(rmds_to_render), ")"
   ))
   
   # Add yaml to PDF
-  yaml_to_append <- glue::glue('credits: "This document serves as an accompaniment for a lesson found on https://thegraphcourses.org.<br><br>
+  if (LANGUAGE == "EN") {
+    yaml_to_append <- glue::glue('credits: "This document serves as an accompaniment for a lesson found on https://thegraphcourses.org.<br><br>
                                The GRAPH Courses is a project of the Global Research and Analyses for Public Health (GRAPH) Network,
                                a non-profit headquartered at the University of Geneva Global Health Institute, 
                                and supported by the World Health Organization (WHO) and other partners"
                                date: "`r format(Sys.Date(), "%B %Y")`"
                                author: "Created by the GRAPH Courses team"')
+  } else if (LANGUAGE == "FR"){
+    yaml_to_append <- glue::glue('crédits: "Ce document sert d’accompagnement pour une leçon disponible sur https://thegraphcourses.org.<br><br>
+                               The GRAPH Courses est un projet du Global Research and Analyses for Public Health (GRAPH) Network,
+                               une organisation à but non lucratif basée à l’Institut de santé mondiale de l’Université de Genève,
+                               et soutenu par l’Organisation mondiale de la santé (OMS) et d’autres partenaires"
+                               date: "`r format(Sys.Date(), "%B %Y")`"
+                               auteur: "Créé par l’équipe des cours GRAPH"')
+  }
   
   # duplicate rmd
   duplicate_rmd <- str_replace(rmd, ".Rmd", "-duplicate-for-pagedown.Rmd")
