@@ -98,6 +98,8 @@ system2(command = "find",
 
 selected_lessons <- 
   c(
+    "/fr_ls01_gg_intro_VIDEO_CODE_ALONG.Rmd",
+    "/fr_ls02_scatter_VIDEO_CODE_ALONG.Rmd",
     "/ls01_gg_intro_VIDEO_CODE_ALONG.Rmd",
     "/ls02_scatter_VIDEO_CODE_ALONG.Rmd",
     "/ls03_line_graphs_VIDEO_CODE_ALONG.Rmd",
@@ -233,7 +235,7 @@ fs::dir_delete(paste0(to, "/", c("global", "lessons", "data")))
 directories <- list.dirs(path = to, recursive = FALSE)
 
 # Filter out directories that don't start with "data_on_display_ls"
-directories <- directories[startsWith(basename(directories), "data_on_display_ls")]
+directories <- directories[startsWith(basename(directories), "data_on_display")]
 
 
 # For each directory
@@ -280,7 +282,7 @@ for (dir in directories) {
   setwd(dir)
   
   # Create the zip file
-  utils::zip(zip_file_name, files = files_cut)
+  zip::zip(zip_file_name, files = files_cut)
   
   # Change the working directory back to the parent directory
   setwd(here())
@@ -289,3 +291,78 @@ for (dir in directories) {
 
 
 setwd(here())
+
+--------------------
+
+# Get the list of directories in "data_on_display"
+directories <- list.dirs(path = to, recursive = FALSE)
+
+# Filter out directories that don't start with "data_on_display_ls"
+directories <- directories[startsWith(basename(directories), "data_on_display")]
+
+# For each directory
+for (dir in directories) {
+  
+  cat("Processing directory:", dir, "\n")
+  
+  # Define the name of the zip file 
+  zip_file_name <- file.path(to, paste0(basename(dir), ".zip"))
+  
+  cat("Creating zip file:", zip_file_name, "\n")
+  
+  # Define the directories to include in the zip file
+  dirs <- c(
+    "autograder",
+    "data",
+    "global",
+    "images"
+  )
+  
+  dirs <- file.path(dir, dirs)
+  
+  # Check for existence of each directory and remove those that do not exist
+  dirs <- dirs[dir.exists(dirs)]
+  
+  cat("Directories to include in zip:", dirs, "\n")
+  
+  # Add the Rmd file
+  rmd_file <- paste0(dir, "/",
+                     str_remove(basename(dir), "data_on_display_"),
+                     "_VIDEO_CODE_ALONG.Rmd")
+  
+  cat("Rmd file:", rmd_file, "\n")
+  
+  files <- c(dirs, rmd_file)
+  
+  ## Add the Rproj file 
+  
+  rproj_file <- paste0(dir, "/",
+                       "data_on_display_",
+                       str_remove(basename(dir), "data_on_display_"),
+                       ".Rproj")
+  
+  cat("Rproj file:", rproj_file, "\n")
+  
+  files <- c(files, rproj_file)
+  
+  cat("Files to include in zip:", files, "\n")
+  
+  # Change the working directory to the current "data_on_display_lsXX" directory
+  setwd(dir)
+  
+  cat("Current working directory:", getwd(), "\n")
+  
+  # Create the zip file
+  utils::zip(zip_file_name, files = files)
+  
+  cat("Zip file created.\n")
+  
+  # Change the working directory back to the parent directory
+  setwd(here())
+  
+}
+
+# Reset working directory
+setwd(here())
+
+
