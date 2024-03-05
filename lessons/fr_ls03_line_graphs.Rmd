@@ -16,7 +16,7 @@ pacman::p_load(tidyverse, knitr, gapminder, here)
 
 # Fonctions
 source(here("global/functions/misc_functions.R"))
-mute(here::here("lessons/ls03_line_graphs_autograder.R"))
+mute(here::here("lessons/fr_ls03_line_graphs_autograder.R"))
 ```
 
 # Objectifs d'Apprentissage
@@ -136,13 +136,21 @@ Dans l'appel de la fonction `ggplot()`, nous précisons deux des composants de l
 Après avoir précisé à R quelles données et quelles correspondances esthétiques nous voulions tracer, nous allons ajouté le troisième composant essentiel, l'objet géométrique en utilisant l'opérateur `+`. Dans ce cas, l'objet géométrique a été réglé sur des lignes en utilisant `geom_line()`.
 
 ::: practice
-**Exercice 1**
-
 Créez un graphique de série temporelle du PIB par habitant (`gdpPercap`) à partir du dataframe `gap_US` en utilisant `geom_line()` pour créer un graphique linéaire.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
-# Créez votre graphique
+# Créez votre graphique. Lorsque vous pensez avoir la bonne réponse, soumettez-la en remplaçant "VOTRE RÉPONSE ICI" par votre code, puis exécutez ces lignes.
 
+q1 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
+
+# Assurez-vous que "q1" apparaît dans votre onglet Environnement.
+```
+
+```{r eval=F, include=FALSE}
+# Vérifiez votre réponse en exécutant cette fonction de vérification (aucune entrée requise). La sortie vous indiquera si vous avez répondu correctement ou non.
+
+.CHECK_q1()
+.HINT_q1()
 ```
 :::
 
@@ -210,8 +218,6 @@ ggplot(data = gap_US,
 ```
 
 ::: practice
-**Exercice 2**
-
 En vous basant sur le code ci-dessus, visualisez la relation entre le temps et le **PIB par habitant** (`gdpPercap`) à partir du dataframe `gap_US`.
 
 Utilisez à la fois des points et des lignes pour représenter les données.
@@ -220,7 +226,11 @@ Changez le type de ligne et la couleur des points par n'importe quelle valeur va
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+q2 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse
+.CHECK_q2()
+.HINT_q2()
 ```
 :::
 
@@ -332,8 +342,6 @@ Essayez d'ajouter `mapping= aes()` dans `geom_point()` et mappez `continent` à 
 :::
 
 ::: practice
-**Exercice 3**
-
 En utilisant le dataframe `gap_mini`, créez un graphique de la croissance de la **population** avec ces mappings esthétiques :
 
 ```{r echo = FALSE}
@@ -347,7 +355,11 @@ ggplot(gap_mini,
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+q3 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse ici
+.CHECK_q3()
+.HINT_q3()
 ```
 
 Ensuite, ajoutez une couche de points au graphique précédent, et ajoutez les mappings esthétiques requis pour produire un graphique qui ressemble à ceci :
@@ -367,6 +379,11 @@ Ne vous souciez pas des esthétiques fixes, assurez-vous seulement que le mappin
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+q4 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
+
+# Vérifiez votre réponse ici
+.CHECK_q4()
+.HINT_q4()
 
 ```
 :::
@@ -471,8 +488,6 @@ ggplot(data = gap_mini2,
 ```
 
 ::: practice
-**Exercice 4**
-
 Nous pouvons personnaliser les graduations de l'axe des **y** continu avec **`scale_y_continuous()`**.
 
 Copiez le code du dernier exemple et ajoutez `scale_y_continuous()` pour ajouter les graduations de l'axe des **y** suivantes :
@@ -489,7 +504,11 @@ ggplot(data = gap_mini2,
 
 ```{r eval = F, include=FALSE}
 # Écrivez le code pour créer votre graphique :
+q5 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse
+.CHECK_q5()
+.HINT_q5()
 ```
 :::
 
@@ -555,8 +574,6 @@ ggplot(data = gap_mini3,
 ```
 
 ::: practice
-**Exercice 5**
-
 Tout d'abord, créez un subest à partir de `gapminder` contenant uniquement les données de l'**Uganda** :
 
 ```{r eval = F, include=FALSE}
@@ -568,7 +585,11 @@ Maintenant, utilisez **`gap_Uganda`** pour créer un graphique de série tempore
 
 ```{r eval = F, include=FALSE}
 # Écrivez le code pour créer votre tracé :
+q6 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse ici
+.CHECK_q6()
+.HINT_q6()
 ```
 :::
 
@@ -721,8 +742,6 @@ La même syntaxe peut être utilisée pour modifier les titres des légendes des
 :::
 
 ::: practice
-**Exercice 6**
-
 Créez un graphique de série temporelle comparant les tendances du PIB par habitant de 1952 à 2007 pour **trois pays** dans le dataframe `gapminder`.
 
 Tout d'abord, créez un subset contenant les données de trois pays de votre choix :
@@ -745,7 +764,11 @@ Utilisez **`my_gap_mini`** pour créer un graphique avec les attributs suivants 
 
 ```{r eval = F, include=FALSE}
 # Écrivez le code pour créer votre graphique :
+q7 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse
+.CHECK_q7()
+.HINT_q7()
 ```
 
 Enfin, ajoutez les étiquettes suivantes à votre graphique :
@@ -758,7 +781,11 @@ Enfin, ajoutez les étiquettes suivantes à votre graphique :
 
 ```{r}
 # Écrivez le code pour créer votre graphique :
+q8 <- "ÉCRIVEZ_VOTRE_CODE_ICI"
 
+# Vérifiez votre réponse
+.CHECK_q8()
+.HINT_q8()
 ```
 :::
 
@@ -808,101 +835,5 @@ Le contenu de ce cours a été adapté en partie des sources suivantes :
 -   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   <https://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/>
 
-# Solutions d'exercices {.unnumbered}
-
-**Exercice 1**
-
-```{r eval=FALSE}
-ggplot(gap_US, 
-       mapping = aes(x = year, 
-                     y = gdpPercap)) +
-  geom_line()
-```
-
-**Exercice 2**
-
-```{r eval=FALSE}
-ggplot(gap_US,
-       mapping = aes(x = year, 
-                     y = gdpPercap)) +
-  geom_line(size = 1.5, 
-            color = "grey") +
-  geom_point(size = 3, 
-             color = "forestgreen")
-```
-
-**Exercice 3**
-
-```{r eval=FALSE}
-ggplot(gap_mini,
-       aes(x = year,
-           y = pop,
-           color = country,
-           linetype = country)) +
-  geom_line()
-```
-
-```{r eval=FALSE}
-ggplot(gap_mini,
-       aes(x = year,
-           y = pop,
-           color = country,
-           shape = continent,
-           lty = country)) +
-  geom_line() +
-  geom_point()
-```
-
-**Exercice 4**
-
-```{r eval=FALSE}
-ggplot(data = gap_mini2, 
-       mapping = aes(x = year, 
-                     y = gdpPercap, 
-                     color = country)) +
-  geom_line(size = 1) +
-  scale_x_continuous(breaks = gap_years) +
-  scale_y_continuous(breaks = seq(from = 1000, to = 7000, by = 1000))
-```
-
-**Exercice 5**
-
-```{r eval=FALSE}
-gap_Uganda <- gapminder %>% filter(country == "Uganda")
-```
-
-```{r eval=FALSE}
-ggplot(data = gap_Uganda, 
-       mapping = aes(x = year, y = pop)) + 
-  geom_line(size = 1, color = "forestgreen")+
-  scale_x_continuous(breaks = gap_years) +
-  scale_y_log10()
-```
-
-**Exercice 6**
-
-```{r eval=FALSE}
-ggplot(data = my_gap_mini, 
-       mapping = aes(y = lifeExp, 
-                     x = year, 
-                     color = country)) +
-  geom_line(size = 1, alpha = 0.5) +
-  geom_point(size = 2) +
-  scale_x_continuous(breaks = gap_years)
-```
-
-```{r eval=FALSE}
-ggplot(data = my_gap_mini, 
-       mapping = aes(y = lifeExp, 
-                     x = year, 
-                     color = country)) +
-  geom_line(size = 1, alpha = 0.5) +
-  geom_point(size = 2) +
-  scale_x_continuous(breaks = gap_years) +
-  labs(x = "Année", 
-       y = "Longévité",
-       title = "Santé et richesse des pays",
-       color = "Pays")
-```
 
 `r tgc_license()`
