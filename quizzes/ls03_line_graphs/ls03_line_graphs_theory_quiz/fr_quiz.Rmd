@@ -1,5 +1,5 @@
 ---
-title: 'Quiz à choix multiples | graphique linéaire'
+title: 'Quiz à choix multiples | Graphique linéaire'
 output: blogdown::html_page
 editor_options: 
   chunk_output_type: inline
@@ -13,11 +13,15 @@ editor_options:
 ```{r, echo = F, message = F, warning = F, eval=F}
 opts_chunk$set(warning = F, message = F)
 
-# Setup for uploading images
-source(here("global/functions/misc_functions.R"))
-if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload)
+# # Setup for uploading images
+# source(here("global/functions/misc_functions.R"))
+# if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
+# options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+# knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+# imgur image upload
+options(knitr.imgur.key = "e31c418fd800891")
+knitr::opts_knit$set(upload.fun = imgur_upload)
 
 ```
 
@@ -33,14 +37,14 @@ pacman::p_load(tidyverse,
 
 ```
 
-# Introduction
+# Intro
 
 Ce quiz teste votre compréhension de la leçon 3.
 Bonne chance !
 
 Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
 
-# Q - ??
+# Q: 1
 
 Quelle est la fonction `geom_*()` que nous utilisons pour les graphiques linéaires ?
 
@@ -60,21 +64,21 @@ Quelle est la fonction `geom_*()` que nous utilisons pour les graphiques linéai
 
 `geom_lines()`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct !
 
 `geom_line()` est utilisée pour créer des graphiques linéaires dans {ggplot2}
 
-## Message incorrect
+## Incorrect message
 
 `geom_line()` est utilisée pour créer des graphiques linéaires dans {ggplot2}
 
-# Q -
+# Q: 2
 
 Les graphiques linéaires, tout comme les graphiques de dispersion, affichent la relation entre deux variables numériques.
 
@@ -86,21 +90,21 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct !
 
 Les graphiques linéaires et de dispersion peuvent tous les deux être utilisés pour montrer la relation entre deux variables (si les variables sont numériques)
 
-## Message incorrect
+## Incorrect message
 
 Les graphiques linéaires et de dispersion peuvent tous les deux être utilisés pour montrer la relation entre deux variables (si les variables sont numériques)
 
-# Q -
+# Q: 3
 
 Il est préférable d'utiliser un graphique linéaire plutôt qu'un graphique de dispersion lorsque la variable sur l'axe des x représente le temps.
 
@@ -112,19 +116,19 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bravo !
 
-## Message incorrect
+## Incorrect message
 
 Consultez le cours (ou d'autres ressources) pour voir des exemples sur les graphiques temporelles.
 
-# Q -
+# Q: 4
 
 Il est préférable d'utiliser un graphique de dispersion plutôt qu'un graphique linéaire lorsque la variable sur l'axe des x représente le temps.
 
@@ -136,19 +140,19 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bravo !
 
-## Message incorrect
+## Incorrect message
 
 Consultez le cours (ou d'autres ressources) pour voir des exemples sur les graphiques temporelles.
 
-# Q -
+# Q: 5
 
 L'argument `linetype` peut être spécifié en utilisant un nom (par exemple, `“dotted”`) ou avec un entier.
 
@@ -160,11 +164,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Super !
 
@@ -174,7 +178,7 @@ L'argument `linetype` peut être défini avec des entiers ou des noms spécifiqu
 knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
-## Message incorrect
+## Incorrect message
 
 Les deux sont corrects !
 L'argument `linetype` peut être défini avec des entiers ou des noms spécifiques.
@@ -183,7 +187,7 @@ L'argument `linetype` peut être défini avec des entiers ou des noms spécifiqu
 knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
-# Q -
+# Q: 6
 
 Parmi les blocs de code suivants, lequel produira un graphique avec une ligne en pointillé (dotted line) ?
 
@@ -203,11 +207,11 @@ Parmi les blocs de code suivants, lequel produira un graphique avec une ligne en
 
 `geom_dotted_line()`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Doublement bon !
 Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linetype` pour choisir le type de ligne.
@@ -217,7 +221,7 @@ Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linety
 knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
-## Message incorrect
+## Incorrect message
 
 Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linetype` pour choisir le type de ligne.
 (La fonction `geom_dotted_line()` n'existe pas.)
@@ -226,7 +230,7 @@ Des entiers ou noms spécifiques peuvent être utilisés avec l'argument `linety
 knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
-# Q -
+# Q: 7
 
 Vous pouvez tracer des points sur un graphique linéaire en ajoutant une seconde couche geométrique `geom_point()`
 
@@ -238,11 +242,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Vous avez tout compris !
 Essayez le graphique suivant comme exemple :
@@ -254,7 +258,7 @@ ggplot(data = beaver1,
   geom_point()
 ```
 
-## Message incorrect
+## Incorrect message
 
 Consultez le cours pour voir des exemples.
 Vous pouvez également essayer le graphique suivant comme exemple :
@@ -266,7 +270,7 @@ ggplot(data = beaver1,
   geom_point()
 ```
 
-# Q -
+# Q: 8
 
 Un graphique doit avoir une seule couche `geom_*`.
 
@@ -278,22 +282,22 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Vous avez tout bon !
 Tant que les graphiques sont compatibles, vous pouvez les superposer.
 Cela peut être particulièrement utile pour illustrer des éléments d'intérêt de vos données.
 
-## Message incorrect
+## Incorrect message
 
 Tant que les graphiques sont compatibles, vous pouvez les superposer.
 Cela peut être particulièrement utile pour illustrer des éléments d'intérêt de vos données.
 
-# Q -
+# Q: 9
 
 L'argument `linetype` ne peut être utilisé que comme esthétique fixe, pas comme esthétique mappée.
 
@@ -305,21 +309,21 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 On garde le cap !
 
 `linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
 
-## Message incorrect
+## Incorrect message
 
 `linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
 
-# Q -
+# Q: 10
 
 L'argument `linetype` ne peut être utilisé que comme mapping esthétique, pas comme une esthétique fixe.
 
@@ -331,21 +335,21 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 On garde le cap !
 
 `linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
 
-## Message incorrect
+## Incorrect message
 
 `linetype` peut être utilisé à la fois comme mapping esthétique et esthétique fixe.
 
-# Q - scale breaks
+# Q: 11
 
 {ggplot2} choisit automatiquement une échelle pour les mappings esthétiques comme la position x et y.
 
@@ -386,11 +390,11 @@ Quelle fonction pouvons-nous utiliser pour créer un vecteur numérique pour les
 
 `c()`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bon travail !
 
@@ -407,7 +411,7 @@ seq(1995, 2013, 3)
 
 Cependant, nous recommandons `seq()` car il est plus rapide et garantit que les graduations seront également espacées.
 
-## Réponse incorrecte
+## Incorrect message
 
 `seq()` et `c()` peuvent tous deux créer un vecteur numérique.
 Par exemple, ces deux fragments de code produisent le même résultat :
@@ -430,7 +434,7 @@ ggplot(data = afg_pop,
   scale_x_continuous(breaks = seq(1995, 2013, 3))
 ```
 
-# Q
+# Q: 12
 
 Le code ci-dessous tente de visualiser et de comparer le PIB par habitant au fil du temps pour les pays de l'Afrique de l'Ouest.
 
@@ -472,11 +476,11 @@ Indice : Utilisez le package `gapminder` et essayez ces options sur R
 
 Aucune de ces options ne produira le résultat souhaité.
 
-## Réponse
+## Answer
 
 E
 
-## Message correct
+## Correct message
 
 Bonne réflexion !
 
@@ -536,7 +540,7 @@ ggplot(data = gap_wafr,
   geom_point(shape = 23)
 ```
 
-## Message incorrect
+## Incorrect message
 
 Si vous essayez ces différentes options sur R, vous verrez qu'aucune d'elles ne créera un graphique qui vous indique à quelle ligne correspond chaque pays.
 Certaines d'entre elles pourraient séparer les lignes, mais il n'y aura pas d'indication visuelle pour savoir laquelle correspond chaque pays.
@@ -595,7 +599,7 @@ ggplot(data = gap_wafr,
   geom_point(shape = 23)
 ```
 
-# Q
+# Q: 13
 
 Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axes d'une échelle linéaire à une échelle logarithmique ?
 
@@ -615,11 +619,11 @@ Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axe
 
 `scale_log_x()`
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Excellente mémoire !
 
@@ -634,7 +638,7 @@ knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
 
 Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
 
-## Message incorrect
+## Incorrect message
 
 Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
 Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une esthétique spécifique.
@@ -647,7 +651,7 @@ knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
 
 Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
 
-# Q
+# Q: 14
 
 Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axes d'une échelle linéaire à une échelle logarithmique ?
 
@@ -667,11 +671,11 @@ Parmi ces fonctions {ggplot2}, laquelle permet de transformer l'échelle des axe
 
 `scale_log10_y()`
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Excellente mémoire !
 
@@ -686,7 +690,7 @@ knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
 
 Voir la section *Scales* dans [l'aide-mémoire](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) {ggplot2} pour plus d'informations.
 
-## Message incorrect
+## Incorrect message
 
 Notez que les fonctions d'échelle {ggplot2} commencent par `scale_*` où `*` est le nom du mapping esthétique dont vous voulez modifier l'échelle.
 Il existe de nombreuses fonctions scale comme `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. qui vous permettent de contrôler l'échelle d'une ésthétique spécifique.
