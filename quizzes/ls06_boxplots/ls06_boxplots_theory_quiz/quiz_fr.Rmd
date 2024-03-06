@@ -72,7 +72,7 @@ Exactement ! `geom_boxplot()` est utilisée pour créer des boxplots dans {ggplo
 
 `geom_boxplot()` est utilisée pour créer des boxplots dans {ggplot2}
 
-# Q: Distribution V/F
+# Q: Distribution V/F 1
 
 Les boîtes à moustaches sont utilisées pour comparer la distribution d'une variable numérique pour chaque niveau d'une variable catégorielle.
 
@@ -104,7 +104,7 @@ Vérifiez à nouveau !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-# Q: Distribution V/F
+# Q: Distribution V/F 2
 
 Les boîtes à moustaches sont utilisées pour comparer la distribution d'une variable numérique en fonction d'une autre variable numérique.
 
