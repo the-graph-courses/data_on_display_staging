@@ -30,11 +30,11 @@ current_dir <- here::here()
 
 if (LANGUAGE == "FR") {
   selected_lessons <- 
-    c("/fr_ls01_gg_intro.Rmd",
-      "/fr_ls02_scatter.Rmd"#,
-      # "/fr_ls03_line_graphs.Rmd",
-      # "/fr_ls04_histograms.Rmd",
-      # "/fr_ls05_boxplots.Rmd"
+    c(#"/fr_ls01_gg_intro.Rmd",
+      #"/fr_ls02_scatter.Rmd"#,
+      "/fr_ls03_line_graphs.Rmd",
+      "/fr_ls04_histograms.Rmd",
+      "/fr_ls05_boxplots.Rmd"
     )
 } else if (LANGUAGE == "EN") {
   selected_lessons <- 
