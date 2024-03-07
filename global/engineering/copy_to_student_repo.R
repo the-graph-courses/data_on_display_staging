@@ -100,6 +100,9 @@ selected_lessons <-
   c(
     "/fr_ls01_gg_intro_VIDEO_CODE_ALONG.Rmd",
     "/fr_ls02_scatter_VIDEO_CODE_ALONG.Rmd",
+    "/fr_ls03_line_graphs_VIDEO_CODE_ALONG.Rmd",
+    "/fr_ls04_histograms_VIDEO_CODE_ALONG.Rmd",
+    "/fr_ls05_boxplots_VIDEO_CODE_ALONG.Rmd",
     "/ls01_gg_intro_VIDEO_CODE_ALONG.Rmd",
     "/ls02_scatter_VIDEO_CODE_ALONG.Rmd",
     "/ls03_line_graphs_VIDEO_CODE_ALONG.Rmd",
@@ -292,7 +295,7 @@ for (dir in directories) {
 
 setwd(here())
 
---------------------
+# --------------------
 
 # Get the list of directories in "data_on_display"
 directories <- list.dirs(path = to, recursive = FALSE)
