@@ -23,19 +23,23 @@ pacman::p_load(tidyverse,
 source(here("global/functions/misc_functions.R"))
 if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
 options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+# imgur image upload
+options(knitr.imgur.key = "e31c418fd800891")
+knitr::opts_knit$set(upload.fun = imgur_upload)
+
+#knitr::opts_knit$set(upload.fun = gdrive_upload)
 
 opts_chunk$set(warning = F, message = F)
 ```
 
-# Introduction
+# Intro
 
-Ce quiz teste votre compréhension du package {ggplot2}.
-Bonne chance!
+Ce quiz teste votre compréhension du package {ggplot2}. Bonne chance!
 
-Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+Contributeurs au quiz : [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
 
-# Q 1
+# Q: 1
 
 Que signifie `gg` dans `ggplot2` ?
 
@@ -55,19 +59,19 @@ Grammar of graphics
 
 Good game
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
+## Correct message
 
 Bien joué ! GG signifie **G**rammar of **G**raphics (**G**rammaire des **G**raphiques).
 
-## Message incorrect
+## Incorrect message
 
 Bien tenté, mais ce n'est pas ça. GG signifie **G**rammar of **G**raphics (**G**rammaire des **G**raphiques).
 
-# Q 3
+# Q: 3
 
 Quel est le nom du package R le plus robuste pour la visualisation de données ?
 
@@ -87,19 +91,19 @@ Quel est le nom du package R le plus robuste pour la visualisation de données ?
 
 {ggplot2}
 
-## Réponse
+## Answer
 
 D
 
-## Message correct
+## Correct message
 
 C'est bien ça ! Nous utilisons {ggplot2} pour ce cours.
 
-## Message incorrect
+## Incorrect message
 
 Désolé, ce n'est pas ça. Si vous revenez aux cours, ou à certains des graphiques Esquisser que nous avons réalisés, vous verrez que nous utilisons {ggplot2}.
 
-# Q 4
+# Q: 4
 
 Vrai ou Faux : Le package {ggplot2} fait partie du méga-package {tidyverse}.
 
@@ -111,19 +115,19 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 En effet, {ggplot2} est un package central du tidyverse. Vous pouvez jeter un coup d'oeil au [site web de tidyverse](https://www.tidyverse.org/){target="_blank"} pour voir tous les packages du tidyverse.
 
-## Message incorrect
+## Incorrect message
 
 {ggplot2} est un package central du tidyverse. Vous pouvez jeter un coup d'oeil au [site web de tidyverse](https://www.tidyverse.org/){target="_blank"} pour voir tous les packages du tidyverse.
 
-# Q 5:
+# Q: 5
 
 Lequel des segments de code ci-dessous ne permet PAS de charger le package {ggplot2} ?
 
@@ -139,23 +143,23 @@ Lequel des segments de code ci-dessous ne permet PAS de charger le package {ggpl
 
 `library(ggplot2)`
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Bien joué ! Charger soit {ggplot2} soit {tidyverse} (qui inclut {ggplot2}) nous donne accès à {ggplot2}.
 
 Cela peut être déroutant, mais souvenez-vous que {ggplot2} est le package et `ggplot()` est la fonction clé de ce package.
 
-## Message incorrect
+## Incorrect message
 
 Charger soit {ggplot2} soit {tidyverse} (qui inclut {ggplot2}) nous donne accès à {ggplot2}.
 
 Cela peut être déroutant, mais souvenez-vous que {ggplot2} est le package et `ggplot()` est la fonction clé de ce package.
 
-# Q 7:
+# Q: 7
 
 Vrai ou Faux : Pour utiliser correctement la fonction `ggplot()`, vous devez fournir les 7 couches de la grammaire des graphiques (données, esthétiques, géométries, facettes, statistiques, coordonnées et thèmes)
 
@@ -167,27 +171,27 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
-Correct ! Seulement trois couches doivent être spécifiées pour un ggplot de base : les données, les esthétiques et les géométries.
-
-```{r echo = F}
-knitr::include_graphics(here("lessons/images/gg_min_build3_fr.png"))
-```
-
-## Message incorrect
-
-Seulement trois couches doivent être spécifiées pour un ggplot de base : les données, les esthétiques et les géométries.
+Correct ! Seulement trois couches doivent être spécifiées au minimum pour un ggplot basique : les données, les esthétiques et les géométries.
 
 ```{r echo = F}
 knitr::include_graphics(here("lessons/images/gg_min_build3_fr.png"))
 ```
 
-# Q 8:
+## Incorrect message
+
+Seulement trois couches doivent être spécifiées au minimum pour un ggplot basique : les données, les esthétiques et les géométries.
+
+```{r echo = F}
+knitr::include_graphics(here("lessons/images/gg_min_build3_fr.png"))
+```
+
+# Q: 8
 
 Quelles sont les trois couches essentielles pour la fonction `ggplot` ?
 
@@ -203,11 +207,11 @@ Coordonnées, données et thèmes
 
 Données, géométries et esthétiques
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
+## Correct message
 
 Splendide !
 
@@ -217,7 +221,7 @@ Nous avons besoin de données, de géométries et d’esthétiques pour que `ggp
 knitr::include_graphics(here("lessons/images/gg_min_build3_fr.png"))
 ```
 
-## Message incorrect
+## Incorrect message
 
 Nous avons besoin de données, de géométries et d’esthétiques pour que `ggplot` fonctionne. Revenez au cours pour voir !
 
@@ -225,7 +229,7 @@ Nous avons besoin de données, de géométries et d’esthétiques pour que `ggp
 knitr::include_graphics(here("lessons/images/gg_min_build3_fr.png"))
 ```
 
-# Q 9:
+# Q: 9
 
 Tous les blocs de code ci-dessous sauf UN permettent de tracer un nuage de points en utilisant le dataset `women` dans R.
 
@@ -279,11 +283,11 @@ ggplot(dataset = women,
   geom_point()
 ```
 
-## Réponse
+## Answer
 
 E
 
-## Message correct
+## Correct message
 
 Bonne trouvaille !
 
@@ -308,7 +312,7 @@ ggplot(women, aes(x = height, y = weight)) +
 
 De même, `x` et `y` sont les premier et deuxième arguments dans la fonction `aes()`, donc si nous fournissons les valeurs des arguments dans le bon ordre, nous pouvons omettre `x =` et `y =` dans le code.
 
-## Message incorrect
+## Incorrect message
 
 `dataset` et `aesthet` sont des arguments incorrects de `ggplot()`.
 
@@ -331,12 +335,12 @@ ggplot(women, aes(x = height, y = weight)) +
 
 De même, `x` et `y` sont les premier et deuxième arguments dans la fonction `aes()`, donc si nous fournissons les valeurs des arguments dans le bon ordre, nous pouvons omettre `x =` et `y =` dans le code.
 
-# Q 11:
+# Q: 11
 
 Le nuage de points ci-dessous utilise le dataset `storms` de {dplyr} pour visualiser les positions et les mouvements des ouragans aux États-Unis en 2005.
 
 ```{r}
-ouragans <- storms  %>% filter(status == "hurricane", year == 2005)
+ouragans <- storms %>% filter(status == "hurricane", year == 2005)
 
 ggplot(data = ouragans, 
        mapping = aes(x = long, y = lat, color = name)) + 
@@ -357,25 +361,25 @@ Parmi les options suivantes, laquelle décrit correctement les mappings esthéti
 -   L'esthétique longitude est mappée à l'axe y
 -   L'esthétique name est mappée à la couleur des points
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Vous avez tout compris !
 
-Les esthétiques utilisées dans ce graphique sont x, y et couleur. Chacune de ces esthétiques est mappée à une variable des données.
+Les esthétiques utilisées dans ce graphique sont x, y et color. Chacune de ces esthétiques est mappée à une variable des données.
+
+Rappelez-vous que le mot "mapper" utilisé ici ne fait pas référence à une carte géographique ! Lorsque nous disons "la variable name est mappée à l'esthétique couleur", cela veut dire "la variable name est *associée* à l'esthétique couleur".
+
+## Incorrect message
+
+Les esthétiques utilisées dans ce graphique sont x, y et color. Chacune de ces esthétiques est mappée à une variable des données.
 
 Rappelez-vous que le mot "map" utilisé ici ne fait pas référence à une carte géographique ! Lorsque nous disons "la variable name est mappée à l'esthétique couleur", cela veut dire "la variable name est *associée* à l'esthétique couleur".
 
-## Message incorrect
-
-Les esthétiques utilisées dans ce graphique sont x, y et couleur. Chacune de ces esthétiques est mappée à une variable des données.
-
-Rappelez-vous que le mot "map" utilisé ici ne fait pas référence à une carte géographique ! Lorsque nous disons "la variable name est mappée à l'esthétique couleur", cela veut dire "la variable name est *associée* à l'esthétique couleur".
-
-# Q 12 :
+# Q: 12
 
 Dans quelle couche définiriez-vous la couleur de votre objet géométrique comme un mapping esthétique ?
 
@@ -395,11 +399,11 @@ la couche `statistics`
 
 la couche `data`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Exactement !
 
@@ -413,7 +417,7 @@ ggplot(iris,
   geom_point()
 ```
 
-## Message incorrect
+## Incorrect message
 
 Désolé, ce n'est pas ça !
 
@@ -425,7 +429,7 @@ ggplot(iris,
   geom_point()
 ```
 
-# Q 18 :
+# Q: 18
 
 La première couche dans `ggplot()` est la couche de données. Sélectionnez le bloc de code ci-dessous qui définit correctement cette couche parmi les options ci-dessous.
 
@@ -447,23 +451,23 @@ ggplot() + data(dengue)
 ggplot.data(dengue)
 ```
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 C'est bien ça !
 
 N'oubliez pas que vous pouvez taper `?ggplot` dans votre console R pour voir comment définir correctement les arguments pour cette fonction.
 
-## Message incorrect
+## Incorrect message
 
 N'oubliez pas que vous pouvez taper `?ggplot` dans votre console R pour voir comment définir correctement les arguments pour cette fonction.
 
-# Q 19 :
+# Q: 19
 
-Le code ci-dessous tente d'utiliser le dataset `swiss` (un dataset intégré à R) pour créer un nuage de points de `Infant.Mortality` en fonction de `Fertility`, mais il génère un graphique vide en raison d'une erreur/oubli.
+Le code ci-dessous tente d'utiliser le dataset `swiss` (un dataset intégré à R) pour créer un nuage de points de `Infant.Mortality` en fonction de `Fertility`, mais il génère un graphique vide en raison d'une erreur/un oubli.
 
 ```{r eval = F}
 ggplot(data = swiss, 
@@ -475,21 +479,21 @@ Quel est le problème avec le code ci-dessus ?
 
 ## A
 
-Il manque une couche de données
+Il manque la couche de données
 
 ## B
 
-Il manque un mapping esthétique
+Il manque le mapping esthétique
 
 ## C
 
-Il manque une fonction géométrique
+Il manque la fonction géométrique
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
+## Correct message
 
 Bon travail ! La couche de données et les mappings esthétiques sont correctement spécifiés, mais il n'y a pas de fonction `geom_*`. Dans ce cas, nous avons besoin de `geom_point()` :
 
@@ -500,7 +504,7 @@ ggplot(data = swiss,
   geom_point()
 ```
 
-## Message incorrect
+## Incorrect message
 
 La couche de données et les mappings esthétiques sont correctement spécifiés, mais il n'y a pas de fonction `geom_*`. Dans ce cas, nous avons besoin de `geom_point()` :
 
@@ -511,7 +515,7 @@ ggplot(data = swiss,
   geom_point()
 ```
 
-# Q 20 :
+# Q: 20
 
 Le code ci-dessous tente de créer un nuage de points du poids en fonction de la taille en utilisant le dataset `women` (un dataset intégré à R).
 
@@ -536,15 +540,15 @@ Le code utilise `%>%` au lieu de `+` pour lier les couches du ggplot.
 
 Il manque l'argument `data` à ggplot.
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Excellent travail !
 
-En effet, le code utilise `%>%` au lieu de `+`. C'est une erreur courante lors de la réalisation de graphiques avec ggplot. Heureusement, ggplot2 vous donne maintenant un avertissement lorsque vous faites cette erreur.
+En effet, le code utilise `%>%` au lieu de `+`. C'est une erreur courante lors du traçage de graphiques avec ggplot. Heureusement, ggplot2 vous donne maintenant un avertissement lorsque vous faites cette erreur.
 
 Quant aux deux autres options, n'oubliez pas que R associe les arguments par position, il n'est donc pas nécessaire de nommer explicitement les arguments.
 
@@ -562,9 +566,9 @@ ggplot(data = women, mapping = aes(x = height, y = weight))
 
 sont fonctionnellement équivalents.
 
-## Message incorrect
+## Incorrect message
 
-Le code utilise `%>%` au lieu de `+`. C'est une erreur courante lors de la réalisation de graphiques avec ggplot. Heureusement, ggplot2 vous donne maintenant un avertissement lorsque vous faites cette erreur.
+Le code utilise `%>%` au lieu de `+`. C'est une erreur courante lors du traçage de graphiques avec ggplot. Heureusement, ggplot2 vous donne maintenant un avertissement lorsque vous faites cette erreur.
 
 Quant aux deux autres options, n'oubliez pas que R associe les arguments par position, il n'est donc pas nécessaire de nommer explicitement les arguments.
 
@@ -582,7 +586,7 @@ ggplot(data = women, mapping = aes(x = height, y = weight))
 
 sont fonctionnellement équivalents.
 
-# Q 21:
+# Q: 21
 
 Vous essayez de tracer un graphique avec le code suivant :
 
@@ -605,12 +609,12 @@ Aucune couche géométrique n'a été définie.
 
 Aucun dataset n'a été fourni.
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
- 
+## Correct message
+
 Bien joué ! Les données à utiliser par ggplot n'ont pas été spécifiées.
 
 Voici le code correct :
@@ -621,7 +625,7 @@ ggplot(data = women,
   geom_point()
 ```
 
-## Message incorrect
+## Incorrect message
 
 Les données à utiliser par ggplot n'ont pas été spécifiées.
 
@@ -633,7 +637,7 @@ ggplot(data = women,
   geom_point()
 ```
 
-# Q les esthétiques fixes
+# Q: les esthétiques fixes
 
 Considérez le graphique ci-dessous, qui montre les populations de la Corée du Nord et de la Corée du Sud de 1995 à 2013 :
 
@@ -650,7 +654,7 @@ ggplot(data = koreas_pop,
 
 Comment pourrions-nous modifier le code pour générer un graphique avec des lignes plus épaisses ?
 
-**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour l'échelle de largeur des lignes dans les `geoms` basées sur les lignes comme `geom_line()`. L'esthétique `size` fonctionne toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique.
+**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour modifier l'épaisseur des lignes dans les `geoms` basées sur les lignes comme `geom_line()`. L'esthétique `size` fonctionne toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique.
 
 Malheureusement, notre cours a été écrit et enregistré avant la sortie de {ggplot2} 3.6.0 le 04/11/2022. Nous avons mis à jour le quiz et le code du cours, mais la vidéo n'a pas encore été éditée. Nous nous excusons pour tout désagrément.
 
@@ -668,11 +672,11 @@ Ajoutez `linewidth = 3` à l'intérieur de la fonction `geom_line()`.
 
 Ajoutez `linewidth = 3` à l'intérieur de la fonction `ggplot()`, mais à l'extérieur de la fonction `aes()`.
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Excellent travail ! C'est un exemple d'une esthétique *fixe* (dans ce cas, nous voulons fixer l'esthétique `linewidth` des lignes à `3`).
 
@@ -686,9 +690,9 @@ ggplot(data = koreas_pop,
   geom_line(linewidth = 3)
 ```
 
-N'oubliez pas que vous pouvez travailler avec ce dataset sur votre propre ordinateur ; le jeu de données `population` est chargé avec les packages {tidyverse}.
+N'oubliez pas que vous pouvez travailler avec ce dataset sur votre propre ordinateur ; le jeu de données `population` est chargé avec le package {tidyverse}.
 
-## Message incorrect
+## Incorrect message
 
 C'est un exemple d'une esthétique *fixe* (dans ce cas, nous voulons fixer l'esthétique `linewidth` des lignes à `3`).
 
@@ -702,9 +706,9 @@ ggplot(data = koreas_pop,
   geom_line(linewidth = 3)
 ```
 
-N'oubliez pas que vous pouvez travailler avec ce dataset sur votre propre ordinateur ; le datasett `population` est chargé avec les packages {tidyverse}.
+N'oubliez pas que vous pouvez travailler avec ce dataset sur votre propre ordinateur ; le dataset `population` est chargé avec le package {tidyverse}.
 
-# Q 22:
+# Q: 22
 
 Parmi les options suivantes, laquelle n'est PAS une fonction geom valide dans {ggplot2} ?
 
@@ -724,11 +728,11 @@ Parmi les options suivantes, laquelle n'est PAS une fonction geom valide dans {g
 
 `geom_shade()`
 
-## Réponse
+## Answer
 
 D
 
-## Message correct
+## Correct message
 
 C'est bien ça !
 
@@ -748,13 +752,13 @@ ggplot(data = china_pop,
 
 Bien sûr, c'est un graphique *redondant*. Nous n'avons pas besoin de trois couches pour montrer une série de valeurs. Un seul de ces geoms est suffisant.
 
-**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour l'échelle de la largeur des lignes dans les geoms basés sur les lignes comme `geom_line()`. L'esthétique `size` fonctionnera toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique. 
+**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour modifier l'épaisseur des lignes dans les geoms basés sur les lignes comme `geom_line()`. L'esthétique `size` fonctionnera toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique.
 
 Malheureusement, notre cours a été écrit et enregistré avant la sortie de {ggplot2} 3.6.0 le 04/11/2022. Nous avons mis à jour le quiz et le code du cours, mais la vidéo n'a pas encore été modifiée. Nos excuses pour tout désagrément.
 
 Si vous n'avez pas mis à jour {ggplot2} depuis le 04/11/2022, veuillez réinstaller la dernière version en redémarrant votre session R puis en exécutant `install.packages("ggplot2")` dans R. Vous pouvez savoir quelle version vous avez installée en exécutant `packageVersion("ggplot2")` ou en regardant l'onglet "Packages" dans RStudio.
 
-## Message incorrect
+## Incorrect message
 
 `geom_shade()` n'est pas une fonction {ggplot2}.
 
@@ -774,13 +778,13 @@ ggplot(data = china_pop,
 
 Bien sûr, c'est un graphique *redondant*. Nous n'avons pas besoin de trois couches pour montrer une série de valeurs. Un seul de ces geoms est suffisant.
 
-**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour l'échelle de la largeur des lignes dans les geoms basés sur les lignes comme `geom_line()`. L'esthétique `size` fonctionnera toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique. 
+**Note importante** : la dernière version de {ggplot2} a ajouté une esthétique appelée `linewidth` qui remplace l'esthétique `size` pour modifier l'épaisseur des lignes dans les geoms basés sur les lignes comme `geom_line()`. L'esthétique `size` fonctionnera toujours, mais il est recommandé de mettre à jour tout le code pour refléter la nouvelle esthétique.
 
 Malheureusement, notre cours a été écrit et enregistré avant la sortie de {ggplot2} 3.6.0 le 04/11/2022. Nous avons mis à jour le quiz et le code du cours, mais la vidéo n'a pas encore été modifiée. Nos excuses pour tout désagrément.
 
 Si vous n'avez pas mis à jour {ggplot2} depuis le 04/11/2022, veuillez réinstaller la dernière version en redémarrant votre session R puis en exécutant `install.packages("ggplot2")` dans R. Vous pouvez savoir quelle version vous avez installée en exécutant `packageVersion("ggplot2")` ou en regardant l'onglet "Packages" dans RStudio.
 
-# Q 23:
+# Q: 23
 
 Parmi les options suivantes, laquelle n'est pas une fonction `geom_*()` dans {ggplot2} ?
 
@@ -796,11 +800,11 @@ Parmi les options suivantes, laquelle n'est pas une fonction `geom_*()` dans {gg
 
 `geom_line()`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bien joué !
 
@@ -814,7 +818,7 @@ ggplot(iris,
   geom_point()
 ```
 
-## Message incorrect
+## Incorrect message
 
 `geom_scatterplot()` n'est pas une fonction de ggplot2. Les graphiques de dispersion sont généralement créés avec `geom_point()` dans R. Par exemple, voici un graphique de dispersion de la longueur et de la largeur des pétales dans le dataset `iris`, réalisé avec `geom_point()` :
 
@@ -826,7 +830,7 @@ ggplot(iris,
   geom_point()
 ```
 
-# Q 26:
+# Q: 26
 
 Le code suivant génère un nuage de points de l'âge et du nombre quotidien d'heures passées devant la télévision à partir d'une enquête aux États-Unis :
 
@@ -873,11 +877,11 @@ ggplot(survey_sample,
   geom_point(sex = c(male = "blue", female = "orange"))
 ```
 
-## Réponse
+## Answer
 
 C
 
-## Message Correct
+## Correct message
 
 Bravo !
 
@@ -893,7 +897,7 @@ ggplot(survey_sample,
 
 Le package {forcats} fait partie du tidyverse, vous devriez donc être capable de travailler avec ces données sur votre propre ordinateur.
 
-## Message Incorrect
+## Incorrect message
 
 `color = marital` à l'intérieur du mapping `aes` produira des couleurs différentes pour chaque statut matrimonial. Les trois autres codes ne fonctionnent pas.
 
@@ -907,9 +911,9 @@ ggplot(survey_sample,
 
 Le package {forcats} fait partie du tidyverse, vous devriez donc être capable de travailler avec ces données sur votre propre ordinateur.
 
-# Q 27:
+# Q: 27
 
-```{r echo = F, reactable_10_rows}
+```{r echo = F}
 hiv_prevalence <- import("https://docs.google.com/uc?id=1NH9JLYivN5ahuonyV7c0GPaAAmdntUzK&export=download",
  format = "csv",
  setclass = "tibble")
@@ -928,7 +932,7 @@ ggplot(hiv_prevalence, aes(year, total_cases, color = country)) +
   geom_line(linewidth = 1)
 ```
 
-UNE SEULE des affirmations suivantes n'est PAS un code `ggplot` correct pour créer ce graphique.
+UNE SEULE des affirmations suivantes n'est PAS correcte par rapport au code `ggplot` qui permer de créer ce graphique.
 
 Laquelle des affirmations suivantes est FAUSSE ?
 
@@ -948,11 +952,11 @@ L'argument esthétique `color` doit aller à l'extérieur de `aes()`.
 
 L'argument esthétique `color` doit aller à l'intérieur de `aes()`.
 
-## Réponse
+## Answer
 
 C
 
-## Message Correct
+## Correct message
 
 Excellent travail !
 
@@ -976,9 +980,9 @@ ggplot(hiv_prevalence,
 
 -   `country` est mappée à l'esthétique `color`.
 
-Si nous voulons définir `color` à une valeur constante comme `"red"` , elle doit être à l'extérieur de `aes()` comme une esthétique fixe.
+Si nous voulons définir `color` à une valeur constante comme `"red"`, elle doit être à l'extérieur de `aes()` comme une esthétique fixe.
 
-## Message Incorrect
+## Incorrect message
 
 Cette question teste votre connaissance sur les mappings esthétiques et les esthétiques fixes.
 

@@ -19,7 +19,7 @@ pacman::p_load(tidyverse,
 
 # Fonctions
 source(here("global/functions/lesson_functions.R"))
-source(here("lessons/ls01_gg_intro_autograder.R"))
+source(here("lessons/fr_ls01_gg_intro_autograder.R"))
 ```
 
 # Introduction
@@ -112,7 +112,7 @@ Nous pouvons déjà obtenir certaines informations sur ces données en inspectan
 summary(nigerm)
 ```
 
-summary() fournit les valeurs maximale, minimale et les quartiles de chaque variable numérique, ainsi que le nombre d'observations (lignes) pour chaque région. Ce résumé est utile, mais il omet une grande partie des d'informations du dataset.
+summary() fournit les valeurs maximale, minimale et les quartiles de chaque variable numérique, ainsi que le nombre d'observations (lignes) pour chaque région. Ce résumé est utile, mais il omet une grande partie des informations du dataset.
 
 Il faut aussi garder à l'esprit que les résumés statistiques peuvent nous induire en erreur, et qu'un simple graphique peut révéler beaucoup plus.
 
@@ -189,7 +189,7 @@ Comme vous pouvez le voir, cela ne nous donne rien d'autre qu'une toile vide. Ma
 
 **Étape 1 : Fournir les données**
 
-Le premier paramètre de la fonction `ggplot()` à inclure est la couche de données, c'est-à-dire le dataframe sur lequel le graphique va être construit, grâce à l'argument `data` (`data = NOM_DF`):
+Le premier paramètre de la fonction `ggplot()` à inclure est la couche de données, c'est-à-dire le dataframe sur lequel le graphique va être construit, grâce à l'argument `data` (`data = NOM_DF`) :
 
 ```{r}
 # Couche des données
@@ -254,13 +254,27 @@ nigerm04
 Tracer avec un ensemble de données différent vous permettra également de vérifier si ce que nous observons pour 1996 est également valable pour 2004.
 
 ::: practice
-**Exercice 1**
-
 Utilisez le dataframe `nigerm04` pour générer le code `ggplot` qui représentera graphiquement la relation entre les cas `cases` (sur l'axe des ordonnées) et les semaines `week` (sur l'axe des abscisses) sous forme d'un nuage de points.
 
-```{r eval=FALSE, include=FALSE}
-# Écrivez le code pour créer votre graphique :
+```{r eval=F}
+# Lorsque vous pensez avoir la bonne réponse, soumettez-la en faisant ce qui suit : supprimez "VOTRE_RÉPONSE_ICI", remplacez-la par votre code et exécutez ces lignes.
 
+nigerm04_scatter <- "VOTRE_RÉPONSE_ICI"
+
+# Assurez-vous que "nigerm04_scatter" apparaît dans votre onglet Environnement.
+```
+
+```{r eval=F}
+# Vérifiez votre réponse en exécutant cette fonction de vérification (aucune entrée requise). La sortie vous indiquera si vous avez répondu correctement ou non.
+
+.CHECK_nigerm04_scatter()
+
+# Vous pouvez demander un indice en exécutant cette fonction d'indice (aucune entrée requise).
+
+.HINT_nigerm04_scatter()
+
+# Obtenez la solution complète en tapant la fonction de solution :
+.SOLUTION_nigerm04_scatter()
 ```
 :::
 
@@ -283,7 +297,7 @@ ggplot(data = nigerm96,
   geom_point()
 ```
 
-Si nous prenons le même code et que nous remplaçons uniquement la variable associée à `x` de `week` (variable numérique) à `region` (variable catégorielle), nous obtenons ce qu'on appelle un **strip plot** (Note to Sabina : couldn't find an appropriate translation in french. chatgpt says diagramme en baton but that's barplots) :
+Si nous prenons le même code et que nous remplaçons uniquement la variable associée à `x` de `week` (variable numérique) à `region` (variable catégorielle), nous obtenons ce qu'on appelle un **strip plot** :
 
 ```{r}
 ggplot(data = nigerm96, 
@@ -311,7 +325,7 @@ ggplot(data = nigerm96,
 
 Encore une fois, le reste du code est toujours le même - nous avons simplement changé le mot clé de la fonction `geom_*`. Cependant, le graphique est significativement différent du nuage de points ou du strip plot.
 
-Notez que l'échelle de l'axe des y a été modifiée. La hauteur de chaque barre représente désormais le nombre cumulé de cas hebdomadaires, c'est-à-dire le nombre total de cas signalés dans l'ensemble des régions durant chaque cette semaine. Cela diffère de la représentation précédente où chaque région était affichée comme un point de données distinct.
+Notez que l'échelle de l'axe des y a été modifiée. La hauteur de chaque barre représente désormais le nombre cumulé de cas hebdomadaires, c'est-à-dire le nombre total de cas signalés dans l'ensemble des régions durant chaque semaine. Cela diffère de la représentation précédente où chaque région était affichée comme un point de données distinct.
 
 ::: error
 Tous les types de graphiques ne sont pas interchangeables. L'utilisation d'une fonction `geom_*` qui n'est pas compatible avec le type de variable que vous avez choisi dans `aes()` vous donnera une erreur. Par exemple, remplaçons `geom_point()` par `geom_histogram` :
@@ -327,23 +341,27 @@ C'est parce qu'un histogramme montre la répartition d'une seule variable numér
 :::
 
 ::: practice
-**Exercice 2**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebdomadaires avec la fonction `geom_col()`. Mappez `cases` sur l'axe des y et `week` sur l'axe des x.
 
 ```{r include = F}
 # Écrivez le code pour créer votre graphique
+nigerm04_bar <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse:
+.CHECK_nigerm04_bar()
+
+# Demander un indice :
+.HINT_nigerm04_bar()
 ```
 :::
 
 ## Mapper d'autres esthétiques à l'intérieur de `aes()`
 
-Jusqu'à présent, nous avons mapper nos variables uniquement aux attributs esthétiques `x` et `y`. Nous pouvons également mapper les variables à d'autres esthétiques comme la couleur, la taille ou la forme.
+Jusqu'à présent, nous avons mappé nos variables uniquement aux attributs esthétiques `x` et `y`. Nous pouvons également mapper les variables à d'autres esthétiques comme la couleur, la taille ou la forme.
 
 ![Attributs esthétiques couramment utilisés dans les graphiques `ggplot`.](images/common_aesthetics_1_fr.png)
 
-Revenons à notre diagramme de dispersion originel (`cases` vs `week`):
+Revenons à notre diagramme de dispersion originel (`cases` vs `week`) :
 
 ```{r}
 ggplot(data = nigerm96,        
@@ -398,7 +416,7 @@ ggplot(data = nigerm96,
 
 Cela nous donne un graphique à barres empilées, où les barres sont subdivisées en sections plus petites. Cela nous permet de voir la contribution proportionnelle de chaque région (c'est-à-dire que la hauteur ou la longueur de chaque sous-section représente la part de chaque région dans le nombre total de cas par semaine).
 
-Le graphique à barres empilées que vous voyez est délimité par la couleur. Cela est dû au fait que dans {ggplot2}, l'attribut esthétique "color" fait généralement référence à la bordure autour d'une forme. Cet attribut ne s'applique pas aux formes pleines de notre nuage de points créé avec geom_point(),mais il est utilisé pour délimiter les barres dans un graphique à barres empilées créé avec geom_col().
+Le graphique à barres empilées que vous voyez est délimité par la couleur. Cela est dû au fait que dans {ggplot2}, l'attribut esthétique "color" fait généralement référence à la bordure autour d'une forme. Cet attribut ne s'applique pas aux formes pleines de notre nuage de points créé avec geom_point(), mais il est utilisé pour délimiter les barres dans un graphique à barres empilées créé avec geom_col().
 
 Il serait plus intéressant de colorer l'intérieur des barres à la place. Cela se fait en mappant notre variable à l'esthétique `fill`. Nous pouvons copier le code ci-dessus et simplement changer `color` par `fill` à l'intérieur de `aes()`:
 
@@ -415,13 +433,17 @@ Voila! Nous avons ajouté une couleur de remplissage des barres.
 Maintenant, entraînez-vous à utiliser l'esthétique `color` avec un nouveau type de graphique : les graphiques linéaires. Les graphiques linéaires sont considérés comme l'un des meilleurs types de graphiques pour les données de séries temporelles.
 
 ::: practice
-**Exercice 3**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique linéaire des cas par semaine, coloré par `region`. Mappez `cases` sur l'axe des y, `week` sur l'axe des x, et `region` à la couleur. La fonction `geom_*` pour un graphique linéaire est **`geom_line()`**.
 
-```{r eval=FALSE, include=FALSE}
-# Écrivez le code pour créer votre graphique:
+```{r include=FALSE}
+# Écrivez le code pour créer votre graphique :
+nigerm04_line <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse :
+.CHECK_nigerm04_line()
+
+# Demandez un indice :
+.HINT_nigerm04_line()
 ```
 :::
 
@@ -433,7 +455,7 @@ Lorsque nous appliquons une esthétique pour modifier les objets géométriques 
 
 Mais si vous voulez appliquer une modification visuelle à *tous* les objets géométriques de manière égale (par exemple, changer manuellement la couleur de tous les points pour qu'ils soient d'une seule couleur), c'est une esthétique fixe. Nous devons associer les esthétiques fixes à une valeur constante **en dehors** de `mapping = aes()` et directement à l'intérieur de la fonction `geom_*` - par exemple, `geom_point(color = "NOM_DE_LA_COULEUR")`.
 
-Ici, changeons la couleur de tous les points de notre nuage de points en bleu:
+Ici, changeons la couleur de tous les points de notre nuage de points en bleu :
 
 ```{r}
 ggplot(data = nigerm96, 
@@ -471,7 +493,7 @@ ggplot(data = nigerm96,
 Toutes les lignes du graphique ont été rendues plus épaisses, et la largeur de la ligne est fixée à une valeur constante de 1 mm. Notez qu'ici la valeur de la taille est numérique, donc elle ne doit pas être entre guillemets.
 
 ::: watch-out
-N'oubliez pas que les esthétiques fixes sont manuellement définies à une valeur constante (et non à une variable), et vont directement dans la fonction `geom_*`, **pas** à l'intérieur de `aes()`. Si vous essayez de mettre une esthétique fixe dans `aes()`, vous pourriez obtenir un résultat étrange. Par exemple, essayons de déplacer l'esthétique `size = 1` de `geom_line()` à `aes()` pour voir comment cela peut mal tourner :
+N'oubliez pas que les esthétiques fixes sont manuellement définies à une valeur constante (et non à une variable), et vont directement dans la fonction `geom_*`, et **non pas** à l'intérieur de `aes()`. Si vous essayez de mettre une esthétique fixe dans `aes()`, vous pourriez obtenir un résultat étrange. Par exemple, essayons de déplacer l'esthétique `size = 1` de `geom_line()` à `aes()` pour voir comment cela peut mal tourner :
 
 ```{r}
 ggplot(data = nigerm96, 
@@ -488,13 +510,17 @@ ggplot(data = nigerm96,
 Entraînez-vous à utiliser `fill` comme esthétique fixe pour un graphique à barres.
 
 ::: practice
-**Exercice 4**
-
 Utilisez le dataframe `nigerm04` pour créer un graphique à barres des cas hebdomadaires, et remplissez toutes les barres avec la même couleur. Mappez `cases` sur l'axe des y, `week` sur l'axe des x, et fixez l'esthétique `color` des barres à la couleur R "hotpink".
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 # Écrivez le code pour créer votre graphique:
+nigerm04_pinkbar <- "VOTRE_RÉPONSE_ICI"
 
+# Vérifiez votre réponse :
+.CHECK_nigerm04_pinkbar()
+
+# Demandez un indice :
+.HINT_nigerm04_pinkbar()
 ```
 :::
 
@@ -549,13 +575,13 @@ ggplot(data = NOM_DF,
 
 Les membres suivants ont contribué à ce cours :
 
-`r .tgc_contributors_list(ids = c("joy", "imane"))`
+`r .tgc_contributors_list(ids = c("joy", "imane", "sabina"))`
 
 # Références {.unnumbered}
 
 Le contenu de ce cours a été en partie adapté des sources suivantes :
 
--   Blake, Alexandre, Ali Djibo, Ousmane Guindo, and Nita Bharti. 2020. "Investigating Persistent Measles Dynamics in Niger and Associations with Rainfall." *Journal of The Royal Society Interface* 17 (169): 20200480. <https://doi.org/10.1098/rsif.2020.0480>.
+-   Blake, Alexandre, Ali Djibo, Ousmane Guindo, and Nita Bharti. 2020. "Investigating Persistent Measles Dynamics in Niger and Associations with Rainfall." *Journal of The Royal Society Interface* 17 (169) : 20200480. <https://doi.org/10.1098/rsif.2020.0480>.
 
 -   Cmprince. *Administrative divisions of Niger: Departments and Regions*. 29 October 2017. Wikimedia Commons. Consulté le 14 octobre 2022. <https://commons.wikimedia.org/wiki/File:Niger_administrative_divisions.svg>
 
@@ -576,44 +602,5 @@ Le contenu de ce cours a été en partie adapté des sources suivantes :
 -   Pius, Ewen Harrison and Riinu. n.d. *R for Health Data Science*. Consulté le 11 octobre 2022. <https://argoshare.is.ed.ac.uk/healthyr_book/>.
 
 -   Prabhakaran, Selva. 2016. "How to Make Any Plot in Ggplot2? \| Ggplot2 Tutorial." 2016. <http://r-statistics.co/ggplot2-Tutorial-With-R.html>.
-
-# Solutions d'exercices {.unnumbered}
-
-**Exercice 1**
-
-```{r}
-ggplot(data = nigerm04,
-             mapping = aes(x = week, 
-                           y = cases)) +
-      geom_point()
-```
-
-**Exercice 2**
-
-```{r}
-ggplot(data = nigerm04, 
-          mapping = aes(x = week, 
-                        y = cases)) + 
-     geom_col()
-```
-
-**Exercice 3**
-
-```{r}
-ggplot(data = nigerm04,
-         mapping = aes(x = week,
-                       y = cases,
-                       color = region)) + 
-    geom_line()
-```
-
-**Exercice 4**
-
-```{r}
-ggplot(data = nigerm04, 
-          mapping = aes(x = week, 
-                        y = cases)) +
-      geom_col(fill = "hotpink")
-```
 
 `r .tgc_license()`

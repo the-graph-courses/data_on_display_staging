@@ -20,6 +20,7 @@ devtools::source_gist("https://gist.github.com/kendavidn/05c7055e487ef22e5a336a4
 ## Enter quiz information ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-quiz_path <- "quizzes/ls06_boxplots/ls06_boxplots_theory_quiz/quiz.Rmd"
+quiz_path <- "quizzes/ls06_boxplots/ls06_boxplots_theory_quiz/quiz_fr.Rmd"
 
 process_theory_quiz(quiz_path)
+

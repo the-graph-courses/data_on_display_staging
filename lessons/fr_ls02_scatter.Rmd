@@ -20,8 +20,7 @@ pacman::p_load(tidyverse, knitr, here)
 
 # Fonction
 source(here("global/functions/lesson_functions.R"))
-source(here("lessons/ls02_scatter_autograder.R"))
-
+source(here("lessons/fr_ls02_scatter_autograder.R"))
 ```
 
 # Introduction
@@ -91,13 +90,18 @@ ggplot(data = malidd,
 Cela suggère que la charge virale **diminue** généralement avec l'âge.
 
 ::: practice
-**Exercice 1**
-
 -   En utilisant le dataframe `malidd`, créez un graphique de dispersion montrant la relation entre l'âge et la taille (`height_cm`).
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+age_height <- "VOTRE_RÉPONSE_ICI"
+age_height
+```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_height()
+.HINT_age_height()
 ```
 :::
 
@@ -113,7 +117,7 @@ Rappelez-vous, il y a deux manières de modifier les propriétés esthétiques d
 
 ## Mapping des données aux esthétiques
 
-En plus de mapper des variables aux axes des **x** et des **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles de `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
+En plus de mapper des variables aux axes des **x** et des **y** comme nous l'avons fait précédemment, les variables peuvent être mappées à la couleur, à la forme, à la taille, à l'opacité et à d'autres caractéristiques visuelles du `geom`. Cela permet de superposer plusieurs observations sur un seul graphique.
 
 Pour mapper une variable à une esthétique, il faut associer le nom de l'esthétique au nom de la variable à l'intérieur de `aes()`. De cette façon, vous pouvez visualiser une troisième variable dans un graphique de dispersion à deux dimensions en la mappant à une nouvelle esthétique.
 
@@ -149,7 +153,7 @@ Cela est dû à la classe de la variable `breastfeeding` dans `malidd` :
 class(malidd$breastfeeding)
 ```
 
-Même si cette variable est numérique, elle ne peut prendre que deux valeurs. Par conséquent, une échelle de couleurs continue n'est pas la représentation la plus appropriée dans ce cas.
+Même si cette variable est numérique, elle ne peut prendre que deux valeurs. Par conséquent, une échelle de couleurs continue n'est pas la représentation la plus appropriée pour ce cas.
 
 Dans des cas comme celui-ci, nous ajoutons la fonction `factor()` autour de la variable `breastfeeding` pour dire à `ggplot()` de traiter la variable comme un facteur. Voyons ce qui se passe lorsque nous faisons cela :
 
@@ -167,20 +171,32 @@ Ce graphique met en évidence une relation claire entre l'âge et l'allaitement 
 L'ajout de couleurs à notre diagramme de dispersion nous a permis de visualiser une **troisième variable** en plus de la relation entre l'âge et la charge virale. Cette troisième variable peut être soit discrète (comme dans le cas de l'allaitement), soit continue.
 
 ::: practice
-**Exercice 2**
-
 -   Créez un graphique de dispersion à partir du dataframe `malidd`, montrant la relation entre l'âge et la charge virale, et mappez une troisième variable `freqrespi` à la couleur.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+age_height_respi <-  "VOTRE_RÉPONSE_ICI" 
+age_height_respi
+```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_height_respi()
+.HINT_age_height_respi()
 ```
 
 -   Recréez le même graphique de dispersion âge vs. taille, mais cette fois, mappez la variable binaire `fever` à la couleur des points. N'oubliez pas que `fever` doit être traité comme un facteur.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+age_height_fever <-  "VOTRE_RÉPONSE_ICI"
+age_height_fever
+```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_height_fever()
+.HINT_age_height_fever()
 ```
 :::
 
@@ -242,13 +258,18 @@ En rendant les points semi-transparents, nous pouvons voir où les points se che
 Souvenez-vous, changer la couleur, la taille, ou l'opacité de nos points ici ne transmet aucune information supplémentaire sur les données - ce sont des choix de conception que nous faisons pour rendre nos graphiques plus esthétiques.
 
 ::: practice
-**Exercice 3**
-
 -   Créez un graphique de dispersion avec les mêmes variables que dans l'exemple précédent, mais changez la couleur des points à `cornflowerblue`, augmentez la taille des points à 3 mm et réglez l'opacité à 60%.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+age_viral_blue <-  "VOTRE_RÉPONSE_ICI"
+age_viral_blue
+```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_viral_blue()
+.HINT_age_viral_blue()
 ```
 :::
 
@@ -388,20 +409,31 @@ ggplot(data = malidd,
 Notez la distribution des points bleus (représentant les enfants qui ont vomi) par rapport aux points rouges (représentant les enfants qui n'ont pas vomi). Les points bleus se situent principalement au-dessus de la ligne de tendance, ce qui indique que les charges virales plus élevées étaient non seulement associées à des enfants plus jeunes, mais aussi à des enfants plus susceptibles de présenter des symptômes de vomissements.
 
 ::: practice
-**Exercice 4**
-
 -   Créez un graphique de dispersion avec les variables `age_months` et `viral_load`. Définissez la couleur des points à "steelblue", la taille à 2,5 mm et l'opacité à 80%. Puis ajoutez une ligne de tendance avec la méthode de lissage "lm" (modèle linéaire). Pour faire ressortir la ligne de tendance, définissez sa couleur à "indianred3".
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
-
+age_height_2 <-  "VOTRE_RÉPONSE_ICI"
+age_height_2
 ```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_height_2()
+.HINT_age_height_2()
+```
 -   Recréez le graphique de la question précédente, mais cette fois adaptez le code pour changer la forme des points à la forme numéro 23, et ajoutez la variable de température corporelle (`temp`) en **la mappant** à la couleur de remplissage des points.
 
 ```{r message=TRUE, warning=TRUE, include= FALSE}
 # Créez votre graphique
+age_height_3 <-  "VOTRE_RÉPONSE_ICI"
+age_height_3
+```
 
+```{r eval = FALSE, include = FALSE}
+# Vérifiez votre réponse :
+.CHECK_age_height_3()
+.HINT_age_height_3()
 ```
 :::
 
@@ -422,67 +454,5 @@ Le contenu de ce cours a été adapté en partie des sources suivantes :
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   Giroux-Bougard, Xavier, Maxwell Farrell, Amanda Winegardner, Étienne Low-Decarie and Monica Granados. 2020. *Workshop 3: Introduction to Data Visualisation with {ggplot2}*. <http://r.qcbs.ca/workshop03/book-en/>.
-
-# Solutions d'exercices {.unnumbered}
-
-**Exercice 1**
-
-```{r}
-ggplot(data = malidd,
-             mapping = aes(x = age_months, 
-                           y = height_cm)) +
-      geom_point()
-```
-
-**Exercice 2**
-
-```{r}
-ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = viral_load)) + 
-      geom_point(mapping = aes(color = freqrespi))
-```
-
-
-```{r}
-ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = height_cm)) + 
-      geom_point(mapping = aes(color = factor(fever)))
-```
-
-**Exercice 3**
-
-```{r}
-ggplot(data = malidd, 
-             mapping = aes(x = age_months, 
-                           y = viral_load)) + 
-      geom_point(color = "cornflowerblue",
-                 size = 3,
-                 alpha = 0.6)
-```
-
-**Exercice 4**
-
-```{r}
-ggplot(data = malidd, 
-          mapping = aes(x = age_months, 
-                        y = height_cm)) + 
-      geom_point(color = "steelblue",
-                 size = 2.5,
-                 alpha = 0.8) +
-      geom_smooth(method = "lm")
-```
-
-```{r}
-ggplot(data = malidd, 
-          mapping = aes(x = age_months, y = height_cm)) + 
-      geom_point(color = "steelblue",
-                 size = 2.5,
-                 alpha = 0.8,
-                 shape = 23,
-                 mapping = aes(fill = temp)) +
-      geom_smooth(method = "lm")
-```
 
 `r .tgc_license()`

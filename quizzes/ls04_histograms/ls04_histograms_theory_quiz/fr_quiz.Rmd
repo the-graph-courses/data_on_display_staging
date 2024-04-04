@@ -27,17 +27,22 @@ opts_chunk$set(warning = F, message = F)
 # source(here("global/functions/misc_functions.R"))
 # if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
 # options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+# knitr::opts_knit$set(upload.fun = gdrive_upload)
+
+# imgur image upload
+options(knitr.imgur.key = "e31c418fd800891")
 knitr::opts_knit$set(upload.fun = imgur_upload)
+
 ```
 
-# Introduction
+# Intro
 
-Ce quiz teste votre compréhension de la [leçon 4].
+Ce quiz teste votre compréhension de la leçon 4.
 Bonne chance!
 
-Contributeurs du quiz : [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
+Contributeurs au quiz : [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}, [Imane Bensouda Korachi](https://thegraphcourses.org/members/imane/){target="_blank"}
 
-# Q - fonction geom
+# Q: fonction geom
 
 Quelle est la fonction `geom_*()` que nous utilisons pour les histogrammes dans {ggplot2}?
 
@@ -57,21 +62,21 @@ Quelle est la fonction `geom_*()` que nous utilisons pour les histogrammes dans 
 
 `geom_col()`
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct!
 
 `geom_histogram()` est la fonction qui permet de créer des histogrammes dans {ggplot2}
 
-## Message incorrect
+## Incorrect message
 
 `geom_histogram()` est la fonction qui permet de créer des histogrammes dans {ggplot2}
 
-# Q - distribution Vrai/Faux
+# Q: distribution Vrai/Faux
 
 Les histogrammes sont utilisés pour visualiser des distributions.
 
@@ -83,11 +88,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct !
 
@@ -95,7 +100,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Incorrect message
 
 Vérifiez à nouveau.
 
@@ -103,7 +108,7 @@ Vérifiez à nouveau.
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-# Q - Relations Vrai/Faux
+# Q: Relations Vrai/Faux
 
 Les histogrammes sont utilisés pour visualiser les relations entre des variables.
 
@@ -115,11 +120,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 B
 
-## Message  correct
+## Correct message
 
 Correct !
 
@@ -127,7 +132,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Incorrect message
 
 Vérifiez à nouveau !
 
@@ -135,7 +140,7 @@ Vérifiez à nouveau !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-# Q - variable continue Vrai/Faux
+# Q: variable continue Vrai/Faux
 
 Les histogrammes sont utilisés pour visualiser des données continues.
 
@@ -147,11 +152,11 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message  correct
+## Correct message
 
 Correct !
 
@@ -159,7 +164,7 @@ Correct !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message  incorrect
+## Incorrect message
 
 Vérifiez à nouveau !
 
@@ -167,7 +172,7 @@ Vérifiez à nouveau !
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-# Q - bins Vrai/Faux
+# Q: bins Vrai/Faux
 
 L'argument `bins` doit être égal à un nombre.
 
@@ -179,22 +184,22 @@ VRAI
 
 FAUX
 
-## Réponse
+## Answer
 
 A
 
-## Message  correct
+## Correct message
 
 Super !
 
 Nous définissons `bins` égal à un entier qui indique à `geom_histogram()` le nombre de barres à dessiner.
 
-## Message  incorrect
+## Incorrect message
 
 C'est vrai.
 Nous définissons `bins` égal à un entier qui indique à `geom_histogram()` le nombre de barres à dessiner.
 
-# Q - binwidth definition
+# Q: binwidth definition
 
 Que spécifie l'argument `binwidth` ?
 
@@ -214,11 +219,11 @@ Le nombre de classes
 
 La hauteur des barres
 
-## Réponse
+## Answer
 
 A
 
-## Message  correct
+## Correct message
 
 Correct !
 Comme son nom l'indique, `binwidth` contrôle la largeur de chaque classe.
@@ -227,7 +232,7 @@ Le nombre de classes peut être spécifié avec l'argument `bins`.
 La hauteur des barres est déterminée par le nombre d'observations qui tombent dans la classe correspondante.
 La plage de l'axe des x est déterminée par la plage de valeurs de la variable tracée.
 
-## Message incorrect
+## Incorrect message
 
 Comme son nom l'indique, `binwidth` contrôle la largeur de chaque classe.
 
@@ -235,7 +240,7 @@ Le nombre de classes peut être spécifié avec l'argument `bins`.
 La hauteur des barres est déterminée par le nombre d'observations qui tombent dans la classe correspondante.
 La plage de l'axe des x est déterminée par la plage de valeurs de la variable tracée.
 
-# Q - bins définition
+# Q: bins définition
 
 Que spécifie l'argument `bins` ?
 
@@ -255,11 +260,11 @@ Le nombre de classes
 
 La hauteur des barres
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
+## Correct message
 
 Correct !
 `bins` contrôle le nombre de classes pour diviser nos données.
@@ -269,7 +274,7 @@ La largeur des classes peut être spécifiée avec l'argument `binwidth`.
 La hauteur des barres est déterminée par le nombre d'observations inclues dans la classe correspondante.
 La plage de l'axe des x est déterminée par la plage de valeurs de la variable tracée.
 
-## Message incorrect
+## Incorrect message
 
 `bins` contrôle le nombre de classes pour diviser nos données.
 Par exemple, définir `bins = 20` divisera les données en 20 classes, et tracera une barre pour chaque classe.
@@ -278,7 +283,7 @@ La largeur des classes peut être spécifiée avec l'argument `binwidth`.
 La hauteur des barres est déterminée par le nombre d'observations inclues dans la classe correspondante.
 La plage de l'axe des x est déterminée par la plage de valeurs de la variable tracée.
 
-# Q - bins vs binwidth
+# Q: bins vs binwidth
 
 Quelle affirmation est correcte ?
 
@@ -294,11 +299,11 @@ Augmenter le `binwidth` d'un histogramme augmentera le nombre total de classes.
 
 Augmenter le `binwidth` d'un histogramme n'a aucun effet sur le nombre de classes tracées.
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct!
 Une largeur de classe plus grande signifie qu'il y aura moins de classes au total, et vice versa.
@@ -337,7 +342,7 @@ ggplot(data = iris,
                  bins = 3) # cet argument est ignoré en faveur de binwidth
 ```
 
-## Message incorrect
+## Incorrect message
 
 Exécutez ce code dans R pour voir comment `binwidth` influence indirectement le nombre de classes.
 
@@ -374,7 +379,7 @@ ggplot(data = iris,
                  bins = 3) # cet argument est ignoré en faveur de binwidth
 ```
 
-# Q - bins esthétique mappé ou fixe
+# Q: bins esthétique mappé ou fixe
 
 L'argument `bins` peut uniquement être utilisé comme un mapping esthétique, pas comme une esthétique fixe.
 
@@ -386,19 +391,19 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Bon travail !
 
-## Message incorrect
+## Incorrect message
 
 Continuez.
 
-# Q - binwidth fixé vs mappé
+# Q: binwidth fixé vs mappé
 
 L'argument `binwidth` ne peut être utilisé que comme une esthétique fixe, pas comme un mapping esthétique.
 
@@ -410,19 +415,19 @@ FAUX
 
 VRAI
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Bon travail !
 
-## Message incorrect
+## Incorrect message
 
 Continuez.
 
-# Q - univarié continu
+# Q: univarié continu
 
 Un histogramme peut visualiser :
 
@@ -442,11 +447,11 @@ Une variable discrète et une variable continue
 
 Deux variables discrètes
 
-## Réponse
+## Answer
 
 A
 
-## Message correct
+## Correct message
 
 Correct !
 Un histogramme est un graphique univarié qui peut être utilisé pour visualiser la distribution d'une variable continue.
@@ -455,7 +460,7 @@ Un histogramme est un graphique univarié qui peut être utilisé pour visualise
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-## Message incorrect
+## Incorrect message
 
 Un histogramme est un graphique univarié qui peut être utilisé pour visualiser la distribution d'une variable continue.
 
@@ -463,7 +468,7 @@ Un histogramme est un graphique univarié qui peut être utilisé pour visualise
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped_fr.png"))
 ```
 
-# Q - Utilisation de Boundary
+# Q: Utilisation de Boundary
 
 Quel argument dans `geom_histogram()` pouvez-vous utiliser pour déplacer et aligner les classes sur un histogramme ?
 
@@ -483,20 +488,20 @@ Quel argument dans `geom_histogram()` pouvez-vous utiliser pour déplacer et ali
 
 `breaks`
 
-## Réponse
+## Answer
 
 C
 
-## Message correct
+## Correct message
 
 Correct !
 Vous pouvez utiliser l'argument `boundary` dans `geom_histogram()` pour déplacer et aligner les classes d'un histogramme.
 
-## Message incorrect
+## Incorrect message
 
 Vous pouvez utiliser l'argument `boundary` dans `geom_histogram()` pour déplacer et aligner les classes d'un histogramme.
 
-# Q - Priorité bins vs binwidth
+# Q: Priorité bins vs binwidth
 
 Que se passe-t-il si vous définissez les arguments `binwidth` et `bins` en même temps dans `geom_histogram()`?
 
@@ -516,20 +521,20 @@ R renvoie une erreur
 
 Les deux arguments sont ignorés
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Exact !
 Si vous définissez les arguments `binwidth` et `bins` en même temps dans `geom_histogram()`, `binwidth` a la priorité sur `bins`.
 
-## Message incorrect
+## Incorrect message
 
 Si vous définissez les arguments `binwidth` et `bins` en même temps dans `geom_histogram()`, `binwidth` a la priorité sur `bins`.
 
-# Q - valeur par défaut du nombre de bins
+# Q: valeur par défaut du nombre de bins
 
 Quelle est la valeur par défaut pour l'argument `bins` dans `geom_histogram()` ?
 
@@ -549,18 +554,18 @@ Quelle est la valeur par défaut pour l'argument `bins` dans `geom_histogram()` 
 
 20
 
-## Réponse
+## Answer
 
 B
 
-## Message correct
+## Correct message
 
 Correct !
 La valeur par défaut pour l'argument `bins` dans `geom_histogram()` est 30.
 
 Si vous ne modifiez pas les classes, vous obtenez un message d'avertissement qui dit "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`"
 
-## Message incorrect
+## Incorrect message
 
 La valeur par défaut pour l'argument `bins` dans `geom_histogram()` est 30.
 
