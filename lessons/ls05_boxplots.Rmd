@@ -7,9 +7,15 @@ output:
     toc_float: true
     css: !expr here::here("global/style/style.css")
     highlight: kate
+    pandoc_args: --shift-heading-level-by=-1
+  word_document:
+    toc: true
+editor_options:
+  canonical: true
+  chunk_output_type: inline
 ---
 
-```{r, include = FALSE, warning = FALSE, message = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # Load packages 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, gapminder, here)
@@ -18,26 +24,21 @@ pacman::p_load(tidyverse, knitr, gapminder, here)
 source(here("global/functions/lesson_functions.R"))
 
 # Source autograder script quietly 
-#source(here("lessons/ls06_boxplots_autograder.R"))
+source(here("lessons/ls05_boxplots_autograder.R"))
 ```
 
-# Boxplots with {ggplot2}
+# Lesson notes | Boxplots with {ggplot2}
 
-A side-by-side boxplot lets us compare the distribution of a numerical variable split by the values of another variable.
-
-```{r echo = FALSE}
+```{r include = FALSE}
 ggplot(gapminder, 
        aes(x = reorder(continent, gdpPercap, median), 
            y = gdpPercap,
            fill = continent, 
            color = continent)) +
   geom_boxplot(alpha = 0.6, 
-               linewidth = 1) +
+               linewidth = 0.4) +
   scale_fill_manual(values = continent_colors) +
   scale_colour_manual(values = continent_colors) +
-  geom_jitter(width = 0.25, 
-              alpha = 0.5, 
-              color = "black") +
   scale_y_log10(labels = scales::dollar) +
   labs(y = "Income per person",
        title = "GDP per capita grouped by continent",
@@ -46,6 +47,47 @@ ggplot(gapminder,
   theme(panel.grid.major.x = element_blank(),
         legend.position = "none", 
         axis.title.x = element_blank())
+
+ggsave("box_pretty.png", path = "images", 
+       width = 4.5, height = 3)
+
+ggplot(gapminder, 
+       aes(x = continent, 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.6, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  scale_y_log10(labels = scales::dollar) +
+  labs(y = "Income per person") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_unordered.png", path = "images", 
+       width = 5, height = 5)
+
+ggplot(gapminder, 
+       aes(x = reorder(continent, gdpPercap, median), 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.6, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  scale_y_log10(labels = scales::dollar) +
+  labs(y = "Income per person") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_ordered.png", path = "images", 
+       width = 5, height = 5)
 ```
 
 ## Learning Objectives
@@ -58,19 +100,58 @@ By the end of this lesson, you will be able to:
 
 ## Introduction
 
-A boxplot is one of the simplest ways of representing a distribution of a continuous variable.
+### Anatomy of a boxplot
 
-A boxplot allows us to visualize the distribution of one or more numeric variables.
+A boxplot allows us to visualize the **distribution** of **numeric** variables.
 
-![Anatomy of a boxplot](images/boxplot_anatomy.png){alt="Anatomy of a boxplot" width="664"}
+![](images/boxplot_anatomy.png){alt="Anatomy of a boxplot" width="664"}
 
 It consists of two parts:
 
-1.  Box --- Extends from the first to the third quartile (Q1 to Q3) with a line in the middle that represents the median. The range of values between Q1 and Q3 is also known as an Interquartile range (IQR).
+1.  **Box** --- Extends from the first to the third quartile (Q1 to Q3) with a line in the middle that represents the *median*. The range of values between Q1 and Q3 is also known as an *Interquartile range (IQR)*.
 
-2.  Whiskers --- Lines extending from both ends of the box indicate variability outside Q1 and Q3. The minimum/maximum whisker values are calculated as $Q1 - 1.5 \times IQR$ to $Q3 + 1.5 \times IQR$ . Everything outside is represented as an outlier using dots or other markers.
+2.  **Whiskers** --- Lines extending from both ends of the box indicate variability outside Q1 and Q3. The minimum/maximum whisker values are calculated as $Q1 - 1.5 \times IQR$ to $Q3 + 1.5 \times IQR$ . Everything outside is represented as an *outlier* using dots or other markers.
 
-## Packages
+This is *side-by-side boxplot*. It lets us compare the distribution of a numerical variable split by the values of another variable.
+
+![](images/box_pretty.png){width="667"}
+
+Here we are looking at the variation in GDP per capita -- which is a continuous variable -- split by different world regions -- a categorical variable.
+
+### Potential pitfalls
+
+Boxplots summarize the data into five numbers, so we might miss important characteristics of the data.
+
+If the amount of data you are working with is not too large, adding individual data points can make the graphic more insightful.
+
+```{r echo = FALSE}
+ggplot(gapminder, 
+       aes(x = reorder(continent, gdpPercap, median), 
+           y = gdpPercap,
+           fill = continent, 
+           color = continent)) +
+  geom_boxplot(alpha = 0.7, 
+               linewidth = 0.4) +
+  scale_fill_manual(values = continent_colors) +
+  scale_colour_manual(values = continent_colors) +
+  geom_jitter(width = 0.35, 
+              alpha = 0.2, 
+              color = "black",
+              shape = 16) +
+  scale_y_log10(labels = scales::dollar) +
+  labs(y = "Income per person",
+       title = "GDP per capita grouped by continent",
+       subtitle = "Gapminder data from 142 countries (1952-2007)") + 
+  theme_minimal() + 
+  theme(panel.grid.major.x = element_blank(),
+        legend.position = "none", 
+        axis.title.x = element_blank())
+
+ggsave("box_pretty_points.png", path = "images", 
+       width = 4.5, height = 3)
+```
+
+## Load packages
 
 ```{r}
 pacman::p_load(tidyverse,
@@ -80,9 +161,9 @@ pacman::p_load(tidyverse,
 
 ## The `gapminder` dataset
 
-For this lesson, we will be visualizing information from the `gapminder` data frame, which we've encountered in previous lessons. look at trends in world health and economics.
+For this lesson, we will be visualizing global health and economic data from the **`gapminder`** data frame, which we've encountered in previous lessons.
 
-```{r}
+```{r render = .reactable_10_rows}
 # View first few rows of the data
 head(gapminder)
 ```
@@ -100,27 +181,47 @@ Data are recorded every 5 years from 1952 to 2007 (a total of 12 years).
 
 ## Basic boxplots with `geom_boxplot()`
 
-We will use boxplots display and compare *distributions* of variables across multiple groups.
+The function for creating boxplots in {ggplot2} is **`geom_boxplot()`**.
 
-The `gapminder` data frame gives us the life expectancy (`lifeExp`) for each country. Let's make a boxplot of life expectancy across continents.
+![](images/ggplot_boxplot_syntax.png){width="540"}
 
-Let's start with a base boxplot and then then add more aesthetics and layers from {ggplot2}.
+We're going to make a base boxplot and then then add more aesthetics and layers.
 
-We will first provide the `gapminder` data frame to `ggplot()` and then specify the aesthetics with `aes()` function. Inside `aes()`, we will specify *x*-axis and *y*-axis variables. To make the boxplot between `continent` vs `lifeExp`, we will use the `geom_boxplot()` layer
+Let's start with a simple boxplot by mapping one numeric variable from `gapminder`, life expectancy (**`lifeExp`**) to the `x` position.
 
 ```{r}
-# Simple boxplot of lifeExp continent
-ggplot(gapminder, 
-       aes(x = continent, 
-           y = lifeExp)) +
+# Simple boxplot of lifeExp
+ggplot(data = gapminder,
+       mapping = aes(x = lifeExp)) +
   geom_boxplot()
 ```
 
-The result is a basic boxplot of `liefExp` for multiple continents.
+To create a side-by-side boxplot (which is what we usually want), we need to add a categorical variable to the `y` position aesthetic.
 
-Let us add colors to the basic boxplot. We can map the `continent` variable to fill color so that each box is colored according to which continent it represents.
+Let's compare life expectancy distributions between continents - i.e., split `lifeExp` by the **`continent`** variable.
 
 ```{r}
+# Side-by-side boxplot of lifeExp by continent
+ggplot(gapminder, 
+       aes(x = lifeExp, 
+           y = continent)) +
+  geom_boxplot()
+```
+
+The result is a basic boxplot of `lifeExp` for multiple continents.
+
+```{r}
+# Side-by-side boxplot of lifeExp by continent (vertical)
+ggplot(data = gapminder,
+       mapping = aes(x = continent,
+                     y = lifeExp)) +
+  geom_boxplot()
+```
+
+Let us color in the boxes. We can map the `continent` variable to `fill` so that each box is colored according to which continent it represents.
+
+```{r}
+# Fill each continent with a different color
 ggplot(gapminder, 
        aes(x = continent,
            y = lifeExp, 
@@ -129,72 +230,194 @@ ggplot(gapminder,
 ```
 
 ::: reminder
-`ggplot2` allows you to color by specifying a variable. We can use `fill` argument inside the `aes()` function to specify which variable is mapped to fill color.
+{ggplot2} allows you to color by specifying a variable. We can use `fill` argument inside the `aes()` function to specify which variable is mapped to fill color.
 :::
+
+We can also add the `color` and `alpha` aesthetics to change outline color and transparency.
+
+```{r}
+# Change outline color and increase transparency
+ggplot(gapminder, 
+       aes(x = continent,
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
 
 ::: practice
--   Using the `gapminder` data frame create a boxplot comparing the distribution of GDP per capita (`gdpPercap`) across continents.
+-   Using the `gapminder` data frame create a boxplot comparing the distribution of **GDP per capita (`gdpPercap`)** across continents. Map the **fill color** of the boxes to `continent`, and set the **line width** to 1.
 
-```{r eval = FALSE}
-# Type and view your answer:
-q1 <- "YOUR ANSWER HERE" 
-  
-q1
+```{r include = F}
+# Write code to create your plot
+
 ```
 
--   Similarly to how we changed the fill color of the boxes with the `fill` argument, change the outline color of the boxes with a `color` argument.
+```{r include = F}
+# When you think you have the right plot, submit your answer by replacing "YOUR ANSWER HERE" with your code, and run those lines.
 
-```{r eval = FALSE}
-# Type and view your answer:
-q2 <- "YOUR ANSWER HERE" 
-  
-q2
+q1 <- "YOUR ANSWER HERE"
+
+# Make sure that "q1" appears in your Environment tab.
 ```
 
-MAKE THESE ONE QUESTION AND SPECIFY BORDER AND FILL COLORS
+```{r include = F}
+# Check your answer by running the check function (no inputs required). 
 
-ADD SECTION TO RESCALE WITH SCALE_Y_LOG10()
+.CHECK_q1()
+```
+
+```{r include = F}
+# You can ask for a hint by running this hint function (no inputs required).
+
+.HINT_q1()
+```
+
+```{r include = F}
+# Get the full solution by typing out the solution function:
+.SOLUTION_q1()
+```
+
+-   Building on your code from the last question, add a `scale_*()` function that transforms the y-axis to a logarithmic scale.
+
+```{r include = F}
+# Submit your answer:
+q2 <- "YOUR ANSWER HERE"
+
+# Ask for a hint:
+.HINT_q2()
+
+# Check your answer:
+.CHECK_q2()
+
+```
 :::
 
-The continents are a factor, and are ordered alphabetically by default. It might be more useful to order them by the mean or median life expectancy.
+## Reordering boxes with `reorder()`
 
-## Reordering with `reorder()`
+![Reorder boxplots by life expectancy instead of alphabetical order.](images/box_pretty_reorder.jpg){width="809"}
 
-We can change the order of boxplots by using the `reorder()` function to rearrange the data being mapped on the *x*-axis.
+The values of the `continent` variable are ordered alphabetically by default. If you look at the x-axis, it starts with Africa and goes alphabetically to Oceania.
 
-`reorder()` treats its first argument as a categorical variable (usually a factor), and reorders its levels based on the values of a second variable (usually numeric). To reorder the levels of the `continent` variable based on `lifeExp`, we will write this: `reorder(continent, lifeExp)`.
+It might be more useful to order them according to life expectancy, the y-axis variable.
 
-Here we will edit the `x` argument and tell `ggplot` to plot the reordered variable.
+We can change the levels of a factor in R using the **`reorder()`** function. If we reorder the levels of the `continent` variable, the boxplots will be plotted on the x-axis in that order.
+
+`reorder()` treats its first argument as a categorical variable , and reorders its levels based on the values of a second numeric variable.
+
+To reorder the levels of the `continent` variable based on `lifeExp`, we will use the syntax **`reorder(CATEGORIAL_VAR, NUMERIC_VAR)`**. Like this: `reorder(continent, lifeExp)`.
+
+Here we will edit the `x` argument and tell `ggplot()` to reorder the variable.
 
 ```{r}
 ggplot(gapminder, 
-       aes(x = reorder(continent, lifeExp), 
-           y = lifeExp)) +
-  geom_boxplot()
+       aes(x = reorder(continent, lifeExp),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+
 ```
 
 We can clearly see that there are notable differences in median life expectancy between continents. However, there is a lot of overlap between the range of values from each continent. For example, the median life expectancy for the continent of Africa is lower than that of Europe, but several African countries have life expectancy values higher than than the majority of European countries.
 
 ### Reordering by function
 
-mean, median, etc.
+The default method reorders factor based on the **mean** of the numeric variable.
 
-::: practice
--   Create the boxplot showing the distribution of GDP per capita for each continent, like you did in practice question 2. This time, change the x axis variable to reorder the boxes according to `gdpPercap`.
+We can add a third argument to choose a different method, like the **median** or **maximum**.
 
-```{r eval = FALSE}
-# Type and view your answer:
-q3 <- "YOUR ANSWER HERE" 
-  
-q3
+```{r}
+# Arrange boxplots by median life expectancy
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp, median),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+
+# Arrange boxplots by max life expectancy
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp, max),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
 ```
 
-ADD QUESTION ON LABS
+The boxplots are arranged in **increasing** order.
+
+To sort boxes in boxplot in **descending** order, we add **negation** to `lifeExp` within the `reorder()` function.
+
+```{r}
+# Arrange boxplots by descending median life expectancy
+ggplot(gapminder, 
+       aes(x = reorder(continent, -lifeExp, median),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+::: practice
+Create the boxplot showing the distribution of GDP per capita for each continent, like you did in practice question 2. Retain the fill, line width, and scale from that plot.
+
+Now, **reorder** the boxes by **mean** `gdpPercap`, in **descending** order.
+
+```{r include = F}
+# Submit your answer:
+q3 <- "YOUR ANSWER HERE"
+
+# Ask for a hint:
+.HINT_q3()
+
+# Check your answer:
+.CHECK_q3()
+
+```
+
+Building on the code from the previous question, add **labels** to your plot.
+
+-   Set the **main title** to "Variation in GDP per capita across continents (1952-2007)"
+
+-   Change the **x-axis title** to "Continent", and
+
+-   Change the **y-axis title** to "Income per person (USD)".
+
+```{r include = F}
+# Submit your answer:
+q4 <- "YOUR ANSWER HERE"
+
+# Ask for a hint:
+.HINT_q4()
+
+# Check your answer:
+.CHECK_q4()
+
+```
 :::
 
 ## Adding data points with `geom_jitter()`
 
-Boxplots give us a very high-level summary of the distributions and do not show the actual life expectancy values for each country-year in the dataset. One way to display the distribution of individual data points is to plot an additional layer on top of the boxplot. We can do this by simply adding the `geom_point()` function.
+Boxplots give us a very high-level summary of the distribution of a numeric variable for several groups. The problem is that summarizing also means losing information.
+
+If we consider our `lifeExp` boxplot, it is easy to conclude that Oceania has a higher value than the others. However, we cannot see the underlying distribution of data points in each group or their number of observations.
+
+```{r}
+# Basic lifeExp boxplot from earlier
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp),
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6)
+```
+
+Let's see what happens when the boxplot is improved using additional elements.
+
+One way to display the distribution of individual data points is to plot an additional **layer of points** on top of the boxplot.
+
+We *could* do this by simply adding the `geom_point()` function.
 
 ```{r}
 ggplot(gapminder, 
@@ -205,9 +428,9 @@ ggplot(gapminder,
       geom_point()
 ```
 
-Adding `geom_point()` as has plotted all the data points on a vertical line. That's not very useful since all the points with same life expectancy value directly overlap and are plotted on top of each other.
+However, `geom_point()` as has plotted all the data points on a vertical line. That's not very useful since all the points with same life expectancy value directly overlap and are plotted on top of each other.
 
-One solution for this is to randomly "jitter" data points horizontally. `ggplot` allows you to do that with the `geom_jitter()` function.
+One solution for this is to randomly "jitter" data points horizontally. `ggplot` allows you to do that with the **`geom_jitter()`** function.
 
 ```{r}
 ggplot(gapminder, 
@@ -218,7 +441,7 @@ ggplot(gapminder,
   geom_jitter()
 ```
 
-You can also control the width of the jitter with `width` argument and specify transparency of data points with `alpha`.
+You can also control the amount of jittering with **`width`** argument and specify opacity of points with `alpha`.
 
 ```{r}
 ggplot(gapminder, 
@@ -230,44 +453,76 @@ ggplot(gapminder,
               alpha = 0.5)
 ```
 
-::: key-point
+Here some new patterns appear clearly. Oceania has a small sample size compared to the other groups. This is definitely something you want to find out before saying that Oceania has higher life expectancy than the others.
+
+::: recap
 Boxplots have the limitation that they summarize the data into five numbers: the 1st quartile, the median (the 2nd quartile), the 3rd quartile, and the upper and lower whiskers. By doing this, we might miss important characteristics of the data. One way to avoid this is by showing the data with points.
 :::
 
 ::: practice
--   Create the boxplot showing the distribution of GDP per capita for each continent, like you did in practice question 3. Then add a layer of jittered points with `geom_jitter()`.
+-   Create the boxplot showing the distribution of GDP per capita for each continent, like you did in practice question 3. Then add a layer of jittered points.
 
-```{r eval = FALSE}
-# Type and view your answer:
-q4 <- "YOUR ANSWER HERE" 
-  
-q4
-```
-
--   Adapt your answer to question 4 to make the points more transparent and change the width of the jitter to an appropriate value.
-
-```{r eval = FALSE}
+```{r include = F}
 # Type and view your answer:
 q5 <- "YOUR ANSWER HERE" 
   
 q5
 ```
-SPECIFY VALUES FOR WIDTH AND ALPHA
 
-:::
+```{r include = F}
+# Submit your answer:
+q5 <- "YOUR ANSWER HERE"
 
-::: challenge
--   Building on the boxplot of life expectancy per continent from the previous example, add the `labs()` function to edit text on your plot.
--   set the plot title to "Variation in life expectancy across continents (1952-2007)"
--   change the x axis label to "Continent", and
--   change the y axis label to "Life expectancy (years)".
--   Using the boxplot you made in question 5, use the `labs()` function to edit text on your plot. Set the plot title to "Variation in life expectancy across continents (1952-2007)", change the x axis label to "Continent", and the y axis label to "Life expectancy (years)".
+# Ask for a hint:
+.HINT_q5()
 
-```{r eval = FALSE}
+# Check your answer:
+.CHECK_q5()
+
+```
+
+-   Adapt your answer to question 4 to make the points 45% transparent and change the width of the jitter to 0.3mm.
+
+```{r include = F}
 # Type and view your answer:
 q6 <- "YOUR ANSWER HERE" 
   
 q6
+```
+
+```{r include = F}
+# Submit your answer:
+q6 <- "YOUR ANSWER HERE"
+
+# Ask for a hint:
+.HINT_q6()
+
+# Check your answer:
+.CHECK_q6()
+
+```
+:::
+
+::: challenge
+**Adding mean markers to a boxplot**
+
+You may want to visualize the mean (average) value of the distributions on a boxplot.
+
+We can do this by adding a statistics layer using the **`stat_summary()`** function.
+
+```{r}
+# Add a marker to show the mean
+ggplot(gapminder, 
+       aes(x = reorder(continent, lifeExp), 
+           y = lifeExp, 
+           fill = continent,
+           color = continent)) +
+  geom_boxplot(alpha = 0.6) +
+  stat_summary(fun = "mean",
+               geom = "point",
+               size = 3,
+               shape = 23,
+               fill = "white")
 ```
 :::
 

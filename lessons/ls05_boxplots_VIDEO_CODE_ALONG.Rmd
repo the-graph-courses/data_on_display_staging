@@ -26,11 +26,11 @@ For better clarity, we recommend viewing this document in VISUAL MODE.
 if(!require(pacman)) install.packages("pacman")
 
 # Source functions 
-source(here("global/functions/lesson_functions.R"))
+source(here::here("global/functions/lesson_functions.R"))
 
 # Source autograder script quietly 
 set.seed(1024)
-source(here("lessons/ls05_boxplots_autograder.R"))
+source(here::here("lessons/ls05_boxplots_autograder.R"))
 ```
 
 # Boxplots with {ggplot2}
