@@ -37,7 +37,7 @@ source(here("lessons/ls05_boxplots_autograder.R"))
 
 ![](images/box_pretty.png){width="582"}
 
-## Learning Objectives
+# Learning Objectives
 
 By the end of this lesson, you will be able to:
 
@@ -45,15 +45,15 @@ By the end of this lesson, you will be able to:
 2.  Reorder side-by-side boxplots with the **`reorder()`** function.
 3.  Add a layer of data points on a bloxplot using **`geom_jitter()`**.
 
-## Introduction
+# Introduction
 
-### Anatomy of a boxplot
+## Anatomy of a boxplot
 
 A boxplot consists of two parts: the **box** and the **whiskers**.
 
 ![Boxplots visualize summary statistics of continuous data.](images/boxplot_anatomy.png){alt="Anatomy of a boxplot" width="757"} 
 
-### Potential pitfalls
+## Potential pitfalls
 
 • Boxplots display a **five number summary**, so we might lose important information.
 
@@ -61,7 +61,7 @@ A boxplot consists of two parts: the **box** and the **whiskers**.
 
 ![](images/box_pretty_points.png){width="582"}
 
-## Packages
+# Packages
 
 ```{r}
 # Load packages
@@ -70,7 +70,7 @@ A boxplot consists of two parts: the **box** and the **whiskers**.
 
 
 
-## The `gapminder` dataset
+# The `gapminder` dataset
 
 We will visualize global health and economic data from the `gapminder` data frame.
 
@@ -92,7 +92,7 @@ summary(gapminder)
 
 
 
-## Basic boxplots with `geom_boxplot()`
+# Basic boxplots with `geom_boxplot()`
 
 ![](images/ggplot_boxplot_syntax.png){width="540"}
 
@@ -188,7 +188,7 @@ q2 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Reordering boxes with `reorder()`
+# Reordering boxes with `reorder()`
 
 ![Reorder boxplots by life expectancy instead of alphabetical order.](images/box_pretty_reorder.jpg){width="809"}
 
@@ -284,7 +284,7 @@ q4 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Adding data points with `geom_jitter()`
+# Adding data points with `geom_jitter()`
 
 • The 5-number summary might miss important characteristics of the data.
 
@@ -386,17 +386,17 @@ ggplot(gapminder,
 :::
 
 
-## Learning Outcomes
+# Learning Outcomes
 
 1.  You can plot a boxplot to visualize the distribution of continuous data using **`geom_boxplot()`**.
 2.  You can reorder side-by-side boxplots with the **`reorder()`** function, and choose different methods to arrange boxes.
 3.  You can add a layer of individual data points on a bloxplot using **`geom_jitter()`**, and control the width of the jitter area.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "kendavidn", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 
@@ -404,5 +404,17 @@ Some material in this lesson was adapted from the following sources:
 -   R Graphics Cookbook
 -   That one article on my phone
 -   R Graph gallery
+
+
+# Solutions 
+
+```{r}
+.SOLUTION_q1()
+.SOLUTION_q2()
+.SOLUTION_q3() 
+.SOLUTION_q4()
+.SOLUTION_q5()
+.SOLUTION_q6()
+```
 
 `r .tgc_license()`

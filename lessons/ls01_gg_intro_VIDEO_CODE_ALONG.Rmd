@@ -637,3 +637,13 @@ ggplot(data = nigerm,
 4.  You can create different types of plots such as **scatter plots**, **line graphs**, and **bar graphs**.
 
 5.  You can add and modify **aesthetic mappings** of data variables to **color** and **fill**.
+
+# Solutions 
+
+```{r}
+.SOLUTION_nigerm04_scatter()
+.SOLUTION_nigerm04_bar()
+.SOLUTION_nigerm04_line()
+.SOLUTION_nigerm04_pinkbar()
+```
+

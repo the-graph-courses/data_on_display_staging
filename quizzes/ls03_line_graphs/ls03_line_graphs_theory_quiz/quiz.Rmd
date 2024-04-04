@@ -41,7 +41,7 @@ Good luck!
 
 Quiz Contributors: [Zachary Anderson](https://thegraphcourses.org/members/zachary){target="_blank"}, [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
 
-# Q - ??
+# Q: geom function
 
 What is the `geom_*()` function we use for line graphs?
 
@@ -77,7 +77,7 @@ That's a bit off.
 
 `geom_line()` is used to create line graphs in {ggplot2}
 
-# Q -
+# Q: what is a line graph
 
 Line graphs, just like scatter plots, display the relationship between two numeric variables.
 
@@ -103,7 +103,7 @@ As two-dimensional plots, line and scatter plots can both be used to show the re
 
 As two-dimensional plots, line and scatter plots can both be used to show the relationship of two variables (if the variables are numbers.
 
-# Q -
+# Q: line graphs and time
 
 A line graph is an effective method of displaying relationships when one of the two variables represents time.
 Therefore, it is preferred to use line graphs over scatter plots when the variable on the x-axis represents time.
@@ -128,7 +128,7 @@ That's the one!
 
 Please look at some of the examples about data across time from our lesson (or other sources).
 
-# Q -
+# Q: line graphs and time 2 
 
 A line graph is an ineffective method of displaying relationships when one of the two variables represents time.
 Therefore, it is preferred to use scatter plots over line graphs when the variable on the x-axis represents time.
@@ -154,7 +154,7 @@ That's the one!
 You might think that, but read the question again!
 The examples about data across time from our lesson use line graphs, and you may find them in other sources as well.
 
-# Q -
+# Q: line type
 
 The `linetype` argument can be specified using a name (e.g., `“dotted”`) or with an integer.
 
@@ -193,7 +193,7 @@ knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
 
-# Q -
+# Q: line type 2
 
 Which of the following code blocks will produce a plot with a dotted line?
 
@@ -240,7 +240,7 @@ knitr::include_graphics(here("lessons/images/line_types.png"))
 ```
 
 
-# Q -
+# Q: line and point graph
 
 You can plot points on a line graph by adding a second `geom` layer using `geom_point()`
 
@@ -280,7 +280,7 @@ ggplot(data = beaver1,
   geom_point()
 ```
 
-# Q -
+# Q: one geom layer
 
 A plot must have one and only one `geom_*` layer.
 
@@ -303,9 +303,6 @@ However, the geom plots aren't.
 As long as the plots are compatible, you can layer them together.
 This may be especially useful for illustrating specific points of interest about your data.
 
-```{r}
-
-```
 
 ## Incorrect message
 
@@ -313,11 +310,7 @@ Let's bring it together.
 As long as the plots are compatible, you can layer them.
 This is especially useful for illustrating specific points of interest about your data.
 
-```{r}
-
-```
-
-# Q -
+# Q: line type as fixed aesthetic
 
 The `linetype` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
 
@@ -351,7 +344,7 @@ Keeping it in line!
 
 ```
 
-# Q -
+# Q: line type as aesthetic mapping
 
 The `linetype` argument can only be used as an aesthetic mapping, not a fixed aesthetic.
 
@@ -384,7 +377,7 @@ You have the right type!
 
 ```
 
-# Q - seq for scale breaks
+# Q: seq for scale breaks
 
 {ggplot2} automatically scales aesthetic mappings like x and y position.
 
@@ -469,7 +462,7 @@ ggplot(data = afg_pop,
   scale_x_continuous(breaks = seq(1995, 2013, 3))
 ```
 
-# Q
+# Q: visualize and compare trends
 
 The code below attempts to visualize and compare trends of GDP per capita over time for countries in West Africa.
 
@@ -639,7 +632,7 @@ ggplot(data = gap_wafr,
   geom_point(shape = 23)
 ```
 
-# Q 
+# Q: transform axis scaling from linear to logarithmic 
 
 Which of these {ggplot2} functions work for transform axis scaling from linear to logarithmic?
 
@@ -690,59 +683,3 @@ knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
 ```
 
 See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
-
-# Q 
-
-Which of these {ggplot2} functions work for transform axis scaling from linear to logarithmic?
-
-## A
-
-`scale_y_ln()`
-
-## B
-
-`scale_y_log10()`
-
-## C
-
-`scale_y_continuous()`
-
-## D
-
-`scale_log10_y()`
-
-## Answer
-
-B
-
-## Correct message
-
-Great memory!
-
-These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
-There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
-
-
-Here is the general syntax used by scale functions:
-
-```{r echo = F}
-knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
-```
-
-See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
-
-
-## Incorrect message
-
-These can be confusing. Note that {ggplot2} scale functions start with `scale_*` where `*` is the name of the aesthetic mapping being scaled.
-There are many scale functions like `scale_fill_*()`, `scale_color_*()`, `scale_alpha_*()`, `scale_size_*()`, etc. that give you fine control of each aesthetic mapping.
-
-
-Here is the general syntax used by scale functions:
-
-```{r echo = F}
-knitr::include_graphics(here("lessons/images/ggplotScales01.png"))
-```
-
-See the *Scales* section on the {ggplot2} [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf) for more info.
-

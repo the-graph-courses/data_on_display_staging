@@ -335,4 +335,15 @@ Some material in this lesson was adapted from the following sources:
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
 
+# Solutions 
+
+```{r}
+.SOLUTION_q1()
+.SOLUTION_q2()
+.SOLUTION_q3() 
+.SOLUTION_q4()
+.SOLUTION_q5()
+```
+
+
 `r .tgc_license()`

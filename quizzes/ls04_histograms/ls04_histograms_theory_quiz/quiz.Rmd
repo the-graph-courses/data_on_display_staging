@@ -19,14 +19,14 @@ pacman::p_load(tidyverse,
 
 ```
 
-```{r, echo = F, message = F, warning = F, eval=F}
+```{r, echo = F, message = F, warning = F}
 opts_chunk$set(warning = F, message = F)
 
 # # Setup for uploading images
-# source(here("global/functions/misc_functions.R"))
-# if (!drive_has_token()) drive_auth(email = "trainingteam@thegraphnetwork.org")
-# options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
-knitr::opts_knit$set(upload.fun = imgur_upload)
+source(here("global/functions/misc_functions.R"))
+drive_auth(email = "trainingteam@thegraphnetwork.org")
+options(gargle_oauth_email = "trainingteam@thegraphnetwork.org")
+knitr::opts_knit$set(upload.fun = gdrive_upload)
 ```
 
 # Intro
@@ -36,7 +36,7 @@ Good luck!
 
 Quiz Contributors: [Joy Vaz](https://thegraphcourses.org/members/joy/){target="_blank"}, [Kene David Nwosu](https://thegraphcourses.org/members/kendavidn/){target="_blank"}
 
-# Q - geom function
+# Q: geom function
 
 What is the `geom_*()` function we use for histograms in {ggplot2}?
 
@@ -70,7 +70,7 @@ Correct!
 
 `geom_histogram()` is used to create histograms in {ggplot2}
 
-# Q - distribution TF
+# Q: distribution TF
 
 Histograms are used to display distributions.
 
@@ -90,9 +90,6 @@ A
 
 Correct!
 
-IMAGETEST
-![](../../../lessons/images/plot_types_table_cropped.jpg)
-
 ```{r echo = F}
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
@@ -105,7 +102,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - relationships TF
+# Q: relationships TF
 
 Histograms are used to display relationships.
 
@@ -137,7 +134,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - continuous TF
+# Q: continuous TF
 
 Histograms are used to visualize continuous data.
 
@@ -169,7 +166,7 @@ Check again!
 knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 ```
 
-# Q - bins TF
+# Q: bins TF
 
 The `bins` argument must be set equal to a number.
 
@@ -196,7 +193,7 @@ We set `bins` equal to an integer which tells `geom_histogram()` how many bars t
 It's true.
 We set `bins` equal to an integer which tells `geom_histogram()` how many bars to draw.
 
-# Q - binwidth def
+# Q: binwidth def
 
 What does the `binwidth` argument specify?
 
@@ -237,7 +234,7 @@ The number of bins can be specified with the `bins` argument.
 The height of bars is determined by the number of observations that fall into the corresponding bin.
 The x-axis range is determined by the range of values in the data variable being plotted.
 
-# Q - bins def
+# Q: bins def
 
 What does the `bins` argument specify?
 
@@ -280,7 +277,7 @@ The width of bins can be specified with the `binwidth` argument.
 The height of bars is determined by the number of observations that fall into the corresponding bin.
 The x-axis range is determined by the range of values in the data variable being plotted.
 
-# Q - bins vs binwidth
+# Q: bins vs binwidth
 
 Which statement is correct?
 
@@ -377,7 +374,7 @@ ggplot(data = iris,
 
 
 
-# Q - binwidth fixed vs mapped
+# Q: binwidth fixed vs mapped
 
 The `binwidth` argument can only be used as a fixed aesthetic, not an aesthetic mapping.
 
@@ -403,7 +400,7 @@ Keep going.
 
 
 
-# Q - bins fixed vs mapped
+# Q: bins fixed vs mapped
 
 The `bins` argument can only be used as an aesthetic mapping, not a fixed aesthetic.
 
@@ -430,7 +427,7 @@ Keep going.
 
 
 
-# Q - univariate continuous
+# Q: univariate continuous
 
 A histogram can visualize:
 
@@ -473,7 +470,7 @@ knitr::include_graphics(here("lessons/images/plot_types_table_cropped.jpg"))
 
 
 
-# Q - Boundary usage
+# Q: Boundary usage
 
 What argument in `geom_histogram()` can you use to shift and align bins on a histogram?
 
@@ -508,7 +505,7 @@ You can use the `boundary` argument in `geom_histogram()` to shift and align bin
 
 
 
-# Q - precedence bins vs binwidth
+# Q: precedence bins vs binwidth
 
 What happens if you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`?
 
@@ -542,7 +539,7 @@ If you set the `binwidth` and `bins` arguments at the same time in `geom_histogr
 If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.
 
 
-# Q - default bins number
+# Q: default bins number
 
 What is the default value for the `bins` argument in `geom_histogram()`?
 

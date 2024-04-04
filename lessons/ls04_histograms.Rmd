@@ -41,7 +41,7 @@ ggplot(data =  malidd ,
   theme_light()
 ```
 
-## Learning Objectives
+# Learning Objectives
 
 By the end of this lesson, you will be able to:
 
@@ -50,7 +50,7 @@ By the end of this lesson, you will be able to:
 3.  Shift and align bins on a histogram with the **`boundary`** argument.
 4.  Set bin boundaries to a sequence of values with the **`breaks`** argument.
 
-## Introduction
+# Introduction
 
 A histogram is a plot that visualizes the *distribution* of a numerical value as follows:
 
@@ -60,14 +60,14 @@ A histogram is a plot that visualizes the *distribution* of a numerical value as
 
 3.  Then for each bin, we draw a bar whose height marks the corresponding count.
 
-## Packages
+# Packages
 
 ```{r}
 pacman::p_load(tidyverse,
                here)
 ```
 
-## Childhood diarrheal diseases in Mali
+# Childhood diarrheal diseases in Mali
 
 We will visualize distributions of numerical variables in the `malidd` data frame, which we've seen in previous lessons.
 
@@ -87,7 +87,7 @@ head(malidd)
 
 The dataframe has 21 variables, many of which are continuous, like `height_cm`, `viral_load`, and `freqrespi`.
 
-## Basic histograms with `geom_histogram()`
+# Basic histograms with `geom_histogram()`
 
 Now let's use {ggplot2} to plot the distribution of childrens' heights, which is recorded in the `heigh_cm` column of `malidd`.
 
@@ -182,7 +182,7 @@ q2 <- "YOUR ANSWER HERE"
 ```
 :::
 
-## Adjusting bins in a histogram
+# Adjusting bins in a histogram
 
 ![Histograms plotting the same variable with different bin settings.](images/hist_varied_bins.png)
 
@@ -206,7 +206,7 @@ We can change the number of bins to another value using one of these three argum
 
 3.  Set bin boundaries **`breaks`**
 
-### Set the number of bins with `bins`
+## Set the number of bins with `bins`
 
 Using the first method, we have the power to specify how many bins we would like to cut the x-axis up in by setting `bins = INTEGER`:
 
@@ -241,7 +241,7 @@ Notice that with the default of 30 bins, there are some intervals for which no b
 Low the number of bins until there are no empty intervals. You should choose the highest value of bins for which there are no empty spaces.
 :::
 
-### Set the width of bins with `binwidth`
+## Set the width of bins with `binwidth`
 
 Using the second method, instead of specifying the number of bins, we specify the width of the bins by using the `binwidth` argument in `geom_histogram()`.
 
@@ -284,7 +284,7 @@ ggplot(data =  malidd,
 Create the same `freqrespi` histogram from the last practice question, but this time set the bin width to to a value that results in 18 bins. Then align the bars to the x axis breaks by adjusting the bin boundaries.
 :::
 
-### Modify bin boundaries with `breaks`
+## Modify bin boundaries with `breaks`
 
 Set `breaks` equal to a **numeric vector** in `geom_histogram()`:
 
@@ -303,19 +303,30 @@ Plot the `freqrespi` histogram with bin breaks that range from the lowest value 
 Next, adjust the x-axis scale breaks by adding a `scale_*()` function. Set the range to 24-60, with an intervals of 8.
 :::
 
-## Summary
+# Summary
 
 Histograms, unlike scatterplots and linegraphs, present information on only a single numerical variable. Specifically, they are visualizations of the distribution of the numerical variable in question.
 
-## Contributors {.unlisted .unnumbered}
+# Contributors {.unlisted .unnumbered}
 
 The following team members contributed to this lesson: `r .tgc_contributors_list(ids = c("joy", "admin"))`
 
-## References {.unlisted .unnumbered}
+# References {.unlisted .unnumbered}
 
 Some material in this lesson was adapted from the following sources:
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 -   Chang, Winston. 2013. *R Graphics Cookbook: Practical Recipes for Visualizing Data*. 1st edition. Beijing Köln: O'Reilly Media.
+
+
+# Solutions 
+
+```{r}
+.SOLUTION_q1()
+.SOLUTION_q2()
+.SOLUTION_q3() 
+.SOLUTION_q4()
+.SOLUTION_q5()
+```
 
 `r .tgc_license()`
