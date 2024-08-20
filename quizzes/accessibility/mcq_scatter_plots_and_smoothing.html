@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple-choice Quiz | Scatter plots and smoothing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .answers li label {
+            margin-left: 8px;
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap; /* Wrap code */
+            overflow-x: auto; /* Scroll if too wide */
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Multiple-choice Quiz | Scatter plots and smoothing</h1>
+    <p>This quiz tests your understanding of the lesson on scatter plots and smoothing.</p>
+    <p>You will be presented with multiple-choice questions where only <strong>1 answer</strong> is correct. Once you have answered all the questions, click on the `CHECK ANSWERS` button. Afterwards, your final score will be shown at the bottom of the page followed by a review of the questions and feedback messages indicating if the question is "Correct" or "Incorrect".</p>
+    <p>You can retake this quiz as many times as you'd like; simply refresh the page. Each attempt will present 7 random questions. There are a total of 21 questions in the question bank. We encourage you to retake this quiz multiple times to get additional practice.</p>
+    <p>You are now ready to start. Good luck!</p>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">CHECK ANSWERS</button>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+
+    const quizData = [
+        {
+            question: "Imagine a scatter plot which uses the `mtcars` dataset to visualize automobile weight (`wt`) vs. gross horsepower (`hp`). Which of the following is a valid input for modifying aesthetics in `geom_point()`?",
+            options: [
+                "`geom_point(size = 3)`",
+                "`geom_point(alpha = 2)`",
+                "`geom_point(color = blue)`",
+                "`geom_point(shape = point)`"
+            ],
+            correct: 0,
+            correctMessage: "Perfect! Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics.",
+            incorrectMessage: "Incorrect. Let's *fix* any misunderstandings! Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics."
+        },
+        {
+            question: "Imagine a scatter plot which uses the `mtcars` dataset to visualize the relationship between fuel consumption (`mpg`) vs. weight (`wt`). Which of the following is a NOT valid input to `geom_point()`?",
+            options: [
+                "`geom_point(size = large)`",
+                "`geom_point(alpha = 0.8)`",
+                "`geom_point(color = \"blue\")`",
+                "`geom_point(shape = 9)`"
+            ],
+            correct: 0,
+            correctMessage: "You're miles ahead! Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics.",
+            incorrectMessage: "Incorrect. Let's *fix* this! Aesthetics set inside directly inside a `geom_*()` function are fixed aesthetics."
+        },
+        {
+            question: "With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data. What can you add to this code to help you visualize overlapping points?",
+            options: [
+                "We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 0.1` in `geom_point()`",
+                "We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 1.9` in `geom_point()`",
+                "We can make the points semitransparent using the `alpha` aesthetic, by setting `alpha = 0.1` in `aes()`",
+                "We can make the points semitransparent by avoiding darker shades and using lighter color, by setting `color = \"lightgray\"` for example."
+            ],
+            correct: 0,
+            correctMessage: "Wow, you could see through the wrong answers! Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.",
+            incorrectMessage: "Incorrect. Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points."
+        },
+        {
+            question: "With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data. Which of the following will aid viewers to increase *clarity* in a scatter plot when there is overplotting?",
+            options: [
+                "Setting `alpha = 2` in `aes()`",
+                "Setting `alpha = 2` in `geom_point()`",
+                "Setting `alpha = 0.1` in `aes()`",
+                "None of these options will improve the readability of overplotted points."
+            ],
+            correct: 3,
+            correctMessage: "You *clear*ly know what you're doing! Fixed aesthetics should not be set in `aes()`.",
+            incorrectMessage: "Incorrect. Let's *clear* things up! Fixed aesthetics should not be set in `aes()`."
+        },
+        {
+            question: "With large datasets, the points in a scatter plot may overlap and prevent the viewer from accurately assessing the distribution of the data. Which of the following will help us understand relationships in a scatter plot when there are a lot of overlapping points?",
+            options: [
+                "Adding an additional geometric layer with `geom_smooth()`",
+                "Setting `alpha = 0.05` in `geom_point()`",
+                "Setting `alpha = 0.2` in `geom_point()`",
+                "All of these options will aid in highlighting patterns in scatter plot when there is overplotting."
+            ],
+            correct: 3,
+            correctMessage: "Great job connecting the dots! Adding a degree of transparency with `alpha` as a fixed aesthetic in `geom_point()` can help visualize overlapping points.",
+            incorrectMessage: "Incorrect. There are few different approaches to addressing overplotting on a scatterplot."
+        },
+        {
+            question: "Which of the following statements is TRUE?",
+            options: [
+                "{ggplot2} will automatically layer the trend line on top of the points, so the order in which you chain `geom_*()` functions does not matter.",
+                "{ggplot2} will display layers in the order they appear in your code.",
+                "Adding `geom_smooth()` before `geom_point()` will result in and error. You need to plot the points first so that line has something to be fitted to."
+            ],
+            correct: 1,
+            correctMessage: "You're trendy! Geometry layers are plotted in the order they appear in the code, one on top of the other.",
+            incorrectMessage: "Incorrect. The order of layers is not pointless! Geometry layers are plotted in the order they appear in the code, one on top of the other."
+        },
+        {
+            question: "Which of the following is NOT true about smoothing with `geom_smooth()`?",
+            options: [
+                "Adding a smoothing layer can aid the eye in seeing overall patterns on a scatterplot.",
+                "You can specify which smoothing function to use by adding the `method` argument.",
+                "The smoothing function is fitted applied to the data variables specified in `aes()`.",
+                "A smoothing curve is drawn to fit the points on a scatter plot created by `geom_point()`. No points will result in no smoothing line being plotted."
+            ],
+            correct: 3,
+            correctMessage: "You've got the point! The smoothing method (or function) used by `geom_smooth()` is fitted to the data, not the points on a different layer.",
+            incorrectMessage: "Incorrect. The smoothing method (or function) used by `geom_smooth()` is fitted to the data, not the points on a different layer."
+        },
+        {
+            question: "`geom_smooth()` will automatically display 95% confidence intervals around the smoothing line.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+           
+
+ correctMessage: "Nice! We're *confident* that you'll rock this quiz!",
+            incorrectMessage: "The `se` argument in `geom_smooth()` dictates whether or not to display confidence intervals."
+        },
+        {
+            question: "Scatter plots created by `geom_point()` are most commonly used to display what kind of information?",
+            options: [
+                "The relationship between two continuous variables",
+                "The distribution of a single continuous variable",
+                "Distribution of a single discrete variable",
+                "All of the answers are correct"
+            ],
+            correct: 0,
+            correctMessage: "You are on-point! Here is a table summarizing the common plot types.",
+            incorrectMessage: "Incorrect. Not quite! Here is a table summarizing the common plot types."
+        },
+        {
+            question: "When you define your geometric layers with ggplot, you can specify an alpha value. What can you control with this value?",
+            options: [
+                "The opacity/transparency of your geometric objects.",
+                "The hierarchy of your geometric objects.",
+                "The RGB code to define the colors on the plot."
+            ],
+            correct: 0,
+            correctMessage: "Correct! The alpha value controls the opacity/transparency of your geometric objects.",
+            incorrectMessage: "Incorrect. Not quite! The alpha value controls the opacity/transparency of your geometric objects."
+        },
+        {
+            question: "You want to add a smoothing line to your plot, which of the functions below can be used for this?",
+            options: [
+                "`geom_smooth()`",
+                "`smooth()`",
+                "`geom_curve()`",
+                "`geom_trend()`"
+            ],
+            correct: 0,
+            correctMessage: "Correct! `geom_smooth()` is used to add a smoothing line to your plot.",
+            incorrectMessage: "Incorrect. Not quite! `geom_smooth()` is used to add a smoothing line to your plot."
+        },
+        {
+            question: "What is the name of the function used to create scatter plots in R?",
+            options: [
+                "`geom_scatter()`",
+                "`geom_point()`",
+                "`geom_dot()`",
+                "`geom_scatterplot()`"
+            ],
+            correct: 1,
+            correctMessage: "Correct! `geom_point()` is used to create scatter plots in R.",
+            incorrectMessage: "Incorrect. Not quite! `geom_point()` is used to create scatter plots in R."
+        },
+        {
+            question: "A number of aesthetics can be specified in a `geom_*()` function. Options for the `geom_point()` function include `color`, `size`, and `alpha`. These assign a **fixed value** to color, size, and transparency, respectively.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct! These assign a fixed value to color, size, and transparency.",
+            incorrectMessage: "Incorrect. Not quite! These assign a fixed value to color, size, and transparency."
+        },
+        {
+            question: "In `ggplot2` graphs, functions are chained together using the `+` sign to build a final plot.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct! The `+` sign is used to chain functions together in `ggplot2` graphs.",
+            incorrectMessage: "Incorrect. Not quite! The `+` sign is used to chain functions together in `ggplot2` graphs."
+        },
+        {
+            question: "In `ggplot2` graphs, functions are chained together using the `%>%` sign to build a final plot.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 1,
+            correctMessage: "Correct! The `%>%` sign is not used to chain functions in `ggplot2`.",
+            incorrectMessage: "Incorrect. Not quite! The `%>%` sign is not used to chain functions in `ggplot2`."
+        },
+        {
+            question: "In `ggplot2` graphs, functions are chained together using the `->` sign to build a final plot.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 1,
+            correctMessage: "Correct! The `->` sign is not used to chain functions in `ggplot2`.",
+            incorrectMessage: "Incorrect. Not quite! The `->` sign is not used to chain functions in `ggplot2`."
+        },
+        {
+            question: "We can control the transparency/opacity of points by setting the `alpha` argument as a fixed aesthetic in `geom_point()`. Which of the following statements is NOT true about `alpha`?",
+            options: [
+                "`alpha = 0` sets the points to be 100% opaque and `alpha = 1` sets the points to be 100% transparent.",
+                "We can change the `alpha` argument to be any value between `0` and `1`.",
+                "`alpha = 0` sets the points to be 100% transparent and `alpha = 1` sets the points to be 100% opaque.",
+                "By default, `alpha` is set to `1`."
+            ],
+            correct: 0,
+            correctMessage: "Correct! `alpha = 0` sets the points to be 100% transparent and `alpha = 1` sets the points to be 100% opaque.",
+            incorrectMessage: "Incorrect. Not quite! `alpha = 0` sets the points to be 100% transparent and `alpha = 1` sets the points to be 100% opaque."
+        },
+        {
+            question: "The `fill` aesthetic controls the interior color of points for specific shapes.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct! The `fill` aesthetic controls the interior color of points for specific shapes.",
+            incorrectMessage: "Incorrect. Not quite! The `fill` aesthetic controls the interior color of points for specific shapes."
+        },
+        {
+            question: "The `color` aesthetic controls the outline or border color of points only for specific {ggplot2} shapes.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct! The `color` aesthetic controls the outline or border color of points only for specific shapes.",
+            incorrectMessage: "Incorrect. Not quite! The `color` aesthetic controls the outline or border color of points only for specific shapes."
+        },
+        {
+            question: "The `fill` aesthetic colors the inside of points for all {ggplot2} shapes.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 1,
+            correctMessage: "Correct! The `fill` aesthetic does not color the inside of points for all shapes.",
+            incorrectMessage: "Incorrect. Not quite! The `fill` aesthetic does not color the inside of points for all shapes."
+        }
+    ];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadQuiz() {
+        shuffle(quizData);
+        const selectedQuestions = quizData.slice(0, 7); // Select 7 random questions
+        const quizContainer = document.getElementById('quiz');
+        quizContainer.innerHTML = '';
+        selectedQuestions.forEach((data, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            let optionsHTML = data.options.map((option, i) => `
+                <li>
+                    <input type="radio" name="question${index}" value="${i}" id="q${index}a${i}">
+                    <label for="q${index}a${i}">${option}</label>
+                </li>
+            `).join('');
+            questionDiv.innerHTML = `
+                <h3>${data.question}</h3>
+                <ul class="answers">${optionsHTML}</ul>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        let feedbackHTML = '';
+        const selectedQuestions = quizData.slice(0, 7); // Re-select the same 7 questions
+        selectedQuestions.forEach((data, index) => {
+            const selected = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selected && parseInt(selected.value) === data.correct) {
+                score++;
+                feedbackHTML += `<p>${data.question}<br>${data.correctMessage}</p>`;
+            } else {
+                feedbackHTML += `<p>${data.question}<br>${data.incorrectMessage}</p>`;
+            }
+        });
+        document.getElementById('feedback').innerHTML = `Your score: ${score} / ${selectedQuestions.length}<br>${feedbackHTML}`;
+    }
+
+</script>
+</body>
+</html>

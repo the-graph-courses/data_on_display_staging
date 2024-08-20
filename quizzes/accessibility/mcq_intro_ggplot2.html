@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple-choice Quiz | Intro to ggplot2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .answers li label {
+            margin-left: 8px;
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap; /* Wrap code */
+            overflow-x: auto; /* Scroll if too wide */
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Multiple-choice Quiz | Intro to ggplot2</h1>
+    <p>This quiz tests your understanding of the basic functioning of the {ggplot2} package. </p>
+    <p>You will be presented with multiple-choice questions where only <strong>1 answer</strong> is correct. Once you have answered all the questions, click on the `CHECK ANSWERS` button. Afterwards, your final score will be shown at the bottom of the page followed by a review of the questions and feedback messages indicating if the question is "Correct" or "Incorrect".</p>
+    <p>You can retake this quiz as many times as you'd like; simply refresh the page. Each attempt will present 9 random questions. There are a total of 17 questions in the question bank. We encourage you to retake this quiz multiple times to get additional practice.</p>
+    <p>Note: the latest version of {ggplot2} has added an aesthetic called `linewidth` that will replace `size` aesthetic for scaling the width of lines in line based geoms like `geom_line()`. The `size` aesthetic will still work, but it is recommended to update all code to reflect the new aesthetic.<br>
+Unfortunately, our lesson was written and recorded before release of the update.  We have updated this quiz and lesson notes, however the lesson video has not been edited yet. Apologies for any inconvenience.</p>
+    <p>You are now ready to start. Good luck!</p>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">CHECK ANSWERS</button>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+
+    const quizData = [
+        {
+            question: "What does the `gg` in `ggplot2` stand for?",
+            options: [
+                "Graphical geometries",
+                "Grey goose",
+                "Grammar of graphics",
+                "Good game"
+            ],
+            correct: 2,
+            correctMessage: "Good game! GG stands for **G**rammar of **G**raphics.",
+            incorrectMessage: "Incorrect. Nice try, but not this time. GG stands for **G**rammar of **G**raphics."
+        },
+        {
+            question: "What is the name of the most robust R package for data visualization?",
+            options: [
+                "{base}",
+                "{ggplot}",
+                "{tidyverse}",
+                "{ggplot2}"
+            ],
+            correct: 3,
+            correctMessage: "You remembered! We use {ggplot2} for this course.",
+            incorrectMessage: "Incorrect. Sorry, that's not it. If you go back to the lessons, or some of the Esquisser graphs we've made, you'll see we use {ggplot2}."
+        },
+        {
+            question: "True or False: The {ggplot2} package is part of the {tidyverse} meta-package.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 1,
+            correctMessage: "Indeed, {ggplot2} is a core tidyverse package. You can take a look at the [tidyverse website](https://www.tidyverse.org/){target=\"_blank\"} to see all the packages in the tidyverse.",
+            incorrectMessage: "Incorrect. {ggplot2} is a core tidyverse package. You can take a look at the [tidyverse website](https://www.tidyverse.org/){target=\"_blank\"} to see all the packages in the tidyverse."
+        },
+        {
+            question: "Which of the code segments below will NOT work to load the {ggplot2} package?",
+            options: [
+                "`library(tidyverse)`",
+                "`library(ggplot)`",
+                "`library(ggplot2)`"
+            ],
+            correct: 1,
+            correctMessage: "Nice one! Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}.",
+            incorrectMessage: "Incorrect. Loading either {ggplot2} or {tidyverse} (which includes {ggplot2}) get us {ggplot2}."
+        },
+        {
+            question: "True or False: To properly use the `ggplot()` function, you need to provide all 7 grammar of graphics layers (data, aesthetics, geometries, facets, statistics, coordinates, and themes).",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "Correct! Only three layers have to be specified for a basic ggplot: data, aesthetics, and geometries.",
+            incorrectMessage: "Incorrect. Only three layers have to be specified for a basic ggplot: data, aesthetics, and geometries."
+        },
+        {
+            question: "What are the three essential layers for the `ggplot` function?",
+            options: [
+                "Facets, data, and statistics",
+                "Coordinates, data, and themes",
+                "Data, geometries, and aesthetics"
+            ],
+            correct: 2,
+            correctMessage: "Splendid! We need Data, Geometries, and Aesthetics for `ggplot` to work.",
+            incorrectMessage: "Incorrect. We need Data, Geometries, and Aesthetics for `ggplot` to work. Go back to the lesson and see!"
+        },
+        {
+            question: "All EXCEPT ONE of the code chunks shown will plot the scatter plot seen, using the `women` dataset in R. Which code chunk is faulty?",
+            options: [
+                "`ggplot(data = women, mapping = aes(x = height, y = weight)) + geom_point()`",
+                "`ggplot(women, aes(height, weight)) + geom_point()`",
+                "`women %>% ggplot(mapping = aes(x = height, y = weight)) + geom_point()`",
+                "`women %>% ggplot(aes(x = height, y = weight)) + geom_point()`",
+                "`ggplot(dataset = women, aesthet = c(height, weight)) + geom_point()`"
+            ],
+            correct: 4,
+            correctMessage: "Great catch! `dataset` and `aesthet` are incorrect arguments of `ggplot()`.",
+            incorrectMessage: "Incorrect. `dataset` and `aesthet` are incorrect arguments of `ggplot()`."
+        },
+        {
+            question: "In which layer would you define the color of your geometric object as an aesthetic mapping?",
+            options: [
+                "the `aes` layer",
+                "the `geom` layer",
+                "the `statistics` layer",
+                "the `data` layer"
+            ],
+            correct: 0,
+            correctMessage: "Exactly right! It's defined with the `aes` layer.",
+            incorrectMessage: "Incorrect. Sorry, that's not it! It's defined with the `aes` layer."
+        },
+        {
+            question: "The first layer in `ggplot()` is the data layer. Select the code block below that properly defines this layer.",
+            options: [
+                "`ggplot(data=dengue)`",
+                "`ggplot() + data(dengue)`",
+                "`ggplot.data(dengue)`"
+            ],
+            correct: 0,
+            correctMessage: "That's the one! Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function.",
+            incorrectMessage: "Incorrect. Remember that you can type in `?ggplot` into your R console to see how to properly define the arguments for this function."
+        },
+        {
+            question: "The code: `ggplot(data = swiss, mapping = aes(x = Fertility, y = Infant.Mortality))` tries to use the `swiss` dataset (a built-in R dataset) to create a scatter plot of `Infant.Mortality` against `Fertility`, but generates a blank plot due to an error/oversight. What is the problem with the code?",
+
+            options: [
+                "It is missing a data layer",
+                "It is missing an aesthetic mapping",
+                "It is missing a geometric function"
+            ],
+            correct: 2,
+            correctMessage: "Nice work! The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function.",
+            incorrectMessage: "Incorrect. The data layer and aesthetic mappings are properly specified, but there is no `geom_*` function."
+        },
+        {
+            question: "The code: `ggplot(women, aes(x = height, y = weight)) %>% geom_point()` attempts to create a scatterplot of weight against height using the `women` dataset (a built-in R dataset). The code is faulty however, and generates no plot. Which of the options below accurately describes the issue with the code?",
+            options: [
+                "The code is missing the x and y aesthetic mappings.",
+                "The code uses `%>%` instead of `+` to link the layers of the ggplot.",
+                "The code is missing the `data` argument to ggplot."
+            ],
+            correct: 1,
+            correctMessage: "Great work! Indeed the code uses `%>%` instead of `+`. This is a common error when plotting with ggplot.",
+            incorrectMessage: "Incorrect. The code uses `%>%` instead of `+`. This is a common error when plotting with ggplot."
+        },
+        {
+            question: "You try to plot a graph with the following code: `ggplot(mapping = aes(x = height, y = weight)) + geom_point()`, but R returns an error message. What is the problem with this code?",
+            options: [
+                "No color has been defined for the plot, so all the data points are transparent.",
+                "No geometric layer has been defined yet.",
+                "No dataset has been provided yet."
+            ],
+            correct: 2,
+            correctMessage: "**G**ood **g**ame! The data for ggplot to use has not been specified.",
+            incorrectMessage: "Incorrect. The data for ggplot to use has not been specified."
+        },
+        {
+            question: "Consider a plot which shows the populations of North and South Korea from 1995 to 2013. How could we change the code to generate a plot with thicker lines?",
+            options: [
+                "Add `linewidth = 3` inside the `aes()` function.",
+                "Add `linewidth = 3` inside the `geom_line()` function.",
+                "Add `linewidth = 3` inside the `ggplot()` function, but outside the `aes()` function."
+            ],
+            correct: 1,
+            correctMessage: "Great work! This is an example of *fixing* an aesthetic.",
+            incorrectMessage: "Incorrect. This is an example of *fixing* an aesthetic."
+        },
+        {
+            question: "Which of the following is NOT a valid geom function in {ggplot2}?",
+            options: [
+                "`geom_col()`",
+                "`geom_line()`",
+                "`geom_point()`",
+                "`geom_shade()`"
+            ],
+            correct: 3,
+            correctMessage: "That's the one! `geom_shade()` is not a {ggplot2} function.",
+            incorrectMessage: "Incorrect. `geom_shade()` is not a {ggplot2} function."
+        },
+        {
+            question: "Which of the below functions is not a `geom_*()` function in {ggplot2}?",
+            options: [
+                "`geom_scatterplot()`",
+                "`geom_point()`",
+                "`geom_line()`"
+            ],
+            correct: 0,
+            correctMessage: "Great going! `geom_scatterplot()` is not a ggplot2 function.",
+            incorrectMessage: "Incorrect. `geom_scatterplot()` is not a ggplot2 function."
+        },
+        {
+            question: "We want to generate a scatterplot of age and the daily number of TV hours watched from a survey in the US. Which of the following code would apply an aesthetic mapping to differentiate by the `marital` variable?",
+            options: [
+                "`ggplot(survey_sample, aes(x = age, y = tvhours)) + geom_point(color = marital)`",
+                "`ggplot(survey_sample, aes(x = age, y = tvhours)) + geom_point_colored(color = marital)`",
+                "`ggplot(survey_sample, aes(x = age, y = tvhours, color = marital)) + geom_point()`",
+                "`ggplot(survey_sample, aes(x = age, y = bmi)) + geom_point(sex = c(male = \"blue\", female = \"orange\"))`"
+            ],
+            correct: 2,
+            correctMessage: "You got it! `color = marital` inside the `aes` mapping will produce different colors for each marital status.",
+            incorrectMessage: "Incorrect. `color = marital` inside the `aes` mapping will produce different colors for each marital status."
+        },
+        {
+            question: "Imagine a dataset, which records the total number of HIV cases per year in Ghana, Thailand, and Zambia from 1995 to 2009. We plotted the following line graph showing `total_cases` per `year` using `geom_line()`. All EXCEPT ONE of the following statements is true about the `ggplot` code needed to create this plot. Which statement is FALSE?",
+            options: [
+                "The `x` aesthetic argument should go inside `aes()`.",
+                "The `y` aesthetic argument should go inside `aes()`.",
+                "The `color` aesthetic argument should go outside `aes()`.",
+                "The `color` aesthetic argument should go inside `aes()`."
+            ],
+            correct: 2,
+            correctMessage: "Great job! The `color` aesthetic argument should go inside `aes()`.",
+            incorrectMessage: "Incorrect. The `color` aesthetic argument should go inside `aes()`."
+        }
+    ];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadQuiz() {
+        shuffle(quizData);
+        const selectedQuestions = quizData.slice(0, 9); // Select 9 random questions
+        const quizContainer = document.getElementById('quiz');
+        quizContainer.innerHTML = '';
+        selectedQuestions.forEach((data, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            questionDiv.innerHTML = `
+                <h3>${data.question}</h3>
+                <ul class="answers">
+                    ${data.options.map((option, i) => `
+                    <li>
+                        <input type="radio" name="question${index}" value="${i}" id="q${index}a${i}">
+                        <label for="q${index}a${i}">${option}</label>
+                    </li>
+                    `).join('')}
+                </ul>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        let feedbackHTML = '';
+        const selectedQuestions = quizData.slice(0, 9); // Re-select the same 9 questions
+        selectedQuestions.forEach((data, index) => {
+            const selected = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selected && parseInt(selected.value) === data.correct) {
+                score++;
+                feedbackHTML += `<p>${data.question}<br>${data.correctMessage}</p>`;
+            } else {
+                feedbackHTML += `<p>${data.question}<br>${data.incorrectMessage}</p>`;
+            }
+        });
+        document.getElementById('feedback').innerHTML = `Your score: ${score} / ${selectedQuestions.length}<br>${feedbackHTML}`;
+    }
+
+</script>
+</body>
+</html>
