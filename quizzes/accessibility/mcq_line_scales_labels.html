@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple-choice Quiz | Lines, Scales, and Labels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .answers li label {
+            margin-left: 8px;
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Multiple-choice Quiz | Lines, Scales, and Labels</h1>
+    <p>This quiz tests your understanding of the lesson on lines, scales, and labels.</p>
+    <p>You will be presented with multiple-choice questions where only <strong>1 answer</strong> is correct. Once you have answered all the questions, click on the `CHECK ANSWERS` button. Afterwards, your final score will be shown at the bottom of the page followed by a review of the questions and feedback messages indicating if the question is "Correct" or "Incorrect".</p>
+    <p>You can retake this quiz as many times as you'd like; simply refresh the page. Each attempt will present 8 random questions. There are a total of 13 questions in the question bank. We encourage you to retake this quiz multiple times to get additional practice.</p>
+    <p>You are now ready to start. Good luck!</p>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">CHECK ANSWERS</button>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+
+    const quizData = [
+        {
+            question: "What is the `geom_*()` function we use for line graphs?",
+            options: [
+                "`geom_line()`",
+                "`geom_linegraph()`",
+                "`geom_scatter()`",
+                "`geom_lines()`"
+            ],
+            correct: 0,
+            correctMessage: "You have it all lined up! `geom_line()` is used to create line graphs in {ggplot2}.",
+            incorrectMessage: "Incorrect. That's a bit off. `geom_line()` is used to create line graphs in {ggplot2}."
+        },
+        {
+            question: "Line graphs, just like scatter plots, display the relationship between two numeric variables.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "It's all coming together! Both line and scatter plots can show the relationship of two numeric variables.",
+            incorrectMessage: "Incorrect. Both line and scatter plots can show the relationship of two numeric variables."
+        },
+        {
+            question: "A line graph is an effective method of displaying relationships when one of the two variables represents time. Therefore, it is preferred to use line graphs over scatter plots when the variable on the x-axis represents time.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "That's the one!",
+            incorrectMessage: "Incorrect. Please look at some of the examples about data across time from our lesson."
+        },
+        {
+            question: "A line graph is an ineffective method of displaying relationships when one of the two variables represents time. Therefore, it is preferred to use scatter plots over line graphs when the variable on the x-axis represents time.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "That's the one!",
+            incorrectMessage: "Incorrect. You might think that, but read the question again! Line graphs are preferred when one variable represents time."
+        },
+        {
+            question: "The `linetype` argument can be specified using a name (e.g., `“dotted”`) or with an integer.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Great! The `linetype` argument can be set with either integers or names from a select list.",
+            incorrectMessage: "Both are right! The `linetype` argument can be set with either integers or names from a select list."
+        },
+        {
+            question: "Which of the following code blocks will produce a plot with a dotted line?",
+            options: [
+                "Either `geom_line(linetype = \"dotted\")` or `geom_line(linetype = 3)`",
+                "`geom_line(linetype = \"dotted\")`",
+                "`geom_line(linetype = 3)`",
+                "`geom_dotted_line()`"
+            ],
+            correct: 0,
+            correctMessage: "Double plus good! Both integer and name can specify `linetype`.",
+            incorrectMessage: "Incorrect. Both integer and name can specify `linetype`."
+        },
+        {
+            question: "You can plot points on a line graph by adding a second `geom` layer using `geom_point()`",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "You got it together! You can add points to a line graph with `geom_point()`.",
+            incorrectMessage: "Incorrect. You can add points to a line graph with `geom_point()`."
+        },
+        {
+            question: "A plot must have one and only one `geom_*` layer.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "You're number one! A plot can have multiple `geom_*` layers.",
+            incorrectMessage: "Incorrect. A plot can have multiple `geom_*` layers."
+        },
+        {
+            question: "The `linetype` argument can only be used as a fixed aesthetic, not an aesthetic mapping.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "Keeping it in line! `linetype` can be applied to both aesthetic mapping and fixed aesthetic.",
+            incorrectMessage: "Incorrect. `linetype` can be applied to both aesthetic mapping and fixed aesthetic."
+        },
+        {
+            question: "The `linetype` argument can only be used as an aesthetic mapping, not a fixed aesthetic.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "You have the right type! `linetype` can be applied to both aesthetic mapping and fixed aesthetic.",
+            incorrectMessage: "Incorrect. `linetype` can be applied to both aesthetic mapping and fixed aesthetic."
+        },
+        {
+            question: "Which function can we use to make a numeric vector for scale breaks?",
+            options: [
+                "`seq()` or `c()`",
+                "`seq()`",
+                "`sequence()`",
+                "`unique()`",
+                "`c()`"
+            ],
+            correct: 0,
+            correctMessage: "Good job breaking it down! Both `seq()` and `c()` can make a numeric vector.",
+            incorrectMessage: "Incorrect. Both `seq()` and `c()` can make a numeric vector."
+        },
+        {
+            question: "What aesthetic can you add in order to visualize *and* compare trends between countries?",
+            options: [
+                "`color = country` as a fixed aesthetic",
+                "`color = continent` as an aesthetic mapping",
+                "`fill = country` as an aesthetic mapping",
+                "`group = country` as fixed aesthetic",
+                "None of these options will produce the desired result."
+            ],
+            correct: 4,
+            correctMessage: "Good thinking! None of these options will create a plot which tells you which line belongs to which country.",
+            incorrectMessage: "Incorrect. None of these options will create a plot which tells you which line belongs to which country."
+        },
+        {
+            question: "Which of these {ggplot2} functions work for transforming axis scaling from linear to logarithmic?",
+            options: [
+                "`scale_x_log()`",
+                "`scale_x_log10()`",
+                "`scale_x_continuous()`",
+                "`scale_log_x()`"
+            ],
+            correct: 1,
+            correctMessage: "Great memory! `scale_x_log10()` transforms axis scaling to logarithmic.",
+            incorrectMessage: "Incorrect. `scale_x_log10()` transforms axis scaling to logarithmic."
+        }
+    ];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadQuiz() {
+        shuffle(quizData);
+
+
+        const selectedQuestions = quizData.slice(0, 8); // Select 8 random questions
+        const quizContainer = document.getElementById('quiz');
+        quizContainer.innerHTML = '';
+        selectedQuestions.forEach((data, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            let optionsHTML = data.options.map((option, i) => `
+                <li>
+                    <input type="radio" name="question${index}" value="${i}" id="q${index}a${i}">
+                    <label for="q${index}a${i}">${option}</label>
+                </li>
+            `).join('');
+            questionDiv.innerHTML = `
+                <h3>${data.question}</h3>
+                <ul class="answers">${optionsHTML}</ul>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        let feedbackHTML = '';
+        const selectedQuestions = quizData.slice(0, 8); // Re-select the same 8 questions
+        selectedQuestions.forEach((data, index) => {
+            const selected = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selected && parseInt(selected.value) === data.correct) {
+                score++;
+                feedbackHTML += `<p>${data.question}<br>${data.correctMessage}</p>`;
+            } else {
+                feedbackHTML += `<p>${data.question}<br>${data.incorrectMessage}</p>`;
+            }
+        });
+        document.getElementById('feedback').innerHTML = `Your score: ${score} / ${selectedQuestions.length}<br>${feedbackHTML}`;
+    }
+
+</script>
+</body>
+</html>

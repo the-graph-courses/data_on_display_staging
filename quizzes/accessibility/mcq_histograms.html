@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiple-choice Quiz | Histograms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .answers li label {
+            margin-left: 8px;
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Multiple-choice Quiz | Histograms</h1>
+    <p>This quiz tests your understanding of the lesson on histograms.</p>
+    <p>You will be presented with multiple-choice questions where only <strong>1 answer</strong> is correct. Once you have answered all the questions, click on the `CHECK ANSWERS` button. Afterwards, your final score will be shown at the bottom of the page followed by a review of the questions and feedback messages indicating if the question is "Correct" or "Incorrect".</p>
+    <p>You can retake this quiz as many times as you'd like; simply refresh the page. Each attempt will present 9 random questions. There are a total of 14 questions in the question bank. We encourage you to retake this quiz multiple times to get additional practice.</p>
+    <p>You are now ready to start. Good luck!</p>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">CHECK ANSWERS</button>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+
+    const quizData = [
+        {
+            question: "What is the `geom_*()` function we use for histograms in {ggplot2}?",
+            options: [
+                "`geom_histogram()`",
+                "`geom_hist()`",
+                "`geom_bar()`",
+                "`geom_col()`"
+            ],
+            correct: 0,
+            correctMessage: "Correct! `geom_histogram()` is used to create histograms in {ggplot2}.",
+            incorrectMessage: "Incorrect. `geom_histogram()` is used to create histograms in {ggplot2}."
+        },
+        {
+            question: "Histograms are used to display distributions.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "Histograms are used to display relationships.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 1,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "Histograms are used to visualize continuous data.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "The `bins` argument must be set equal to a number.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Great! We set `bins` equal to an integer which tells `geom_histogram()` how many bars to draw.",
+            incorrectMessage: "Incorrect. We set `bins` equal to an integer which tells `geom_histogram()` how many bars to draw."
+        },
+        {
+            question: "What does the `binwidth` argument specify?",
+            options: [
+                "The width of the bins",
+                "The range of x-axis values",
+                "The number of bins",
+                "The height of bars"
+            ],
+            correct: 0,
+            correctMessage: "Correct! As the name suggests, `binwidth` controls how wide each bin is.",
+            incorrectMessage: "Incorrect. As the name suggests, `binwidth` controls how wide each bin is."
+        },
+        {
+            question: "What does the `bins` argument specify?",
+            options: [
+                "The width of the bins",
+                "The range of x-axis values",
+                "The number of bins",
+                "The height of bars"
+            ],
+            correct: 2,
+            correctMessage: "Correct! `bins` controls the number of bins to divide our data into.",
+            incorrectMessage: "Incorrect. `bins` controls the number of bins to divide our data into."
+        },
+        {
+            question: "Which statement is correct?",
+            options: [
+                "Increasing `binwidth` of a histogram will reduce the total number of bins.",
+                "Increasing `binwidth` of a histogram will increase the total number of bins.",
+                "Increasing `binwidth` of a histogram has no effect on the number of bins plotted."
+            ],
+            correct: 0,
+            correctMessage: "Correct! Larger bin width means that there will be fewer bins overall.",
+            incorrectMessage: "Incorrect. Larger bin width means that there will be fewer bins overall."
+        },
+        {
+            question: "The `binwidth` argument can only be used as a fixed aesthetic, not an aesthetic mapping.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 1,
+            correctMessage: "Good work!",
+            incorrectMessage: "Incorrect. Keep going."
+        },
+        {
+            question: "The `bins` argument can only be used as an aesthetic mapping, not a fixed aesthetic.",
+            options: [
+                "FALSE",
+                "TRUE"
+            ],
+            correct: 0,
+            correctMessage: "Good work!",
+            incorrectMessage: "Incorrect. Keep going."
+        },
+        {
+            question: "A histogram can visualize:",
+            options: [
+                "One continuous variable",
+                "Two continuous variables",
+                "One discrete variable and one continuous variable",
+                "Two discrete variables"
+            ],
+            correct: 0,
+            correctMessage: "Correct! A histogram is a univariate plot that can be used to visualize the distribution of one continuous variable.",
+            incorrectMessage: "Incorrect. A histogram is a univariate plot that can be used to visualize the distribution of one continuous variable."
+        },
+        {
+            question: "What argument in `geom_histogram()` can you use to shift and align bins on a histogram?",
+            options: [
+                "`bins`",
+                "`binwidth`",
+                "`boundary`",
+                "`breaks`"
+            ],
+            correct: 2,
+            correctMessage: "Correct! You can use the `boundary` argument in `geom_histogram()` to shift and align bins on a histogram.",
+            incorrectMessage: "Incorrect. You can use the `boundary` argument in `geom_histogram()` to shift and align bins on a histogram."
+        },
+        {
+            question: "What happens if you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`?",
+            options: [
+                "R throws an error",
+                "`binwidth` takes precedence over `bins`",
+                "`bins` takes precedence over `binwidth`",
+                "Both arguments are ignored"
+            ],
+            correct: 1,
+            correctMessage: "Right on! If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`.",
+            incorrectMessage: "Incorrect. If you set the `binwidth` and `bins` arguments at the same time in `geom_histogram()`, `binwidth` takes precedence over `bins`."
+        },
+        {
+            question: "What is the default value for the `bins` argument in `geom_histogram()`?",
+            options: [
+                "5",
+                "30",
+                "15",
+                "20"
+            ],
+            correct: 1,
+            correctMessage: "Correct! The default value for the `bins` argument in `geom_histogram()` is 30.",
+            incorrectMessage: "Incorrect. The default value for the `bins` argument in `geom_histogram()` is 30."
+        }
+    ];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadQuiz() {
+        shuffle(quizData);
+        const selectedQuestions = quizData.slice(0, 9); // Select 9 random questions
+        const quizContainer = document.getElementById('quiz');
+        quizContainer.innerHTML = '';
+        selectedQuestions.forEach((data, index) => {
+            const questionDiv = document
+
+.createElement('div');
+            questionDiv.classList.add('question');
+            let optionsHTML = data.options.map((option, i) => `
+                <li>
+                    <input type="radio" name="question${index}" value="${i}" id="q${index}a${i}">
+                    <label for="q${index}a${i}">${option}</label>
+                </li>
+            `).join('');
+            questionDiv.innerHTML = `
+                <h3>${data.question}</h3>
+                <ul class="answers">${optionsHTML}</ul>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        let feedbackHTML = '';
+        const selectedQuestions = quizData.slice(0, 9); // Re-select the same 9 questions
+        selectedQuestions.forEach((data, index) => {
+            const selected = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selected && parseInt(selected.value) === data.correct) {
+                score++;
+                feedbackHTML += `<p>${data.question}<br>${data.correctMessage}</p>`;
+            } else {
+                feedbackHTML += `<p>${data.question}<br>${data.incorrectMessage}</p>`;
+            }
+        });
+        document.getElementById('feedback').innerHTML = `Your score: ${score} / ${selectedQuestions.length}<br>${feedbackHTML}`;
+    }
+
+</script>
+</body>
+</html>
