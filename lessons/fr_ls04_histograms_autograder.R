@@ -8,10 +8,31 @@
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load_gh('graph-courses/autograder')
-pacman::p_load_gh("KO112/KO")
 pacman::p_load(tidyverse,
+               digest,
                praise,
                here)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Fonctions de comparaison ggplot (cachées) ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Remplacent l'ancienne dépendance au package KO (KO112/KO), qui ne s'installe plus.
+# Le préfixe '.' cache ces fonctions de l'onglet Environment des apprenants.
+
+# Enregistre un ggplot dans un PNG temporaire de taille fixe et renvoie son hash
+.ggplot_digest <- function(myplot) {
+  plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
+  on.exit(unlink(plotfile))
+  suppressWarnings(suppressMessages(
+    ggplot2::ggsave(filename = plotfile, plot = myplot, device = "png", type = "cairo",
+                    width = 7, height = 7, units = "in", dpi = 100)))
+  digest::digest(file = plotfile)
+}
+
+# TRUE si les deux ggplots donnent exactement la même image
+.compare_ggplots <- function(plot1, plot2) {
+  identical(.ggplot_digest(plot1), .ggplot_digest(plot2))
+}
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Initialiser ----
@@ -48,10 +69,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if(!is.ggplot(gg_ans)) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
+        if(!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
         
         # Utiliser compare_ggplots pour vérifier si la réponse est parfaitement correcte
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct !") ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Incorrect. Veuillez vérifier l'indice et réessayer."))
@@ -104,10 +125,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
         
         # Utiliser compare_ggplots pour vérifier si la réponse est parfaitement correcte
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct !") ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Incorrect. Veuillez vérifier l'indice et réessayer."))
@@ -163,10 +184,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
         
         # Utiliser compare_ggplots pour vérifier si la réponse est parfaitement correcte
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct !") ))
         if(!isTRUE(perfect_match)) return(c(value = 0, 
@@ -223,10 +244,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
         
         # Utiliser compare_ggplots pour vérifier si la réponse est parfaitement correcte
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct !") ))
         if(!isTRUE(perfect_match)) return(c(value = 0, 
@@ -280,10 +301,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Incorrect. Votre résultat devrait être un objet ggplot2. Veuillez réessayer."))
         
         # Utiliser compare_ggplots pour vérifier si la réponse est parfaitement correcte
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct !") ))
         if(!isTRUE(perfect_match)) return(c(value = 0, 

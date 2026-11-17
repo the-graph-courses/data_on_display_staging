@@ -8,10 +8,31 @@
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load_gh('graph-courses/autograder')
-pacman::p_load_gh("KO112/KO")
 pacman::p_load(tidyverse,
+               digest,
                praise,
                here)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Hidden ggplot comparison helpers ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# These replace the old dependency on the KO package (KO112/KO), which no longer installs.
+# The '.' prefix hides them from the learner's Environment tab.
+
+# Save a ggplot to a fixed-size temporary PNG and return a hash of the file
+.ggplot_digest <- function(myplot) {
+  plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
+  on.exit(unlink(plotfile))
+  suppressWarnings(suppressMessages(
+    ggplot2::ggsave(filename = plotfile, plot = myplot, device = "png", type = "cairo",
+                    width = 7, height = 7, units = "in", dpi = 100)))
+  digest::digest(file = plotfile)
+}
+
+# TRUE if two ggplots render to the exact same image
+.compare_ggplots <- function(plot1, plot2) {
+  identical(.ggplot_digest(plot1), .ggplot_digest(plot2))
+}
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## Init ----
@@ -46,10 +67,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
@@ -99,12 +120,12 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
         
         
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
@@ -156,12 +177,12 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
         
         
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
@@ -205,14 +226,20 @@ pacman::p_load(tidyverse,
     
     gg_req <- .q3_correct
     gg_ans <- age_height_fever
-    
+    # also accept as.factor(), which gives the same plot but a different legend title
+    gg_req_alt <-
+      ggplot(data = .malidd,
+             mapping = aes(x = age_months,
+                           y = height_cm)) +
+      geom_point(mapping = aes(color = as.factor(fever)))
+
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
-        
-        # Use compare_ggplots to check if answer is perfectly correct
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
-        
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+
+        # Use compare_ggplots to check if answer is perfectly correct (factor() or as.factor())
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans) || .compare_ggplots(gg_req_alt, gg_ans))
+
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
       }
@@ -268,10 +295,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
@@ -329,10 +356,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))
@@ -396,10 +423,10 @@ pacman::p_load(tidyverse,
     
     .autograder <<-
       function(){
-        if (!is.ggplot(gg_ans)) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
+        if (!inherits(gg_ans, 'ggplot')) return(c(value = -1, message = "Wrong. Your result should be a ggplot2 object. Please try again."))
         
         # Use compare_ggplots to check if answer is perfectly correct
-        perfect_match <- suppressWarnings(compare_ggplots(gg_req, gg_ans))
+        perfect_match <- suppressWarnings(.compare_ggplots(gg_req, gg_ans))
         
         if(isTRUE(perfect_match)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         if(!isTRUE(perfect_match)) return(c(value = 0, message = "Wrong. Please check the hint and try again."))

@@ -4,7 +4,6 @@
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load_gh('graph-courses/autograder')
-pacman::p_load_gh("KO112/KO")
 
 #pacman::p_load(tidyverse,
 #               OpenImageR,
@@ -19,28 +18,25 @@ pacman::p_load(tidyverse,
                here,
                praise)
 
-
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Fonction ggplot_digest ----
+## Fonctions de comparaison ggplot (cachées) ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Fonction digest personnalisée pour ggplot
-## Joy Vaz
-## 2022-11-17
+# Remplacent l'ancienne dépendance au package KO (KO112/KO), qui ne s'installe plus.
+# Le préfixe '.' cache ces fonctions de l'onglet Environment des apprenants.
 
-#' Fonction pour générer des empreintes de hachage de graphiques ggplot.
-#' Destiné à être utilisé dans des quiz de visualisation de données. 
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## Fonction ggplot_digest ----
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-ggplot_digest <- function(myplot) {
-  # Créer un nom de fichier temporaire, enregistrer le graphique, digérer le fichier et supprimer le fichier temporaire
+# Enregistre un ggplot dans un PNG temporaire de taille fixe et renvoie son hash
+.ggplot_digest <- function(myplot) {
   plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
-  suppressWarnings(suppressMessages(ggplot2::ggsave(filename = plotfile, plot = myplot, type = "cairo", device = "png")))
-  plot_crypt <- digest::digest(file = plotfile)
-  file.remove(plotfile)
-  return(plot_crypt)
+  on.exit(unlink(plotfile))
+  suppressWarnings(suppressMessages(
+    ggplot2::ggsave(filename = plotfile, plot = myplot, device = "png", type = "cairo",
+                    width = 7, height = 7, units = "in", dpi = 100)))
+  digest::digest(file = plotfile)
+}
+
+# TRUE si les deux ggplots donnent exactement la même image
+.compare_ggplots <- function(plot1, plot2) {
+  identical(.ggplot_digest(plot1), .ggplot_digest(plot2))
 }
 
 
@@ -98,7 +94,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_scatter)) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
+        if (!inherits(nigerm04_scatter, 'ggplot')) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
         
         # test 1
         # que les données utilisées sont correctes
@@ -117,15 +113,19 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         # test 4
         # vérifier la correspondance y
         .q1_test4 <- "* `y` -> `cases`" %in% capture.output(nigerm04_scatter$mapping)
-        
-        if (isTRUE(!(.q1_test1))) 
+
+        # si le graphique est identique à la solution, c'est correct (quelle que soit l'écriture du code)
+        if (.compare_ggplots(.q1_correct, nigerm04_scatter)) return(c(value = 1, message = "Correct !"))
+
+        if (isTRUE(!(.q1_test1)))
           return(c(value = 0, message = "Vérifiez que vous tracez les bonnes données."))
         if (isTRUE(!(.q1_test2))) 
           return(c(value = 0, message = "Assurez-vous d'utiliser la fonction géométrique `geom_point()`."))
         if (isTRUE(!(.q1_test3 && .q1_test4))) 
           return(c(value = 0, message = "Vérifiez vos arguments de mappage pour x et y : mettez-vous les bonnes variables ?"))
-        if (isTRUE(.q1_test1 && .q1_test2 && .q1_test3 && .q1_test4)) 
-          return(c(value = 1, message = "Correct !"))
+        # données, geom et mappages corrects, mais le graphique diffère encore de la solution
+        if (isTRUE(.q1_test1 && .q1_test2 && .q1_test3 && .q1_test4))
+          return(c(value = 0, message = "Presque : vos données, votre geom et vos mappages sont corrects, mais votre graphique contient quelque chose en plus ou de différent. Retirez ce que la question n'a pas demandé."))
         # faux
         else
           return(c(value = 0, message = "Mauvaise réponse. Veuillez réessayer."))
@@ -171,7 +171,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_bar)) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
+        if (!inherits(nigerm04_bar, 'ggplot')) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
         
         # test 1
         # que les données utilisées sont correctes
@@ -196,7 +196,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         
         
         # KENE EDIT:
-        if (ggplot_digest(.q2_correct) == ggplot_digest(nigerm04_bar)) 
+        if (.ggplot_digest(.q2_correct) == .ggplot_digest(nigerm04_bar)) 
           return(c(value = 1, message = "Correct !"))
         
         # 
@@ -249,7 +249,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_line)) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
+        if (!inherits(nigerm04_line, 'ggplot')) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
         
         # test 1
         # que les données utilisées sont correctes
@@ -277,7 +277,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         if (isTRUE(!(.q3_test1))) return(c(value = 0, message = "! Vérifiez que vous tracez les bonnes données."))
         
         # KENE EDIT:
-        if (ggplot_digest(.q3_correct) == ggplot_digest(nigerm04_line)) return(c(value = 1, message = "Correct !"))
+        if (.ggplot_digest(.q3_correct) == .ggplot_digest(nigerm04_line)) return(c(value = 1, message = "Correct !"))
         
         
         # 
@@ -342,9 +342,9 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_pinkbar)) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
+        if (!inherits(nigerm04_pinkbar, 'ggplot')) return(c(value = -1, message = "Votre résultat doit être un objet ggplot2."))
         
-        if (ggplot_digest(.nigerm04_pinkbar) == ggplot_digest(nigerm04_pinkbar)) return(c(value = 1, message = "Correct !"))
+        if (.ggplot_digest(.nigerm04_pinkbar) == .ggplot_digest(nigerm04_pinkbar)) return(c(value = 1, message = "Correct !"))
         
         return(c(value = 0, message = "Mauvaise réponse. Veuillez réessayer."))
       }

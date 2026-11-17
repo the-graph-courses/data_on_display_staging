@@ -8,7 +8,6 @@
 
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load_gh('graph-courses/autograder')
-pacman::p_load_gh("KO112/KO")
 
 #pacman::p_load(tidyverse,
 #               OpenImageR,
@@ -23,28 +22,25 @@ pacman::p_load(tidyverse,
                here,
                praise)
 
-
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## ggplot_digest function ----
+## Hidden ggplot comparison helpers ----
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Custom ggplot digest function
-## Joy Vaz
-## 2022-11-17
+# These replace the old dependency on the KO package (KO112/KO), which no longer installs.
+# The '.' prefix hides them from the learner's Environment tab.
 
-#' Function to generate hash function digests of ggplot objects.
-#' Intended for use in data viz data quizzes. 
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## ggplot_digest function ----
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-ggplot_digest <- function(myplot) {
-  # Create temp file name, save plot, digest file, and remove temp file
+# Save a ggplot to a fixed-size temporary PNG and return a hash of the file
+.ggplot_digest <- function(myplot) {
   plotfile <- tempfile(pattern = "ggplot_", fileext = ".png")
-  suppressWarnings(suppressMessages(ggplot2::ggsave(filename = plotfile, plot = myplot, type = "cairo", device = "png")))
-  plot_crypt <- digest::digest(file = plotfile)
-  file.remove(plotfile)
-  return(plot_crypt)
+  on.exit(unlink(plotfile))
+  suppressWarnings(suppressMessages(
+    ggplot2::ggsave(filename = plotfile, plot = myplot, device = "png", type = "cairo",
+                    width = 7, height = 7, units = "in", dpi = 100)))
+  digest::digest(file = plotfile)
+}
+
+# TRUE if two ggplots render to the exact same image
+.compare_ggplots <- function(plot1, plot2) {
+  identical(.ggplot_digest(plot1), .ggplot_digest(plot2))
 }
 
 
@@ -102,7 +98,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_scatter)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!inherits(nigerm04_scatter, 'ggplot')) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # test 1
         # that data used is correct
@@ -121,15 +117,19 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         # test 4
         # check the y mapping
         .q1_test4 <- "* `y` -> `cases`" %in% capture.output(nigerm04_scatter$mapping)
-        
-        if (isTRUE(!(.q1_test1))) 
+
+        # if the plot looks identical to the solution, it's correct (however the code was written)
+        if (.compare_ggplots(.q1_correct, nigerm04_scatter)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+
+        if (isTRUE(!(.q1_test1)))
           return(c(value = 0, message = "! Check that you are plotting the correct data."))
         if (isTRUE(!(.q1_test2))) 
           return(c(value = 0, message = "! Make sure you're using geometric function `geom_point()`."))
         if (isTRUE(!(.q1_test3 && .q1_test4))) 
           return(c(value = 0, message = "! Check your mapping arguments for x and y: are you putting the right variables?"))
-        if (isTRUE(.q1_test1 && .q1_test2 && .q1_test3 && .q1_test4)) 
-          return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        # data, geom and mappings look right, but the plot still differs from the solution
+        if (isTRUE(.q1_test1 && .q1_test2 && .q1_test3 && .q1_test4))
+          return(c(value = 0, message = "! Almost there: your data, geom and mappings are right, but your plot has something extra or different. Remove anything the question didn't ask for."))
         # wrong
         return(c(value = 0, message = "Wrong answer. Please try again."))
       }
@@ -174,7 +174,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_bar)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!inherits(nigerm04_bar, 'ggplot')) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # test 1
         # that data used is correct
@@ -199,7 +199,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         
         
         # KENE EDIT:
-        if (ggplot_digest(.q2_correct) == ggplot_digest(nigerm04_bar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        if (.ggplot_digest(.q2_correct) == .ggplot_digest(nigerm04_bar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         
         # 
         # 
@@ -251,7 +251,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_line)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!inherits(nigerm04_line, 'ggplot')) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
         # test 1
         # that data used is correct
@@ -279,7 +279,7 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
         if (isTRUE(!(.q3_test1))) return(c(value = 0, message = "! Check that you are plotting the correct data."))
         
         # KENE EDIT:
-        if (ggplot_digest(.q3_correct) == ggplot_digest(nigerm04_line)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        if (.ggplot_digest(.q3_correct) == .ggplot_digest(nigerm04_line)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         
         
         # 
@@ -345,9 +345,9 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
     
     .autograder <<-
       function(){
-        if (!is.ggplot(nigerm04_pinkbar)) return(c(value = -1, message = "Your result should be a ggplot2 object."))
+        if (!inherits(nigerm04_pinkbar, 'ggplot')) return(c(value = -1, message = "Your result should be a ggplot2 object."))
         
-        if (ggplot_digest(.nigerm04_pinkbar) == ggplot_digest(nigerm04_pinkbar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
+        if (.ggplot_digest(.nigerm04_pinkbar) == .ggplot_digest(nigerm04_pinkbar)) return(c(value = 1, message = paste("Correct!", praise::praise()) ))
         
         return(c(value = 0, message = "Wrong answer. Please try again."))
       }
@@ -370,3 +370,4 @@ load(here("data/clean/nigerm_cases_rgn.RData"),
       geom_col(fill = "hotpink")' -> out
   cat(out)
 }
+
