@@ -9,7 +9,11 @@
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if (!require(pacman)) install.packages("pacman")
+<<<<<<< Updated upstream
 pacman::p_load(tidyverse, here, fs, cli, glue, xfun, parsermd, pagedown)
+=======
+pacman::p_load(tidyverse, here, fs, cli, glue, xfun, parsermd)
+>>>>>>> Stashed changes
 
 blue_print <- function(x) cat(cli::bg_blue(cli::col_white(cli::style_bold(x))))
 
@@ -28,6 +32,7 @@ LANGUAGE = "FR"
 
 current_dir <- here::here()
 
+<<<<<<< Updated upstream
 if (LANGUAGE == "FR") {
   selected_lessons <- 
     c(#"/fr_ls01_gg_intro.Rmd",
@@ -45,6 +50,14 @@ if (LANGUAGE == "FR") {
       # "/ls05_boxplots.Rmd"
     )
 }
+=======
+selected_lessons <- 
+  c("/ls01_gg_intro.Rmd",
+    "/ls02_scatter.Rmd",
+    "/ls03_line_graphs.Rmd", 
+    "/ls04_histograms.Rmd",
+    "/ls05_boxplots.Rmd")
+>>>>>>> Stashed changes
 
 rmds_to_render <- 
   fs::dir_ls(current_dir, 

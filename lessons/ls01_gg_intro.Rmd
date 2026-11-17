@@ -650,4 +650,14 @@ Some material in this lesson was adapted from the following sources:
 
 -   Prabhakaran, Selva. 2016. "How to Make Any Plot in Ggplot2? \| Ggplot2 Tutorial." 2016. <http://r-statistics.co/ggplot2-Tutorial-With-R.html>.
 
-    `r .tgc_license()`
+# Solutions 
+
+```{r}
+.SOLUTION_nigerm04_scatter()
+.SOLUTION_nigerm04_bar()
+.SOLUTION_nigerm04_line()
+.SOLUTION_nigerm04_pinkbar()
+```
+
+
+`r .tgc_license()`

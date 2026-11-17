@@ -960,4 +960,19 @@ Some material in this lesson was adapted from the following sources:
 -   Kabacoff, Rob. 2020. *Data Visualization with R*. <https://rkabacoff.github.io/datavis/>.
 -   <https://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/>
 
+
+# Solutions 
+
+```{r}
+.SOLUTION_q1()
+.SOLUTION_q2()
+.SOLUTION_q3()
+.SOLUTION_q4()
+.SOLUTION_q5()
+.SOLUTION_q6()
+.SOLUTION_q7()
+.SOLUTION_q8()
+```
+
+
 `r tgc_license()`

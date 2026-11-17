@@ -548,4 +548,17 @@ Some material in this lesson was adapted from the following sources:
 
 -   Ismay, Chester, and Albert Y. Kim. 2022. *A ModernDive into R and the Tidyverse*. <https://moderndive.com/>.
 
+
+# Solutions 
+
+```{r}
+.SOLUTION_q1()
+.SOLUTION_q2()
+.SOLUTION_q3() 
+.SOLUTION_q4()
+.SOLUTION_q5()
+.SOLUTION_q6()
+```
+
+
 `r .tgc_license()`

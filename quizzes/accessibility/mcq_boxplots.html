@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiple-choice Quiz | Boxplots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .answers li label {
+            margin-left: 8px;
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>Multiple-choice Quiz | Boxplots</h1>
+    <p>This quiz tests your understanding of boxplots with ggplot2.</p>
+     <p>You will be presented with multiple-choice questions where only <strong>1 answer</strong> is correct. Once you have answered all the questions, click on the `CHECK ANSWERS` button. Afterwards, your final score will be shown at the bottom of the page followed by a review of the questions and feedback messages indicating if the question is "Correct" or "Incorrect".</p>
+    <p>You can retake this quiz as many times as you'd like; simply refresh the page. Each attempt will present 5 random questions. There are a total of 7 questions in the question bank.</p>
+    <p>You are now ready to start. Good luck!</p>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">CHECK ANSWERS</button>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadQuiz);
+
+    const quizData = [
+        {
+            question: "What is the `geom_*()` function we use for boxplots in {ggplot2}?",
+            options: [
+                "`geom_boxplot()`",
+                "`geom_box()`",
+                "`geom_bar()`",
+                "`geom_boxes()`"
+            ],
+            correct: 0,
+            correctMessage: "Exactly! `geom_boxplot()` is used to create boxplots in {ggplot2}.",
+            incorrectMessage: "Incorrect. `geom_boxplot()` is used to create boxplots in {ggplot2}."
+        },
+        {
+            question: "Boxplots are used to display distributions of a continuous variable, split by values of second discrete/categorical variable.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "Boxplots are used to display distributions of a continuous variable, split by values of second continuous variable.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 1,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "Boxplots are used to visualize continuous data.",
+            options: [
+                "TRUE",
+                "FALSE"
+            ],
+            correct: 0,
+            correctMessage: "Correct!",
+            incorrectMessage: "Incorrect. Check again!"
+        },
+        {
+            question: "What function can you use in `aes()` to reorder side-by-side boxplots?",
+            options: [
+                "`scale_x_discrete()`",
+                "`facet_grid()`",
+                "`reorder()`",
+                "`position_dodge()`"
+            ],
+            correct: 2,
+            correctMessage: "Correct! You can use the `reorder()` function in `aes()` to reorder side-by-side boxplots.",
+            incorrectMessage: "Incorrect. You can use the `reorder()` function in `aes()` to reorder side-by-side boxplots."
+        },
+        {
+            question: "What argument in `geom_boxplot()` can you use to adjust the color of the box and whiskers?",
+            options: [
+                "`color`",
+                "`fill`",
+                "`linecolor`",
+                "`border`"
+            ],
+            correct: 0,
+            correctMessage: "Correct! You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers.",
+            incorrectMessage: "Incorrect. You can use the `color` argument in `geom_boxplot()` to adjust the color of the box and whiskers."
+        },
+        {
+            question: "What argument in `geom_boxplot()` can you use to adjust the interior color of the box and whiskers?",
+            options: [
+                "`color`",
+                "`fill`",
+                "`linecolor`",
+                "`border`"
+            ],
+            correct: 1,
+            correctMessage: "Correct! You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers.",
+            incorrectMessage: "Incorrect. You can use the `fill` argument in `geom_boxplot()` to adjust the interior color of the box and whiskers."
+        }
+    ];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function loadQuiz() {
+        shuffle(quizData);
+        const selectedQuestions = quizData.slice(0, 5); // Select 5 random questions
+        const quizContainer = document.getElementById('quiz');
+        quizContainer.innerHTML = '';
+        selectedQuestions.forEach((data, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            let optionsHTML = data.options.map((option, i) => `
+                <li>
+                    <input type="radio" name="question${index}" value="${i}" id="q${index}a${i}">
+                    <label for="q${index}a${i}">${option}</label>
+                </li>
+            `).join('');
+            questionDiv.innerHTML = `
+                <h3>${data.question}</h3>
+                <ul class="answers">${optionsHTML}</ul>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        let feedbackHTML = '';
+        const selectedQuestions = quizData.slice(0, 5); // Re-select the same 5 questions
+        selectedQuestions.forEach((data, index) => {
+            const selected = document.querySelector(`input[name="question${index}"]:checked`);
+            if (selected && parseInt(selected.value) === data.correct) {
+                score++;
+                feedbackHTML += `<p>${data.question}<br>${data.correctMessage}</p>`;
+            } else {
+                feedbackHTML += `<p>${data.question}<br>${data.incorrectMessage}</p>`;
+            }
+        });
+        document.getElementById('feedback').innerHTML = `Your score: ${score} / ${selectedQuestions.length}<br>${feedbackHTML}`;
+    }
+
+</script>
+</body>
+</html>
