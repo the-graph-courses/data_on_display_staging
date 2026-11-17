@@ -451,7 +451,7 @@ Assurez-vous de ne pas ajouter de modifications supplémentaires que la question
       labs(x = "Année", 
            y = "Longévité",
            title = "Santé & richesse des nations",
-           color = "Couleur")
+           color = "Pays")
     
     gg_req <- .q8_correct
     gg_ans <- q8
@@ -489,6 +489,6 @@ Assurez-vous de ne pas ajouter de modifications supplémentaires que la question
   labs(x = "Année", 
        y = "Longévité",
        title = "Santé & richesse des nations",
-       color = "Couleur")' -> out
+       color = "Pays")' -> out
   cat(out)
 }

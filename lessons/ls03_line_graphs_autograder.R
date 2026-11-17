@@ -451,7 +451,7 @@ gap_US <- dplyr::filter(gapminder, country == "United States")
       labs(x = "Year", 
            y = "Longevity",
            title = "Health & wealth of nations",
-           color = "Color")
+           color = "Country")
     
     gg_req <- .q8_correct
     gg_ans <- q8
@@ -489,6 +489,6 @@ gap_US <- dplyr::filter(gapminder, country == "United States")
   labs(x = "Year", 
        y = "Longevity",
        title = "Health & wealth of nations",
-       color = "Color")' -> out
+       color = "Country")' -> out
   cat(out)
 }
